@@ -1,11 +1,16 @@
 [project]
 name = "comfierui-companion"
 version = "0.1.3"
-description = "Optional companion extension for ComfierUI remote clients."
+description = "Optional ComfyUI host extension for ComfierUI remote clients."
+readme = "README.md"
+license = { file = "LICENSE" }
 requires-python = ">=3.9"
+dependencies = []
 
 [project.urls]
 Repository = "https://github.com/ComfierUI/ComfierUI-Companion"
+Documentation = "https://github.com/ComfierUI/ComfierUI-Companion#readme"
+Issues = "https://github.com/ComfierUI/ComfierUI-Companion/issues"
 
 [tool.comfy]
 PublisherId = "comfierui"
