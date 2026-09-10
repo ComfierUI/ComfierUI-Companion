@@ -15,3 +15,4 @@ Issues = "https://github.com/ComfierUI/ComfierUI-Companion/issues"
 [tool.comfy]
 PublisherId = "comfierui"
 DisplayName = "ComfierUI Companion"
+Icon = "https://raw.githubusercontent.com/ComfierUI/ComfierUI-Companion/main/assets/comfierui-logo.png"
