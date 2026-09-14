@@ -11,8 +11,7 @@
 ## 0.2.5 — spatial layout lifecycle
 
 * Serves the Companion gateway on `0.0.0.0:8147` for trusted LAN and tailnet
-  clients, and proxies it
-  to loopback ComfyUI at `127.0.0.1:8188`.
+  clients, and proxies it to loopback ComfyUI at `127.0.0.1:8188`.
 * Filters hidden metadata, `.index.json`, layout sidecars, and invalid JSON
   objects out of native workflow discovery.
 * Adds `DELETE /comfierui/spatial/layout?path=...` so native clients can remove
