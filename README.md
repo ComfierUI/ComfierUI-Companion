@@ -105,9 +105,33 @@ through or get stored on the Android device.
 
 ## Install
 
+Choose any one of these installation methods, then restart ComfyUI.
+
+### Option 1: Extension Manager
+
+1. Open ComfyUI's **Extension Manager**.
+2. Search for **ComfierUI Companion**.
+3. Select **Install** and restart ComfyUI when prompted.
+
+### Option 2: Git
+
+Open a terminal in `ComfyUI/custom_nodes/` and run:
+
+```bash
+git clone https://github.com/ComfierUI/ComfierUI-Companion.git
+```
+
+To update an existing Git installation later, open the installed folder and run:
+
+```bash
+git pull
+```
+
+### Option 3: ZIP
+
 1. Close ComfyUI.
-2. Extract the downloaded ZIP.
-3. Drag the enclosed `ComfierUI-Companion` folder into `ComfyUI/custom_nodes/`.
+2. Download and extract the release ZIP.
+3. Place the extracted `ComfierUI-Companion` folder inside `ComfyUI/custom_nodes/`.
 4. Start ComfyUI normally.
 
 The final path should be:
