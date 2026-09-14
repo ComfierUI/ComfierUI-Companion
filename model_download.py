@@ -22,7 +22,7 @@ from server import PromptServer
 LOG = logging.getLogger("ComfierUI-Companion")
 ROUTE = "/comfierui/model-download"
 INFO_ROUTE = "/comfierui/capabilities"
-COMPANION_VERSION = "0.1.3"
+COMPANION_VERSION = "0.2.5_hotfix"
 MAX_REDIRECTS = 8
 MAX_FILE_BYTES = 128 * 1024 * 1024 * 1024
 CHUNK_BYTES = 1024 * 1024
@@ -312,7 +312,15 @@ async def _companion_info(_request: web.Request) -> web.Response:
         {
             "installed": True,
             "version": COMPANION_VERSION,
-            "capabilities": ["model-downloads", "version-reporting"],
+            "capabilities": [
+                "model-downloads",
+                "version-reporting",
+                "spatial-workflows",
+                "spatial-layouts",
+                "spatial-layout-delete",
+                "spatial-workflow-queue",
+                "lan-gateway",
+            ],
         }
     )
 
