@@ -22,7 +22,7 @@ from server import PromptServer
 LOG = logging.getLogger("ComfierUI-Companion")
 ROUTE = "/comfierui/model-download"
 INFO_ROUTE = "/comfierui/capabilities"
-COMPANION_VERSION = "0.2.5_hotfix"
+COMPANION_VERSION = "0.2.6"
 MAX_REDIRECTS = 8
 MAX_FILE_BYTES = 128 * 1024 * 1024 * 1024
 CHUNK_BYTES = 1024 * 1024
