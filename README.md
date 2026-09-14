@@ -1,4 +1,11 @@
-# ComfierUI Companion 0.2.6
+# ComfierUI Companion 0.2.7
+
+## 0.2.7 — synchronized release metadata
+
+* Synchronizes the package, runtime API, and frontend bridge version at `0.2.7`.
+* Retains `companion_gateway.py` and the `register_companion_gateway` entry point.
+* Retains the Companion gateway on `0.0.0.0:8147` and loopback ComfyUI on
+  `127.0.0.1:8188`.
 
 ## 0.2.6 — Companion gateway naming hotfix
 

@@ -1,6 +1,6 @@
 [project]
 name = "comfierui-companion"
-version = "0.2.6"
+version = "0.2.7"
 description = "Optional ComfyUI host extension for ComfierUI remote clients."
 readme = "README.md"
 license = { file = "LICENSE" }
