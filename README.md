@@ -1,6 +1,6 @@
-# ComfierUI Companion 0.2.5_hotfix
+# ComfierUI Companion 0.2.6
 
-## 0.2.5_hotfix — Companion gateway naming
+## 0.2.6 — Companion gateway naming hotfix
 
 * Renames `vr_gateway.py` to `companion_gateway.py` to reflect that the gateway
   serves both ComfierUI and ComfyQuest.
