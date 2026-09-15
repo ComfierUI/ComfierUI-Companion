@@ -28,6 +28,14 @@ HOP_HEADERS = {
     "trailer",
     "transfer-encoding",
     "upgrade",
+    # A proxy WebSocket client must create its own upstream handshake. Reusing
+    # the downstream browser's key/version/extensions can prevent ComfyUI from
+    # establishing the session that supplies the frontend clientId.
+    "sec-websocket-key",
+    "sec-websocket-version",
+    "sec-websocket-extensions",
+    "sec-websocket-protocol",
+    "sec-websocket-accept",
 }
 
 

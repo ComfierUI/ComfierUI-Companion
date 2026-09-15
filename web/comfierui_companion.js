@@ -2,7 +2,7 @@ import { app } from "../../../scripts/app.js";
 import { api } from "../../../scripts/api.js";
 
 const ROUTE = "/comfierui/model-download";
-const VERSION = "0.2.9";
+const VERSION = "0.3.1";
 
 async function downloadModelOnHost(url, name, directory) {
   const response = await api.fetchApi(ROUTE, {

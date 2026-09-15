@@ -1,4 +1,22 @@
-# ComfierUI Companion 0.2.9
+# ComfierUI Companion 0.3.1
+
+## 0.3.1 — upstream WebSocket session correction
+
+* Stops forwarding the downstream browser's `Sec-WebSocket-*` handshake fields
+  into Companion's separate upstream connection to ComfyUI.
+* Allows aiohttp to generate a valid upstream handshake so ComfyUI's initial
+  WebSocket status message can establish the frontend `clientId` required by
+  `/internal/logs/subscribe`.
+* Removes the unsuccessful 0.3.0 backend-readiness delay.
+
+## 0.3.0 — gateway startup synchronization
+
+* Waits for loopback ComfyUI to answer `/system_stats` before opening the LAN
+  gateway on port `8147`.
+* Prevents Android and browser clients from reconnecting to the gateway before
+  ComfyUI can service the frontend's one-time log-resynchronization request.
+* Keeps the existing HTTP, WebSocket, encoded-workflow, download, and spatial
+  gateway behavior unchanged after startup.
 
 ## 0.2.9 — encoded workflow gateway fix
 
