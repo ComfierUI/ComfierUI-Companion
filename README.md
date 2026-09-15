@@ -1,4 +1,28 @@
-# ComfierUI Companion 0.2.7
+# ComfierUI Companion 0.2.9
+
+## 0.2.9 — encoded workflow gateway fix
+
+* Preserves raw percent-encoded proxy paths so ComfyUI userdata workflow names
+  containing encoded folder separators load correctly through port `8147`.
+* Restores the Companion frontend and host model-download bridge after the
+  0.2.8 diagnostic builds temporarily disabled them.
+* Keeps bodyless gateway requests bodyless and buffers bounded request bodies
+  before relaying them, avoiding accidental chunked bodies on ordinary GETs.
+* Retains Android/VR client recognition and active-theme spatial sidecars.
+
+## 0.2.8 — client recognition and workflow-loading diagnostics
+
+* Recognizes ComfierUI Android, ComfyQuest VR, browser, and unknown clients from
+  an explicit client header with a conservative user-agent fallback.
+* Reports platform-appropriate capabilities without requiring separate host
+  extensions for Android and VR.
+* Tested keeping bodyless gateway requests bodyless; this was valid proxy
+  hardening but did not resolve workflow loading by itself.
+* Tested isolating and then disabling the Companion frontend to rule out an
+  Android WebView conflict. Neither diagnostic build fixed gateway loading.
+* Established that workflows loaded through direct port `8188` but failed in
+  both Android and desktop browsers through port `8147`, isolating the gateway.
+* Accepts and preserves an active theme identifier in spatial layout sidecars.
 
 ## 0.2.7 — synchronized release metadata
 

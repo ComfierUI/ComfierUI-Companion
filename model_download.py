@@ -22,7 +22,7 @@ from server import PromptServer
 LOG = logging.getLogger("ComfierUI-Companion")
 ROUTE = "/comfierui/model-download"
 INFO_ROUTE = "/comfierui/capabilities"
-COMPANION_VERSION = "0.2.7"
+COMPANION_VERSION = "0.2.9"
 MAX_REDIRECTS = 8
 MAX_FILE_BYTES = 128 * 1024 * 1024 * 1024
 CHUNK_BYTES = 1024 * 1024
@@ -307,20 +307,46 @@ async def _start_download(request: web.Request) -> web.Response:
     )
 
 
-async def _companion_info(_request: web.Request) -> web.Response:
+def _client_environment(request: web.Request) -> tuple[str, str]:
+    """Recognize clients without splitting Companion into separate packages."""
+    explicit = (request.headers.get("X-ComfierUI-Client") or
+                request.query.get("client") or "").strip().lower()
+    if explicit in {"comfyquest", "comfyquest-vr", "vr"}:
+        return "vr", "explicit"
+    if explicit in {"comfierui", "comfierui-android", "android"}:
+        return "android", "explicit"
+    user_agent = request.headers.get("User-Agent", "").lower()
+    if "comfyquest" in user_agent or "comfierui-vr" in user_agent:
+        return "vr", "user-agent"
+    if "android" in user_agent:
+        return "android", "user-agent"
+    if user_agent:
+        return "browser", "user-agent"
+    return "unknown", "fallback"
+
+
+async def _companion_info(request: web.Request) -> web.Response:
+    environment, recognition = _client_environment(request)
+    common = ["version-reporting", "lan-gateway"]
+    platform_capabilities = {
+        "android": ["model-downloads"],
+        "vr": [
+            "spatial-workflows", "spatial-layouts",
+            "spatial-layout-delete", "spatial-workflow-queue",
+            "spatial-theme-state",
+        ],
+        "browser": ["model-downloads"],
+        "unknown": [],
+    }
     return web.json_response(
         {
             "installed": True,
             "version": COMPANION_VERSION,
-            "capabilities": [
-                "model-downloads",
-                "version-reporting",
-                "spatial-workflows",
-                "spatial-layouts",
-                "spatial-layout-delete",
-                "spatial-workflow-queue",
-                "lan-gateway",
-            ],
+            "client": {
+                "environment": environment,
+                "recognition": recognition,
+            },
+            "capabilities": common + platform_capabilities[environment],
         }
     )
 

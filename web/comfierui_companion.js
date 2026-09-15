@@ -2,7 +2,7 @@ import { app } from "../../../scripts/app.js";
 import { api } from "../../../scripts/api.js";
 
 const ROUTE = "/comfierui/model-download";
-const VERSION = "0.2.7";
+const VERSION = "0.2.9";
 
 async function downloadModelOnHost(url, name, directory) {
   const response = await api.fetchApi(ROUTE, {
@@ -20,13 +20,15 @@ async function downloadModelOnHost(url, name, directory) {
 }
 
 function installHostDownloadBridge() {
+  const api = { version: VERSION, downloadModelOnHost };
+  window.ComfierUICompanion = Object.freeze(api);
+
   const existing = window.__comfyDesktop2 || {};
   if (typeof existing.downloadModel === "function") return;
 
   existing.downloadModel = downloadModelOnHost;
   existing.isRemote = () => false;
   window.__comfyDesktop2 = existing;
-  window.ComfierUICompanion = Object.freeze({ version: VERSION });
 }
 
 app.registerExtension({

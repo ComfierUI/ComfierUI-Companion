@@ -281,6 +281,11 @@ async def _put_layout(request: web.Request) -> web.Response:
         raise web.HTTPBadRequest(text="Invalid layout JSON") from error
     if not isinstance(layout, dict) or not isinstance(layout.get("nodes", {}), dict):
         raise web.HTTPBadRequest(text="Layout must be an object with a nodes object")
+    theme = layout.get("theme", "default")
+    if not isinstance(theme, str) or not theme.strip() or len(theme) > 128 or \
+            any(character in theme for character in ("/", "\\", "\0")):
+        raise web.HTTPBadRequest(text="Layout theme must be a safe theme identifier")
+    layout["theme"] = theme.strip()
 
     target = _layout_path(relative)
     target.parent.mkdir(parents=True, exist_ok=True)

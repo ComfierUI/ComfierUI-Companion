@@ -5,6 +5,7 @@ import logging
 
 import aiohttp
 from aiohttp import web
+from yarl import URL
 
 from server import PromptServer
 
@@ -44,10 +45,18 @@ def _backend_request_headers(headers) -> dict[str, str]:
     return forwarded
 
 
+def _backend_url(request: web.Request) -> URL:
+    """Preserve encoded workflow paths such as workflows%2Fname.json."""
+    raw_path = request.rel_url.raw_path
+    raw_query = request.rel_url.raw_query_string
+    target = BACKEND + raw_path + (f"?{raw_query}" if raw_query else "")
+    return URL(target, encoded=True)
+
+
 async def _relay_websocket(request: web.Request) -> web.WebSocketResponse:
     downstream = web.WebSocketResponse(heartbeat=25.0, max_msg_size=0)
     await downstream.prepare(request)
-    target = BACKEND + request.rel_url.path_qs
+    target = _backend_url(request)
 
     async with aiohttp.ClientSession() as session:
         try:
@@ -93,15 +102,20 @@ async def _relay_http(request: web.Request) -> web.StreamResponse:
     if request.headers.get("Upgrade", "").lower() == "websocket":
         return await _relay_websocket(request)
 
-    target = BACKEND + request.rel_url.path_qs
+    target = _backend_url(request)
     headers = _backend_request_headers(request.headers)
+    # Do not attach a chunked request stream to bodyless requests.  In
+    # particular, ComfyUI's workflow/user-data GET endpoints expect an ordinary
+    # bodyless GET; forwarding an empty async iterator changes its wire shape
+    # and can make those routes fail in WebView clients.
+    body = await request.read() if request.can_read_body else None
     async with aiohttp.ClientSession(auto_decompress=False) as session:
         try:
             async with session.request(
                 request.method,
                 target,
                 headers=headers,
-                data=request.content.iter_chunked(1024 * 1024),
+                data=body,
                 allow_redirects=False,
             ) as upstream:
                 response = web.StreamResponse(
