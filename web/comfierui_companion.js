@@ -2,7 +2,7 @@ import { app } from "../../../scripts/app.js";
 import { api } from "../../../scripts/api.js";
 
 const ROUTE = "/comfierui/model-download";
-const VERSION = "0.3.1";
+const VERSION = "0.3.4";
 
 async function downloadModelOnHost(url, name, directory) {
   const response = await api.fetchApi(ROUTE, {
@@ -16,6 +16,11 @@ async function downloadModelOnHost(url, name, directory) {
     throw new Error(`ComfierUI host download was rejected: ${message}`);
   }
 
+  const result = await response.json();
+  window.dispatchEvent(new CustomEvent("comfierui-download-accepted", { detail: result }));
+  if (typeof window.__comfierPollDownloads === "function") {
+    window.__comfierPollDownloads();
+  }
   return true;
 }
 

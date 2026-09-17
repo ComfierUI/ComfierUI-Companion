@@ -1,4 +1,50 @@
-# ComfierUI Companion 0.3.1
+# ComfierUI Companion 0.3.4
+
+## 0.3.4 — host-authoritative generation progress
+
+* Replaces exact-prompt terminal polling with a lightweight host-authoritative
+  progress snapshot at `/comfierui/notifications/progress`.
+* Observes the same ComfyUI execution events used by frontend progress bars and
+  reports the current node, sampler step, overall workflow percentage, and
+  authoritative running/pending queue counts.
+* Treats the live host queue as the complete lifecycle source, so Clear Queue
+  and subsequent batches cannot inherit stale Android counters.
+* Supplies the live state used by ComfierUI 0.9.20-Dev's persistent Android
+  progress notification while keeping monitoring lightweight and host-side.
+
+## 0.3.3 Notifications Test
+
+* Starts from the clean 0.3.2 Companion baseline.
+* Adds a lightweight exact-prompt status endpoint at
+  `/comfierui/notifications/prompt/{prompt_id}`.
+* Reports queued, running, completed, failed, or interrupted without requiring
+  the Android WebView to remain active.
+* Intended only for the paired ComfierUI 0.1.0 Notifications Test build.
+
+# 0.3.2 baseline notes
+
+## 0.3.2 — resumable downloads and native panel control
+
+* Pause/cancel retains one deterministic `.comfierui.part` file per model.
+* Resume reuses the same task entry and requests only the remaining bytes when
+  the provider honors HTTP Range; providers without compatible Range behavior
+  safely restart into that same partial file rather than creating another.
+* Clear removes completed records plus canceled records and their partial files.
+* New Manager starts cannot create a duplicate while a resumable task for the
+  same destination remains in the panel.
+* Preserves the 0.3.1 gateway, spatial workflow conversion, spatial sidecar
+  persistence, layout, queue, and VR capability behavior unchanged.
+* Adds read-only per-download progress/status reporting for the Android native
+  Downloads panel.
+* Adds narrowly scoped cancel, retry, and completed-entry cleanup routes.
+* Retains the existing restricted provider, destination, extension, redirect,
+  public-address, and 128 GiB safety validation for starts and retries.
+* Notifies the Android Downloads monitor immediately when Manager accepts a new
+  task while retaining polling as the authoritative recovery path.
+
+# Previous releases
+
+## ComfierUI Companion 0.3.1
 
 ## 0.3.1 — upstream WebSocket session correction
 
