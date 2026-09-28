@@ -462,16 +462,12 @@ async def _clear_completed(request: web.Request) -> web.Response:
 
 
 def _client_environment(request: web.Request) -> tuple[str, str]:
-    """Recognize clients without splitting Companion into separate packages."""
+    """Recognize supported ComfierUI clients."""
     explicit = (request.headers.get("X-ComfierUI-Client") or
                 request.query.get("client") or "").strip().lower()
-    if explicit in {"comfyquest", "comfyquest-vr", "vr"}:
-        return "vr", "explicit"
     if explicit in {"comfierui", "comfierui-android", "android"}:
         return "android", "explicit"
     user_agent = request.headers.get("User-Agent", "").lower()
-    if "comfyquest" in user_agent or "comfierui-vr" in user_agent:
-        return "vr", "user-agent"
     if "android" in user_agent:
         return "android", "user-agent"
     if user_agent:
@@ -484,11 +480,6 @@ async def _companion_info(request: web.Request) -> web.Response:
     common = ["version-reporting", "lan-gateway"]
     platform_capabilities = {
         "android": ["model-downloads", "model-download-control"],
-        "vr": [
-            "spatial-workflows", "spatial-layouts",
-            "spatial-layout-delete", "spatial-workflow-queue",
-            "spatial-theme-state",
-        ],
         "browser": ["model-downloads"],
         "unknown": [],
     }

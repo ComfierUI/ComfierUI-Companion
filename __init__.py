@@ -1,13 +1,11 @@
 """Host-side companion services for the ComfierUI Android client."""
 
 from .model_download import register_routes
-from .spatial_workflows import register_spatial_routes
 from .companion_gateway import register_companion_gateway
 from .notification_status import register_notification_routes
 
 
 register_routes()
-register_spatial_routes()
 register_companion_gateway()
 register_notification_routes()
 

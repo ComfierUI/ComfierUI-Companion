@@ -1,214 +1,32 @@
 # ComfierUI Companion 0.3.4
 
-## 0.3.4 — host-authoritative generation progress
+This is the non-VR Companion build for ComfierUI. It retains the Android and
+browser services from 0.3.4 while removing the paused ComfyQuest spatial
+workflow, layout, queue, theme-state, and VR client-capability integrations.
 
-* Replaces exact-prompt terminal polling with a lightweight host-authoritative
-  progress snapshot at `/comfierui/notifications/progress`.
-* Observes the same ComfyUI execution events used by frontend progress bars and
-  reports the current node, sampler step, overall workflow percentage, and
-  authoritative running/pending queue counts.
-* Treats the live host queue as the complete lifecycle source, so Clear Queue
-  and subsequent batches cannot inherit stale Android counters.
-* Supplies the live state used by ComfierUI 0.9.20-Dev's persistent Android
-  progress notification while keeping monitoring lightweight and host-side.
+## Included services
 
-## 0.3.3 Notifications Test
-
-* Starts from the clean 0.3.2 Companion baseline.
-* Adds a lightweight exact-prompt status endpoint at
-  `/comfierui/notifications/prompt/{prompt_id}`.
-* Reports queued, running, completed, failed, or interrupted without requiring
-  the Android WebView to remain active.
-* Intended only for the paired ComfierUI 0.1.0 Notifications Test build.
-
-# 0.3.2 baseline notes
-
-## 0.3.2 — resumable downloads and native panel control
-
-* Pause/cancel retains one deterministic `.comfierui.part` file per model.
-* Resume reuses the same task entry and requests only the remaining bytes when
-  the provider honors HTTP Range; providers without compatible Range behavior
-  safely restart into that same partial file rather than creating another.
-* Clear removes completed records plus canceled records and their partial files.
-* New Manager starts cannot create a duplicate while a resumable task for the
-  same destination remains in the panel.
-* Preserves the 0.3.1 gateway, spatial workflow conversion, spatial sidecar
-  persistence, layout, queue, and VR capability behavior unchanged.
-* Adds read-only per-download progress/status reporting for the Android native
-  Downloads panel.
-* Adds narrowly scoped cancel, retry, and completed-entry cleanup routes.
-* Retains the existing restricted provider, destination, extension, redirect,
-  public-address, and 128 GiB safety validation for starts and retries.
-* Notifies the Android Downloads monitor immediately when Manager accepts a new
-  task while retaining polling as the authoritative recovery path.
-
-# Previous releases
-
-## ComfierUI Companion 0.3.1
-
-## 0.3.1 — upstream WebSocket session correction
-
-* Stops forwarding the downstream browser's `Sec-WebSocket-*` handshake fields
-  into Companion's separate upstream connection to ComfyUI.
-* Allows aiohttp to generate a valid upstream handshake so ComfyUI's initial
-  WebSocket status message can establish the frontend `clientId` required by
-  `/internal/logs/subscribe`.
-* Removes the unsuccessful 0.3.0 backend-readiness delay.
-
-## 0.3.0 — gateway startup synchronization
-
-* Waits for loopback ComfyUI to answer `/system_stats` before opening the LAN
-  gateway on port `8147`.
-* Prevents Android and browser clients from reconnecting to the gateway before
-  ComfyUI can service the frontend's one-time log-resynchronization request.
-* Keeps the existing HTTP, WebSocket, encoded-workflow, download, and spatial
-  gateway behavior unchanged after startup.
-
-## 0.2.9 — encoded workflow gateway fix
-
-* Preserves raw percent-encoded proxy paths so ComfyUI userdata workflow names
-  containing encoded folder separators load correctly through port `8147`.
-* Restores the Companion frontend and host model-download bridge after the
-  0.2.8 diagnostic builds temporarily disabled them.
-* Keeps bodyless gateway requests bodyless and buffers bounded request bodies
-  before relaying them, avoiding accidental chunked bodies on ordinary GETs.
-* Retains Android/VR client recognition and active-theme spatial sidecars.
-
-## 0.2.8 — client recognition and workflow-loading diagnostics
-
-* Recognizes ComfierUI Android, ComfyQuest VR, browser, and unknown clients from
-  an explicit client header with a conservative user-agent fallback.
-* Reports platform-appropriate capabilities without requiring separate host
-  extensions for Android and VR.
-* Tested keeping bodyless gateway requests bodyless; this was valid proxy
-  hardening but did not resolve workflow loading by itself.
-* Tested isolating and then disabling the Companion frontend to rule out an
-  Android WebView conflict. Neither diagnostic build fixed gateway loading.
-* Established that workflows loaded through direct port `8188` but failed in
-  both Android and desktop browsers through port `8147`, isolating the gateway.
-* Accepts and preserves an active theme identifier in spatial layout sidecars.
-
-## 0.2.7 — synchronized release metadata
-
-* Synchronizes the package, runtime API, and frontend bridge version at `0.2.7`.
-* Retains `companion_gateway.py` and the `register_companion_gateway` entry point.
-* Retains the Companion gateway on `0.0.0.0:8147` and loopback ComfyUI on
-  `127.0.0.1:8188`.
-
-## 0.2.6 — Companion gateway naming hotfix
-
-* Renames `vr_gateway.py` to `companion_gateway.py` to reflect that the gateway
-  serves both ComfierUI and ComfyQuest.
-* Renames the internal registration entry point to `register_companion_gateway`.
-* Retains the Companion gateway on `0.0.0.0:8147` and the ComfyUI backend on
-  `127.0.0.1:8188`.
-
-## 0.2.5 — spatial layout lifecycle
-
-* Serves the Companion gateway on `0.0.0.0:8147` for trusted LAN and tailnet
-  clients, and proxies it to loopback ComfyUI at `127.0.0.1:8188`.
-* Filters hidden metadata, `.index.json`, layout sidecars, and invalid JSON
-  objects out of native workflow discovery.
-* Adds `DELETE /comfierui/spatial/layout?path=...` so native clients can remove
-  a spatial sidecar without deleting its source ComfyUI workflow.
-* Retains atomic `PUT` saves and traversal-safe layout paths.
-
-## 0.2.4 — native workflow queue bridge
-
-* Adds `POST /comfierui/spatial/queue` for execution of a saved LiteGraph
-  workflow selected by a native client.
-* Workflow-to-prompt conversion runs on the host using the installed ComfyUI
-  node definitions; the headset sends only the safe relative workflow path.
-* The first bridge supports ordinary connected nodes, reroutes, primitive
-  values, and standard/custom widgets. It reports an explicit error for
-  bypassed/muted nodes and subgraphs until those transformations are added.
-* The user-facing `vr-lan-gateway` capability is renamed `lan-gateway` because
-  the same private-LAN/Tailscale bridge now serves Android and VR clients.
-
-## 0.2.3 — Verified Companion gateway and host downloads
-
-This release consolidates the verified VR configuration into one clean extension:
-
-* ComfyUI remains loopback-only on `127.0.0.1:8188`; `--listen` is unnecessary.
-* The development gateway listens on `0.0.0.0:8147` for LAN and Tailscale clients.
-* Gateway `Origin` and `Referer` headers are rewritten to the loopback backend, avoiding
-  ComfyUI's non-matching host/origin 403 response.
-* The restricted Companion model downloader and frontend bridge are restored after the
-  0.2.2 comparison proved that unmodified Manager downloads still send files to the client.
-* Spatial workflow discovery, loading, and layout sidecars remain enabled.
-
-The gateway currently assumes a trusted private LAN or tailnet. Device pairing and
-authentication remain required before public distribution.
-
-## 0.2.2.dev1 — Native Manager download experiment
-
-This temporary comparison build removes the Companion host-download override while
-retaining the Companion gateway, workflow APIs, spatial-layout sidecars, and version reporting.
-It does not register `POST /comfierui/model-download` and does not install the
-`window.__comfyDesktop2.downloadModel` browser bridge. ComfyUI and Manager therefore use
-their unmodified download behavior through the loopback gateway.
-
-The gateway rewrites browser `Origin` and `Referer` headers to its loopback target.
-This satisfies ComfyUI's same-origin validation while preserving cookies and other
-request headers required by the proxied client.
-
-Use this only to determine whether running ComfyUI without `--listen` restores native
-host-side model installation. Companion 0.2.1 remains the safe rollback because its
-restricted downloader guarantees host placement and validates destinations.
-
-## 0.2.1 — VR loopback gateway
-
-* Automatically opens an HTTP gateway on `0.0.0.0:8147` and proxies it to the
-  normal loopback-only ComfyUI server at `127.0.0.1:8188`.
-* Relays both ordinary HTTP requests and ComfyUI WebSocket traffic, including
-  streamed downloads, without requiring ComfyUI's `--listen` flag.
-* Intended for the dedicated VR-only ComfyUI installation and trusted-LAN
-  development. Authentication and pairing are required before public release.
-
-ComfyQuest uses `http://deezpc:8147` as its automatic startup
-address. The server binds to `0.0.0.0`; clients must use the PC hostname or LAN
-address rather than `0.0.0.0`.
-
-## 0.2.0 — Native spatial workflow bridge
-
-* Adds a read-only workflow index at `GET /comfierui/spatial/workflows`.
-* Adds validated workflow loading at `GET /comfierui/spatial/workflow?path=...`.
-* Adds separate spatial-layout sidecars through `GET` and `PUT`
-  `/comfierui/spatial/layout?path=...`; original ComfyUI workflow files are never
-  modified.
-* Uses traversal-safe paths, strict JSON and size validation, and atomic layout
-  replacement. Workflow discovery is deliberately limited to the conventional
-  default profile rather than exposing other local user profiles.
-* Preserves the restricted host-side model downloader from 0.1.3 unchanged.
-
-These endpoints are the first host-side plumbing for ComfyQuest's native Unreal
-frontend. They let the headset discover saved workflows and persist room-specific
-node positions without making it parse ComfyUI's filesystem or rewrite canonical
-workflow JSON.
-
-## 0.1.3 — Version discovery
-
-* Adds a read-only capability endpoint so ComfierUI can detect the installed
-  Companion version and supported features.
-* Exposes the same version to trusted frontend integrations after the official
-  ComfyUI extension lifecycle loads.
-
-This optional ComfyUI host extension makes the existing **Missing Models**
-Download and Download All buttons download supported models directly on the host
-computer into the correct ComfyUI model folders. Large model files do not pass
-through or get stored on the Android device.
+* Host-authoritative generation progress at
+  `/comfierui/notifications/progress`, including the current node, sampler
+  step, workflow percentage, and running/pending queue counts.
+* Restricted host-side model downloads with pause, cancel, resume, retry,
+  progress reporting, and completed-entry cleanup.
+* Android/browser client capability reporting.
+* The shared LAN/Tailscale gateway on port `8147`, including HTTP and WebSocket
+  proxying to loopback ComfyUI at `127.0.0.1:8188`.
+* The frontend bridge used by ComfierUI's Missing Models controls.
 
 ## Install
 
-Choose any one of these installation methods, then restart ComfyUI.
+Choose one installation method, then restart ComfyUI.
 
-### Option 1: Extension Manager
+### Extension Manager
 
 1. Open ComfyUI's **Extension Manager**.
 2. Search for **ComfierUI Companion**.
 3. Select **Install** and restart ComfyUI when prompted.
 
-### Option 2: Git
+### Git
 
 Open a terminal in `ComfyUI/custom_nodes/` and run:
 
@@ -216,17 +34,15 @@ Open a terminal in `ComfyUI/custom_nodes/` and run:
 git clone https://github.com/ComfierUI/ComfierUI-Companion.git
 ```
 
-To update an existing Git installation later, open the installed folder and run:
+To update an existing Git installation later, open the installed folder and
+run `git pull`.
 
-```bash
-git pull
-```
-
-### Option 3: ZIP
+### ZIP
 
 1. Close ComfyUI.
-2. Download and extract the release ZIP.
-3. Place the extracted `ComfierUI-Companion` folder inside `ComfyUI/custom_nodes/`.
+2. Extract the release ZIP.
+3. Put the extracted `ComfierUI-Companion` folder in
+   `ComfyUI/custom_nodes/`.
 4. Start ComfyUI normally.
 
 The final path should be:
@@ -235,28 +51,24 @@ The final path should be:
 ComfyUI/custom_nodes/ComfierUI-Companion/__init__.py
 ```
 
-No workflow nodes are added. The companion starts automatically with ComfyUI.
+No workflow nodes are added. Companion starts automatically with ComfyUI.
 
 ## Use
 
-Load a workflow with missing models, open **Workflow Overview > Errors**, and use
-the existing Download or Download All controls. The host begins each download in
-the background. For a single active download, its console progress bar updates in
-place instead of adding a new log row every two seconds. It includes percentage,
-downloaded/total size, and byte-based transfer speed such as `94.7 MiB/s`.
-Concurrent downloads retain separate timestamped progress rows so each file can be
-followed safely. Use the Missing Models refresh control after a download finishes.
+Load a workflow with missing models, open **Workflow Overview > Errors**, and
+use Download or Download All. Downloads run on the host so large model files do
+not pass through or remain on the Android device.
 
 ## Safety limits
 
-* Initial URLs are restricted to HTTPS downloads from Hugging Face, Civitai, or
-  GitHub release assets.
-* Redirects are rejected if they resolve to a private, loopback, link-local, or
-  otherwise non-public network address.
-* Filenames cannot contain paths and are restricted to supported model formats.
+* Initial URLs are restricted to HTTPS downloads from Hugging Face, Civitai,
+  or GitHub release assets.
+* Redirects to private, loopback, link-local, or otherwise non-public network
+  addresses are rejected.
+* Filenames cannot contain paths and are limited to supported model formats.
 * Destinations are restricted to known ComfyUI model directories.
 * Existing files are never overwritten.
 * Individual downloads are limited to 128 GiB.
 
-ComfyUI itself does not provide authentication by default. Do not expose your
-ComfyUI port directly to the public internet; use a trusted LAN or private VPN.
+ComfyUI does not provide authentication by default. Do not expose its ports to
+the public internet; use a trusted LAN or private VPN.
