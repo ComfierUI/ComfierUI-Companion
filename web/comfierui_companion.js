@@ -2,7 +2,13 @@ import { app } from "../../../scripts/app.js";
 import { api } from "../../../scripts/api.js";
 
 const ROUTE = "/comfierui/model-download";
-const VERSION = "0.3.4";
+const VERSION = "0.4.4";
+
+async function listThemes() {
+  const response=await api.fetchApi('/comfierui/themes',{cache:'no-store'});
+  if(!response.ok)throw new Error('Unable to load Companion themes (HTTP '+response.status+').');
+  const data=await response.json();return data.profiles;
+}
 
 async function downloadModelOnHost(url, name, directory) {
   const response = await api.fetchApi(ROUTE, {
@@ -24,8 +30,19 @@ async function downloadModelOnHost(url, name, directory) {
   return true;
 }
 
+
+async function prepareDisplayRuntime() {
+  const module = await import("/comfierui/display-assets/comfierui_display_runtime.js?v=0.4.4");
+  return module.prepare();
+}
+
+async function installDisplayBundle() {
+  const module = await import("/comfierui/display-assets/comfierui_display_bundle.js?v=0.4.4");
+  return module.install();
+}
+
 function installHostDownloadBridge() {
-  const api = { version: VERSION, downloadModelOnHost };
+  const api = { version: VERSION, listThemes, downloadModelOnHost, prepareDisplayRuntime, installDisplayBundle, displayMode: true };
   window.ComfierUICompanion = Object.freeze(api);
 
   const existing = window.__comfyDesktop2 || {};

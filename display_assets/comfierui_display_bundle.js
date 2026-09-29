@@ -1,0 +1,47 @@
+const VERSION='0.4.4';
+const loaded=[];
+async function load(path){await import(path);loaded.push(path);}
+export async function install(){
+  await load('./display/comfier_layout_side.js');
+  await load('./display/comfier_companion_back_handlers.js');
+  await load('./display/comfier_diagnostic_host_bridge.js');
+  await load('./display/comfier_diagnostic_suite.js');
+  await load('./display/comfier_video_preview_codec.js');
+  await load('./display/comfier_gallery_video_repair.js');
+  await load('./display/comfier_media_session.js');
+  await load('./display/comfier_download_monitor.js');
+  await load('./display/comfier_responsive_ui.js');
+  await load('./display/inline_loraStrengthContextMenuGuard.js');
+  await load('./display/inline_hardRefreshPointerRepair.js');
+  await load('./display/inline_workflowFileOpenRepair.js');
+  await load('./display/inline_autoReconnectControl.js');
+  await load('./display/inline_generationNotificationsControl.js');
+  await load('./display/inline_crystoolsCollision.js');
+  await load('./display/inline_companionVersionControl.js');
+  await load('./display/comfier_client_settings.js');
+  await load('./display/comfier_node_search_shell.js');
+  await load('./display/comfier_ui_cleanup.js');
+  await load('./display/comfier_media_assets_back.js');
+  await load('./display/comfier_unified_sidebar.js');
+  await load('./display/comfier_sidebar_bootstrap.js');
+  await load('./display/comfier_sidebar_proxy_tabs.js');
+  await load('./display/comfier_early_floating_panels.js');
+  await load('./display/comfier_templates_sidebar.js');
+  await load('./display/comfier_native_settings_sidebar.js');
+  await load('./display/comfier_extensions_panel.js');
+  await load('./display/comfier_lora_panel.js');
+  await load('./display/comfier_ltx_precision_panel.js');
+  await load('./display/comfier_ltx_precision.js');
+  await load('./display/comfier_workspace_topbar.js');
+  await load('./display/comfier_transient_menus.js');
+  await load('./display/comfier_reka_workflow_menu.js');
+  await load('./display/comfier_owned_overlay_layers.js');
+  await load('./display/comfier_detail_popovers.js');
+  await load('./display/comfier_actionbar_zoom1.js');
+  await load('./display/comfier_workflow_floating_trigger.js');
+  await load('./display/comfier_fixed_view_map.js');
+  await load('./display/comfier_display_mode_status.js');
+  window.__comfierCompanionDisplayMode=Object.freeze({ready:true,version:VERSION,modules:Object.freeze(loaded.slice())});
+  window.dispatchEvent(new CustomEvent('comfierui-companion-display-ready',{detail:window.__comfierCompanionDisplayMode}));
+  return window.__comfierCompanionDisplayMode;
+}

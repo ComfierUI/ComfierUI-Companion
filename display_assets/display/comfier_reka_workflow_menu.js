@@ -1,0 +1,13 @@
+(function(){
+  'use strict';
+  const jobs=window.__comfierRuntime.scope('workflow-menu');
+  window.__comfierRekaWorkflowMenu?.remove?.();
+  const WRAPPER='[data-reka-popper-content-wrapper]',shifts=new WeakMap();let stopped=false;
+  function visible(element){if(!element?.isConnected)return false;const rect=element.getBoundingClientRect(),style=getComputedStyle(element);return rect.width>1&&rect.height>1&&style.display!=='none'&&style.visibility!=='hidden'}
+  function workflowMenu(wrapper){const text=(wrapper?.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();return text.includes('duplicate')&&text.includes('save as')&&text.includes('export')&&text.includes('clear workflow')&&text.includes('delete workflow')}
+  function rail(){const unified=document.querySelector('.comfier-unified-floating-rail');if(visible(unified))return unified;return Array.from(document.querySelectorAll('nav.side-tool-bar-container')).filter(visible).sort((a,b)=>b.querySelectorAll('.side-bar-button').length-a.querySelectorAll('.side-bar-button').length||a.getBoundingClientRect().left-b.getBoundingClientRect().left)[0]||null}
+  function position(wrapper){if(!visible(wrapper)||!workflowMenu(wrapper))return;const sidebar=rail();if(!sidebar)return;const previous=shifts.get(wrapper)||{x:0,y:0},rect=wrapper.getBoundingClientRect(),railRect=sidebar.getBoundingClientRect(),next={x:(window.__comfierLayoutSide?.side()==='right'?Math.max(4,Math.floor(railRect.left-4-rect.width)):Math.ceil(railRect.right+4))-(rect.left-previous.x),y:Math.max(4,Math.ceil(railRect.top))-(rect.top-previous.y)};if(Math.abs(next.x-previous.x)<.25&&Math.abs(next.y-previous.y)<.25)return;shifts.set(wrapper,next);wrapper.style.setProperty('translate',next.x+'px '+next.y+'px','important')}
+  function apply(){if(stopped)return;document.querySelectorAll(WRAPPER).forEach(position)}function schedule(){if(!stopped)jobs.frame('layout',apply)}
+  const observer=window.__comfierMutations.create(records=>{if(window.__comfierUi.affected(records,WRAPPER+',.side-bar-button,.comfier-unified-floating-rail'))schedule()});observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class','data-state']});window.addEventListener('resize',schedule,{passive:true});window.addEventListener('orientationchange',schedule,{passive:true});jobs.burst('startup',schedule,[0,50,150,400]);
+  window.__comfierRekaWorkflowMenu={refresh:schedule,remove(){if(stopped)return;stopped=true;jobs.dispose();observer.disconnect();window.removeEventListener('resize',schedule);window.removeEventListener('orientationchange',schedule);document.querySelectorAll(WRAPPER).forEach(wrapper=>wrapper.style.removeProperty('translate'));delete window.__comfierRekaWorkflowMenu}};
+})();
