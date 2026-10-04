@@ -29,7 +29,7 @@ html.comfier-settings-bootstrap ${DIALOG},html.comfier-settings-bootstrap [data-
   function sourceButton(){return document.querySelector('.'+SOURCE_CLASS)||Array.from(document.querySelectorAll('.side-bar-button')).find(button=>/^Settings\b/i.test(label(button))&&!/App Settings|Comfy Settings/i.test(label(button)))||null}
 
   const native=window.__comfierUi.nativeTab({
-    id:TAB_ID,name:'SettingDialog',dialog:DIALOG,bootstrapClass:'comfier-settings-bootstrap',
+    id:TAB_ID,name:'SettingDialog',dialogKey:'global-settings',dialog:DIALOG,bootstrapClass:'comfier-settings-bootstrap',
     trigger:()=>sourceButton(),
     tab:{icon:'icon-[lucide--settings]',title:'Comfy Settings',tooltip:'Comfy Settings',label:'Comfy Settings'},ready:schedule
   });
@@ -37,7 +37,7 @@ html.comfier-settings-bootstrap ${DIALOG},html.comfier-settings-bootstrap [data-
   function tabButton(){return document.querySelector(`[data-testid="${TAB_ID}-tab-button"]`)||Array.from(document.querySelectorAll('.side-bar-button')).find(button=>/Comfy Settings/i.test(label(button)))||null}
   function orderButton(){
     const button=tabButton(),source=sourceButton();
-    if(button&&source&&!source.classList.contains(SOURCE_CLASS))source.classList.add(SOURCE_CLASS);
+    if(button&&source){if(!source.classList.contains(SOURCE_CLASS))source.classList.add(SOURCE_CLASS);if(!source.hasAttribute('data-comfier-retired-settings-source'))source.setAttribute('data-comfier-retired-settings-source','')}
     if(button)window.__comfierUnifiedSidebarTest?.refresh?.();
   }
   function panelTarget(){
@@ -56,9 +56,10 @@ html.comfier-settings-bootstrap ${DIALOG},html.comfier-settings-bootstrap [data-
   function reconcile(){if(stopped)return;if(!native.ensure())return;{orderButton();if(markPanel())window.__comfierEarlyFloatingPanels?.refresh?.()}}
   function schedule(){if(!stopped)jobs.frame('reconcile',reconcile)}
 
+  function interaction(event){const button=event.target?.closest?.('button,[role="button"]');if(!native.registered()||button&&(button===tabButton()||button===sourceButton())||event.target?.closest?.('.'+PANEL_CLASS))schedule()}
   observer=window.__comfierMutations.create(records=>{if(!native.registered()||window.__comfierUi.affected(records,DIALOG+',.side-bar-button,.side-bar-panel,.p-splitterpanel,[role="complementary"]'))schedule()});
   observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['data-state','aria-expanded','aria-selected']});
-  document.addEventListener('click',schedule,true);
+  document.addEventListener('click',interaction,true);
   window.addEventListener('resize',schedule,{passive:true});window.addEventListener('orientationchange',schedule,{passive:true});
   jobs.burst('startup',schedule,[0,60,180,500,1200]);
 
@@ -66,7 +67,7 @@ html.comfier-settings-bootstrap ${DIALOG},html.comfier-settings-bootstrap [data-
     closeIfOpen:close,refresh:schedule,
     remove(){if(stopped)return;
       stopped=true;jobs.dispose();native.remove();observer?.disconnect();
-      document.removeEventListener('click',schedule,true);window.removeEventListener('resize',schedule);window.removeEventListener('orientationchange',schedule);
+      document.removeEventListener('click',interaction,true);window.removeEventListener('resize',schedule);window.removeEventListener('orientationchange',schedule);
       document.querySelectorAll('.'+PANEL_CLASS).forEach(el=>el.classList.remove(PANEL_CLASS));document.querySelectorAll('.'+SOURCE_CLASS).forEach(el=>el.classList.remove(SOURCE_CLASS));
 
       style.remove();delete window.__comfierNativeSettingsSidebar;

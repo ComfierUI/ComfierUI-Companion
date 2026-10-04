@@ -10,86 +10,30 @@
   const style=document.createElement('style');
   style.id=STYLE_ID;
   style.textContent=`
-.${ACTIVE}{
-  position:fixed!important;left:4px!important;right:auto!important;
-  top:50%!important;bottom:auto!important;
-  height:min(1000px,max(240px,calc(100dvh - 200px)))!important;
-  min-height:0!important;max-height:1000px!important;
-  margin-top:0!important;box-sizing:border-box!important;
-  transform:translateY(-50%)!important;z-index:var(--comfier-z-sidebar,100)!important
-}
-nav.side-tool-bar-container:has(.${ACTIVE}){
-  --sidebar-width:50px!important;
-  max-width:50px!important;
-  overflow:visible!important;transition:none!important
-}
-nav.side-tool-bar-container:has(.${ACTIVE})>div{overflow:visible!important}
-.${ACTIVE}{overflow:visible!important;align-items:center!important;justify-content:stretch!important}
-.${ACTIVE}>*{flex:1 1 0!important;min-height:0!important;max-height:none!important;margin-block:0!important}
-.${ACTIVE} .side-bar-button{
-  width:50px!important;min-width:50px!important;max-width:50px!important;
-  height:auto!important;min-height:0!important;max-height:none!important;
-  flex:1 1 0!important;zoom:1!important;scale:1!important;
-  transform:none!important;transition-property:color,background-color,border-color!important
-}
 .${HIDDEN}{display:none!important;visibility:hidden!important;pointer-events:none!important}
-.${ACTIVE}~.sidebar-item-group,.sidebar-item-group:has(~.${ACTIVE}){display:none!important;visibility:hidden!important;pointer-events:none!important}
+/* Rank the existing native rail in both outer views, matching the
+   pre-audit rail without changing any other surface. */
+html body nav.side-tool-bar-container:has(.side-bar-button){
+  z-index:1001!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important
+}
 `;
   document.head.appendChild(style);
 
   let stopped=false,applying=false,state=null,observer=null,cornerShift=null;
   const movedOrigins=new Map();
-  let scrollRail=null,scrollSaved=null,scrollDrag=null,scrollMovedUntil=0;
-  const scrollProperties=['max-height','min-height','overflow-y','overflow-x','overscroll-behavior','touch-action','scrollbar-width','-webkit-overflow-scrolling'];
   const jobs=window.__comfierRuntime.scope('rail');
-  const unpublish=window.__comfierUi.publishRail(()=>outerLandscape()?scrollRail:state?.top);
+  const unpublish=window.__comfierUi.publishRail(()=>window.__comfierConnectedSidebar?.root?.()||state?.top);
   const visible=el=>{
     if(!el?.isConnected)return false;
     const r=el.getBoundingClientRect(),s=getComputedStyle(el);
     return r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden';
   };
-  const outerLandscape=()=>Math.min(screen.width,screen.height)<=520&&innerWidth>innerHeight;
+  const outerLandscape=()=>window.__comfierViewport?window.__comfierViewport.mode()==='outerLandscape':Math.min(screen.width,screen.height)<=520&&innerWidth>innerHeight;
   const railBox=el=>{
     if(!visible(el))return false;
     const r=logical(el.getBoundingClientRect());
     return r.left<32&&r.width>=20&&r.width<180&&r.height>=40&&r.right<220;
   };
-  function connectedRailCandidates(){
-    const buttons=[...document.querySelectorAll('.side-bar-button')].filter(button=>{if(!visible(button))return false;const r=logical(button.getBoundingClientRect());return r.left<160&&r.right>-1});
-    const found=new Map();
-    buttons.forEach(button=>{
-      for(let element=button.parentElement;element&&element!==document.body;element=element.parentElement){
-        const rect=logical(element.getBoundingClientRect());
-        if(!visible(element)||rect.left>=80||rect.right<=0||rect.width<20||rect.width>220||rect.height<60)continue;
-        if(!found.has(element))found.set(element,new Set());found.get(element).add(button);
-      }
-    });
-    return [...found].map(([element,set])=>{const rect=logical(element.getBoundingClientRect()),name=element.id||String(element.className||element.tagName),preferred=/side-tool-bar-container|side-toolbar-container|comfier-unified-floating-rail/.test(name);return{element,buttonCount:set.size,score:set.size*1000+(preferred?500:0)-rect.width-Math.abs(rect.left)}}).sort((a,b)=>b.score-a.score);
-  }
-  function findConnectedScrollRail(){const list=connectedRailCandidates();return list.length&&list[0].buttonCount>=2?list[0].element:null}
-  function saveScrollStyles(element){const values={};scrollProperties.forEach(name=>values[name]={value:element.style.getPropertyValue(name),priority:element.style.getPropertyPriority(name)});return values}
-  function restoreScrollStyles(element,values){if(!element||!values)return;scrollProperties.forEach(name=>{const old=values[name];if(old.value)element.style.setProperty(name,old.value,old.priority);else element.style.removeProperty(name)})}
-  function unbindConnectedScroll(){
-    if(scrollRail){scrollRail.removeEventListener('pointerdown',connectedScrollDown,true);scrollRail.removeEventListener('pointermove',connectedScrollMove,true);scrollRail.removeEventListener('pointerup',connectedScrollEnd,true);scrollRail.removeEventListener('pointercancel',connectedScrollEnd,true);scrollRail.removeEventListener('click',blockConnectedScrollClick,true);restoreScrollStyles(scrollRail,scrollSaved)}
-    scrollRail=null;scrollSaved=null;scrollDrag=null;
-  }
-  function styleConnectedScrollRail(element){
-    const top=Math.max(4,element.getBoundingClientRect().top),limit=Math.max(80,innerHeight-top-4)+'px';
-    element.style.setProperty('max-height',limit,'important');element.style.setProperty('min-height','0','important');element.style.setProperty('overflow-y','auto','important');element.style.setProperty('overflow-x','hidden','important');element.style.setProperty('overscroll-behavior','contain','important');element.style.setProperty('touch-action','none','important');element.style.setProperty('scrollbar-width','none','important');element.style.setProperty('-webkit-overflow-scrolling','touch','important');
-  }
-  function bindConnectedScroll(){
-    const next=findConnectedScrollRail();
-    if(next!==scrollRail){unbindConnectedScroll();scrollRail=next;if(scrollRail){scrollSaved=saveScrollStyles(scrollRail);scrollRail.addEventListener('pointerdown',connectedScrollDown,true);scrollRail.addEventListener('pointermove',connectedScrollMove,{capture:true,passive:false});scrollRail.addEventListener('pointerup',connectedScrollEnd,true);scrollRail.addEventListener('pointercancel',connectedScrollEnd,true);scrollRail.addEventListener('click',blockConnectedScrollClick,true)}}
-    if(scrollRail)styleConnectedScrollRail(scrollRail);
-  }
-  function connectedScrollDown(event){if(!scrollRail||event.isPrimary===false||event.pointerType==='mouse')return;scrollDrag={id:event.pointerId,x:event.clientX,y:event.clientY,top:scrollRail.scrollTop,active:false}}
-  function connectedScrollMove(event){
-    if(!scrollDrag||event.pointerId!==scrollDrag.id||!scrollRail)return;const dx=event.clientX-scrollDrag.x,dy=event.clientY-scrollDrag.y;
-    if(!scrollDrag.active){if(!window.__comfierUi.verticalDrag(dx,dy,7))return;scrollDrag.active=true;try{scrollRail.setPointerCapture(event.pointerId)}catch(_){}}
-    if(event.cancelable)event.preventDefault();event.stopPropagation();scrollRail.scrollTop=scrollDrag.top-dy;
-  }
-  function connectedScrollEnd(event){if(!scrollDrag||event.pointerId!==scrollDrag.id)return;if(scrollDrag.active){scrollMovedUntil=performance.now()+350;if(event.cancelable)event.preventDefault();event.stopPropagation();try{scrollRail.releasePointerCapture(event.pointerId)}catch(_){}}scrollDrag=null}
-  function blockConnectedScrollClick(event){window.__comfierUi.blockScrollClick(event,scrollMovedUntil)}
   function findLiveNav(){
     return [...document.querySelectorAll('nav.side-tool-bar-container')].map(nav=>{
       const rect=logical(nav.getBoundingClientRect());return{nav,rect,count:nav.querySelectorAll('.side-bar-button').length};
@@ -102,6 +46,15 @@ nav.side-tool-bar-container:has(.${ACTIVE})>div{overflow:visible!important}
       .filter(group=>group.closest('nav.side-tool-bar-container')===nav)
       .sort((a,b)=>a.getBoundingClientRect().top-b.getBoundingClientRect().top);
   }
+  // Floating assembly retains native action nodes; connected assembly uses its owned host.
+  function ownFloating(top){return window.__comfierEdgeBar?.attach(top)||false;}
+  function writeFloating(top,name,value,priority='important'){
+    const authority=window.__comfierUiAuthority;
+    if(!authority?.canWrite(top,'rail'))return false;
+    if(value===null)top.style.removeProperty(name);
+    else authority.write(top,name,value,'rail',priority);
+    return true;
+  }
   function saveTopStyle(top){
     const values={};
     ['position','left','right','top','bottom','height','min-height','max-height','transform'].forEach(name=>values[name]={value:top.style.getPropertyValue(name),priority:top.style.getPropertyPriority(name)});
@@ -109,11 +62,17 @@ nav.side-tool-bar-container:has(.${ACTIVE})>div{overflow:visible!important}
   }
   function restoreTop(top,values){
     if(!top||!values)return;
-    Object.entries(values).forEach(([name,saved])=>{if(saved.value)top.style.setProperty(name,saved.value,saved.priority);else top.style.removeProperty(name)});
-    top.classList.remove(ACTIVE);
+    window.__comfierEdgeBar?.detach();
+    Object.entries(values).forEach(([name,saved])=>writeFloating(top,name,saved.value||null,saved.priority));
+    window.__comfierUiAuthority?.unregisterOwned('floatingRail',top);
+    top.removeAttribute('data-comfier-owned-rail');top.classList.remove(ACTIVE);
   }
   function restore(){
-    if(!state)return;
+    if(!state){
+      document.querySelectorAll('.'+ACTIVE).forEach(group=>group.classList.remove(ACTIVE));
+      document.querySelectorAll('.'+HIDDEN).forEach(group=>group.classList.remove(HIDDEN));
+      return;
+    }
     applying=true;
     restoreCorner();
 
@@ -133,7 +92,7 @@ nav.side-tool-bar-container:has(.${ACTIVE})>div{overflow:visible!important}
   function restoreCorner(){
     if(!cornerShift)return;
     const {element,value,priority}=cornerShift;
-    if(element?.isConnected){if(value)element.style.setProperty('translate',value,priority);else element.style.removeProperty('translate')}
+    if(element?.isConnected&&window.__comfierUiAuthority?.canWrite(element,'rail')){if(value)window.__comfierUiAuthority.write(element,'translate',value,'rail',priority);else element.style.removeProperty('translate')}
     cornerShift=null;
   }
   function positionCornerMenu(){
@@ -157,36 +116,12 @@ nav.side-tool-bar-container:has(.${ACTIVE})>div{overflow:visible!important}
     if(!target)return;
     const r=target.getBoundingClientRect(),shift=isRight()?Math.floor(rail.left-8-r.right):Math.ceil(rail.right+8-r.left);
     if(isRight()?shift>=0:shift<=0)return;
+    if(!window.__comfierUiAuthority?.canWrite(target,'rail'))return;
     cornerShift={element:target,value:target.style.getPropertyValue('translate'),priority:target.style.getPropertyPriority('translate')};
-    target.style.setProperty('translate',shift+'px 0','important');
+    window.__comfierUiAuthority.write(target,'translate',shift+'px 0','rail');
   }
   function positionExtras(){positionCornerMenu()}
-  function graphCanvasBounds(){
-    const container=document.getElementById('graph-canvas-container'),containerRect=container?.getBoundingClientRect();
-    const tabs=document.getElementById('topbar-workflow-tabs')||document.querySelector('[data-testid="topbar-workflow-tabs"]');
-    const tabRects=tabs?[tabs,...tabs.children].map(element=>element.getBoundingClientRect()):[];
-    const tabBottom=tabRects.length?Math.max(...tabRects.map(rect=>rect.bottom)):0;
-    const top=Math.max(0,tabBottom||containerRect?.top||0),bottom=Math.min(innerHeight,containerRect?.bottom||innerHeight);
-    return bottom>top?{top,bottom,height:bottom-top}:{top:0,bottom:innerHeight,height:innerHeight};
-  }
-  function setStyleIfChanged(el,name,value,priority='important'){
-    if(!el)return;
-    if(el.style.getPropertyValue(name)===value&&el.style.getPropertyPriority(name)===priority)return;
-    el.style.setProperty(name,value,priority);
-  }
-  function center(top){
-    if(!top)return;
-    const canvas=graphCanvasBounds(),railHeight=Math.min(1000,Math.max(240,canvas.height-200)),railTop=canvas.top+(canvas.height-railHeight)/2;
-    setStyleIfChanged(top,'position','fixed');
-    setStyleIfChanged(top,'left',isRight()?'auto':'4px');
-    setStyleIfChanged(top,'right',isRight()?'4px':'auto');
-    setStyleIfChanged(top,'top',railTop+'px');
-    setStyleIfChanged(top,'bottom','auto');
-    setStyleIfChanged(top,'height',railHeight+'px');
-    setStyleIfChanged(top,'min-height','0');
-    setStyleIfChanged(top,'max-height','1000px');
-    setStyleIfChanged(top,'transform','none');
-  }
+  
   function reconcileLiveRail(){
     const nav=findLiveNav(),groups=liveGroups(nav);
     if(groups.length<2)return false;
@@ -197,22 +132,24 @@ nav.side-tool-bar-container:has(.${ACTIVE})>div{overflow:visible!important}
       state={top,topStyle:saveTopStyle(top),sources};
     }
     applying=true;
-    if(!top.classList.contains(ACTIVE))top.classList.add(ACTIVE);if(top.classList.contains(HIDDEN))top.classList.remove(HIDDEN);
+    if(!ownFloating(top)){applying=false;return false}
+    top.classList.add(ACTIVE);top.classList.remove(HIDDEN);
     groups.forEach(source=>{
       if(source===top)return;
-      state.sources.add(source);if(!source.classList.contains(HIDDEN))source.classList.add(HIDDEN);
+      state.sources.add(source);source.classList.add(HIDDEN);
       [...source.children].filter(item=>item.nodeType===1).forEach(item=>{
         if(!movedOrigins.has(item))movedOrigins.set(item,{parent:source,nextSibling:item.nextSibling});
         top.appendChild(item);
       });
     });
-    center(top);positionExtras();applying=false;
+    window.__comfierEdgeBar?.layout();positionExtras();applying=false;
     return true;
   }
   function apply(){
     if(stopped||applying)return;
-    if(outerLandscape()){restore();canonicalTail();bindConnectedScroll();return;}
-    unbindConnectedScroll();
+    if(window.__comfierConnectedSidebar?.enabled?.()??outerLandscape()){restore();window.__comfierConnectedSidebar?.refresh();canonicalTail();window.__comfierLayoutEditor?.refresh();return;}
+    window.__comfierConnectedSidebar?.release();
+    
     if(cornerShift&&!cornerShift.element.isConnected)cornerShift=null;
     reconcileLiveRail();canonicalTail();
   }
@@ -251,7 +188,7 @@ nav.side-tool-bar-container:has(.${ACTIVE})>div{overflow:visible!important}
     if(!button)return;
     if(button.matches?.('.side-bar-button'))jobs.burst('settle',schedule,[0,40,100,220,450,900]);
   }
-  observer=new MutationObserver(records=>{
+  observer=window.__comfierMutations.create(records=>{
     if(applying)return;
     if(records.some(record=>record.target===document.documentElement&&record.type==='attributes')){schedule();return;}
     if(records.some(record=>record.type==='attributes'&&record.attributeName==='class')){schedule();return;}
@@ -262,12 +199,13 @@ nav.side-tool-bar-container:has(.${ACTIVE})>div{overflow:visible!important}
   observer.observe(document.documentElement,{attributes:true,attributeFilter:['style']});
   window.addEventListener('comfier-layout-side-change',resized);
   window.addEventListener('resize',resized,{passive:true});
+  jobs.listen(window,'comfier-sidebar-mode-change',resized);
   document.addEventListener('change',settingChange,true);
   document.addEventListener('click',captureRailButton,true);
 
   window.__comfierUnifiedSidebarTest={
     refresh:schedule,
-    snapshot(){return{active:!!state,topButtons:state?.top?.querySelectorAll('.side-bar-button').length||0,movedItems:movedOrigins.size,outerLandscape:outerLandscape()};},
+    snapshot(){return{active:!!state,owned:!!state?.top?.hasAttribute('data-comfier-owned-rail'),topButtons:state?.top?.querySelectorAll('.side-bar-button').length||0,movedItems:movedOrigins.size,outerLandscape:outerLandscape()};},
     remove(){if(stopped)return;
       stopped=true;
       observer?.disconnect();
@@ -275,7 +213,7 @@ nav.side-tool-bar-container:has(.${ACTIVE})>div{overflow:visible!important}
       window.removeEventListener('resize',resized);
       document.removeEventListener('change',settingChange,true);
       document.removeEventListener('click',captureRailButton,true);
-      unbindConnectedScroll();
+      
       unpublish();jobs.dispose();
       restore();
       style.remove();
@@ -284,5 +222,5 @@ nav.side-tool-bar-container:has(.${ACTIVE})>div{overflow:visible!important}
     }
   };
   schedule();
-  return 'Floating unified sidebar enabled. Lower rail items move into the upper rail; restored outer-landscape rails use viewport-clamped touch scrolling.';
+  return 'Floating unified sidebar enabled. Lower rail items move into the upper rail; connected rails use the Comfier host and Layout Editor.';
 })();

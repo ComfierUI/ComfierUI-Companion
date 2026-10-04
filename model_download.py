@@ -19,11 +19,26 @@ import folder_paths
 from server import PromptServer
 
 
+def _invalidate_model_inventory():
+    from .companion_gateway import invalidate_data_cache
+    invalidate_data_cache("/models")
+
+
+async def _write_chunk(output, chunk):
+    # Backpressure: one bounded chunk per file, and drain in-flight disk work before close/cancel.
+    task = asyncio.create_task(asyncio.to_thread(output.write, chunk))
+    try:
+        await asyncio.shield(task)
+    except asyncio.CancelledError:
+        await task
+        raise
+
+
 LOG = logging.getLogger("ComfierUI-Companion")
 ROUTE = "/comfierui/model-download"
 TASKS_ROUTE = "/comfierui/model-downloads"
 INFO_ROUTE = "/comfierui/capabilities"
-COMPANION_VERSION = "0.4.4"
+COMPANION_VERSION = "0.4.28"
 MAX_REDIRECTS = 8
 MAX_FILE_BYTES = 128 * 1024 * 1024 * 1024
 CHUNK_BYTES = 1024 * 1024
@@ -269,7 +284,7 @@ async def _download(url: str, destination: Path, task_id: str) -> None:
                     )
                     if received > MAX_FILE_BYTES:
                         raise RuntimeError("Model exceeds the 128 GiB safety limit")
-                    output.write(chunk)
+                    await _write_chunk(output, chunk)
                     now = time.monotonic()
                     if now - last_progress_at >= PROGRESS_INTERVAL_SECONDS:
                         elapsed = max(now - started_at, 0.001)
@@ -298,6 +313,7 @@ async def _download(url: str, destination: Path, task_id: str) -> None:
             if destination.exists():
                 raise RuntimeError("A model with this filename already exists")
             os.replace(partial_path, destination)
+            _invalidate_model_inventory()
             record["status"] = "completed"
             record["percent"] = 100.0
             record["received_bytes"] = received
@@ -477,7 +493,7 @@ def _client_environment(request: web.Request) -> tuple[str, str]:
 
 async def _companion_info(request: web.Request) -> web.Response:
     environment, recognition = _client_environment(request)
-    common = ["version-reporting", "lan-gateway", "ui-display-bundle"]
+    common = ["version-reporting", "lan-gateway", "ui-display-bundle", "host-resources"]
     platform_capabilities = {
         "android": ["model-downloads", "model-download-control"],
         "browser": ["model-downloads"],

@@ -7,7 +7,7 @@
   const SETTINGS='[data-testid="settings-dialog"],.comfier-native-settings-panel';
   const ICON='.pi-info-circle';
   const cards=new Map(),icons=new Map();
-  let stopped=false,active=null,tap=null,lastTouch=0,forwarding=false;
+  let stopped=false,active=null,tap=null,lastTouch=0,forwarding=false,lifecycle=null;
   const style=document.createElement('style');style.id='comfier-detail-popovers-style';
   style.textContent=`
 html body .comfier-job-details-fixed{position:fixed!important;left:var(--comfier-detail-left)!important;top:var(--comfier-detail-top)!important;right:auto!important;bottom:auto!important;transform:none!important;translate:none!important;margin:0!important;zoom:var(--comfier-detail-zoom,1)!important;width:var(--comfier-detail-width)!important;min-width:0!important;max-width:var(--comfier-detail-width)!important;max-height:var(--comfier-detail-height)!important;z-index:710!important;box-sizing:border-box!important;}
@@ -21,7 +21,7 @@ html body :is([data-testid="settings-dialog"],.comfier-native-settings-panel) .p
   const tip=document.createElement('div');tip.id='comfier-info-tooltip';tip.setAttribute('role','tooltip');tip.setAttribute('data-comfier-info-tooltip','');tip.hidden=true;document.body.appendChild(tip);
   function set(el,key,value){if(el.style.getPropertyValue(key)!==value)el.style.setProperty(key,value,'important');}
   function viewport(){const v=window.visualViewport;return {left:v?.offsetLeft||0,top:v?.offsetTop||0,width:v?.width||innerWidth,height:v?.height||innerHeight};}
-  function zoom(){return Math.max(.3,Math.min(2,parseFloat(window.__comfierUiZoomValue)||1));}
+  function zoom(){return window.__comfierViewport?.scale()||Math.max(.3,Math.min(2,parseFloat(window.__comfierUiZoomValue)||1));}
   function bounds(){const v=viewport();return {left:v.left+8,top:v.top+8,right:v.left+v.width-8,bottom:v.top+v.height-8};}
   function visible(el){if(!el?.isConnected)return false;const s=getComputedStyle(el),r=el.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0;}
   function placeCard(card){
@@ -45,7 +45,10 @@ html body :is([data-testid="settings-dialog"],.comfier-native-settings-panel) .p
   }
   function restoreAttribute(el,name,value){if(value===null)el.removeAttribute(name);else el.setAttribute(name,value);}
   function markIcon(icon){if(icons.has(icon)||!content(icon))return;icons.set(icon,{role:icon.getAttribute('role'),tabindex:icon.getAttribute('tabindex'),label:icon.getAttribute('aria-label')});icon.setAttribute('data-comfier-info-trigger','');icon.setAttribute('role','button');icon.setAttribute('tabindex','0');if(!icon.getAttribute('aria-label'))icon.setAttribute('aria-label','Setting information');}
-  function hideNative(icon){forwarding=true;try{icon.dispatchEvent(new MouseEvent('mouseleave',{bubbles:false}));}finally{forwarding=false;}}
+  function hideNative(icon){if(icon.__comfierInfoOwned)return;forwarding=true;try{icon.dispatchEvent(new MouseEvent('mouseleave',{bubbles:false}));}finally{forwarding=false;}}
+  function releaseIcon(icon){if(active?.icon===icon)closeTip();const saved=icons.get(icon);if(saved){restoreAttribute(icon,'role',saved.role);restoreAttribute(icon,'tabindex',saved.tabindex);restoreAttribute(icon,'aria-label',saved.label);icon.removeAttribute('data-comfier-info-trigger');icons.delete(icon)}}
+  function bindInfo(icon,binding){const value=binding.value;icon.__comfierInfoOwned=true;icon.$_ptooltipValue=typeof value==='string'?value:typeof value?.value==='string'?value.value:'';icon.$_ptooltipDisabled=value?.disabled===true;if(!content(icon)){releaseIcon(icon);return}markIcon(icon);if(active?.icon===icon){tip.textContent=content(icon);positionTip()}}
+  const infoDirective={beforeMount:bindInfo,updated:bindInfo,beforeUnmount(icon){releaseIcon(icon);delete icon.__comfierInfoOwned;delete icon.$_ptooltipValue;delete icon.$_ptooltipDisabled}};
   function positionTip(){
     if(!active)return;
     if(!visible(active.icon)){closeTip();return;}
@@ -83,10 +86,20 @@ html body :is([data-testid="settings-dialog"],.comfier-native-settings-panel) .p
   jobs.listen(document,'scroll',event=>{if(active&&!tip.contains(event.target))closeTip();},true);
   jobs.listen(window,'resize',schedule,{passive:true});
   if(window.visualViewport){jobs.listen(window.visualViewport,'resize',schedule,{passive:true});jobs.listen(window.visualViewport,'scroll',schedule,{passive:true});}
-  const observer=(window.__comfierMutations?.create||((fn)=>new MutationObserver(fn)))(records=>{
+  const observer=(window.__comfierMutations?.create||((fn)=>window.__comfierMutations.create(fn)))(records=>{
     if(records.some(r=>r.target===active?.icon||r.target?.closest?.(JOB)||(r.target?.matches?.(WRAPPER)&&r.target.querySelector(JOB))||[...r.addedNodes||[],...r.removedNodes||[]].some(n=>n.nodeType===1&&(n.matches?.(JOB+','+SETTINGS+','+ICON)||n.querySelector?.(JOB+','+SETTINGS+','+ICON)||(active&&n.contains(active.icon))))))schedule();
   });observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','style','data-state','aria-hidden']});
   const unregister=window.__comfierBack?.register('info-tooltip',5,closeTip);
   jobs.frame('initial',scan);
-  window.__comfierDetailPopovers={refresh:schedule,closeTooltip:closeTip,remove(){if(stopped)return;stopped=true;closeTip();jobs.dispose();observer.disconnect();unregister?.();cards.forEach((shell,card)=>releaseCard(card,shell));icons.forEach((saved,icon)=>{restoreAttribute(icon,'role',saved.role);restoreAttribute(icon,'tabindex',saved.tabindex);restoreAttribute(icon,'aria-label',saved.label);icon.removeAttribute('data-comfier-info-trigger');});icons.clear();tip.remove();style.remove();delete window.__comfierDetailPopovers;}};
+  window.__comfierDetailPopovers={refresh:schedule,closeTooltip:closeTip,snapshot:()=>({scopedForms:lifecycle?.instances().length||0,icons:icons.size}),remove(){if(stopped)return;stopped=true;lifecycle?.remove();closeTip();jobs.dispose();observer.disconnect();unregister?.();cards.forEach((shell,card)=>releaseCard(card,shell));for(const icon of [...icons.keys()])releaseIcon(icon);tip.remove();style.remove();delete window.__comfierDetailPopovers;}};
+  lifecycle=window.__comfierUi?.watchComponents?.(['FormItem'],c=>{
+    let parent=c.parent;while(parent&&(parent.type?.__name||parent.type?.name)!=='SettingDialog')parent=parent.parent;
+    const native=c.appContext?.directives?.tooltip,ui=window.__comfierUi;if(!parent||!native)return;
+    return ui.renderPatch(c,tree=>ui.mapVNodes(tree,node=>{
+      if(node.type!=='i'||!String(node.props?.class||'').split(/\s+/).includes('pi-info-circle')||!node.dirs?.some(binding=>binding.dir===native))return node;
+      // Rekey existing icons once so Vue tears down their old native directive.
+      // New icons bind only the owned directive, including translated updates.
+      return ui.vnodePatch(node,{key:'comfier-info:'+String(node.key??''),dirs:node.dirs.map(binding=>binding.dir===native?{...binding,dir:infoDirective}:binding)});
+    }));
+  });
 })();

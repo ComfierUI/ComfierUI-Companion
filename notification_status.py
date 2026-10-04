@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import threading
+import time
 from typing import Any, Optional
 
 from aiohttp import web
@@ -45,6 +46,12 @@ def _node_title(prompt: dict[str, Any], node_id: Optional[str]) -> str:
 
 
 def _state_for(prompt_id: str) -> dict[str, Any]:
+    now = time.monotonic()
+    terminal = sorted(((key, value) for key, value in _states.items() if value.get('terminal')), key=lambda item:item[1].get('terminal_at', now))
+    excess = max(0, len(terminal) - 256)
+    for index, (key, value) in enumerate(terminal):
+        if key != prompt_id and (index < excess or now - value.get('terminal_at', now) > 3600):
+            _states.pop(key, None)
     state = _states.get(prompt_id)
     if state is None:
         state = {
@@ -106,6 +113,7 @@ def _observe_event(event: str, data: Any) -> None:
             if event == "execution_success" and current is not None:
                 state["completed_nodes"].add(str(current))
             state["terminal"] = True
+            state["terminal_at"] = time.monotonic()
 
 
 def _install_event_hook() -> None:

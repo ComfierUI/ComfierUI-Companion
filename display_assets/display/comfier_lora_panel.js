@@ -13,15 +13,15 @@
 #comfier-lora-manager-scroll{display:block!important;flex:1 1 0!important;width:100%!important;min-width:0!important;min-height:0!important;overflow-x:auto!important;overflow-y:hidden!important;overscroll-behavior:contain!important;touch-action:pan-x pan-y!important;-webkit-overflow-scrolling:touch!important}
 #${FRAME_ID}{display:block!important;width:var(--cef-lora-content-width,100%)!important;min-width:var(--cef-lora-content-width,100%)!important;max-width:none!important;height:100%!important;min-height:100%!important;border:0!important;background:var(--comfy-menu-bg,#171717)!important}
 `;(document.head||document.documentElement).appendChild(style);
-  const rightBinding=window.__comfierUi.watchStore('rightSidePanel',store=>{rightStore=store;if(store?.isOpen&&isOpen())closeIfOpen()});
+  const rightBinding=window.__comfierUi.watchStore('rightSidePanel',store=>{rightStore=store;if(!window.__comfierSidePanels&&store?.isOpen&&isOpen())closeIfOpen()});
   function attachStore(){rightStore=rightBinding.refresh()}
   function ensurePanel(){if(panel?.isConnected)return panel;panel=document.createElement('section');panel.id=PANEL_ID;panel.className='comfier-early-floating-panel comfier-early-floating-right';panel.setAttribute('aria-label','LoRA Manager');const header=document.createElement('header'),title=document.createElement('span'),close=document.createElement('button');title.textContent='LoRA Manager';close.type='button';close.setAttribute('aria-label','Close LoRA Manager');close.textContent='×';close.addEventListener('click',closeIfOpen);header.append(title,close);const scroll=document.createElement('div');scroll.id='comfier-lora-manager-scroll';frame=document.createElement('iframe');frame.id=FRAME_ID;frame.title='LoRA Manager';frame.setAttribute('allow','clipboard-read; clipboard-write');scroll.appendChild(frame);panel.append(header,scroll);document.body.appendChild(panel);return panel}
   function isOpen(){return!!panel?.classList.contains('open')}
   function surface(){return panel}
   function layout(){window.__comfierEarlyFloatingPanels?.refresh?.()}
-  function open(){window.__comfierLtxPanel?.closeIfOpen?.();attachStore();ensurePanel();window.__comfierExtensionsPanel?.closeIfOpen?.();if(rightStore?.isOpen)rightStore.closePanel();if(!frame.src)frame.src=new URL('/loras',location.href).href;panel.classList.add('open');button?.setAttribute('aria-pressed','true');button?.setAttribute('aria-expanded','true');window.__comfierEarlyFloatingPanels?.activateRight?.();layout();return true}
+  function open(){if(window.__comfierSidePanels&&!window.__comfierSidePanels.operating('lora'))return window.__comfierSidePanels.open('lora',button,open);if(!window.__comfierSidePanels){window.__comfierFeedPanel?.closeIfOpen?.();window.__comfierAppsPanel?.closeIfOpen?.();window.__comfierLtxPanel?.closeIfOpen?.();}attachStore();ensurePanel();if(!window.__comfierSidePanels){window.__comfierExtensionsPanel?.closeIfOpen?.();}if(!window.__comfierSidePanels&&rightStore?.isOpen)rightStore.closePanel();if(!frame.src)frame.src=new URL('/loras',location.href).href;panel.classList.add('open');button?.setAttribute('aria-pressed','true');button?.setAttribute('aria-expanded','true');window.__comfierEarlyFloatingPanels?.activateRight?.();layout();return true}
   function closeIfOpen(){if(!isOpen())return false;panel.classList.remove('open');button?.setAttribute('aria-pressed','false');button?.setAttribute('aria-expanded','false');layout();return true}
-  function toggle(){return isOpen()?closeIfOpen():open()}
+  function toggle(){if(window.__comfierSidePanels&&!window.__comfierSidePanels.operating('lora'))return window.__comfierSidePanels.toggle('lora',button,toggle);return isOpen()?closeIfOpen():open()}
   function loraTooltipText(value){return/launch\s+lora\s+manager/i.test(String(value||''))}
   function suppressTooltips(root=document){
     const candidates=[];
@@ -35,7 +35,7 @@
     target.setAttribute('aria-haspopup','dialog');target.setAttribute('aria-controls',PANEL_ID);
     target.setAttribute('aria-pressed',String(isOpen()));target.setAttribute('aria-expanded',String(isOpen()));
   }
-  function bind(){if(stopped)return;attachStore();suppressTooltips();const next=Array.from(document.querySelectorAll(BUTTON)).find(el=>!el.closest('#'+PANEL_ID));if(next!==button)button=next||null;prepareButton(button)}
+  function bind(){if(stopped)return;attachStore();suppressTooltips();const next=window.__comfierActionbarOwner?.control('lora')||Array.from(document.querySelectorAll(BUTTON)).find(el=>!el.closest('#'+PANEL_ID));if(next!==button)button=next||null;prepareButton(button)}
   function schedule(){if(!stopped)jobs.frame('layout',bind)}
   function capture(event){const target=event.target?.closest?.(BUTTON);if(!target||event.shiftKey)return;event.preventDefault();event.stopImmediatePropagation();button=target;toggle()}
   function blockHover(event){if(!event.target?.closest?.(BUTTON))return;event.stopImmediatePropagation();suppressTooltips()}

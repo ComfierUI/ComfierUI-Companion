@@ -1,69 +1,6 @@
 (function () {
   'use strict';
   if (window.__comfierRuntime) return;
-  const NativeMutationObserver=window.MutationObserver;
-  // Companion display mode uses one document-wide native observer and fans
-  // coalesced mutation batches out to the proven visual shapers.  This keeps
-  // the existing behavior while avoiding dozens of independent whole-DOM
-  // observers waking the WebView for the same change.
-  if(!window.__comfierMutations&&NativeMutationObserver){
-    const subscriptions=new Set(),pending=[];
-    let frame=0,nativeCallbacks=0,flushes=0,deliveries=0,recordCount=0;
-    function inside(target,node,subtree){
-      if(!target||!node)return false;
-      if(target===node)return true;
-      return !!(subtree&&target.contains&&target.contains(node));
-    }
-    function accepts(sub,record){
-      const o=sub.options||{};
-      if(!inside(sub.target,record.target,!!o.subtree))return false;
-      if(record.type==='childList')return !!o.childList;
-      if(record.type==='attributes'){
-        if(!o.attributes)return false;
-        return !o.attributeFilter||o.attributeFilter.includes(record.attributeName);
-      }
-      if(record.type==='characterData')return !!o.characterData;
-      return false;
-    }
-    function flush(){
-      frame=0;if(!pending.length)return;flushes++;
-      const records=pending.splice(0);recordCount+=records.length;
-      for(const sub of Array.from(subscriptions)){
-        if(!sub.active||!sub.target||sub.delivery==='immediate')continue;
-        const filtered=records.filter(record=>accepts(sub,record));
-        if(!filtered.length)continue;deliveries++;
-        try{sub.callback(filtered,sub.api)}catch(error){console.warn('COMFIER shared mutation subscriber',error)}
-      }
-    }
-    function schedule(){if(frame)return;frame=requestAnimationFrame(flush)}
-    const native=new NativeMutationObserver(records=>{
-      nativeCallbacks++;
-      // Critical ownership subscribers can reconcile in the observer microtask,
-      // before the browser gets a chance to paint a transient stock/dual-rail state.
-      for(const sub of Array.from(subscriptions)){
-        if(!sub.active||!sub.target||sub.delivery!=='immediate')continue;
-        const filtered=records.filter(record=>accepts(sub,record));
-        if(!filtered.length)continue;deliveries++;
-        try{sub.callback(filtered,sub.api)}catch(error){console.warn('COMFIER immediate mutation subscriber',error)}
-      }
-      pending.push(...records);schedule();
-    });
-    native.observe(document.documentElement,{subtree:true,childList:true,attributes:true,characterData:true});
-    function create(callback,delivery='frame'){
-      const sub={callback,target:null,options:null,active:false,api:null,delivery:delivery==='immediate'?'immediate':'frame'};
-      const api={
-        observe(target,options){sub.target=target;sub.options=options||{};if(!sub.active){sub.active=true;subscriptions.add(sub)}},
-        disconnect(){sub.active=false;subscriptions.delete(sub);sub.target=null;sub.options=null},
-        takeRecords(){return []}
-      };
-      sub.api=api;return api;
-    }
-    window.__comfierMutations=Object.freeze({
-      create,
-      snapshot(){return{nativeObservers:1,subscriptions:subscriptions.size,nativeCallbacks,flushes,deliveries,records:recordCount,pending:pending.length}},
-      flush
-    });
-  }
   const jobs = new Map(), overlays = new Map(), stats = Object.create(null);
   const frameJobs = new Map(), scopes = new Map();
   let uiFrame = 0, measurements = null;
@@ -97,7 +34,7 @@
     count(name+'.reads');const rect=el.getBoundingClientRect();measurements?.set(el,rect);return rect;
   }
   function writeStyle(el,name,value,owner='layout',priority='important'){
-    if(!el||el.style.getPropertyValue(name)===value&&el.style.getPropertyPriority(name)===priority)return;
+    if(!el||window.__comfierUiAuthority&&!window.__comfierUiAuthority.canWrite(el,owner,name)||el.style.getPropertyValue(name)===value&&el.style.getPropertyPriority(name)===priority)return;
     el.style.setProperty(name,value,priority);count(owner+'.writes');measurements?.delete(el);
   }
   function scope(owner){
@@ -111,7 +48,7 @@
       burst(name,fn,delays){if(!alive)return;for(const id of Array.from(keys))if(id.startsWith(key(name)+':')){cancel(id);keys.delete(id)}delays.forEach((delay,index)=>api.later(name+':'+index,fn,delay))},
       own(fn){if(alive)cleanup.push(fn);else fn();return fn},
       listen(target,type,fn,options){if(!target)return;const handler=(...args)=>{if(alive)fn(...args)};target.addEventListener(type,handler,options);api.own(()=>target.removeEventListener(type,handler,options));return handler},
-      observe(target,options,fn){const observer=(window.__comfierMutations?.create||((cb)=>new NativeMutationObserver(cb)))(records=>{if(alive)fn(records)});observer.observe(target,options);api.own(()=>observer.disconnect());return observer},
+      observe(target,options,fn){const observer=window.__comfierMutations.create(records=>{if(alive)fn(records)});observer.observe(target,options);api.own(()=>observer.disconnect());return observer},
       dispose(){if(!alive)return;alive=false;keys.forEach(cancel);keys.clear();cleanup.splice(0).reverse().forEach(fn=>{try{fn()}catch(_){}});if(scopes.get(owner)===api)scopes.delete(owner)}
     };scopes.set(owner,api);return api;
   }
@@ -273,7 +210,7 @@
 (function(){
   'use strict';if(window.__comfierSettingsRows)return;
   const entries=new Map();let host=null,unwatch=null;
-  const order={'.ui-native-side-row':9,'.ui-companion-display-row':5,'.ui-node-move-row':6,'.ui-auto-reconnect-row':7,'.ui-generation-notifications-row':8,'.ui-diagnostics-row':10,'.ui-theme-launch-row':11,'.ui-accent-row':12,'.ui-font-row':13,'.ui-disconnect':14,'.ui-hard-refresh':15,'.ui-app-version':16,'.ui-companion-version':17};
+  const order={'.ui-native-side-row':8,'.ui-node-move-row':5,'.ui-auto-reconnect-row':6,'.ui-generation-notifications-row':7,'.ui-theme-launch-row':9,'.ui-accent-row':10,'.ui-font-row':11,'.ui-disconnect':12,'.ui-hard-refresh':13,'.ui-app-version':14,'.ui-companion-version':15};
   function ensure(){
     if(!document.getElementById('comfier-settings-rows-style')){const style=document.createElement('style');style.id='comfier-settings-rows-style';style.textContent=Object.entries(order).map(([selector,row])=>'#comfier-ui-zoom-test .ui-zoom-panel>'+selector+'{grid-column:1/-1!important;grid-row:'+row+'!important;min-width:0;box-sizing:border-box}').join('\n');document.head.appendChild(style)}
     if(!unwatch)unwatch=window.__comfierDocument.subscribe('settings-rows','settingsHost',next=>{host=next;if(host)for(const entry of entries.values())entry.mount(host.closest('#comfier-ui-zoom-test'))});
@@ -285,22 +222,38 @@
 (function(){
   'use strict';
   if(window.__comfierLayers)return;
-  const ranks=Object.freeze({handles:10,move:11,marker:12,sidebar:100,workspace:200,runMenu:220,bottom:400,side:500,menu:600,submenu:650,popup:700,prompt:800,diagnosticHighlight:900,diagnostics:910});
+  // The connected landscape rail receives a view-scoped rank above the
+  // workspace; floating rails keep the normal bounded sidebar rank.
+  const ranks=Object.freeze({handles:10,move:11,marker:12,workspace:200,runMenu:220,sidebar:250,bottom:400,side:500,menu:600,submenu:650,popup:700,prompt:800});
   const style=document.createElement('style');style.id='comfier-layer-contract';
   style.textContent=':root{'+Object.entries(ranks).map(([key,value])=>'--comfier-z-'+key.replace(/[A-Z]/g,c=>'-'+c.toLowerCase())+':'+value).join(';')+'}'+`
 html body [data-testid="action-bar-card"],html body [data-testid="canvas-menu"],html body [role="toolbar"][aria-label="Canvas Toolbar"],html body [data-testid="view-mode-toggle"],html body .comfier-early-queue-dock,html body .comfier-workflow-floating-dock{z-index:var(--comfier-z-workspace)!important}
 html body nav.side-tool-bar-container{z-index:var(--comfier-z-sidebar)!important}
 /* Shared layout containers must not rank every descendant as one panel. */
 html body .comfier-early-panel-layer,html body .comfier-early-side-panel-layer,html body .comfier-early-bottom-panel-layer{z-index:auto!important;isolation:auto!important}
+/* UFU64: shared graph hosts stay rank-neutral in every viewport. */
+html body rgthree-progress-bar{z-index:var(--comfier-z-workspace)!important}
 html body .node-search-box-dialog-mask{z-index:var(--comfier-z-side)!important}
 html body .comfier-early-floating-bottom{z-index:var(--comfier-z-bottom)!important}
 html body #comfier-prompt-popup{z-index:var(--comfier-z-prompt)!important}
-html body #comfier-diagnostics-highlight{z-index:var(--comfier-z-diagnostic-highlight)!important}
-html body #comfier-diagnostics-root{z-index:var(--comfier-z-diagnostics)!important}
 `;
   (document.head||document.documentElement).appendChild(style);
   function rank(el){let result=0;for(let p=el;p&&p!==document.documentElement;p=p.parentElement){const n=parseFloat(getComputedStyle(p).zIndex);if(Number.isFinite(n))result=Math.max(result,n)}return result}
-  function context(el){const list=[];for(let p=el;p&&p!==document.documentElement;p=p.parentElement){const s=getComputedStyle(p);if((s.zIndex&&s.zIndex!=='auto')||(s.transform&&s.transform!=='none')||s.isolation==='isolate'||Number(s.opacity)<1)list.unshift(p)}return list}
+  function contextReasons(el,s=getComputedStyle(el)){
+    const reasons=[];const nonempty=v=>!!v&&v!=='none'&&v!=='normal';
+    if(s.zIndex&&s.zIndex!=='auto')reasons.push('z-index');
+    if(s.position==='fixed'||s.position==='sticky')reasons.push(s.position);
+    for(const key of ['transform','translate','rotate','scale','perspective','filter','backdropFilter'])if(nonempty(s[key]))reasons.push(key);
+    if(s.isolation==='isolate')reasons.push('isolation');if(s.opacity!==''&&Number(s.opacity)<1)reasons.push('opacity');
+    if(nonempty(s.mixBlendMode))reasons.push('mix-blend-mode');
+    if(/layout|paint|strict|content/.test(s.contain||''))reasons.push('contain');
+    if(s.containerType&&s.containerType!=='normal')reasons.push('container-type');
+    if(/transform|opacity|filter|perspective|contain/.test(s.willChange||''))reasons.push('will-change');
+    try{if(el.matches(':modal,:popover-open'))reasons.push('browser-top-layer')}catch(_){}
+    return reasons;
+  }
+  function context(el){const list=[];for(let p=el;p&&p!==document.documentElement;p=p.parentElement)if(contextReasons(p).length)list.unshift(p);return list}
+  function describe(el){const chain=[];for(let p=el;p;p=p.parentElement){const s=getComputedStyle(p);chain.push({tag:p.tagName,id:p.id||'',className:typeof p.className==='string'?p.className:'',position:s.position,zIndex:s.zIndex,reasons:contextReasons(p,s),transform:s.transform,translate:s.translate,rotate:s.rotate,scale:s.scale,filter:s.filter,backdropFilter:s.backdropFilter,contain:s.contain,containerType:s.containerType,isolation:s.isolation,opacity:s.opacity,willChange:s.willChange,overflow:s.overflow,overflowX:s.overflowX,overflowY:s.overflowY,clip:s.clip,clipPath:s.clipPath,pointerEvents:s.pointerEvents})}return chain}
   function compare(a,b){if(a===b)return 0;const ac=context(a),bc=context(b);let i=0;while(i<ac.length&&i<bc.length&&ac[i]===bc[i])i++;const az=parseFloat(getComputedStyle(ac[i]||a).zIndex)||0,bz=parseFloat(getComputedStyle(bc[i]||b).zIndex)||0;if(az!==bz)return az-bz;return a.compareDocumentPosition?.(b)&4?-1:1}
-  window.__comfierLayers={ranks,rank,compare,context};
+  window.__comfierLayers={ranks,rank,compare,context,describe};
 })();

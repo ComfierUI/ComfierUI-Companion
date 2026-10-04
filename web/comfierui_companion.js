@@ -2,7 +2,7 @@ import { app } from "../../../scripts/app.js";
 import { api } from "../../../scripts/api.js";
 
 const ROUTE = "/comfierui/model-download";
-const VERSION = "0.4.4";
+const VERSION = "0.4.28";
 
 async function listThemes() {
   const response=await api.fetchApi('/comfierui/themes',{cache:'no-store'});
@@ -31,14 +31,28 @@ async function downloadModelOnHost(url, name, directory) {
 }
 
 
-async function prepareDisplayRuntime() {
-  const module = await import("/comfierui/display-assets/comfierui_display_runtime.js?v=0.4.4");
-  return module.prepare();
+let uiRevision,revisionRequest;
+async function activeRevision(){
+  if(window.__comfierUiBundleSync)await window.__comfierUiBundleSync;
+  if(!revisionRequest)revisionRequest=(async()=>{const r=await api.fetchApi('/comfierui/ui-bundle',{cache:'no-store'});if(!r.ok)throw Error('UI bundle status unavailable');const s=await r.json();uiRevision=s.active;return uiRevision})();
+  return revisionRequest;
 }
-
+async function recoverUiBundle(error){
+  const guard='comfier.ui.bundle.rollback';
+  if(uiRevision&&sessionStorage.getItem(guard)!==uiRevision.revision){
+    const r=await api.fetchApi('/comfierui/ui-bundle',{cache:'no-store'}),s=await r.json();
+    if(s.previous&&s.active.revision===uiRevision.revision){
+      const rolled=await api.fetchApi('/comfierui/ui-bundle',{method:'POST',headers:{'Content-Type':'application/json','X-Comfier-UI-Token':s.token},body:JSON.stringify({rollback:uiRevision.revision})});
+      if(rolled.ok){sessionStorage.setItem(guard,uiRevision.revision);location.reload();return new Promise(()=>{});}
+    }
+  }
+  throw error;
+}
+async function prepareDisplayRuntime() {
+  try{const revision=await activeRevision();const module=await import('/comfierui/display-assets/revisions/'+revision.revision+'/comfierui_display_runtime.js');return await module.prepare();}catch(error){return recoverUiBundle(error);}
+}
 async function installDisplayBundle() {
-  const module = await import("/comfierui/display-assets/comfierui_display_bundle.js?v=0.4.4");
-  return module.install();
+  try{const revision=await activeRevision();const module=await import('/comfierui/display-assets/revisions/'+revision.revision+'/comfierui_display_bundle.js');const result=await module.install();window.__comfierActiveUiBundle=revision;return result;}catch(error){return recoverUiBundle(error);}
 }
 
 function installHostDownloadBridge() {

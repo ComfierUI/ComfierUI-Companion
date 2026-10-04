@@ -7,11 +7,16 @@
   function closeLogs(){const panel=Array.from(document.querySelectorAll('div.p-splitterpanel.bottom-panel,.bottom-panel,.comfier-early-floating-bottom')).find(el=>el.id!=='comfier-downloads-bottom-panel'&&visible(el));if(!panel)return false;const remembered=window.__comfyRemoteV0712LogsButton,button=remembered?.isConnected&&isLogsButton(remembered)?remembered:Array.from(document.querySelectorAll('.side-bar-button,button,[role="button"]')).reverse().find(isLogsButton);if(!button)return false;button.click();return true;}
   document.addEventListener('click',function(event){const button=event.target?.closest?.('button,[role="button"]');if(button&&isLogsButton(button))window.__comfierDownloads?.closeIfOpen?.();},true);
   back.register('node-search',20,()=>window.__comfierNodeSearchShell?.handleBack?.()||false);
+  back.register('owned-panel-preview',48,()=>window.__comfierFeedPanel?.closePreview?.()||false);
+  back.register('owned-side-panel-stack',49,()=>!window.__comfierSidePanels&&window.__comfierEarlyFloatingPanels?.closeOwnedStack?.()||false);
+  back.register('owned-panel-page-preview',105,()=>window.__comfierFeedPanel?.closePreview?.()||false);
+  back.register('owned-side-panel-page-stack',110,()=>!window.__comfierSidePanels&&window.__comfierEarlyFloatingPanels?.closeOwnedStack?.()||false);
   back.register('media',50,()=>window.__comfierMediaAssetsBack?.handleBack?.()||false);
-  back.register('app-settings',60,()=>window.__comfierSidebarBootstrap?.closeIfOpen?.()||false);
-  back.register('comfy-settings',120,()=>window.__comfierNativeSettingsSidebar?.closeIfOpen?.()||false);
-  back.register('templates',130,()=>window.__comfierTemplatesSidebar?.closeIfOpen?.()||false);
-  back.register('floating-panels',140,()=>window.__comfierEarlyFloatingPanels?.close?.()||false);
+  back.register('app-settings',60,()=>!window.__comfierSidePanels&&window.__comfierSidebarBootstrap?.closeIfOpen?.()||false);
+  back.register('comfy-settings',120,()=>!window.__comfierSidePanels&&window.__comfierNativeSettingsSidebar?.closeIfOpen?.()||false);
+  back.register('templates',130,()=>!window.__comfierSidePanels&&window.__comfierTemplatesSidebar?.closeIfOpen?.()||false);
+  back.register('floating-panels',140,()=>!window.__comfierSidePanels&&window.__comfierEarlyFloatingPanels?.close?.()||false);
   back.register('downloads',150,()=>window.__comfierDownloads?.closeIfOpen?.()||false);
   back.register('logs',160,closeLogs);
+  back.register('lora-context',180,()=>{const menu=document.querySelector('.lm-lora-context-menu');if(!menu)return false;menu.remove();return true;});
 })();

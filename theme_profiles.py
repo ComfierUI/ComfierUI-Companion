@@ -45,7 +45,15 @@ def list_profiles():
             if total + len(raw) > MAX_TOTAL_BYTES or len(profiles) >= 256:
                 break
             total += len(raw)
-            profiles.append({'schemaVersion': 1, 'name': name[:80], 'colors': colors, 'transparency': alpha})
+            profile = {'schemaVersion': 1, 'name': name[:80], 'colors': colors, 'transparency': alpha}
+            if isinstance(data.get('layout'), dict):
+                profile['layout'] = data['layout']
+            for field in ('appearance', 'dimensions'):
+                if field in data:
+                    if not isinstance(data[field], dict):
+                        raise ValueError(f'{field} must be an object')
+                    profile[field] = data[field]
+            profiles.append(profile)
         except (OSError, ValueError, UnicodeError) as error:
             logging.getLogger('ComfierUI-Companion').warning('Skipping theme %s: %s', path.name, error)
     return profiles

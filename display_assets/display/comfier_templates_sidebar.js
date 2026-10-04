@@ -17,7 +17,7 @@ ${NATIVE_BUTTON}{display:none!important}
 .${PANEL_CLASS} .grid.size-full{width:100%!important;height:100%!important;min-width:0!important;min-height:0!important}`;(document.head||document.documentElement).appendChild(style);
   function visible(el){if(!el?.isConnected)return false;const r=el.getBoundingClientRect(),s=getComputedStyle(el);return r.width>1&&r.height>1&&s.display!=='none'&&s.visibility!=='hidden'}
   const native=window.__comfierUi.nativeTab({
-    id:TAB_ID,name:'WorkflowTemplateSelectorDialog',dialog:DIALOG,bootstrapClass:'comfier-templates-bootstrap',
+    id:TAB_ID,name:'WorkflowTemplateSelectorDialog',dialogKey:'global-workflow-template-selector',dialog:DIALOG,bootstrapClass:'comfier-templates-bootstrap',
     trigger:()=>document.querySelector(NATIVE_BUTTON),
     tab:{icon:'icon-[lucide--layout-template]',title:'Templates',tooltip:'Templates',label:'Templates'},ready:schedule
   });
@@ -34,6 +34,7 @@ ${NATIVE_BUTTON}{display:none!important}
   }
   function close(){const closed=native.close();if(closed)schedule();return closed}
   function reconcile(){if(stopped)return;if(!native.ensure())return;{orderButton();if(markPanel())window.__comfierEarlyFloatingPanels?.refresh?.()}}function schedule(){if(!stopped)jobs.frame('reconcile',reconcile)}
-  observer=window.__comfierMutations.create(records=>{if(!native.registered()||window.__comfierUi.affected(records,DIALOG+',.side-bar-button,.side-bar-panel,.p-splitterpanel,[role="complementary"]'))schedule()});observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['data-state','aria-expanded','aria-selected']});document.addEventListener('click',schedule,true);window.addEventListener('resize',schedule,{passive:true});window.addEventListener('orientationchange',schedule,{passive:true});jobs.burst('startup',schedule,[0,60,180,500,1200]);
-  window.__comfierTemplatesSidebar={closeIfOpen:close,refresh:schedule,remove(){if(stopped)return;stopped=true;jobs.dispose();native.remove();observer?.disconnect();document.removeEventListener('click',schedule,true);window.removeEventListener('resize',schedule);window.removeEventListener('orientationchange',schedule);document.querySelectorAll('.'+PANEL_CLASS).forEach(el=>el.classList.remove(PANEL_CLASS));style.remove();delete window.__comfierTemplatesSidebar}};
+  function interaction(event){const button=event.target?.closest?.('button,[role="button"]');if(!native.registered()||button&&(button===tabButton()||button===document.querySelector(NATIVE_BUTTON))||event.target?.closest?.('.'+PANEL_CLASS))schedule()}
+  observer=window.__comfierMutations.create(records=>{if(!native.registered()||window.__comfierUi.affected(records,DIALOG+',.side-bar-button,.side-bar-panel,.p-splitterpanel,[role="complementary"]'))schedule()});observer.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['data-state','aria-expanded','aria-selected']});document.addEventListener('click',interaction,true);window.addEventListener('resize',schedule,{passive:true});window.addEventListener('orientationchange',schedule,{passive:true});jobs.burst('startup',schedule,[0,60,180,500,1200]);
+  window.__comfierTemplatesSidebar={closeIfOpen:close,refresh:schedule,remove(){if(stopped)return;stopped=true;jobs.dispose();native.remove();observer?.disconnect();document.removeEventListener('click',interaction,true);window.removeEventListener('resize',schedule);window.removeEventListener('orientationchange',schedule);document.querySelectorAll('.'+PANEL_CLASS).forEach(el=>el.classList.remove(PANEL_CLASS));style.remove();delete window.__comfierTemplatesSidebar}};
 })();

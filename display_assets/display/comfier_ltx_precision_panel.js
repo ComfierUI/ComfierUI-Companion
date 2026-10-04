@@ -50,9 +50,10 @@
 `;(document.head||document.documentElement).appendChild(style);
   function isOpen(){return!!current?.panel?.isConnected}
   function closeIfOpen(){return isOpen()?!!window.__comfierCloseLtxPrecision?.():false}
-  function mount(state){
-    window.__comfierLoraPanel?.closeIfOpen?.();window.__comfierExtensionsPanel?.closeIfOpen?.();
-    const store=binding?.refresh?.();if(store?.isOpen)store.closePanel?.();
+  function mount(state){if(window.__comfierSidePanels&&!window.__comfierSidePanels.operating('ltx'))return window.__comfierSidePanels.open('ltx',window.__comfierSidePanels.trigger(),()=>mount(state));
+    if(!window.__comfierSidePanels){window.__comfierFeedPanel?.closeIfOpen?.();window.__comfierAppsPanel?.closeIfOpen?.();}
+    if(!window.__comfierSidePanels){window.__comfierLoraPanel?.closeIfOpen?.();window.__comfierExtensionsPanel?.closeIfOpen?.();}
+    const store=binding?.refresh?.();if(!window.__comfierSidePanels&&store?.isOpen)store.closePanel?.();
     const panel=document.createElement('section');panel.id=ID;panel.className='comfier-early-floating-panel comfier-early-floating-right';panel.setAttribute('aria-label','LTX Director Precision');
     const scroll=document.createElement('div');scroll.className='comfier-ltx-panel-scroll';
     state.precisionHome={parent:state.wrapper.parentElement,next:state.wrapper.nextSibling,host:state.host};
@@ -73,7 +74,7 @@
     document.documentElement.style.removeProperty('--comfier-ltx-panel-z');
     window.__comfierEarlyFloatingPanels?.refresh?.();if(home?.parent?.isConnected){try{state.editor?.render?.()}catch(_){}}
   }
-  const binding=window.__comfierUi?.watchStore?.('rightSidePanel',store=>{if(store?.isOpen)closeIfOpen()});
+  const binding=window.__comfierUi?.watchStore?.('rightSidePanel',store=>{if(!window.__comfierSidePanels&&store?.isOpen)closeIfOpen()});
   jobs.own(()=>binding?.remove());
   jobs.observe(document.body,{childList:true,subtree:true},()=>{if(current&&!current.precisionHome?.parent?.isConnected)closeIfOpen()});
   window.__comfierLtxPanel={mount,release,isOpen,closeIfOpen,surface:()=>current?.panel||null,setStack(value){if(value===null)document.documentElement.style.removeProperty('--comfier-ltx-panel-z');else document.documentElement.style.setProperty('--comfier-ltx-panel-z',String(value))},remove(){closeIfOpen();jobs.dispose();style.remove();delete window.__comfierLtxPanel}};

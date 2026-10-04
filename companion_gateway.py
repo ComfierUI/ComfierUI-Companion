@@ -4,6 +4,8 @@ import asyncio
 import logging
 import time
 from dataclasses import dataclass
+from collections import OrderedDict
+from contextlib import asynccontextmanager
 
 import aiohttp
 from aiohttp import web
@@ -16,7 +18,7 @@ LOG = logging.getLogger("ComfierUI-Companion")
 GATEWAY_HOST = "0.0.0.0"
 GATEWAY_PORT = 8147
 BACKEND = "http://127.0.0.1:8188"
-DISPLAY_TEST_VERSION = "0.4.4"
+DISPLAY_TEST_VERSION = "0.4.28"
 _registered = False
 _runner = None
 
@@ -25,8 +27,12 @@ _runner = None
 # not repeatedly trigger expensive inventory generation/transfer work.
 DATA_CACHE_MAX_ITEM_BYTES = 128 * 1024 * 1024
 DATA_CACHE_DEFAULT_TTL = 60.0
-_data_cache: dict[str, "_CacheEntry"] = {}
-_data_cache_locks: dict[str, asyncio.Lock] = {}
+DATA_CACHE_MAX_BYTES = 192 * 1024 * 1024
+DATA_CACHE_MAX_ENTRIES = 128
+_data_cache = OrderedDict()
+_data_cache_stripes = [asyncio.Lock() for _ in range(64)]
+_sessions = {}
+_cache_epoch = 0
 _data_cache_stats = {"hits": 0, "misses": 0, "stores": 0, "bypasses": 0, "prewarmed": 0}
 
 
@@ -61,8 +67,44 @@ def _data_cache_ttl(path: str) -> float | None:
 
 
 def _data_cache_key(request: web.Request) -> str:
+    path = request.rel_url.raw_path
+    path = path[4:] if path.startswith('/api/') else path
     raw_query = request.rel_url.raw_query_string
-    return request.rel_url.raw_path + (f"?{raw_query}" if raw_query else "")
+    return path + (f"?{raw_query}" if raw_query else "")
+
+
+def _store_cache(key, entry):
+    for old, value in list(_data_cache.items()):
+        if not value.fresh: _data_cache.pop(old, None)
+    _data_cache.pop(key, None)
+    if len(entry.body) > min(DATA_CACHE_MAX_ITEM_BYTES, DATA_CACHE_MAX_BYTES): return
+    while _data_cache and (len(_data_cache) >= DATA_CACHE_MAX_ENTRIES or sum(len(v.body) for v in _data_cache.values()) + len(entry.body) > DATA_CACHE_MAX_BYTES):
+        _data_cache.popitem(last=False)
+    _data_cache[key] = entry
+
+
+@asynccontextmanager
+async def _session(auto_decompress=False):
+    key = (asyncio.get_running_loop(), auto_decompress)
+    session = _sessions.get(key)
+    if session is None or session.closed:
+        session = aiohttp.ClientSession(auto_decompress=auto_decompress, timeout=aiohttp.ClientTimeout(total=None, connect=10, sock_read=180), connector=aiohttp.TCPConnector(limit=32), cookie_jar=aiohttp.DummyCookieJar())
+        _sessions[key] = session
+    yield session
+
+
+async def _cleanup_sessions(application):
+    if application is not None:
+        task = application.get('comfier_prewarm')
+        if task:
+            task.cancel()
+            try: await task
+            except asyncio.CancelledError: pass
+    loop = asyncio.get_running_loop()
+    for key, session in list(_sessions.items()):
+        if key[0] is loop:
+            await session.close()
+            _sessions.pop(key, None)
 
 
 def _cache_headers(entry: _CacheEntry, state: str) -> dict[str, str]:
@@ -75,6 +117,8 @@ def _cache_headers(entry: _CacheEntry, state: str) -> dict[str, str]:
 
 
 def invalidate_data_cache(prefix: str | None = None) -> None:
+    global _cache_epoch
+    _cache_epoch += 1
     if prefix is None:
         _data_cache.clear()
         return
@@ -133,7 +177,7 @@ def _backend_url(request: web.Request) -> URL:
 
 
 def _preprocess_html(payload: bytes) -> bytes:
-    """Stamp/preload Companion display mode before the document reaches WebView."""
+    """Stamp/preload Companion Pre-Processor before the document reaches WebView."""
     try:
         html = payload.decode("utf-8")
     except UnicodeDecodeError:
@@ -206,7 +250,7 @@ async def _fetch_cacheable(request: web.Request, target: URL, headers: dict[str,
         _data_cache_stats["hits"] += 1
         return web.Response(body=entry.body, status=200, headers=_cache_headers(entry, "HIT"))
 
-    lock = _data_cache_locks.setdefault(key, asyncio.Lock())
+    lock = _data_cache_stripes[hash(key) % len(_data_cache_stripes)]
     async with lock:
         entry = _data_cache.get(key)
         if entry is not None and entry.fresh:
@@ -214,15 +258,16 @@ async def _fetch_cacheable(request: web.Request, target: URL, headers: dict[str,
             return web.Response(body=entry.body, status=200, headers=_cache_headers(entry, "HIT-AFTER-WAIT"))
 
         _data_cache_stats["misses"] += 1
+        generation = _cache_epoch
         cache_headers = dict(headers)
         cache_headers["Accept-Encoding"] = "identity"
-        async with aiohttp.ClientSession(auto_decompress=True) as session:
-            async with session.get(target, headers=cache_headers, allow_redirects=False) as upstream:
+        async with _session(auto_decompress=True) as session:
+            async with session.get(target, headers=cache_headers, allow_redirects=False, timeout=aiohttp.ClientTimeout(total=15)) as upstream:
                 payload = await upstream.read()
                 content_type = upstream.headers.get("Content-Type", "application/json")
-                if upstream.status == 200 and len(payload) <= DATA_CACHE_MAX_ITEM_BYTES:
+                if upstream.status == 200 and len(payload) <= DATA_CACHE_MAX_ITEM_BYTES and not any(x in upstream.headers.get("Cache-Control", "").lower() for x in ("no-store", "no-cache", "private")):
                     entry = _CacheEntry(payload, content_type, time.monotonic(), ttl)
-                    _data_cache[key] = entry
+                    if generation == _cache_epoch: _store_cache(key, entry)
                     _data_cache_stats["stores"] += 1
                     return web.Response(
                         body=payload,
@@ -241,25 +286,32 @@ async def _fetch_cacheable(request: web.Request, target: URL, headers: dict[str,
 
 
 async def _prewarm_one(path: str, ttl: float) -> None:
+    async with _data_cache_stripes[hash(path) % len(_data_cache_stripes)]:
+        await _prewarm_locked(path, ttl)
+
+
+async def _prewarm_locked(path: str, ttl: float) -> None:
     key = path
     entry = _data_cache.get(key)
     if entry is not None and entry.fresh:
         return
+    generation = _cache_epoch
     try:
         headers = {"Accept": "application/json", "Accept-Encoding": "identity"}
-        async with aiohttp.ClientSession(auto_decompress=True) as session:
-            async with session.get(BACKEND + path, headers=headers) as response:
+        async with _session(auto_decompress=True) as session:
+            async with session.get(BACKEND + path, headers=headers, timeout=aiohttp.ClientTimeout(total=15)) as response:
                 if response.status != 200:
                     return
                 payload = await response.read()
                 if len(payload) > DATA_CACHE_MAX_ITEM_BYTES:
                     return
-                _data_cache[key] = _CacheEntry(
+                if generation != _cache_epoch: return
+                _store_cache(key, _CacheEntry(
                     payload, response.headers.get("Content-Type", "application/json"), time.monotonic(), ttl
-                )
+                ))
                 _data_cache_stats["stores"] += 1
                 _data_cache_stats["prewarmed"] += 1
-    except (aiohttp.ClientError, OSError):
+    except (aiohttp.ClientError, OSError, asyncio.TimeoutError):
         return
 
 
@@ -267,10 +319,8 @@ async def _prewarm_data_cache() -> None:
     # Let Comfy finish startup first. This runs entirely on the host and never
     # blocks the gateway from accepting the Android/Web browser connection.
     await asyncio.sleep(1.0)
-    for path in ("/features", "/models", "/embeddings", "/object_info"):
-        ttl = _data_cache_ttl(path)
-        if ttl is not None:
-            await _prewarm_one(path, ttl)
+    paths = ("/features", "/models", "/embeddings", "/object_info")
+    await asyncio.gather(*(_prewarm_one(path, _data_cache_ttl(path)) for path in paths))
 
     # Stage 3: build the model metadata catalog on the host before a weak
     # client opens model-heavy UI.  The root /models inventory is already hot;
@@ -278,11 +328,13 @@ async def _prewarm_data_cache() -> None:
     # client-driven enumeration.
     folders = _cached_json('/models')
     if isinstance(folders, list):
-        for folder in folders:
-            path = '/models/' + str(folder)
-            ttl = _data_cache_ttl(path)
-            if ttl is not None:
-                await _prewarm_one(path, ttl)
+        semaphore = asyncio.Semaphore(4)
+        async def warm_folder(folder):
+            async with semaphore:
+                path = '/models/' + str(folder)
+                ttl = _data_cache_ttl(path)
+                if ttl is not None: await _prewarm_one(path, ttl)
+        await asyncio.gather(*(warm_folder(folder) for folder in folders))
 
 
 
@@ -417,7 +469,7 @@ async def _relay_http(request: web.Request) -> web.StreamResponse:
 
     target = _backend_url(request)
     headers = _backend_request_headers(request.headers)
-    if request.method == "GET":
+    if request.method == "GET" and not any(request.headers.get(h) for h in ("Authorization", "Range", "Cache-Control")):
         ttl = _data_cache_ttl(request.path)
         if ttl is not None:
             return await _fetch_cacheable(request, target, headers, ttl)
@@ -426,7 +478,7 @@ async def _relay_http(request: web.Request) -> web.StreamResponse:
     # bodyless GET; forwarding an empty async iterator changes its wire shape
     # and can make those routes fail in WebView clients.
     body = await request.read() if request.can_read_body else None
-    async with aiohttp.ClientSession(auto_decompress=False) as session:
+    async with _session(auto_decompress=False) as session:
         try:
             async with session.request(
                 request.method,
@@ -467,6 +519,7 @@ async def _relay_http(request: web.Request) -> web.StreamResponse:
 async def _start_gateway() -> None:
     global _runner
     application = web.Application(client_max_size=MAX_REQUEST_BYTES)
+    application.on_cleanup.append(_cleanup_sessions)
     application.router.add_route("*", "/{path:.*}", _relay_http)
     runner = web.AppRunner(application, access_log=None)
     await runner.setup()
@@ -477,7 +530,7 @@ async def _start_gateway() -> None:
         LOG.error("LAN gateway could not bind %s:%d: %s", GATEWAY_HOST, GATEWAY_PORT, error)
         return
     _runner = runner
-    asyncio.create_task(_prewarm_data_cache())
+    application["comfier_prewarm"] = asyncio.create_task(_prewarm_data_cache())
     LOG.warning(
         "Companion LAN gateway listening on http://%s:%d -> %s (trusted LAN/tailnet only)",
         GATEWAY_HOST,

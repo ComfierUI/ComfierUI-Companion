@@ -90,16 +90,20 @@
     'html.'+ROOT+' .'+LEFT+' .sidebar-content-container{touch-action:none!important;overscroll-behavior:contain!important}';
   (document.head||document.documentElement).appendChild(style);
 
-  var stopped=false,observer=null,lastSide=null,leftOwner=null,actionProxy=null,actionDock=null,actionSource=null,actionSurface=null,queueDock=null,queuePanel=null,queueHome=null,centeredCanvasMenu=null,canvasMenuInline=null;
+  var stopped=false,observer=null,lastSide=null,leftOwner=null,actionProxy=null,actionDock=null,actionSource=null,actionSurface=null,queueDock=null,queuePanel=null,queueHome=null;
   var bottomPanel=null,bottomHandle=null,bottomDrag=null,bottomHeight=null,bottomWasOpen=false;
   var scrollPanel=null,scrollTarget=null,scrollDrag=null,scrollMovedUntil=0;
   var staleQueues=new Set();
   var originalInsert=Node.prototype.insertBefore;
   var jobs=window.__comfierRuntime.scope('panels'),geometryActive=false;
-  var decorated=new Set(),hosts=new Set(),panelLayers=new Set();
+  window.__comfierUiAuthority?.registerPanelGeometry(document.documentElement);
+  function geometry(root,name,value){window.__comfierRuntime.writeStyle(root,name,value,'panels','')}
+
+  var decorated=new Set(),hosts=new Set(),panelLayers=new Set(),miniHost=null;
+  function miniPanelHost(){if(!miniHost?.isConnected){miniHost=document.createElement('div');miniHost.id='comfier-panel-controller-popups';miniHost.className='comfier-panel-controller-popup-host';miniHost.setAttribute('data-comfier-panel-controller-host','');document.body.appendChild(miniHost)}return miniHost}
   function visible(el){if(!el||!el.isConnected)return false;var s=getComputedStyle(el),r=logical(el.getBoundingClientRect());return s.display!=='none'&&s.visibility!=='hidden'&&r.width>1&&r.height>1}
   function findLeftScrollTarget(panel){
-    if(!panel)return null;
+    if(!panel||panel.querySelector('.ufu-inspector'))return null;
     if(panel.classList.contains('comfier-templates-native-panel')){var templateTarget=Array.from(panel.querySelectorAll('.scrollbar-custom')).filter(function(el){return visible(el)&&el.clientHeight>20&&el.scrollHeight>el.clientHeight+2}).sort(function(a,b){return(b.scrollHeight-b.clientHeight)-(a.scrollHeight-a.clientHeight)})[0];if(templateTarget)return templateTarget}
     var exact=panel.querySelector('.sidebar-content-container');
     if(exact&&exact.scrollHeight>exact.clientHeight+2)return exact;
@@ -121,7 +125,7 @@
   function bottomResizeMove(event){
     if(!bottomDrag||event.pointerId!==bottomDrag.id)return;var dy=event.clientY-bottomDrag.y;
     if(!bottomDrag.active){if(Math.abs(dy)<5)return;bottomDrag.active=true;try{bottomHandle.setPointerCapture(event.pointerId)}catch(_){}}
-    var minimum=Math.max(80,parseFloat(bottomPanel?.dataset?.comfierBottomMinHeight)||120),inset=parseFloat(document.documentElement.style.getPropertyValue('--cef-bottom-inset'))||4,max=Math.max(minimum,innerHeight-inset-48);bottomHeight=Math.max(minimum,Math.min(max,Math.round(bottomDrag.height-dy)));document.documentElement.style.setProperty('--cef-bottom-height',bottomHeight+'px');
+    var minimum=Math.max(80,parseFloat(bottomPanel?.dataset?.comfierBottomMinHeight)||120),inset=parseFloat(document.documentElement.style.getPropertyValue('--cef-bottom-inset'))||4,max=Math.max(minimum,innerHeight-inset-48);bottomHeight=Math.max(minimum,Math.min(max,Math.round(bottomDrag.height-dy)));geometry(document.documentElement,'--cef-bottom-height',bottomHeight+'px');
     if(event.cancelable)event.preventDefault();event.stopPropagation();
   }
   function bottomResizeEnd(event){if(!bottomDrag||event.pointerId!==bottomDrag.id)return;if(bottomDrag.active){if(event.cancelable)event.preventDefault();event.stopPropagation();try{bottomHandle.releasePointerCapture(event.pointerId)}catch(_){}}bottomDrag=null}
@@ -129,7 +133,7 @@
     var target=findLeftScrollTarget(panel);if(panel===scrollPanel&&target===scrollTarget)return;unbindLeftScroll();scrollPanel=panel;scrollTarget=target;if(!scrollPanel||!scrollTarget)return;
     scrollPanel.addEventListener('pointerdown',leftScrollDown,true);scrollPanel.addEventListener('pointermove',leftScrollMove,{capture:true,passive:false});scrollPanel.addEventListener('pointerup',leftScrollEnd,true);scrollPanel.addEventListener('pointercancel',leftScrollEnd,true);scrollPanel.addEventListener('click',blockLeftScrollClick,true);
   }
-  function leftScrollDown(event){if(!scrollTarget||event.isPrimary===false||event.pointerType==='mouse')return;scrollDrag={id:event.pointerId,x:event.clientX,y:event.clientY,top:scrollTarget.scrollTop,active:false}}
+  function leftScrollDown(event){if(event.target?.closest?.('.ufu-inspector'))return;if(!scrollTarget||event.isPrimary===false||event.pointerType==='mouse')return;scrollDrag={id:event.pointerId,x:event.clientX,y:event.clientY,top:scrollTarget.scrollTop,active:false}}
   function leftScrollMove(event){
     if(!scrollDrag||event.pointerId!==scrollDrag.id||!scrollTarget)return;var dx=event.clientX-scrollDrag.x,dy=event.clientY-scrollDrag.y;
     if(!scrollDrag.active){if(!window.__comfierUi.verticalDrag(dx,dy,7))return;scrollDrag.active=true;try{scrollPanel.setPointerCapture(event.pointerId)}catch(_){}}
@@ -137,26 +141,19 @@
   }
   function leftScrollEnd(event){if(!scrollDrag||event.pointerId!==scrollDrag.id)return;if(scrollDrag.active){scrollMovedUntil=performance.now()+350;if(event.cancelable)event.preventDefault();event.stopPropagation();try{scrollPanel.releasePointerCapture(event.pointerId)}catch(_){}}scrollDrag=null}
   function blockLeftScrollClick(event){window.__comfierUi.blockScrollClick(event,scrollMovedUntil)}
-  function outerDisplay(){return Math.min(screen.width,screen.height)<=520}
-  function outerPortrait(){return outerDisplay()&&innerHeight>innerWidth}
-  function outerLandscape(){return outerDisplay()&&innerWidth>innerHeight}
+  function outerDisplay(){if(window.__comfierViewport)return window.__comfierViewport.snapshot().outer;return Math.min(screen.width,screen.height)<=520}
+  function outerPortrait(){if(window.__comfierViewport)return window.__comfierViewport.mode()==='outerPortrait';return outerDisplay()&&innerHeight>innerWidth}
+  function outerLandscape(){if(window.__comfierViewport)return window.__comfierViewport.mode()==='outerLandscape';return outerDisplay()&&innerWidth>innerHeight}
   /* Every normalized parent has a 1.0 base and follows the active nested App
      Settings scaler without TB18's old per-toolbar reduction factors. */
-  function liveUiZoom(){var v=parseFloat(window.__comfierUiZoomValue)||1;return Math.max(.3,Math.min(2,v))}
-  function liveTopZoom(){return liveUiZoom()}
+  function liveUiZoom(){if(window.__comfierViewport)return window.__comfierViewport.scale();var v=parseFloat(window.__comfierUiZoomValue)||1;return Math.max(.3,Math.min(2,v))}
+  
   function railButtons(){return Array.from(document.querySelectorAll('.side-bar-button')).filter(function(button){if(!visible(button))return false;var r=logical(button.getBoundingClientRect());return r.left<40&&r.right<140})}
   function railRect(){return logical(window.__comfierUi.railBounds(140))}
-  function railContains(button){var unified=document.querySelector('.comfier-unified-floating-rail');return!!(unified?.contains(button)||railButtons().includes(button))}
-  function connectedSidebarRight(){
-    var canvas=document.getElementById('graph-canvas-container'),cr=logical(canvas?.getBoundingClientRect())||{left:0},edge=cr.left;
-    Array.from(document.querySelectorAll('.side-toolbar-container,.side-tool-bar-container')).forEach(function(rail){
-      if(!visible(rail)||rail.classList.contains('floating-sidebar')||rail.classList.contains('comfier-unified-floating-rail'))return;
-      var r=logical(rail.getBoundingClientRect());if(r.left<=cr.left+8&&r.width>=20&&r.width<220&&r.height>innerHeight*.35)edge=Math.max(edge,r.right);
-    });
-    return edge;
-  }
+  function railContains(button){if(window.__comfierConnectedSidebar?.root?.()?.contains(button))return true;var unified=document.querySelector('.comfier-unified-floating-rail');return!!(unified?.contains(button)||railButtons().includes(button))}
+  
   function propertiesButtons(){return Array.from(document.querySelectorAll('button[aria-label="Toggle properties panel"]')).filter(function(button){return!button.classList.contains(ACTION_PROXY)})}
-  function suppressPanelPropertiesButtons(){Array.from(document.querySelectorAll('[data-testid="properties-panel"] button[aria-label="Toggle properties panel"]')).forEach(function(button){button.classList.remove(ACTION_INTERNAL)})}
+  function suppressPanelPropertiesButtons(){Array.from(document.querySelectorAll('[data-testid="properties-panel"] button[aria-label="Toggle properties panel"]')).forEach(function(button){button.classList.add(ACTION_INTERNAL)})}
   function findActionSource(){
     var candidates=propertiesButtons().filter(function(button){return button.isConnected&&!button.closest('[data-testid="properties-panel"],.'+RIGHT)&&!!button.closest('[data-testid="action-bar-card"],.actionbar-container')});
     if(actionSource?.isConnected&&!actionSource.closest('.'+PANEL)&&!candidates.includes(actionSource))candidates.push(actionSource);
@@ -164,69 +161,22 @@
   }
   function currentPropertiesTarget(){return findActionSource()||propertiesButtons().find(function(button){return button.isConnected&&button.closest('.'+RIGHT)})||actionSource}
   function liveActionSurface(source){var nativeSurface=window.__comfierLayoutSide?.actionSurface?.();if(nativeSurface)return nativeSurface;var cards=Array.from(document.querySelectorAll('[data-testid="action-bar-card"]')).filter(function(card){return card.querySelector('.actionbar-container')&&!card.querySelector('[data-testid="queue-button"]')&&!card.closest('[data-testid="properties-panel"]')});if(cards.length)return cards.sort(function(a,b){var ar=logical(a.getBoundingClientRect()),br=logical(b.getBoundingClientRect());return ar.top-br.top||br.right-ar.right})[0];var card=source?.closest?.('[data-testid="action-bar-card"]');if(card&&!card.querySelector('[data-testid="queue-button"]'))return card;var container=source?.closest?.('.actionbar-container')||Array.from(document.querySelectorAll('.actionbar-container')).find(function(el){return!el.querySelector('[data-testid="queue-button"]')&&!el.closest('[data-testid="properties-panel"]')});return container?.parentElement||container||null}
-  function syncActionButton(){
-    window.__comfierLayoutSide?.pinActions?.();
-    var source=findActionSource();
-    if(source&&source!==actionSource){if(actionSource?.isConnected)actionSource.classList.remove(ACTION_SOURCE);actionSource=source;actionSurface=liveActionSurface(actionSource)}
-    if(actionSource){actionSource.classList.remove(ACTION_SOURCE,ACTION_INTERNAL)}
-    if(actionDock){actionDock.remove();actionDock=null}actionProxy=null;
-    if(!actionSurface?.isConnected)actionSurface=liveActionSurface(actionSource);
-    /* Preserve TB11's action-bar scaler only.  The native card keeps the
-       Properties control; no proxy, surface shift, or bottom-bar geometry is involved. */
-    // Leave the native action-bar card/container to its own custom flex rules.
-    // Floating-panel takeover does not need to rewrite its layout.
-    var topZoom=liveTopZoom();
-    var card=actionSource?.closest?.('[data-testid="action-bar-card"]'),extensions=document.querySelector('[data-testid="top-menu-actionbars"]>div:has(>button[aria-label="Manage extensions"])'),workflow=document.querySelector('[data-testid="view-mode-toggle"][role="group"][aria-label="Workflow actions"]');
-    [card,extensions,workflow].forEach(function(parent){if(parent)important(parent,'zoom',String(topZoom))});
-  }
-  function queueCandidates(){return Array.from(document.querySelectorAll('[data-testid="queue-button"]')).map(function(button){return button.closest('.actionbar')}).filter(function(panel,index,all){return panel&&all.indexOf(panel)===index})}
-  function findQueuePanel(){if(queuePanel?.isConnected)return queuePanel;return queueCandidates().find(function(panel){return!panel.classList.contains(QUEUE_STALE)})||null}
-  function suppressStaleQueues(){queueCandidates().forEach(function(panel){if(panel===queuePanel){panel.classList.remove(QUEUE_STALE);staleQueues.delete(panel)}else{panel.classList.add(QUEUE_STALE);staleQueues.add(panel)}})}
-  function important(el,name,value){if(window.__comfierLayoutSide){[name,value]=window.__comfierLayoutSide.property(name,value)}window.__comfierRuntime.writeStyle(el,name,value,'panels')}
-  function rootStyle(root,name,value){if(root.style.getPropertyValue(name)===value)return;root.style.setProperty(name,value)}
-  function addClass(el,...names){if(!el)return;names.forEach(function(name){if(name&&!el.classList.contains(name))el.classList.add(name)})}
+  function syncActionButton(){if(window.__comfierOwnedChromePending)return;window.__comfierLayoutSide?.pinActions?.();actionSurface=window.__comfierUiAuthority?.surface('action')||null;}
+  
+  
+  
+  function important(el,name,value){if(window.__comfierLayoutEditor?.owns(el))return;if(window.__comfierLayoutSide){[name,value]=window.__comfierLayoutSide.property(name,value)}window.__comfierRuntime.writeStyle(el,name,value,'panels')}
   // Graph Canvas Menu only. These are the 1.1.4-Dev rules, scoped to the
   // supplied graph-canvas-panel parent so no other toolbar can be affected.
-  function graphCanvasMenu(){return document.querySelector('.graph-canvas-panel > div.pointer-events-auto > span[role="toolbar"][aria-label="Canvas Toolbar"]')||document.querySelector('[role="toolbar"][aria-label="Canvas Toolbar"]')}
-  function restoreCanvasMenu(){
-    var menu=centeredCanvasMenu||graphCanvasMenu();if(!menu)return;
-    menu.classList.remove(CANVAS_CENTER);
-    var zoom=liveUiZoom();
-    important(menu,'left',((Math.ceil(connectedSidebarRight())+4)/zoom)+'px');important(menu,'right','auto');important(menu,'bottom',(4/zoom)+'px');important(menu,'zoom',String(zoom));important(menu,'transform','none');important(menu,'transform-origin','');important(menu,'top','auto');
-    centeredCanvasMenu=null;canvasMenuInline=null;
-  }
-  function centerCanvasMenu(queueBottom){
-    var menu=graphCanvasMenu();if(!menu)return;
-    centeredCanvasMenu=menu;
-    // Outer portrait retains its established geometry and uses the same 1.0-base scaler.
-    var outerScale=liveUiZoom();menu.classList.add(CANVAS_CENTER);important(menu,'position','fixed');important(menu,'left','var(--comfy-remote-outer-canvas-left)');important(menu,'right','auto');important(menu,'zoom','1');important(menu,'transform','translateX(-50%) scale('+outerScale+')');important(menu,'transform-origin','bottom center');important(menu,'top','auto');important(menu,'bottom',Math.round(queueBottom+4)+'px');
-  }
-  function queueShellReference(){return document.querySelector('[role="toolbar"][aria-label="Canvas Toolbar"]')||document.querySelector('[data-testid="action-bar-card"]')}
-  function shellQueue(panel){
-    var ref=queueShellReference(),cs=ref?getComputedStyle(ref):null;
-    important(queueDock,'background-color','var(--comfier-container-paint,'+(cs?.backgroundColor&&cs.backgroundColor!=='rgba(0, 0, 0, 0)'?cs.backgroundColor:'rgb(23, 23, 23)')+')');
-    important(queueDock,'border',cs?.border&&cs.border!=='0px none rgb(0, 0, 0)'?cs.border:'1px solid rgb(59, 69, 84)');
-    important(queueDock,'border-color','var(--comfier-container-frame,var(--interface-stroke,#3b4554))');
-    important(queueDock,'border-radius',cs?.borderRadius&&cs.borderRadius!=='0px'?cs.borderRadius:'17px');
-    important(queueDock,'box-shadow','var(--shadow-inset-highlight,inset 0 0 0 0 transparent),var(--interface-floating-panel-shadow,'+(cs?.boxShadow&&cs.boxShadow!=='none'?cs.boxShadow:'rgba(0, 0, 0, 0.34) 0px 3px 12px')+')');
-    important(queueDock,'padding','8px');important(queueDock,'height','50px');important(queueDock,'min-height','50px');important(queueDock,'max-height','50px');important(queueDock,'box-sizing','border-box');important(queueDock,'overflow','visible');
-    important(panel,'position','static');important(panel,'left','auto');important(panel,'right','auto');important(panel,'top','auto');important(panel,'bottom','auto');important(panel,'width','max-content');important(panel,'height','auto');important(panel,'min-width','0');important(panel,'min-height','0');important(panel,'max-width','none');important(panel,'max-height','none');important(panel,'margin','0');important(panel,'padding','0');important(panel,'border','0');important(panel,'border-radius','0');important(panel,'background','transparent');important(panel,'box-shadow','none');important(panel,'transform','none');important(panel,'zoom','1');important(panel,'visibility','visible');
-  }
-  function syncQueuePanel(){
-    var panel=findQueuePanel();if(!panel)return;
-    if(panel!==queuePanel){
-      queuePanel=panel;queueHome=panel.parentElement;queueHome?.classList.add(QUEUE_HOME);
-    }
-    if(!queueDock){queueDock=document.createElement('div');queueDock.className=QUEUE_DOCK;document.body.appendChild(queueDock)}
-    var zoom=liveUiZoom(),portraitCenter=outerPortrait();important(queueDock,'zoom',String(zoom));if(queuePanel.parentElement!==queueDock)queueDock.appendChild(queuePanel);queuePanel.classList.add(QUEUE_PANEL);shellQueue(queuePanel);
-    suppressStaleQueues();
-    if(outerLandscape()&&window.__comfierLayoutSide?.side()==='right'&&window.__comfierFixedViewMap){window.__comfierFixedViewMap.refresh();return}
-    important(queueDock,'left',portraitCenter?((innerWidth/2)/zoom)+'px':'auto');important(queueDock,'right',portraitCenter?'auto':(4/zoom)+'px');important(queueDock,'top','auto');important(queueDock,'bottom',(4/zoom)+'px');important(queueDock,'transform',portraitCenter?'translateX(-50%)':'none');important(queueDock,'transform-origin',portraitCenter?'bottom center':'bottom right');important(queueDock,'visibility','visible');
-    if(portraitCenter){var qr=logical(queueDock.getBoundingClientRect());centerCanvasMenu(innerHeight-qr.top)}else restoreCanvasMenu();
-  }
+  
+  
+  
+  
+  
+  function syncQueuePanel(){if(window.__comfierOwnedChromePending)return;queueDock=window.__comfierActionbarOwner?.run||null;queuePanel=queueDock?.querySelector('.actionbar')||null;}
   function layoutRect(element){if(!element?.isConnected)return null;var rect=logical(element.getBoundingClientRect());return rect.width>0&&rect.height>0?rect:null}
   function workflowDockBottom(){var rect=layoutRect(document.getElementById('comfier-workflow-actions-floating-dock'));return rect?rect.bottom:0}
-  function graphToolbarTop(){var toolbar=document.querySelector('[role="toolbar"][aria-label="Canvas Toolbar"]')||document.querySelector('[data-testid="canvas-menu"]'),rect=layoutRect(toolbar);return rect?rect.top:0}
+  function graphToolbarTop(){var toolbar=window.__comfierUiAuthority?.surface('canvas')||document.querySelector('[role="toolbar"][aria-label="Canvas Toolbar"]')||document.querySelector('[data-testid="canvas-menu"]'),rect=layoutRect(toolbar);return rect?rect.top:0}
   function upperActionBottom(){
     var surface=actionSurface?.isConnected?actionSurface:liveActionSurface(findActionSource()),rect=layoutRect(surface);
     if(rect)return rect.bottom;
@@ -234,23 +184,16 @@
     return tabRect?tabRect.bottom:0;
   }
   function sidePanelVerticalBounds(){
-    var commonTop=outerLandscape()?4:Math.max(4,Math.ceil(workflowDockBottom()||upperActionBottom())+4);
-    var toolbarTop=graphToolbarTop(),queueRect=layoutRect(queueDock),queueTop=queueRect?queueRect.top:0;
-    // After the bottom-control side swap, each side panel owns the anchor on its side:
-    // left panel stops above Graph Canvas Toolbar; right panel stops above Run/Queue.
-    // Outer/phone portrait keeps its established shared Run/Queue bottom anchor.
-    var leftAnchor,rightAnchor;
-    if(outerPortrait()){
-      leftAnchor=rightAnchor=queueTop||innerHeight;
-    }else{
-      leftAnchor=toolbarTop||queueTop||innerHeight;
-      rightAnchor=queueTop||toolbarTop||innerHeight;
-    }
-    var leftBottom=Math.min(innerHeight-4,Math.max(commonTop+120,Math.floor(leftAnchor-4)));
-    var rightBottom=Math.min(innerHeight-4,Math.max(commonTop+120,Math.floor(rightAnchor-4)));
-    return{leftTop:commonTop,rightTop:commonTop,leftBottom:leftBottom,rightBottom:rightBottom};
+    if(outerLandscape())return{leftTop:4,rightTop:4,bottom:Math.max(124,innerHeight-4)};
+    var commonTop=Math.max(4,Math.ceil(workflowDockBottom()||upperActionBottom())+4);
+    var toolbarTop=graphToolbarTop(),queueRect=layoutRect(queueDock);
+    // Inner portrait/landscape remain framed above the Graph Canvas Toolbar.
+    // Outer portrait alone covers that toolbar and stops above Run/Queue.
+    var bottomAnchor=outerPortrait()?(queueRect?queueRect.top:innerHeight):(toolbarTop||(queueRect?queueRect.top:innerHeight));
+    var bottom=Math.max(commonTop+120,Math.floor(bottomAnchor-4));
+    return{leftTop:commonTop,rightTop:commonTop,bottom:Math.min(innerHeight-4,bottom)};
   }
-  function isPrimary(split){if(!split?.matches?.('.p-splitter.p-splitter-horizontal'))return false;var kids=Array.from(split.children);return kids.some(function(el){return el.classList.contains('side-bar-panel')})&&kids.some(function(el){return el.classList.contains('p-splitterpanel-nested')})}
+  function isPrimary(split){if(split?.closest?.('#comfier-apps-panel'))return false;if(!split?.matches?.('.p-splitter.p-splitter-horizontal'))return false;var kids=Array.from(split.children);return(window.__comfierSidePanels||kids.some(function(el){return el.classList.contains('side-bar-panel')}))&&kids.some(function(el){return el.classList.contains('p-splitterpanel-nested')})}
   function findPrimary(root){if(isPrimary(root))return root;if(!root?.querySelectorAll)return null;return Array.from(root.querySelectorAll('.p-splitter.p-splitter-horizontal')).find(isPrimary)||null}
   function activePrimary(){return Array.from(document.querySelectorAll('.p-splitter.p-splitter-horizontal')).find(isPrimary)||null}
   function parts(split){
@@ -259,39 +202,49 @@
     var right=kids.find(function(el){return el!==left&&el!==center&&el.classList.contains('p-splitterpanel')})||null;
     return{split:split,kids:kids,left:left,center:center,right:right,gutters:kids.filter(function(el){return el.classList.contains('p-splitter-gutter')})};
   }
-  function isBottomSplit(split){if(!split?.matches?.('.p-splitter.p-splitter-vertical'))return false;var kids=Array.from(split.children);return kids.some(function(el){return el.classList.contains('graph-canvas-panel')})&&kids.some(function(el){return el.classList.contains('bottom-panel')})}
+  function isBottomSplit(split){if(split?.closest?.('#comfier-apps-panel'))return false;if(!split?.matches?.('.p-splitter.p-splitter-vertical'))return false;var kids=Array.from(split.children);return kids.some(function(el){return el.classList.contains('graph-canvas-panel')})&&kids.some(function(el){return el.classList.contains('bottom-panel')})}
   function bottomParts(split){var kids=Array.from(split?.children||[]);return{split:split,graph:kids.find(function(el){return el.classList.contains('graph-canvas-panel')})||null,panel:kids.find(function(el){return el.classList.contains('bottom-panel')})||null,gutters:kids.filter(function(el){return el.classList.contains('p-splitter-gutter')})}}
   function findBottomSplit(root){if(isBottomSplit(root))return root;if(!root?.querySelectorAll)return null;return Array.from(root.querySelectorAll('.p-splitter.p-splitter-vertical')).find(isBottomSplit)||null}
   function activeBottomSplit(){return Array.from(document.querySelectorAll('.p-splitter.p-splitter-vertical')).find(isBottomSplit)||null}
-  function decorateBottom(split){if(!split)return;var b=bottomParts(split);addClass(split,BOTTOM_SPLIT);decorated.add(split);if(b.panel){addClass(b.panel,BOTTOM);decorated.add(b.panel);markHosts(b.panel,BOTTOM_LAYER)}b.gutters.forEach(function(g){addClass(g,BOTTOM_GUTTER);decorated.add(g)})}
+  function decorateBottom(split){if(!split)return;var b=bottomParts(split);split.classList.add(BOTTOM_SPLIT);decorated.add(split);if(b.panel){b.panel.classList.add(BOTTOM);decorated.add(b.panel);markHosts(b.panel,BOTTOM_LAYER)}b.gutters.forEach(function(g){g.classList.add(BOTTOM_GUTTER);decorated.add(g)})}
   function markHosts(el,layerRole){
+    if(el?.closest?.('#comfier-apps-panel'))return;
     var layer=el?.closest?.('div.pointer-events-none.absolute.top-0.left-0.flex.size-full');
     for(var p=el?.parentElement;p&&p!==document.body;p=p.parentElement){
-      addClass(p,HOST);hosts.add(p);
-      if(!layer){var s=getComputedStyle(p),r=logical(p.getBoundingClientRect());if((s.position==='absolute'||s.position==='fixed')&&r.width>=innerWidth*.9&&r.height>=innerHeight*.8)layer=p}
+      if(p.closest?.('#comfier-apps-panel'))break;
+      p.classList.add(HOST);hosts.add(p);
+      if(!layer&&!p.matches?.('.p-dialog-mask,.p-overlay-mask,[data-comfier-panel-wrapper]')){var s=getComputedStyle(p),r=logical(p.getBoundingClientRect());if((s.position==='absolute'||s.position==='fixed')&&r.width>=innerWidth*.9&&r.height>=innerHeight*.8)layer=p}
     }
-    if(layer){addClass(layer,PANEL_LAYER,layerRole);panelLayers.add(layer)}
+    if(layer){layer.classList.add(PANEL_LAYER);if(layerRole)layer.classList.add(layerRole);panelLayers.add(layer)}
+  }
+  // Relinquish native panel decoration when the Apps owner adopts live Vue content.
+  // Its own internal splitters stay content, never graph-side geometry providers.
+  function releaseContent(root){
+    if(!root)return;
+    for(const el of Array.from(decorated))if(el===root||root.contains(el)){el.classList.remove(SPLIT,PANEL,LEFT,RIGHT,CENTER,GUTTER,BOTTOM_SPLIT,BOTTOM,BOTTOM_GUTTER);decorated.delete(el)}
+    for(const el of Array.from(hosts))if(el===root||root.contains(el)){el.classList.remove(HOST);hosts.delete(el)}
+    for(const el of Array.from(panelLayers))if(el===root||root.contains(el)){el.classList.remove(PANEL_LAYER,SIDE_LAYER,BOTTOM_LAYER);panelLayers.delete(el)}
   }
   function decorate(split){
-    if(!split)return;var p=parts(split);addClass(split,SPLIT);decorated.add(split);
-    if(p.center){addClass(p.center,CENTER);decorated.add(p.center)}
-    if(p.left){addClass(p.left,PANEL,LEFT);decorated.add(p.left);markHosts(p.left,SIDE_LAYER)}
-    if(p.right){addClass(p.right,PANEL,RIGHT);decorated.add(p.right);markHosts(p.right,SIDE_LAYER)}
-    p.gutters.forEach(function(g){addClass(g,GUTTER);decorated.add(g)});
+    if(!split)return;var p=parts(split);split.classList.add(SPLIT);decorated.add(split);
+    p.center?.classList.add(CENTER);if(p.center)decorated.add(p.center);
+    if(p.left){p.left.classList.add(PANEL,LEFT);decorated.add(p.left);markHosts(p.left,SIDE_LAYER)}
+    if(p.right){p.right.classList.add(PANEL,RIGHT);decorated.add(p.right);markHosts(p.right,SIDE_LAYER)}
+    p.gutters.forEach(function(g){g.classList.add(GUTTER);decorated.add(g)});
     decorateBottom(findBottomSplit(p.center));
   }
   function extensionsOpen(){return!!window.__comfierExtensionsPanel?.isOpen?.()}
   function loraOpen(){return!!window.__comfierLoraPanel?.isOpen?.()}
   function precisionOpen(){return!!window.__comfierLtxPanel?.isOpen?.()}
-  function customRightOpen(){return precisionOpen()||loraOpen()||extensionsOpen()}
-  function customRightController(){return precisionOpen()?window.__comfierLtxPanel:loraOpen()?window.__comfierLoraPanel:extensionsOpen()?window.__comfierExtensionsPanel:null}
+  function customRightOpen(){return !!window.__comfierFeedPanel?.isOpen?.()||!!window.__comfierAppsPanel?.isOpen?.()||precisionOpen()||loraOpen()||extensionsOpen()}
+  function customRightController(){return window.__comfierFeedPanel?.isOpen?.()?window.__comfierFeedPanel:window.__comfierAppsPanel?.isOpen?.()?window.__comfierAppsPanel:precisionOpen()?window.__comfierLtxPanel:loraOpen()?window.__comfierLoraPanel:extensionsOpen()?window.__comfierExtensionsPanel:null}
   function rightSurface(p){return customRightController()?.surface?.()||p?.right}
   function setRightStack(p,value){const custom=customRightController();if(custom)custom.setStack(value);else important(p?.right,'z-index',String(value))}
-  function syncOuterPortraitPanelStack(p){
+  function syncOuterPortraitPanelStack(p){if(window.__comfierSidePanels)return;
     if(!p)return;
     if(!outerPortrait()){
       p.left?.style.removeProperty('z-index');p.right?.style.removeProperty('z-index');
-      window.__comfierExtensionsPanel?.setStack?.(null);window.__comfierLoraPanel?.setStack?.(null);
+      window.__comfierExtensionsPanel?.setStack?.(null);window.__comfierLoraPanel?.setStack?.(null);window.__comfierAppsPanel?.setStack?.(null);window.__comfierFeedPanel?.setStack?.(null);window.__comfierLtxPanel?.setStack?.(null);
       return;
     }
     // Bounded sibling ranks: opening panels never consumes another layer band.
@@ -306,42 +259,43 @@
   }
   function apply(reason){
     if(stopped)return false;
-    var rr=railRect(),split=activePrimary();geometryActive=!!(rr&&split);if(!geometryActive){document.documentElement.classList.remove(ROOT);return false}portraitAnchors();
-    decorate(split);var bottomSplit=activeBottomSplit();decorateBottom(bottomSplit);suppressPanelPropertiesButtons();var p=parts(split),bp=bottomParts(bottomSplit),customBottom=document.getElementById('comfier-downloads-bottom-panel'),bottomSurface=visible(customBottom)?customBottom:bp.panel,bottomOpen=visible(bottomSurface),leftOpen=visible(p.left),rightOpen=customRightOpen()||visible(p.right),count=(leftOpen?1:0)+(rightOpen?1:0);syncOuterPortraitPanelStack(p);bindLeftScroll(leftOpen?p.left:null);bindBottomResize(bottomOpen?bottomSurface:null);
-    var panelPad=4,start=Math.ceil(rr.right)+panelPad,edgePad=panelPad,available=Math.max(120,Math.floor(innerWidth-start-edgePad));
+    var rr=railRect()||(window.__comfierSidePanels?{left:0,right:0,top:4,bottom:innerHeight-4,width:0,height:innerHeight-8}:null),split=activePrimary();geometryActive=!!(rr&&split);if(!geometryActive){document.documentElement.classList.remove(ROOT);return false}portraitAnchors();
+    decorate(split);var bottomSplit=activeBottomSplit();decorateBottom(bottomSplit);suppressPanelPropertiesButtons();var p=parts(split),bp=bottomParts(bottomSplit),customBottom=document.getElementById('comfier-downloads-bottom-panel'),bottomSurface=visible(customBottom)?customBottom:bp.panel,bottomOpen=visible(bottomSurface),leftOpen=visible(p.left),rightOpen=customRightOpen()||visible(p.right),count=(leftOpen?1:0)+(rightOpen?1:0);if(!window.__comfierSidePanels)syncOuterPortraitPanelStack(p);bindLeftScroll(leftOpen?p.left:null);bindBottomResize(bottomOpen?bottomSurface:null);
+    var editorSpace=outerLandscape()&&!window.__comfierConnectedSidebar?.root?.()?null:window.__comfierLayoutEditor?.panelSpace();
+    var panelPad=4,start=editorSpace?editorSpace.left:Math.ceil(rr.right)+panelPad,edgePad=editorSpace?innerWidth-editorSpace.right:panelPad,available=Math.max(120,Math.floor(innerWidth-start-edgePad));
     // Outer portrait keeps both floating panels, but does not use the
     // two-panel half-width split calculation.
     var splitCount=outerPortrait()?1:count,panelMax=600;
-    var preferred=Math.min(panelMax,outerLandscape()?Math.floor(innerWidth*2/3):Math.floor(rr.height),available);
+    var preferred=outerLandscape()?Math.floor(available*2/3):Math.min(panelMax,Math.floor(rr.height),available);
     // Preserve each panel's natural cap. Only divide the canvas evenly when
     // two capped panels would actually overlap; outer portrait keeps stacking.
     var overlap=splitCount===2&&preferred*2+panelPad>available;
     var cap=overlap?Math.floor((available-panelPad)/2):available;
-    var width=Math.max(120,Math.min(preferred,cap));
+    var width=Math.max(120,outerLandscape()&&count===2?Math.floor((available-panelPad)/2):Math.min(preferred,cap));
+    if(editorSpace){editorSpace=window.__comfierLayoutEditor.panelSpace(width);if(loraOpen()||precisionOpen()){editorSpace.rightTop=editorSpace.top;editorSpace.rightBottom=editorSpace.bottom}}
     var root=document.documentElement;
-    rootStyle(root,'--cef-width',width+'px');
-    rootStyle(root,'--cef-left',start+'px');rootStyle(root,'--cef-right',Math.max(start,Math.floor(innerWidth-edgePad-width))+'px');
+    geometry(root,'--cef-width',width+'px');
+    geometry(root,'--cef-left',start+'px');geometry(root,'--cef-right',Math.max(start,Math.floor(innerWidth-edgePad-width))+'px');
     if(loraOpen()||precisionOpen()){
-      var loraLeft=start,loraWidth=available;
+      var loraLeft=outerLandscape()?Math.max(start,Math.floor(innerWidth-edgePad-width)):start,loraWidth=outerLandscape()?width:available;
       if(leftOpen&&!outerPortrait()){loraLeft=start+width+panelPad;loraWidth=Math.max(120,Math.floor(innerWidth-edgePad-loraLeft))}
-      rootStyle(root,'--cef-lora-left',loraLeft+'px');rootStyle(root,'--cef-lora-width',loraWidth+'px');
-      rootStyle(root,'--cef-lora-content-width',(outerPortrait()?Math.max(1024,loraWidth):loraWidth)+'px');
+      geometry(root,'--cef-lora-left',loraLeft+'px');geometry(root,'--cef-lora-width',loraWidth+'px');
+      geometry(root,'--cef-lora-content-width',(outerPortrait()?Math.max(1024,loraWidth):loraWidth)+'px');
     }else{'--cef-lora-left --cef-lora-width --cef-lora-content-width'.split(' ').forEach(function(name){root.style.removeProperty?.(name)})}
-    addClass(root,ROOT);syncActionButton();syncQueuePanel();
-    var vertical=sidePanelVerticalBounds(),leftHeight=Math.max(120,vertical.leftBottom-vertical.leftTop),rightHeight=Math.max(120,vertical.rightBottom-vertical.rightTop);
-    rootStyle(root,'--cef-top',vertical.leftTop+'px');rootStyle(root,'--cef-height',leftHeight+'px');
-    rootStyle(root,'--cef-left-top',vertical.leftTop+'px');rootStyle(root,'--cef-left-height',leftHeight+'px');
-    rootStyle(root,'--cef-right-top',vertical.rightTop+'px');rootStyle(root,'--cef-right-height',rightHeight+'px');
+    root.classList.add(ROOT);syncActionButton();syncQueuePanel();
+    var vertical=editorSpace||(outerLandscape()?{leftTop:4,rightTop:4,bottom:innerHeight-4}:sidePanelVerticalBounds()),leftHeight=Math.max(120,(vertical.leftBottom??vertical.bottom)-vertical.leftTop),rightHeight=Math.max(120,(vertical.rightBottom??vertical.bottom)-vertical.rightTop);
+    geometry(root,'--cef-top',vertical.leftTop+'px');geometry(root,'--cef-height',leftHeight+'px');
+    geometry(root,'--cef-left-top',vertical.leftTop+'px');geometry(root,'--cef-left-height',leftHeight+'px');
+    geometry(root,'--cef-right-top',vertical.rightTop+'px');geometry(root,'--cef-right-height',rightHeight+'px');
     // Logs is an independent fixed overlay. Its horizontal canvas bounds must
     // never come from the nested graph splitter that changes with side panels.
     var graphRect=logical(document.getElementById('graph-canvas-container')?.getBoundingClientRect?.()||bp.graph?.getBoundingClientRect?.());
     if(bottomOpen&&!bottomWasOpen){var minimum=Math.max(80,parseFloat(bottomSurface?.dataset?.comfierBottomMinHeight)||120),preferred=parseFloat(bottomSurface?.dataset?.comfierBottomPreferredHeight)||Math.floor(innerHeight/3);bottomHeight=Math.max(minimum,Math.min(Math.max(minimum,innerHeight-48),preferred))}if(!bottomOpen)bottomHeight=null;bottomWasOpen=bottomOpen;
-    var queueRect=queueDock&&visible(queueDock)?logical(queueDock.getBoundingClientRect()):null,bottomInset=queueRect?Math.max(4,Math.ceil(innerHeight-queueRect.top)+4):4;rootStyle(root,'--cef-bottom-inset',bottomInset+'px');
-    if(graphRect){var bottomLeft=Math.max(Math.ceil(graphRect.left)+edgePad,start),bottomRight=Math.min(Math.floor(graphRect.right)-edgePad,innerWidth-edgePad),bottomWidth=Math.max(120,bottomRight-bottomLeft);rootStyle(root,'--cef-bottom-left',bottomLeft+'px');rootStyle(root,'--cef-bottom-width',bottomWidth+'px');rootStyle(root,'--cef-bottom-height',(bottomHeight||Math.max(120,Math.floor(innerHeight/3)))+'px')}
-    // Diagnostic logging intentionally suppressed for Test Build 46.1.
+    var queueRect=queueDock&&visible(queueDock)?logical(queueDock.getBoundingClientRect()):null,bottomInset=editorSpace?Math.max(4,innerHeight-editorSpace.bottom):queueRect?Math.max(4,Math.ceil(innerHeight-queueRect.top)+4):4;geometry(root,'--cef-bottom-inset',bottomInset+'px');
+    if(graphRect){var bottomLeft=Math.max(Math.ceil(graphRect.left)+edgePad,start),bottomRight=Math.min(Math.floor(graphRect.right)-edgePad,innerWidth-edgePad),bottomWidth=Math.max(120,bottomRight-bottomLeft);geometry(root,'--cef-bottom-left',bottomLeft+'px');geometry(root,'--cef-bottom-width',bottomWidth+'px');geometry(root,'--cef-bottom-height',(bottomHeight||Math.max(120,Math.floor(innerHeight/3)))+'px')}
     return true;
   }
-  function schedule(reason){if(!stopped)jobs.frame('layout',function(){apply(reason)})}
+  function schedule(reason){window.__comfierSidePanels?.refresh();if(!stopped)jobs.frame('layout',function(){apply(reason)})}
   function scheduleBurst(reason){jobs.burst('settle',function(){schedule(reason)},[0,16,60,140,320])}
   var insertWrapper=function(node,reference){if(stopped)return originalInsert.apply(this,arguments);
     var split=node&&node.nodeType===1?findPrimary(node):null,bottom=node&&node.nodeType===1?findBottomSplit(node):null;if(split)decorate(split);if(bottom)decorateBottom(bottom);
@@ -354,10 +308,10 @@
     lastSide=side;syncOuterPortraitPanelStack(parts(split));
   }
   function clickCapture(event){
-    var button=event.target?.closest?.('button,[role="button"]');if(!button)return;var name=label(button);
+    var button=event.target?.closest?.('button,[role="button"]');if(!button||button.closest?.('#comfier-panel-controller-popups')||button.matches?.('.comfier-edge-menu,.comfy-help-center-btn,[data-testid="help-center-button"]'))return;var name=label(button);
     if(name.includes('toggle properties panel')||button.id==='comfier-extensions-toggle'||button.matches?.('button.lm-top-menu-button,button[aria-label^="Launch LoRA Manager"]')){lastSide='right';jobs.burst('stack',function(){raiseLastTriggered('right')},[0,32,100,220])}
     else if(railContains(button)&&button.classList.contains('side-bar-button')&&!button.matches('.comfy-help-center-btn')&&!name.includes('bottom panel')&&!name.includes('logs')){leftOwner=button;lastSide='left';jobs.burst('stack',function(){raiseLastTriggered('left')},[0,32,100,220])}
-    jobs.burst('settle',function(){schedule('control')},[0,32,90,180]);
+    if(railContains(button)||name.includes('toggle properties panel')||name.includes('bottom panel')||name.includes('logs')||button.matches?.('#comfier-extensions-toggle,button.lm-top-menu-button,button[aria-label^="Launch LoRA Manager"],[data-comfier-panel-launcher]')||button.closest?.('[data-comfier-side-panel],[data-comfier-native-host],#comfier-apps-panel,#comfier-owned-feed-panel,.comfier-early-floating-panel,.comfier-early-floating-bottom'))jobs.burst('settle',function(){schedule('control')},[0,32,90,180]);
   }
   function selectedLeft(){return Array.from(document.querySelectorAll('.side-bar-button-selected')).find(function(b){var n=label(b);return railContains(b)&&!b.matches('.comfy-help-center-btn')&&!n.includes('bottom panel')&&!n.includes('logs')})||null}
   function closeActiveLeft(){
@@ -371,7 +325,12 @@
     }
     var button=selectedLeft();if(!button)return false;button.click();leftOwner=null;return true;
   }
-  function closeManaged(){
+  function closeOwnedStack(){if(window.__comfierSidePanels)return false;
+    if(!outerPortrait()||!(window.__comfierFeedPanel?.isOpen?.()||window.__comfierAppsPanel?.isOpen?.()))return false;
+    const split=activePrimary();if(!split||!visible(parts(split).left))return false;
+    return closeManaged();
+  }
+  function closeManaged(){if(window.__comfierSidePanels)return window.__comfierSidePanels.back();
     apply();var split=activePrimary();if(!split)return false;var p=parts(split),lo=visible(p.left),ro=customRightOpen()||visible(p.right);if(!lo&&!ro)return false;
     var side=lastSide&&((lastSide==='left'&&lo)||(lastSide==='right'&&ro))?lastSide:(ro?'right':'left');
     if(side==='right'&&customRightOpen()){const custom=customRightController();custom.closeIfOpen();lastSide=lo?'left':null;schedule(loraOpen()?'back-lora':'back-extensions');return true}
@@ -386,6 +345,6 @@
   function visibilityChange(){if(!document.hidden)scheduleBurst('focus-return')}
   document.addEventListener('click',clickCapture,true);document.addEventListener('input',scaleInput,true);document.addEventListener('change',scaleInput,true);document.addEventListener('visibilitychange',visibilityChange);window.addEventListener('resize',viewportChange,{passive:true});window.addEventListener('orientationchange',viewportChange,{passive:true});window.addEventListener('pageshow',viewportChange,{passive:true});window.addEventListener('focus',viewportChange,{passive:true});window.visualViewport?.addEventListener('resize',viewportChange,{passive:true});
   var existing=activePrimary();if(existing)decorate(existing);decorateBottom(activeBottomSplit());jobs.burst('startup',function(){schedule('startup')},[0,80,240,700,1200,2000]);jobs.burst('settle-watch',function(){if(!document.hidden)schedule('settle-watch')},[500,1000,1500,2000,2500,3000,3500,4000,4500,5000]);
-  window.__comfierEarlyFloatingPanels={ownsGeometry:function(){return geometryActive},activateRight:function(){lastSide='right';jobs.burst('stack',function(){raiseLastTriggered('right')},[0,32,100,220]);scheduleBurst('right-open')},refresh:function(){scheduleBurst('manual')},close:closeManaged,remove:function(){if(stopped)return;stopped=true;geometryActive=false;jobs.dispose();observer?.disconnect();unbindLeftScroll();unbindBottomResize();document.removeEventListener('click',clickCapture,true);document.removeEventListener('input',scaleInput,true);document.removeEventListener('change',scaleInput,true);document.removeEventListener('visibilitychange',visibilityChange);window.removeEventListener('resize',viewportChange);window.removeEventListener('orientationchange',viewportChange);window.removeEventListener('pageshow',viewportChange);window.removeEventListener('focus',viewportChange);window.visualViewport?.removeEventListener('resize',viewportChange);if(Node.prototype.insertBefore===insertWrapper)Node.prototype.insertBefore=originalInsert;document.documentElement.classList.remove(ROOT);['--cef-properties-reserve','--cef-lora-left','--cef-lora-width','--cef-lora-content-width','--cef-left-top','--cef-left-height','--cef-right-top','--cef-right-height','--cef-bottom-left','--cef-bottom-width','--cef-bottom-height','--cef-bottom-inset'].forEach(function(name){document.documentElement.style.removeProperty(name)});restoreCanvasMenu();document.querySelectorAll('.'+ACTION_INTERNAL).forEach(function(button){button.classList.remove(ACTION_INTERNAL)});actionSource?.classList.remove(ACTION_SOURCE);actionSurface?.classList.remove(ACTION_SHIFT);actionDock?.remove();staleQueues.forEach(function(panel){panel.classList.remove(QUEUE_STALE)});staleQueues.clear();queuePanel?.classList.remove(QUEUE_PANEL);queueHome?.classList.remove(QUEUE_HOME);if(queuePanel?.isConnected&&queueHome?.isConnected)queueHome.appendChild(queuePanel);queueDock?.remove();decorated.forEach(function(el){el.classList.remove(SPLIT,PANEL,LEFT,RIGHT,CENTER,GUTTER,BOTTOM_SPLIT,BOTTOM,BOTTOM_GUTTER)});hosts.forEach(function(el){el.classList.remove(HOST)});panelLayers.forEach(function(el){el.classList.remove(PANEL_LAYER,SIDE_LAYER,BOTTOM_LAYER)});panelLayers.clear();style.remove();delete window.__comfierEarlyFloatingPanels}};
+  window.__comfierEarlyFloatingPanels={miniPanelHost:miniPanelHost,releaseContent:releaseContent,admitSideSurface:function(el){markHosts(el,SIDE_LAYER)},ownsGeometry:function(){return geometryActive},activateLeft:function(){lastSide='left';jobs.burst('stack',function(){raiseLastTriggered('left')},[0,32,100,220]);scheduleBurst('left-open')},activateRight:function(){lastSide='right';jobs.burst('stack',function(){raiseLastTriggered('right')},[0,32,100,220]);scheduleBurst('right-open')},refresh:function(){scheduleBurst('manual')},closeOwnedStack:closeOwnedStack,close:closeManaged,remove:function(){if(stopped)return;window.__comfierMiniPanels?.remove?.();miniHost?.remove();miniHost=null;stopped=true;geometryActive=false;window.__comfierUiAuthority?.unregisterPanelGeometry(document.documentElement);jobs.dispose();observer?.disconnect();unbindLeftScroll();unbindBottomResize();document.removeEventListener('click',clickCapture,true);document.removeEventListener('input',scaleInput,true);document.removeEventListener('change',scaleInput,true);document.removeEventListener('visibilitychange',visibilityChange);window.removeEventListener('resize',viewportChange);window.removeEventListener('orientationchange',viewportChange);window.removeEventListener('pageshow',viewportChange);window.removeEventListener('focus',viewportChange);window.visualViewport?.removeEventListener('resize',viewportChange);if(Node.prototype.insertBefore===insertWrapper)Node.prototype.insertBefore=originalInsert;document.documentElement.classList.remove(ROOT);['--cef-properties-reserve','--cef-lora-left','--cef-lora-width','--cef-lora-content-width','--cef-left-top','--cef-left-height','--cef-right-top','--cef-right-height','--cef-bottom-left','--cef-bottom-width','--cef-bottom-height','--cef-bottom-inset'].forEach(function(name){document.documentElement.style.removeProperty(name)});document.querySelectorAll('.'+ACTION_INTERNAL).forEach(function(button){button.classList.remove(ACTION_INTERNAL)});actionSource?.classList.remove(ACTION_SOURCE);actionSurface?.classList.remove(ACTION_SHIFT);actionDock?.remove();staleQueues.forEach(function(panel){if(!panel.closest('[data-comfier-owned-actionbar]'))panel.classList.remove(QUEUE_STALE)});staleQueues.clear();if(!queueDock?.matches('[data-comfier-owned-actionbar]')){queuePanel?.classList.remove(QUEUE_PANEL);queueHome?.classList.remove(QUEUE_HOME);if(queuePanel?.isConnected&&queueHome?.isConnected)queueHome.appendChild(queuePanel);queueDock?.remove();}decorated.forEach(function(el){el.classList.remove(SPLIT,PANEL,LEFT,RIGHT,CENTER,GUTTER,BOTTOM_SPLIT,BOTTOM,BOTTOM_GUTTER)});hosts.forEach(function(el){el.classList.remove(HOST)});panelLayers.forEach(function(el){el.classList.remove(PANEL_LAYER,SIDE_LAYER,BOTTOM_LAYER)});panelLayers.clear();style.remove();delete window.__comfierEarlyFloatingPanels}};
   return 'Early floating-panel takeover installed. Open a left panel, Properties, then both; Back should close the most recently opened panel.';
 })();

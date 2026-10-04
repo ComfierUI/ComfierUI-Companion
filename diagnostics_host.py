@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import asyncio
+import threading
 import json
 import re
 import time
@@ -115,8 +117,14 @@ def _state_payload() -> dict:
     }
 
 
+_disk_lock = threading.RLock()
+
+def _locked_state():
+    with _disk_lock:
+        return _state_payload()
+
 async def _state(_: web.Request) -> web.Response:
-    return web.json_response(_state_payload(), headers={"Cache-Control": "no-store"})
+    return web.json_response(await asyncio.to_thread(_locked_state), headers={"Cache-Control": "no-store"})
 
 
 async def _action(request: web.Request) -> web.Response:
@@ -124,6 +132,18 @@ async def _action(request: web.Request) -> web.Response:
         data = await request.json()
     except Exception:
         data = {}
+    task = asyncio.create_task(asyncio.to_thread(_locked_action, data))
+    try:
+        return await asyncio.shield(task)
+    except asyncio.CancelledError:
+        await task
+        raise
+
+def _locked_action(data):
+    with _disk_lock:
+        return _action_sync(data)
+
+def _action_sync(data):
     action = str(data.get("action") or "")
     try:
         scripts = _manifest()

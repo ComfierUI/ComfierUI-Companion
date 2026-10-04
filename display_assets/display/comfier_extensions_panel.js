@@ -6,7 +6,7 @@
   const SOURCE='.comfier-extensions-source',STYLE='comfier-extensions-panel-style';
   let stopped=false,observer=null,dialogStore=null,rightStore=null,originalShow=null,showWrapper=null;
   let unsubscribe=null,unsubscribeRight=null,button=null,source=null,pending=false,pendingTimer=0,cancelPending=false,lastOpen=false;
-  const hiddenSources=new Map(),loraOrigins=new Map();
+  const hiddenSources=new Map(),loraOrigins=new Map();let homeBar=null;
   const style=document.createElement('style');style.id=STYLE;style.textContent=`
 .actionbar-container>.comfier-lora-vacated-slot:empty,.actionbar-container>.comfier-lora-vacated-empty{display:none!important}
 ${SOURCE}{display:none!important;visibility:hidden!important;pointer-events:none!important}
@@ -61,15 +61,15 @@ ${SOURCE}{display:none!important;visibility:hidden!important;pointer-events:none
         if(existing)existing.dialogComponentProps=props;
         const result=originalShow.call(this,{...options,dialogComponentProps:props},...args);
         clearPending();
-        window.__comfierLoraPanel?.closeIfOpen?.();window.__comfierLtxPanel?.closeIfOpen?.();
-        if(rightStore?.isOpen)rightStore.closePanel();
+        if(!window.__comfierSidePanels){window.__comfierFeedPanel?.closeIfOpen?.();window.__comfierLoraPanel?.closeIfOpen?.();window.__comfierLtxPanel?.closeIfOpen?.();}
+        if(!window.__comfierSidePanels&&rightStore?.isOpen)rightStore.closePanel();
         window.__comfierEarlyFloatingPanels?.activateRight?.();layout();schedule();return result;
       };
       next.showDialog=showWrapper;
       unsubscribe=next.$subscribe?.(()=>schedule(),{detached:true,flush:'sync'});
     }
     const right=stores.get('rightSidePanel');
-    if(right!==rightStore){unsubscribeRight?.();rightStore=right||null;unsubscribeRight=right?.$subscribe?.(()=>{if(right.isOpen&&(isOpen()||pending))closeIfOpen();schedule()},{detached:true,flush:'sync'})}
+    if(right!==rightStore){unsubscribeRight?.();rightStore=right||null;unsubscribeRight=right?.$subscribe?.(()=>{if(!window.__comfierSidePanels&&right.isOpen&&(isOpen()||pending))closeIfOpen();schedule()},{detached:true,flush:'sync'})}
     return true;
   }
   function detachStores(){
@@ -82,7 +82,8 @@ ${SOURCE}{display:none!important;visibility:hidden!important;pointer-events:none
   function nativeButton(){
     if(source?.isConnected&&source.id!==ID&&!source.closest(EXCLUDED))return source;
     return Array.from(document.querySelectorAll('button')).find(el=>el.id!==ID&&!el.closest(EXCLUDED)&&
-      (/^(manage extensions|extensions|manager)(\s|$)/.test(controlLabel(el))||!!el.querySelector('i[class*="extensions-block"],svg[class*="extensions-block"]')))||null;
+      (/^(manage extensions|extensions|manager)(\s|$)/.test(controlLabel(el))||!!el.querySelector('i[class*="extensions-block"],svg[class*="extensions-block"]')))||
+      ((isOpen()||pending)&&source?.isConnected?source:null);
   }
   function overviewButton(){
     const candidates=Array.from(document.querySelectorAll('button')).filter(el=>el.id!==ID&&!!el.closest('[data-testid="action-bar-card"],.actionbar-container')&&!el.closest(EXCLUDED));
@@ -114,7 +115,8 @@ ${SOURCE}{display:none!important;visibility:hidden!important;pointer-events:none
     if(opened)dialogStore.closeDialog({key:KEY});
     schedule();layout();return true;
   }
-  function toggle(){
+  function toggle(){if(window.__comfierSidePanels&&!window.__comfierSidePanels.operating('extensions'))return window.__comfierSidePanels.toggle('extensions',button,toggle);
+    if(!window.__comfierSidePanels){window.__comfierFeedPanel?.closeIfOpen?.();window.__comfierAppsPanel?.closeIfOpen?.();}
     if(closeIfOpen())return;
     if(!attachStores())return;
     const trigger=nativeButton();if(!trigger)return;
@@ -132,9 +134,9 @@ ${SOURCE}{display:none!important;visibility:hidden!important;pointer-events:none
   }
   function positionLoraButton(bar){
     refreshLoraSlots();
-    const lora=document.querySelector('button.lm-top-menu-button,button[aria-label^="Launch LoRA Manager"]');
+    const lora=window.__comfierActionbarOwner?.control('lora')||document.querySelector('button.lm-top-menu-button,button[aria-label^="Launch LoRA Manager"]');
     if(!lora||!button?.isConnected)return;
-    const anchor=document.getElementById('comfier-downloads-action-slot')||button;
+    const anchor=(document.getElementById('comfier-downloads-action-slot')?.parentElement===bar?document.getElementById('comfier-downloads-action-slot'):null)||button;
     if(lora.parentElement===bar&&lora.nextElementSibling===anchor)return;
     const parent=lora.parentElement;
     if(!loraOrigins.has(lora))loraOrigins.set(lora,{parent,next:lora.nextSibling,slots:new Set()});
@@ -154,10 +156,28 @@ ${SOURCE}{display:none!important;visibility:hidden!important;pointer-events:none
       origin.parent.insertBefore(lora,origin.next?.parentElement===origin.parent?origin.next:null);
     });loraOrigins.clear();
   }
+  function customLauncher(){return !!window.__comfierLayoutEditor?.hasControl?.('action:Manage_extensions')}
+  function buttonState(){
+    const pressed=String(isOpen());if(button.getAttribute('aria-pressed')!==pressed){button.setAttribute('aria-pressed',pressed);button.setAttribute('aria-expanded',pressed)}
+    const disabled=!source?.isConnected||!!source.disabled;if(button.disabled!==disabled)button.disabled=disabled;
+  }
   function syncButton(){
     const target=overviewButton(),nextSource=nativeButton();
-    const bar=target?.closest('.actionbar-container')||(button?.parentElement?.isConnected?button.parentElement:null)||document.querySelector('[data-testid="action-bar-card"] .actionbar-container');
-    if(!bar||!nextSource){restoreLoraButtons();button?.remove();restoreSources();return}
+    // Never adopt the panel that temporarily borrowed the launcher as its
+    // actionbar home. A missing/destroyed native card is a lifecycle gap.
+    const surface=window.__comfierLayoutSide?.actionSurface?.(),nativeBar=surface?.matches('.actionbar-container')?surface:surface?.querySelector('.actionbar-container');
+    const bar=window.__comfierActionbarOwner?.launcherHome||target?.closest('.actionbar-container')||nativeBar||
+      (homeBar?.isConnected&&!homeBar.closest(EXCLUDED)?homeBar:null)||
+      [...document.querySelectorAll('[data-testid="action-bar-card"] .actionbar-container')].find(el=>!el.closest(EXCLUDED)&&!el.querySelector('[data-testid="queue-button"]'));
+    if(bar)homeBar=bar;
+    if(!bar||!nextSource){
+      if(button&&(customLauncher()||isOpen()||pending)){
+        const parent=bar||document.body;
+        if(button.parentElement!==parent){parent.appendChild(button);window.__comfierLayoutEditor?.refresh()}
+        if(source?.isConnected)hideSource(source);buttonState();return;
+      }
+      restoreLoraButtons();button?.remove();restoreSources();return;
+    }
     if(!button){
       button=document.createElement('button');button.id=ID;button.type='button';
       button.className=target?.className||nextSource.className;button.setAttribute('aria-label','Manage extensions');button.title='Manage extensions';
@@ -170,21 +190,26 @@ ${SOURCE}{display:none!important;visibility:hidden!important;pointer-events:none
     }
     // Insert next to the overview's top-level actionbar slot, not inside its
     // conditional wrapper: Vue removes that wrapper while Overview is open.
-    let slot=target;while(slot&&slot.parentElement!==bar)slot=slot.parentElement;
-    if(slot){if(button.parentElement!==bar||button.nextElementSibling!==slot)bar.insertBefore(button,slot)}
-    else if(button.parentElement!==bar)bar.appendChild(button);
+    let slot=target;if(slot&&!bar.contains(slot))slot=null;while(slot&&slot.parentElement!==bar)slot=slot.parentElement;
+    let moved=false;
+    if(slot){if(button.parentElement!==bar||button.nextElementSibling!==slot){bar.insertBefore(button,slot);moved=true}}
+    else if(button.parentElement!==bar){bar.appendChild(button);moved=true}
     // Inline !important is required: the legacy sizer already set display:flex
     // inline. Its guard now skips this owned source, preventing it from returning.
-    hideSource(legacyCard(source,bar));
+    hideSource(source.closest(EXCLUDED)?source:legacyCard(source,bar));
     positionLoraButton(bar);
-    button.style.setProperty('position','relative','important');
-    button.style.setProperty('z-index','auto','important');
-    const pressed=String(isOpen());if(button.getAttribute('aria-pressed')!==pressed){button.setAttribute('aria-pressed',pressed);button.setAttribute('aria-expanded',pressed)}
-    button.disabled=!!source.disabled;
+    // A customized view owns the live button's geometry. Reconciliation must
+    // still update state, but must not pull it back into the native actionbar.
+    if(!customLauncher()&&!window.__comfierLayoutEditor?.owns(button)){
+      for(const [name,value] of [['position','relative'],['z-index','auto']]){
+        if(button.style.getPropertyValue(name)!==value||button.style.getPropertyPriority(name)!=='important')button.style.setProperty(name,value,'important');
+      }
+    }
+    buttonState();if(moved&&customLauncher())window.__comfierLayoutEditor.refresh();
   }
   function clickCapture(event){
     const target=event.target?.closest?.('button');
-    if(target&&target===overviewButton())closeIfOpen();
+    if(!window.__comfierSidePanels&&target&&target===overviewButton())closeIfOpen();
   }
   function reconcile(){
     if(stopped)return;

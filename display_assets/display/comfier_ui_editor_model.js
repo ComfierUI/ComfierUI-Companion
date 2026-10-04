@@ -1,0 +1,14 @@
+/* UFU66: shared, per-property appearance and dimension model. */
+(()=>{'use strict';if(window.__comfierUiEditorModel)return;
+const ranges={length:[26,4096],thickness:[42,4096],frame:[1,6],curve:[0,8],iconSize:[8,64],height:[26,96],width:[26,640]},colors=['frameColor','background','iconColor'];
+const base={container:{frame:1,curve:6},button:{frame:1,curve:6,round:false,height:32,iconSize:18}};
+const clone=v=>JSON.parse(JSON.stringify(v));
+function style(v={}){if(!v||typeof v!=='object'||Array.isArray(v))throw Error('Invalid appearance overrides.');const out={};for(const k of Object.keys(v)){const x=v[k];if(colors.includes(k)){if(typeof x!=='string'||!/^#[0-9a-f]{6}([0-9a-f]{2})?$/i.test(x))throw Error('Invalid '+k);out[k]=x.toLowerCase()}else if(ranges[k]){if(!Number.isFinite(x)||x<ranges[k][0]||x>ranges[k][1])throw Error('Invalid '+k);out[k]=x}else if(k==='monitors'){const keys=['cpu','ram','gpu','vram','temp','cpuTemp'];if(!x||typeof x!=='object'||Array.isArray(x)||Object.keys(x).some(k=>!keys.includes(k)||typeof x[k]!=='boolean')||!keys.some(k=>x[k]!==false))throw Error('Enable at least one resource monitor.');out[k]=Object.fromEntries(keys.map(k=>[k,x[k]!==false]))}else if(k==='round'){if(typeof x!=='boolean')throw Error('Invalid button shape.');out[k]=x}else throw Error('Unknown appearance property: '+k)}return out}
+function dimensions(v){if(!v||typeof v!=='object'||Array.isArray(v))throw Error('Invalid global dimensions.');return{container:style(v.container||{}),button:style(v.button||{})}}
+let global=clone(base);try{const raw=localStorage.getItem('comfier.ui.dimensions.v1');if(raw)global=dimensions(JSON.parse(raw))}catch(_){}
+function setGlobal(v){const next=dimensions(v);localStorage.setItem('comfier.ui.dimensions.v1',JSON.stringify(next));global=next;window.__comfierLayoutEditor?.refresh();return clone(global)}
+function resolve(kind,container={},button={}){const legacy=container.appearance||{},fallback=kind==='container'?{frame:legacy.containerFrame||1,curve:legacy.containerCorners==='square'?0:6}:{frame:legacy.buttonFrame||1,curve:legacy.buttonCorners==='square'?0:6};return{...base[kind],...fallback,...global[kind],...(kind==='container'?container.containerStyle:container.buttonDefaults),...(kind==='button'?button:{})}}
+function boundary(box,x,y,inset=0){return x>=box.left+inset&&x<=box.right-inset&&y>=box.top+inset&&y<=box.bottom-inset}
+function destination(boxes,current,x,y){const held=boxes.find(b=>b.id===current);if(held&&boundary(held,x,y,-12))return held.id;return boxes.find(b=>boundary(b,x,y,Math.min(8,b.width/4,b.height/4)))?.id||null}
+function order(entries){return [...entries].sort((a,b)=>a.left-b.left||a.top-b.top||a.id.localeCompare(b.id)).map(x=>x.id)}
+window.__comfierUiEditorModel={style,dimensions,resolve,setGlobal,getGlobal:()=>clone(global),base:clone(base),ranges,clone,boundary,destination,order};})();
