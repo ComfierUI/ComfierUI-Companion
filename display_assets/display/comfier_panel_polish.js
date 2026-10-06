@@ -73,6 +73,11 @@ html:root body .ufu-inspector[data-editor-view="outerLandscape"] .theme-picker i
 html:root body .ufu-inspector[data-editor-view="outerLandscape"] [data-inspector-tab="colors"]>.ufu-buttons{grid-column:2;min-width:0;justify-content:flex-start}
 html:root body .ufu-inspector[data-editor-view="outerLandscape"] [data-inspector-tab="dimensions"]>*{min-width:0}
 
+html:root body ${roots}${roots} .comfier-browser-start-row{display:flex!important;flex-direction:row!important;justify-content:space-between!important;align-items:center!important;width:100%!important;text-align:left!important}
+html:root body ${roots}${roots} .comfier-browser-start-row>span{margin-right:auto!important;text-align:left!important}
+html:root body ${roots}${roots} .comfier-browser-start-row>select{margin-left:auto!important;flex:0 1 auto;max-width:60%}
+html:root body ${roots}${roots} .comfier-companion-port-row>input{width:calc(5ch + 30px)!important;min-width:calc(5ch + 30px)!important;font-family:monospace!important}
+html:root body ${roots}${roots} .ui-zoom-panel[data-comfier-browser-settings="true"]>:not(.comfier-app-settings-heading):not(.comfier-browser-start-row):not(.comfier-companion-port-row):not(.ui-diagnostics-row):not(.ufu-launch){display:none!important}
 /* Nine compact theme swatches per row; hex and color action pairs. */
 html:root body .theme-active-colors{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:2px!important;width:min(304px,100%)!important;max-width:100%!important;justify-self:center;align-self:center!important;margin-inline:auto!important}
 html:root body ${roots}${roots} .theme-active-colors>button.theme-active-color{width:calc((100% - 16px)/9)!important;flex:0 0 calc((100% - 16px)/9)!important;min-width:0!important;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:1;box-sizing:border-box!important}

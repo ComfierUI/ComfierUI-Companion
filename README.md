@@ -38,7 +38,7 @@ Start ComfyUI normally. Companion starts automatically; it adds no workflow node
 
 ## Connect
 
-Version **0.5.3**, paired with ComfierUI **0.91.14-Dev**.
+Version **0.5.4**, paired with ComfierUI **0.91.15-Dev**.
 
 Connect the Android app to the host address and Companion port (default **8147**). Open `http://127.0.0.1:8147/` on the host to use the browser interface. ComfyUI continues running on its own port, normally **8188**. Companion's port can be changed in App Settings; 8188 is reserved for ComfyUI.
 
@@ -78,3 +78,5 @@ python -m unittest discover -s tests
 ## License
 
 See [LICENSE](LICENSE).
+
+Live Preview appears only after the workflow sends a preview; workflows without previews leave this section hidden.

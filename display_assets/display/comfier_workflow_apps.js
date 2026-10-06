@@ -88,6 +88,7 @@ html.comfier-lite-active #graph-canvas,html.comfier-lite-active [data-testid=tra
 html.comfier-lite-active #comfier-apps-content{overflow:hidden!important;display:flex;flex-direction:column}
 html.comfier-lite-active .comfier-lite-form{height:100%;width:100%;min-height:0;flex:1;overflow:hidden}
 .comfier-lite-fields{display:flex;flex-direction:column;gap:14px;flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-y}
+.comfier-lite-preview[hidden]{display:none!important}
 .comfier-lite-fields>*{flex-shrink:0}
 .comfier-lite-footer{flex:none;display:flex;width:100%;min-width:0}
 .comfier-lite-footer>.comfier-lite-generate{width:100%}
@@ -182,8 +183,8 @@ async function render(state,container){
   if(k==='resolution')pairResolution(group,state);
  }
  const run=button('Generate',async()=>{run.disabled=true;status.textContent='Queuing…';try{const action=window.__comfierActionbarOwner;if(action?.findCommand?.(['Comfy.QueuePrompt']))await action.executeCommand(['Comfy.QueuePrompt'],{metadata:{subscribe_to_run:false,trigger_source:'button'}});else await getApp().queuePrompt(0,1);if(valid()){status.textContent='Queued';refreshSeeds(state,form)}}catch(e){if(valid())status.textContent=e.message}finally{run.disabled=false}});run.className='comfier-lite-generate';footer.append(run);
- const progress=el('p','Ready');progress.setAttribute('role','status');const preview=el('img');preview.alt='Generation in progress';preview.hidden=true;const output=el('div');output.className='comfier-lite-output';fields.append(el('h3','Live preview'),progress,preview,el('h3','Output'),output);
- state.form=form;state.progress=progress;state.preview=preview;state.output=output;
+ const progress=el('p','Ready');progress.setAttribute('role','status');const preview=el('img');preview.alt='Generation in progress';preview.hidden=true;const output=el('div');output.className='comfier-lite-output';const previewGroup=el('section');previewGroup.className='comfier-lite-preview';previewGroup.hidden=true;previewGroup.append(el('h3','Live preview'),progress,preview);fields.append(previewGroup,el('h3','Output'),output);
+ state.form=form;state.progress=progress;state.preview=preview;state.previewGroup=previewGroup;state.output=output;
  restoreOutput(state);bindApi();
 }
 function refreshSeeds(state,form){for(const control of state.plan.controls.filter(c=>c.kind==='seed')){const binding=state.bindings.get(control.key);const input=[...form.querySelectorAll('[data-control-key]')].find(i=>i.dataset.controlKey===control.key);if(binding&&input)input.value=String(binding.widget.value??'')}}
@@ -200,9 +201,9 @@ function bindApi(){
  const api=getApi();if(!api?.addEventListener||apiBound===api)return;
  for(const [a,name,fn]of listeners)a.removeEventListener(name,fn);listeners.length=0;apiBound=api;
  const bind=(name,fn)=>{api.addEventListener(name,fn);listeners.push([api,name,fn])};
- bind('execution_start',()=>{if(active?.output){active.media=[];active.output.replaceChildren();active.preview.hidden=true;clearMedia();active.progress.textContent='Generating…';refreshSeeds(active,active.form)}});
+ bind('execution_start',()=>{if(active?.output){active.media=[];active.output.replaceChildren();active.preview.hidden=true;active.previewGroup.hidden=true;clearMedia();active.progress.textContent='Generating…';refreshSeeds(active,active.form)}});
  bind('progress',e=>{if(active?.progress){const d=e.detail||{};active.progress.textContent=d.max?'Generating '+Math.round(d.value/d.max*100)+'%':'Generating…'}});
- bind('b_preview',e=>{if(active?.preview&&e.detail instanceof Blob){clearMedia();previewUrl=URL.createObjectURL(e.detail);active.preview.src=previewUrl;active.preview.hidden=false}});
+ bind('b_preview',e=>{if(active?.preview&&e.detail instanceof Blob){clearMedia();previewUrl=URL.createObjectURL(e.detail);active.preview.src=previewUrl;active.preview.hidden=false;active.previewGroup.hidden=false}});
  bind('executed',e=>{if(!active)return;const d=e.detail||{};if(!d.node||[...active.outputBindings.values()].some(n=>String(n.id)===String(d.node)||String(d.node).endsWith(':'+n.id)))showOutput(active,d.output)});
  bind('executing',e=>{if(active?.progress&&e.detail===null){active.progress.textContent='Finished';refreshSeeds(active,active.form)}});
  bind('execution_error',e=>{if(active?.progress)active.progress.textContent=e.detail?.exception_message||'Generation failed'});

@@ -69,7 +69,7 @@
   function portControls(panel){
     if(panel.querySelector('.comfier-companion-port-row'))return;
     const row=document.createElement('div');row.className='comfier-companion-port-row';row.style.cssText='order:4;width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:8px;box-sizing:border-box';
-    const label=document.createElement('label');label.textContent='Companion Port';label.style.cssText='font:inherit!important;display:block;flex:1;min-width:0;margin:0;text-align:left';const input=document.createElement('input');input.type='number';input.inputMode='numeric';input.min=1024;input.max=65535;input.step=1;input.placeholder='8147';input.setAttribute('aria-label','Companion Port');input.style.cssText='width:50px;max-width:100%;box-sizing:border-box;margin-left:auto';label.htmlFor='comfier-companion-port-input';input.id=label.htmlFor;
+    const label=document.createElement('label');label.textContent='Companion Port';label.style.cssText='font:inherit!important;display:block;flex:1;min-width:0;margin:0;text-align:left';const input=document.createElement('input');input.type='number';input.inputMode='numeric';input.min=1024;input.max=65535;input.step=1;input.placeholder='8147';input.setAttribute('aria-label','Companion Port');input.style.cssText='width:calc(5ch + 30px);max-width:100%;box-sizing:border-box;margin-left:auto';label.htmlFor='comfier-companion-port-input';input.id=label.htmlFor;
     const apply=document.createElement('button');apply.type='button';apply.textContent='Apply';row.append(label,input,apply);panel.appendChild(row);
     const notify=message=>window.alert(message);
     let reserved=[8188],gatewayPort=null;
