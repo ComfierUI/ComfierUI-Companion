@@ -2,94 +2,71 @@
 
 ## Install
 
-Install Companion on the computer running ComfyUI. Choose ZIP or Git below, install the dependencies, then restart ComfyUI.
+Companion is a ComfyUI custom-node extension. Install one copy only and restart ComfyUI after installation or updates.
 
-### From a ZIP
+### Git
 
-1. Close ComfyUI.
-2. Create `ComfyUI/custom_nodes/ComfierUI-Companion/` if it does not exist.
-3. Extract this release ZIP directly into that folder. Its files are at the archive root, with no enclosing folder. For GitHub's **Download ZIP**, copy the contents of the extracted repository folder into the same location.
-4. Install the dependencies using the instructions below, then start ComfyUI.
+From `ComfyUI/custom_nodes/`:
 
-The final path must be:
+```sh
+git clone https://github.com/ComfierUI/ComfierUI-Companion.git
+```
+
+For updates, run `git pull` inside the installed extension folder.
+
+### Release ZIP
+
+Extract the ZIP contents into `ComfyUI/custom_nodes/ComfierUI-Companion/`. The resulting path must be:
 
 ```text
 ComfyUI/custom_nodes/ComfierUI-Companion/__init__.py
 ```
 
-For an existing installation, replace the extension files in the same folder. Keep your `themes/`, `diagnostics/`, and `ui_updates/` data. Keep only one active Companion installation in `custom_nodes/`.
+Install `requirements.txt` using the same Python that runs ComfyUI. For Windows portable, run from the portable root:
 
-### From Git
-
-Close ComfyUI, open a terminal in `ComfyUI/custom_nodes/`, and run:
-
-```bash
-git clone https://github.com/ComfierUI/ComfierUI-Companion.git
+```bat
+python_embeded\python.exe -m pip install -r ComfyUI\custom_nodes\ComfierUI-Companion\requirements.txt
 ```
 
-Then install the dependencies and restart ComfyUI.
+For other installations:
 
-### Install dependencies
-
-Use the Python environment that runs ComfyUI. From your ComfyUI folder, run:
-
-```bash
-python -m pip install -r custom_nodes/ComfierUI-Companion/requirements.txt
+```sh
+python -m pip install -r requirements.txt
 ```
 
-For **Windows portable**, run this from the portable installation's root folder:
-
-```powershell
-.\python_embeded\python.exe -m pip install -r .\ComfyUI\custom_nodes\ComfierUI-Companion\requirements.txt
-```
-
-Companion starts automatically with ComfyUI and adds no workflow nodes.
+Start ComfyUI normally. Companion starts automatically; it adds no workflow nodes.
 
 ## Connect
 
-1. Start ComfyUI on its default port, `8188`.
-2. In ComfierUI, connect to `http://YOUR_HOST_IP:8147` using your computer's LAN or private VPN address.
-3. Enable **Companion Pre-Processor** in the app when you want the host to provide the shared interface.
+Version **0.5.1**, paired with ComfierUI **0.91.12-Dev**.
 
-The Companion gateway listens on port `8147` and forwards requests to ComfyUI at `127.0.0.1:8188`. Use a trusted LAN or private VPN, such as Tailscale. If the connection fails, check that ComfyUI is running and the host firewall allows the connection to port `8147`.
+Connect the Android app to the host address and Companion port (default **8147**). Open `http://127.0.0.1:8147/` on the host to use the browser interface. ComfyUI continues running on its own port, normally **8188**. Companion's port can be changed in App Settings; 8188 is reserved for ComfyUI.
 
-## About this release
+## Features
 
-**Companion 0.4.28** includes the same shared UI as **ComfierUI 0.89.20-Dev**. A fresh installation starts at parity without an app-supplied UI update.
+- Host browser interface with UI Editor, custom layouts and themes.
+- Themes compatible with Android, Cloud and host browser modes.
+- App Mode for templates and workflows: resolution, prompts, applicable image/video/audio inputs, generation, live preview and outputs. Full Canvas retains the complete graph and seed controls.
+- Host workflow preprocessing with client fallback when unavailable.
+- Model downloads with progress, pause, resume and cancellation.
+- Generation status and notifications for supported clients.
+- Themeable CPU, memory and GPU resource monitors where supported.
+- Compatible UI updates delivered through the Android app.
 
-Companion is an optional host extension for ComfierUI. It provides:
+App Mode preserves the workflow's wiring and settings. It does not create extra saved workflows. Missing custom nodes/models still need to be installed, and live preview requires backend preview events.
 
-- The Companion Pre-Processor and shared interface assets.
-- A gateway for HTTP and WebSocket connections, with caching for model and node inventories.
-- Host-side model downloads and download progress/control services.
-- Generation progress and queue status for client notifications.
-- CPU, RAM, NVIDIA GPU, VRAM, and temperature readings where supported.
-- Shared theme profiles and host diagnostic services.
+## Updating
 
-## Model downloads
+Replace the extension files in place, then restart ComfyUI and reconnect or hard-refresh clients. Preserve your existing themes, `gateway_port.json`, `ui_updates`, diagnostics and backups. Do not install a second copy of Companion alongside the first.
 
-Load a workflow with missing models, open **Workflow Overview > Errors**, and use **Download** or **Download All**. Transfers run on the host and save into ComfyUI's model directories, so model files do not pass through the Android device.
+## Development
 
-Supported starting URLs are HTTPS links from Hugging Face, Civitai, or GitHub release assets. Existing model files are not overwritten.
+Run the Python tests from the extension folder:
 
-## Resource monitors
-
-CPU and RAM readings use `psutil`; NVIDIA GPU readings use `nvidia-ml-py`. Unsupported or unavailable readings display `—`. CPU temperature depends on sensors exposed by the host and is often unavailable on Windows. AMD and Intel GPU readings are not supported by this release.
-
-In **Comfy Settings**, choose which meters to show and which GPU to monitor. These meters operate independently of Crystools.
-
-## Shared themes
-
-Place exported ComfierUI theme JSON files in `themes/`, then open **Theme Settings > Profiles** in the app. Reopen Profiles to refresh the list. Select a Companion theme and choose **Load**; use **Save** to keep a device copy. No host restart is needed.
-
-Host theme files are read-only from the app. See [themes/README.md](themes/README.md) for file details.
-
-## Updates
-
-To update a Git installation, close ComfyUI and run `git pull` inside the installed Companion folder. For ZIP installations, replace the extension files in that same folder. Preserve `themes/`, `diagnostics/`, and `ui_updates/`, reinstall requirements if they changed, then restart ComfyUI and reconnect the app.
-
-Compatible newer ComfierUI apps can update the shared UI through the app. Python services, dependencies, and backend API changes still require a normal Companion update and host restart.
+```sh
+python -m unittest discover -s tests
+```
 
 ## License
 
-[MIT](LICENSE)
+See [LICENSE](LICENSE).

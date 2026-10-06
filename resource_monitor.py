@@ -23,24 +23,13 @@ _registered = False
 def _read():
     global _nvml_ready
     data = {"sampled_at": int(time.time() * 1000), "cpu_utilization": None,
-            "ram_used_percent": None, "cpu_temperature": None, "gpus": [], "providers": {"cpu_ram": False, "nvidia": False}}
+            "ram_used_percent": None, "gpus": [], "providers": {"cpu_ram": False, "nvidia": False}}
     if psutil:
         try:
             data["cpu_utilization"] = psutil.cpu_percent(interval=0.1)
             ram = psutil.virtual_memory()
             data.update(ram_used_percent=ram.percent, ram_used_bytes=ram.total-ram.available, ram_total_bytes=ram.total)
             data["providers"]["cpu_ram"] = True
-        except Exception:
-            pass
-    if psutil:
-        try:
-            sensors = psutil.sensors_temperatures()
-            # CPU-specific providers only; never label motherboard/ACPI as CPU.
-            readings = [entry.current for name, entries in sensors.items()
-                        if name.lower() in {"coretemp", "k10temp", "cpu_thermal", "zenpower"}
-                        for entry in entries if entry.current is not None]
-            if readings:
-                data["cpu_temperature"] = max(readings)
         except Exception:
             pass
     if pynvml:

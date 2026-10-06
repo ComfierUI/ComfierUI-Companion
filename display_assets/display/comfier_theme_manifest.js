@@ -8,6 +8,14 @@
     ['canvasBg','Canvas','--comfier-canvas-bg','#222222'],
     ['nodeBg','Node Backgrounds','--comfier-node-bg','#353535'],
     ['nodeLabel','Node Labels','--comfier-node-label','#333333'],
+    ['socketModel','Model Sockets','--comfier-socketModel','#aaaaaa'],
+    ['socketClip','CLIP Sockets','--comfier-socketClip','#aaaaaa'],
+    ['socketVae','VAE Sockets','--comfier-socketVae','#aaaaaa'],
+    ['socketLatent','Latent Sockets','--comfier-socketLatent','#aaaaaa'],
+    ['socketMask','Mask Sockets','--comfier-socketMask','#aaaaaa'],
+    ['socketConditioning','Positive / Negative Sockets','--comfier-socketConditioning','#aaaaaa'],
+    ['socketHidden','Hidden Sockets','--comfier-socketHidden','#aaaaaa'],
+    ['socketOther','Other Sockets','--comfier-socketOther','#aaaaaa'],
     ['containerBg','Container Backgrounds','--comfier-container-bg','#242427'],
     ['containerFrame','Container Frames','--comfier-container-frame','#3b4554'],
     ['active','Active State','--comfier-active-color','#ffffff'],
@@ -21,10 +29,13 @@
   ].map(([id,label,variable,defaultColor])=>({id,label,variable,defaultColor}));
   const nativeSwatches={icons:'var(--color-base-foreground,var(--fg-color,#fff))',buttonFrame:'var(--interface-stroke,var(--border-color,#4e4e4e))',buttonBg:'var(--color-secondary-background,#303030)',panelBg:'var(--comfy-menu-bg,#171718)',panelFrame:'var(--interface-stroke,var(--border-color,#4e4e4e))',containerBg:'var(--color-interface-panel-surface,var(--comfy-menu-bg,#171718))',containerFrame:'var(--interface-stroke,var(--border-color,#4e4e4e))',uiText:'var(--color-base-foreground,var(--fg-color,#fff))',promptText:'var(--input-text,#ddd)',active:'var(--color-primary-background,#0b8ce9)',progress:'var(--color-interface-panel-job-progress-primary,#0b8ce9)',error:'var(--color-destructive-background,#e00)',success:'var(--color-success-background,#22c55e)'};
   Object.assign(nativeSwatches,{canvasBg:'#222222',nodeBg:'var(--component-node-background,#353535)',nodeLabel:'var(--node-component-header-surface,#333333)'});
+  Object.assign(nativeSwatches,{socketModel:'var(--color-datatype-MODEL,#aaaaaa)',socketClip:'var(--color-datatype-CLIP,#aaaaaa)',socketVae:'var(--color-datatype-VAE,#aaaaaa)',socketLatent:'var(--color-datatype-LATENT,#aaaaaa)',socketMask:'var(--color-datatype-MASK,#aaaaaa)',socketConditioning:'var(--color-datatype-CONDITIONING,#aaaaaa)',socketHidden:'var(--color-datatype-HIDDEN,#aaaaaa)',socketOther:'var(--color-datatype-OTHER,#aaaaaa)'});
   const groups=[];
   const add=(id,selectors,bindings,source,extra={})=>groups.push({id,selectors,bindings,source,status:'live',...extra});
   const binding=(role,property,value)=>({role,property,value});
   const paint=(role,property='color',fallback='#fff')=>{const value=`var(${roles.find(r=>r.id===role).variable},${fallback})`;return binding(role,property,role==='buttonBg'?`var(--comfier-control-background,${value})`:value)};
+  add('active-counter-background',['.sidebar-icon-badge','.comfier-active-counter'],[paint('uiText','background-color')],'Job History and Downloads badges');
+  add('active-counter-text',['.sidebar-icon-badge','.comfier-active-counter'],[paint('icons'),paint('icons','-webkit-text-fill-color')],'Job History and Downloads badge numbers');
   add('canvas-background',['#graph-canvas-container'],[paint('canvasBg','background-color')],'LiteGraph clear_background_color; canvas host');
   add('node-body',['[data-testid="node-inner-wrapper"]'],[paint('nodeBg','--component-node-background')],'Vue node body');
   add('node-label',['[data-testid="node-inner-wrapper"]'],[paint('nodeLabel','background-color')],'Vue node header surface');

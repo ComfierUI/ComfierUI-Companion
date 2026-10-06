@@ -1,7 +1,7 @@
 (function(){
 'use strict';if(window.__comfierWorkflowOwner)return;
 window.__comfierWorkflowFloatingTrigger?.remove?.();
-const jobs=window.__comfierRuntime.scope('workflow-owner'),sources=new Map(),buttons=new Map(),retired=new Map();let mode='graph',stopped=false,menu=null,menuRole=null,switching=false,appsOpen=false;let appsPanel=null,appsBody=null,appsView='apps',browserVNode=null;const appsModeButtons=new Map();const admitted=new Map(),sidebarSlots=new Map();let guardedSettings=null,originalSettingSet=null,settingWrapper=null,builderNotice=null;
+const jobs=window.__comfierRuntime.scope('workflow-owner'),sources=new Map(),buttons=new Map(),retired=new Map();let mode='graph',stopped=false,menu=null,menuRole=null,switching=false,appsOpen=false;let liteMount=null;let appsPanel=null,appsBody=null,appsView='apps',browserVNode=null;const appsModeButtons=new Map();const admitted=new Map(),sidebarSlots=new Map();let guardedSettings=null,originalSettingSet=null,settingWrapper=null,builderNotice=null;
 const dock=document.createElement('div');dock.id='comfier-workflow-actions-floating-dock';dock.setAttribute('data-comfier-owned-workflow','');
 const group=document.createElement('div');group.setAttribute('data-testid','view-mode-toggle');group.setAttribute('role','group');group.setAttribute('aria-label','Workflow actions');group.setAttribute('data-comfier-owned-workflow-group','');dock.append(group);
 const style=document.createElement('style');style.id='comfier-workflow-owner-style';style.textContent=`
@@ -35,9 +35,9 @@ html.comfier-apps-owned [data-comfier-apps-native]:not([data-comfier-apps-admitt
 #comfier-apps-content [role="tablist"]{position:relative!important;inset:auto!important;width:100%!important;height:auto!important;zoom:1!important;transform:none!important}
 #comfier-apps-content .workflow-tabs-container{display:none!important}
 #comfier-apps-content nav.side-tool-bar-container{display:none!important}
-#comfier-apps-panel[data-comfier-apps-view="outerPortrait"] #comfier-apps-content>[data-comfier-apps-admitted]{width:max(100%,640px)!important;min-width:640px!important;max-width:none!important}
+#comfier-apps-panel[data-comfier-apps-view="outerPortrait"]:not([data-apps-surface="running"]) #comfier-apps-content>[data-comfier-apps-admitted]{width:max(100%,640px)!important;min-width:640px!important;max-width:none!important}
 #comfier-apps-panel[data-comfier-apps-view="outerPortrait"] #comfier-apps-content>[data-comfier-apps-name="BuilderToolbar"]{width:max-content!important;min-width:100%!important;justify-content:flex-start!important}
-#comfier-apps-panel[data-comfier-apps-view="outerPortrait"] [data-testid="linear-mobile"]{min-width:640px!important;min-height:100%!important;height:100%!important}
+#comfier-apps-panel[data-comfier-apps-view="outerPortrait"]:not([data-apps-surface="running"]) [data-testid="linear-mobile"]{min-width:640px!important;min-height:100%!important;height:100%!important}
 #comfier-apps-panel[data-comfier-apps-view="outerPortrait"] [data-testid="linear-mobile"]>.contain-content{contain:none!important;overflow:visible!important;flex:1;min-height:0}
 #comfier-apps-panel[data-comfier-apps-view="outerPortrait"] [data-testid="linear-mobile"] [role="tabpanel"]{overflow-x:auto!important;overflow-y:auto!important;contain:none!important;touch-action:pan-x pan-y!important}
 
@@ -52,6 +52,13 @@ html.comfier-apps-owned [data-comfier-apps-native]:not([data-comfier-apps-admitt
 
 html body [data-comfier-owned-workflow-group],html body [data-comfier-owned-workflow-group] *{animation:none!important;transition:none!important}
 html.comfier-layout-right body [data-comfier-owned-workflow-group]{flex-direction:row-reverse}
+
+#comfier-apps-panel[data-comfier-apps-view="outerPortrait"][data-apps-surface="running"] #comfier-apps-content{overflow-x:auto!important}
+#comfier-apps-panel[data-comfier-apps-view="outerPortrait"][data-apps-surface="running"] #comfier-apps-content>.comfier-lite-form,
+#comfier-apps-panel[data-comfier-apps-view="outerPortrait"][data-apps-surface="running"] #comfier-apps-content>[data-comfier-apps-admitted],
+#comfier-apps-panel[data-comfier-apps-view="outerPortrait"][data-apps-surface="running"] [data-testid="linear-mobile"]{box-sizing:border-box!important;width:100%!important;min-width:0!important;max-width:100%!important}
+#comfier-apps-panel[data-comfier-apps-view="outerPortrait"][data-apps-surface="running"] .comfier-lite-form :is(fieldset,label,div,p,a){min-width:0;overflow-wrap:anywhere}
+#comfier-apps-panel[data-comfier-apps-view="outerPortrait"][data-apps-surface="running"] .comfier-lite-form :is(input,textarea,select,button,img,video,audio){box-sizing:border-box;max-width:100%}
 `;
 document.head.append(style);document.body.append(dock);window.__comfierUiAuthority.registerOwned('workflow',dock,'workflow-owner');
 for(const [role,label,icon]of [['apps','App Mode','icon-[lucide--panels-top-left]'],['graph','Graph Mode','icon-[comfy--workflow]']]){
@@ -108,6 +115,7 @@ function retainGraphSidebar(){
  }
 }
 function appsBrowserVNode(component,content){
+ if(liteMount)return null;
  if(browserVNode?.component?.isUnmounted)browserVNode=null;if(browserVNode)return browserVNode;
  const manager=window.app?.extensionManager,source=manager?.getSidebarTabs?.()||manager?.sidebarTab?.sidebarTabs||[];
  const tabs=Array.isArray(source)?source:source instanceof Map?[...source.values()]:Object.values(source);
@@ -118,25 +126,25 @@ function appsBrowserVNode(component,content){
 }
 function updateAppsSlots(){retainGraphSidebar();for(const[c,saved]of sidebarSlots)if(!c.isUnmounted&&(window.__comfierSidePanels?.unwrapSlot(c.slots?.['side-toolbar'])||c.slots?.['side-toolbar'])===saved.slot)c.update?.()}
 function modeIcon(button,label){const svg=document.createElementNS('http://www.w3.org/2000/svg','svg'),text=document.createElementNS('http://www.w3.org/2000/svg','text');svg.setAttribute('viewBox','0 0 102 32');svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');text.setAttribute('x','51');text.setAttribute('y','16');text.setAttribute('text-anchor','middle');text.setAttribute('dominant-baseline','central');text.textContent=label;svg.append(text);button.append(svg)}
-function syncAppsModes(){const title=document.getElementById('comfier-apps-label'),label=appsView==='builder'?'App builder':'Apps';if(title&&title.textContent!==label)title.textContent=label;for(const[view,button]of appsModeButtons){const value=String(appsView===view);if(button.getAttribute('aria-pressed')!==value)button.setAttribute('aria-pressed',value)}if(appsPanel?.getAttribute('data-apps-mode')!==appsView)appsPanel?.setAttribute('data-apps-mode',appsView)}
+function appsSurface(){return appsView==='builder'?'builder':liteMount||stores()?.get('workflow')?.activeWorkflow?.activeMode==='app'?'running':'launch'}
+function syncAppsModes(){const close=appsPanel?.querySelector('header>button');if(close)close.hidden=!!(window.__comfierAndroidClient||window.__COMFIER_CLOUD_MODE);const surface=appsSurface();if(appsPanel&&appsPanel.getAttribute('data-apps-surface')!==surface){appsPanel.setAttribute('data-apps-surface',surface);if(appsBody)appsBody.scrollLeft=0;window.dispatchEvent(new Event('comfier-apps-surface-change'))}const title=document.getElementById('comfier-apps-label'),label='App Mode';if(title&&title.textContent!==label)title.textContent=label;for(const[view,button]of appsModeButtons){const value=String(appsView===view);if(button.getAttribute('aria-pressed')!==value)button.setAttribute('aria-pressed',value)}if(appsPanel?.getAttribute('data-apps-mode')!==appsView)appsPanel?.setAttribute('data-apps-mode',appsView)}
 function selectAppsView(view){
  if(!appsOpen||!['apps','builder'].includes(view)||appsView===view)return;
  const store=stores()?.get('appMode');if(view==='builder'&&typeof store?.enterBuilder!=='function')throw Error('App builder is not ready.');
- restoreApps();appsView=view;browserVNode=null;
+ restoreApps();document.documentElement.classList.remove('comfier-lite-active');appsView=view;browserVNode=null;
  if(view==='builder'){guardBuilderSettings();store.enterBuilder()}else{store?.exitBuilder?.();const canvas=stores()?.get('canvas');if(canvas)canvas.linearMode=false}
- updateAppsSlots();syncAppsModes();window.__comfierUnifiedSidebarTest?.refresh?.();schedule();jobs.burst('apps-view-mount',schedule,[0,25,80,250]);
+ if(view==='apps'&&liteMount)mountLite();else appsBody?.querySelector('.comfier-lite-form')?.remove();updateAppsSlots();syncAppsModes();window.__comfierUnifiedSidebarTest?.refresh?.();schedule();jobs.burst('apps-view-mount',schedule,[0,25,80,250]);
 }
 function releaseGraphSidebar(){for(const[c,old]of sidebarSlots){if((window.__comfierSidePanels?.unwrapSlot(c.slots?.['side-toolbar'])||c.slots?.['side-toolbar'])===old.slot)c.slots['side-toolbar']=window.__comfierSidePanels?.wrapSlot(c,old.original)||old.original;if(!c.isUnmounted)c.update?.()}sidebarSlots.clear()}
 function ensureAppsPanel(){
  if(appsPanel)return;
  appsPanel=document.createElement('section');appsPanel.id='comfier-apps-panel';appsPanel.setAttribute('aria-label','Apps');window.__comfierUiAuthority.registerOwned('apps',appsPanel,'workflow-owner');
- const modes=document.createElement('div');modes.setAttribute('data-comfier-apps-modes','');modes.setAttribute('role','group');modes.setAttribute('aria-label','Apps panel modes');
- for(const[view,label]of [['apps','Apps'],['builder','Builder']]){const button=document.createElement('button');button.type='button';button.className='comfier-apps-mode-button';button.setAttribute('class','comfier-apps-mode-button');button.setAttribute('aria-label',label);modeIcon(button,label);button.addEventListener('click',()=>selectAppsView(view));appsModeButtons.set(view,button);modes.append(button)}
- const header=document.createElement('header'),title=document.createElement('span'),close=document.createElement('button');title.id='comfier-apps-label';title.textContent='Apps';close.type='button';close.textContent='×';close.setAttribute('aria-label','Close Apps');close.addEventListener('click',closeApps);header.append(title,close);
- appsBody=document.createElement('div');appsBody.id='comfier-apps-content';const status=document.createElement('p');status.id='comfier-apps-status';status.textContent='Apps browser is loading.';appsBody.append(status);appsPanel.append(modes,header,appsBody);document.body.append(appsPanel);syncAppsModes();
+ const header=document.createElement('header'),title=document.createElement('span'),close=document.createElement('button');title.id='comfier-apps-label';title.textContent='App Mode';close.type='button';close.textContent='×';close.setAttribute('aria-label','Close Apps');close.addEventListener('click',closeApps);close.hidden=!!(window.__comfierAndroidClient||window.__COMFIER_CLOUD_MODE);header.append(title,close);
+ appsBody=document.createElement('div');appsBody.id='comfier-apps-content';const status=document.createElement('p');status.id='comfier-apps-status';status.textContent='Apps browser is loading.';appsBody.append(status);appsPanel.append(header,appsBody);document.body.append(appsPanel);syncAppsModes();
 }
 function admitApps(){
  if(!appsOpen)return;
+ if(appsView==='apps'&&liteMount){const status=document.getElementById('comfier-apps-status');if(status)status.hidden=true;return}
  const nativeMode=stores()?.get('workflow')?.activeWorkflow?.activeMode;if(appsView==='builder'&&nativeMode==='graph'){selectAppsView('apps');return}
  for(const[el]of admitted)if(!el.isConnected)admitted.delete(el);
  for(const[name,el]of componentSurfaces()){
@@ -153,9 +161,9 @@ function guardBuilderSettings(){
  const original=setting.set;originalSettingSet=original;guardedSettings=setting;settingWrapper=function(id,value,...rest){if(appsOpen&&id==='Comfy.VueNodes.Enabled'&&value===true)return Promise.resolve();return original.call(this,id,value,...rest)};setting.set=settingWrapper;
 }
 function closeApps(){
- if(!appsOpen)return false;appsOpen=false;restoreApps();appsPanel?.removeAttribute('data-open');
+ if(!appsOpen)return false;appsOpen=false;restoreApps();appsBody?.querySelector('.comfier-lite-form')?.remove();liteMount=null;appsPanel?.removeAttribute('data-open');
  const s=stores()?.get('appMode');s?.exitBuilder?.();if(guardedSettings?.set===settingWrapper)guardedSettings.set=originalSettingSet;guardedSettings=null;originalSettingSet=null;settingWrapper=null;builderNotice?.release();builderNotice=null;const canvas=stores()?.get('canvas');if(canvas)canvas.linearMode=false;releaseGraphSidebar();browserVNode=null;
- document.documentElement.classList.remove('comfier-apps-owned');document.documentElement.style.removeProperty('--comfier-apps-z');syncState();window.__comfierEarlyFloatingPanels?.refresh?.();return true;
+ window.dispatchEvent(new CustomEvent('comfier-app-view-closed'));document.documentElement.classList.remove('comfier-apps-owned');document.documentElement.style.removeProperty('--comfier-apps-z');syncState();window.__comfierEarlyFloatingPanels?.refresh?.();return true;
 }
 function toggleApps(){if(window.__comfierSidePanels&&!window.__comfierSidePanels.operating('apps'))return window.__comfierSidePanels.toggle('apps',buttons.get('apps'),toggleApps);
  if(appsOpen){closeApps();return}
@@ -198,7 +206,7 @@ function layout(){
  for(const[key,value]of Object.entries({left:Math.round(edge+4)+'px',right:'auto',top:Math.round(top+4)+'px'})){const pair=window.__comfierLayoutSide?.property(key,value)||[key,value];window.__comfierRuntime.writeStyle(dock,pair[0],pair[1],'workflow-owner')}
 }
 let appModeBinding=null,canvasBinding=null,rightBinding=null;
-function refresh(){if(stopped)return;if(appsPanel){const view=window.__comfierViewport?.mode()||(Math.min(screen.width,screen.height)<=520?'outer':'inner')+(innerHeight>=innerWidth?'Portrait':'Landscape');if(appsPanel.getAttribute('data-comfier-apps-view')!==view)appsPanel.setAttribute('data-comfier-apps-view',view)}if(appsOpen){retainGraphSidebar();guardBuilderSettings();const appMode=stores()?.get('appMode');if(!builderNotice?.ready()&&appMode?.showVueNodeSwitchPopup)appMode.showVueNodeSwitchPopup=false}catalog();admitApps();syncState();layout();placeMenu();if(!rightBinding){const store=stores()?.get('rightSidePanel');if(store?.$subscribe)rightBinding=store.$subscribe(schedule,{detached:true})}if(!appModeBinding){const store=stores()?.get('appMode');if(store?.$subscribe)appModeBinding=store.$subscribe(schedule,{detached:true})}if(!canvasBinding){const store=stores()?.get('canvas');if(store?.$subscribe)canvasBinding=store.$subscribe(schedule,{detached:true})}}
+function refresh(){if(stopped)return;if(appsPanel){const view=window.__comfierViewport?.mode()||(Math.min(screen.width,screen.height)<=520?'outer':'inner')+(innerHeight>=innerWidth?'Portrait':'Landscape');if(appsPanel.getAttribute('data-comfier-apps-view')!==view)appsPanel.setAttribute('data-comfier-apps-view',view)}if(appsOpen){retainGraphSidebar();guardBuilderSettings();const appMode=stores()?.get('appMode');if(!builderNotice?.ready()&&appMode?.showVueNodeSwitchPopup)appMode.showVueNodeSwitchPopup=false}catalog();admitApps();syncAppsModes();syncState();layout();placeMenu();if(!rightBinding){const store=stores()?.get('rightSidePanel');if(store?.$subscribe)rightBinding=store.$subscribe(schedule,{detached:true})}if(!appModeBinding){const store=stores()?.get('appMode');if(store?.$subscribe)appModeBinding=store.$subscribe(schedule,{detached:true})}if(!canvasBinding){const store=stores()?.get('canvas');if(store?.$subscribe)canvasBinding=store.$subscribe(schedule,{detached:true})}}
 
 function schedule(){jobs.frame('layout',refresh)}
 jobs.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['aria-pressed','data-state','class']},records=>{if(records.some(r=>!(r.target.nodeType===1?r.target:r.target.parentElement)?.closest?.('[data-comfier-owned-workflow]')))schedule()});
@@ -206,7 +214,9 @@ for(const event of ['resize','orientationchange','pageshow','comfier-layout-edit
 jobs.listen(document,'click',event=>{if(menu&&!menu.contains(event.target)&&!group.contains(event.target))closeMenu()});
 jobs.listen(document,'keydown',event=>{if(event.key==='Escape'){if(!closeMenu())closeApps()}});const back=window.__comfierBack?.register?.('workflow-actions-menu',45,closeMenu);
 const appsBack=window.__comfierBack?.register?.('apps-panel',135,()=>!window.__comfierSidePanels&&closeApps());
-window.__comfierAppsPanel={isOpen:()=>appsOpen,surface:()=>appsPanel,closeIfOpen:closeApps,toggle:toggleApps,selectMode:selectAppsView,mode:()=>appsView,modeControl:view=>appsModeButtons.get(view),setStack(value){if(value===null)document.documentElement.style.removeProperty('--comfier-apps-z');else document.documentElement.style.setProperty('--comfier-apps-z',String(value))}};
+function mountLite(){appsBody?.querySelector('.comfier-lite-form')?.remove();Promise.resolve(liteMount?.(appsBody)).catch(error=>console.warn('ComfierUI App Mode: '+error.message))}
+function openLite(mount){if(!appsOpen)toggleApps();restoreApps();const s=stores()?.get('appMode');s?.exitBuilder?.();const c=stores()?.get('canvas');if(c)c.linearMode=false;appsView='apps';liteMount=mount;mountLite();updateAppsSlots();syncAppsModes();schedule()}
+window.__comfierAppsPanel={openLite,isOpen:()=>appsOpen,surface:()=>appsPanel,closeIfOpen:closeApps,toggle:toggleApps,selectMode:selectAppsView,mode:()=>appsView,contentMode:appsSurface,modeControl:view=>appsModeButtons.get(view),setStack(value){if(value===null)document.documentElement.style.removeProperty('--comfier-apps-z');else document.documentElement.style.setProperty('--comfier-apps-z',String(value))}};
 window.__comfierWorkflowOwner={dock,group,control:role=>buttons.get(role),refresh:schedule,snapshot:()=>({mode:current(),ready:!!stores()?.get('canvas'),appsSurfaces:admitted.size,sidebarSlots:sidebarSlots.size,appsView,browserMounted:!!browserVNode,nativeHosts:retired.size}),remove(){if(stopped)return;stopped=true;jobs.dispose();closeMenu();back?.();appsBack?.();appModeBinding?.();canvasBinding?.();rightBinding?.();closeApps();window.__comfierUiAuthority.unregisterOwned('apps',appsPanel);appsPanel?.remove();document.documentElement.style.removeProperty('--comfier-apps-z');delete window.__comfierAppsPanel;for(const[el,old]of retired){el.inert=old.inert;if(old.aria===null)el.removeAttribute('aria-hidden');else el.setAttribute('aria-hidden',old.aria)}window.__comfierUiAuthority.unregisterOwned('workflow',dock);dock.remove();style.remove();delete window.__comfierWorkflowOwner;delete window.__comfierWorkflowFloatingTrigger}};
 window.__comfierWorkflowFloatingTrigger={refresh:schedule};jobs.burst('startup',schedule,[0,80,300,1000,2500]);refresh();
 })();

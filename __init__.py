@@ -7,6 +7,7 @@ from .display_bundle import register_display_bundle
 from .diagnostics_host import register_diagnostic_routes
 from .theme_profiles import register_theme_routes
 from .resource_monitor import register_resource_routes
+from .workflow_apps import register_workflow_app_routes
 
 
 register_routes()
@@ -16,6 +17,7 @@ register_display_bundle()
 register_diagnostic_routes()
 register_theme_routes()
 register_resource_routes()
+register_workflow_app_routes()
 
 NODE_CLASS_MAPPINGS = {}
 NODE_DISPLAY_NAME_MAPPINGS = {}

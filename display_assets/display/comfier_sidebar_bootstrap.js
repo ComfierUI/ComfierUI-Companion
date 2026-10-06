@@ -65,8 +65,31 @@
     if(multiTarget!==target){if(multiTarget&&multiHandler)multiTarget.removeEventListener('click',multiHandler,true);multiTarget=target;multiHandler=event=>{event.preventDefault();event.stopImmediatePropagation();window.__comfierMultiSelectCtrl=!window.__comfierMultiSelectCtrl;box.checked=!!window.__comfierMultiSelectCtrl;jobs.burst('tooltip',()=>dismissMultiTooltip(target),[0,32,120])};target.addEventListener('click',multiHandler,true)}
     box.checked=!!window.__comfierMultiSelectCtrl;return true;
   }
+  function portControls(panel){
+    if(panel.querySelector('.comfier-companion-port-row'))return;
+    const row=document.createElement('div');row.className='comfier-companion-port-row';row.style.cssText='order:4;width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:8px;box-sizing:border-box';
+    const label=document.createElement('label');label.textContent='Companion Port';label.style.cssText='font:inherit!important;display:block;flex:1;min-width:0;margin:0;text-align:left';const input=document.createElement('input');input.type='number';input.inputMode='numeric';input.min=1024;input.max=65535;input.step=1;input.placeholder='8147';input.setAttribute('aria-label','Companion Port');input.style.cssText='width:50px;max-width:100%;box-sizing:border-box;margin-left:auto';label.htmlFor='comfier-companion-port-input';input.id=label.htmlFor;
+    const apply=document.createElement('button');apply.type='button';apply.textContent='Apply';row.append(label,input,apply);panel.appendChild(row);
+    const notify=message=>window.alert(message);
+    let reserved=[8188],gatewayPort=null;
+    async function request(options){const api=window.app?.api;if(typeof api?.fetchApi!=='function')throw Error('Connection is not ready');const response=await api.fetchApi('/comfierui/gateway/port',options);if(!response.ok)throw Error(response.status===404?'Port changes require Companion 0.4.29.':await response.text()||'Could not change the port');return response.json()}
+    request().then(config=>{if(stopped||!row.isConnected)return;input.value=config.port;gatewayPort=config.port;input.placeholder=String(config.port);window.ComfierApp?.rememberCompanionPort?.(config.port);reserved=config.reserved||reserved}).catch(()=>{});
+    apply.onclick=async()=>{
+      const port=input.value.trim()===''?(gatewayPort??8147):Number(input.value);
+      if(port===8188){notify("8188 is unavailable due to being ComfyUI's default port.");return}
+      if(!Number.isInteger(port)||port<1024||port>65535||reserved.includes(port)){notify('Choose a port from 1024–65535, excluding ComfyUI’s port.');return}
+      if(gatewayPort===null){notify('Wait for Companion port information.');return}
+      if(location.protocol!=='http:'||Number(location.port||80)!==gatewayPort){notify('Change gateway ports using a direct HTTP Companion connection.');return}
+      if(typeof window.ComfierApp?.reconnectCompanionPort!=='function'){notify('Change ports from the ComfierUI app.');return}
+      // Verify storage can be read before changing the server's listening port.
+      let storage;try{storage=JSON.stringify(Object.fromEntries(Object.keys(localStorage).map(key=>[key,localStorage.getItem(key)])))}catch(_){notify('Could not preserve this device’s settings; port unchanged.');return}
+      apply.disabled=true;input.disabled=true;
+      try{const result=await request({method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({port})});window.ComfierApp.reconnectCompanionPort(result.port,storage)}catch(error){notify(error.message)}finally{apply.disabled=false;input.disabled=false}
+    };
+  }
   function heading(){
     const panel=settingsRoot?.querySelector('.ui-zoom-panel');if(!panel)return;
+    portControls(panel);
     panel.querySelectorAll('.ui-companion-display-row').forEach(el=>el.remove());
     if(!panel.querySelector('.comfier-app-settings-heading')){const title=document.createElement('h2');title.className='comfier-app-settings-heading';title.textContent='App Settings';panel.prepend(title)}
   }

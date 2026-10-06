@@ -24,6 +24,7 @@
   },true);
   // Native priority is unchanged. Lazy lookup keeps late-installed features usable.
   if(localUi)register('node-search',20,()=>window.__comfierNodeSearchShell?.handleBack?.());
+  register('node-appearance',15,()=>window.__comfierNodeAppearance?.close?.());
   register('prompt',30,()=>window.__comfierPromptPopup?.isOpen?.()&&window.__comfierPromptPopup?.close?.());
   register('tap-link',40,()=>window.__comfierTapLink?.handleBack?.());
   if(localUi)register('owned-panel-preview',48,()=>window.__comfierFeedPanel?.closePreview?.());

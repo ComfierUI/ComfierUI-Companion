@@ -18,9 +18,16 @@ class ThemeTests(unittest.TestCase):
             self.assertEqual(themes.list_profiles(), [])
             (root / 'ocean.json').write_text(json.dumps(theme))
             self.assertEqual(themes.list_profiles(), [theme])
+            theme['layout'] = {'schemaVersion': 1, 'views': {}}
+            theme['appearance'] = {'schemaVersion': 1, 'views': {}}
+            theme['dimensions'] = {'button': {'height': 26}, 'container': {'frame': 1}}
             theme['transparency']['icons'] = 75
             (root / 'ocean.json').write_text(json.dumps(theme))
             self.assertEqual(themes.list_profiles()[0]['transparency']['icons'], 75)
+            self.assertEqual(themes.list_profiles()[0]['layout'], theme['layout'])
+            self.assertEqual(themes.list_profiles()[0]['appearance'], theme['appearance'])
+            self.assertEqual(themes.list_profiles()[0]['dimensions'], theme['dimensions'])
+            (root / 'bad-dimensions.json').write_text(json.dumps(dict(theme, dimensions=[])))
             (root / 'bad.json').write_text('{broken')
             (root / 'array.json').write_text('[]')
             (root / 'huge.json').write_bytes(b' ' * (themes.MAX_BYTES + 1))

@@ -2,7 +2,9 @@ import { app } from "../../../scripts/app.js";
 import { api } from "../../../scripts/api.js";
 
 const ROUTE = "/comfierui/model-download";
-const VERSION = "0.4.28";
+const VERSION = "0.5.0";
+import { prepareDesktop, installDesktopClose } from "./comfierui_desktop.js";
+import { installBrowserThemes } from "./comfierui_browser_themes.js";
 
 async function listThemes() {
   const response=await api.fetchApi('/comfierui/themes',{cache:'no-store'});
@@ -51,8 +53,8 @@ async function recoverUiBundle(error){
 async function prepareDisplayRuntime() {
   try{const revision=await activeRevision();const module=await import('/comfierui/display-assets/revisions/'+revision.revision+'/comfierui_display_runtime.js');return await module.prepare();}catch(error){return recoverUiBundle(error);}
 }
-async function installDisplayBundle() {
-  try{const revision=await activeRevision();const module=await import('/comfierui/display-assets/revisions/'+revision.revision+'/comfierui_display_bundle.js');const result=await module.install();window.__comfierActiveUiBundle=revision;return result;}catch(error){return recoverUiBundle(error);}
+async function installDisplayBundle(browser = false) {
+  try{const revision=await activeRevision();const module=await import(browser ? '/comfierui/browser-assets/comfierui_display_bundle.js?revision='+revision.revision : '/comfierui/display-assets/revisions/'+revision.revision+'/comfierui_display_bundle.js');const result=await module.install();window.__comfierActiveUiBundle=revision;return result;}catch(error){return recoverUiBundle(error);}
 }
 
 function installHostDownloadBridge() {
@@ -69,7 +71,24 @@ function installHostDownloadBridge() {
 
 app.registerExtension({
   name: "ComfierUI.HostModelDownloads",
-  setup() {
+  async setup() {
     installHostDownloadBridge();
+    if (!document.querySelector('meta[name="comfierui-gateway"]') || window.__comfierNativeUiOwner || window.ComfyRemoteDownloads) return;
+    window.app = app;
+    window.__comfierNativeUiOwner = 'companion';
+    try {
+      const desktop = prepareDesktop();
+      if (desktop) await installBrowserThemes();
+      await prepareDisplayRuntime();
+      await installDisplayBundle(desktop);
+      window.__comfierBrowserThemesReady?.();
+      if (desktop) installDesktopClose();
+    } catch (error) {
+      console.error('ComfierUI browser startup failed', error);
+      const message = document.createElement('p');
+      message.setAttribute('role', 'alert');
+      message.textContent = 'ComfierUI could not start: ' + error.message + '. Reload to retry.';
+      document.body.appendChild(message);
+    }
   },
 });

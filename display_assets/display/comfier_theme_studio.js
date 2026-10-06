@@ -76,7 +76,55 @@
   function dismissProfiles(){if(!profileDialog)return false;profileRequest++;profileDialog.close();profileDialog.remove();profileDialog=null;profileSelection=null;return true}
   function profileShell(title){dismissProfiles();const d=document.createElement('dialog');d.className='comfier-theme-profiles';d.innerHTML='<header><strong></strong><button type="button" aria-label="Close profiles">×</button></header><div class="theme-profile-body"></div><p class="theme-profile-status" role="status"></p><footer></footer>';d.querySelector('strong').textContent=title;d.querySelector('header button').onclick=dismissProfiles;d.addEventListener('cancel',e=>{e.preventDefault();dismissProfiles()});document.body.appendChild(d);profileDialog=d;d.showModal();return d}
   function action(host,label,fn){const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=fn;host.appendChild(b);return b}
-  function saveAs(existing=null){const d=profileShell(existing?'Rename theme':'Save theme as');const body=d.querySelector('.theme-profile-body'),input=document.createElement('input');input.type='text';input.maxLength=80;input.placeholder='Theme name';input.setAttribute('aria-label','Theme name');input.value=existing?.name||'';body.appendChild(input);const save=()=>{try{const name=input.value.trim();if(!name)throw Error('Enter a theme name.');const list=localProfiles();if(list.some(p=>p.name.toLowerCase()===name.toLowerCase()&&p.id!==existing?.id))throw Error('That name is already saved.');if(existing){const p=list.find(p=>p.id===existing.id);if(!p)throw Error('Theme no longer exists.');p.name=name}else{list.push({...exportProfile(name),id:globalThis.crypto?.randomUUID?.()||Date.now()+'-'+Math.random().toString(36).slice(2),savedAt:new Date().toISOString()})}writeProfiles(list);if(!existing)localStorage.setItem('comfier.theme.active.v1',list[list.length-1].id);if(existing)showProfiles();else dismissProfiles()}catch(e){d.querySelector('.theme-profile-status').textContent=e.message}};action(d.querySelector('footer'),'Save',save);if(!existing)action(d.querySelector('footer'),'Share',()=>shareProfile(input.value,d));action(d.querySelector('footer'),'Cancel',()=>existing?showProfiles():dismissProfiles());input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();save()}})}
+  function saveAs(existing=null){
+    const d=profileShell(existing?'Rename theme':'Save theme as'),body=d.querySelector('.theme-profile-body'),foot=d.querySelector('footer'),status=d.querySelector('.theme-profile-status');
+    const input=document.createElement('input');input.type='text';input.maxLength=80;input.placeholder='Theme name';input.setAttribute('aria-label','Theme name');input.value=existing?.name||'';body.appendChild(input);
+    let pending=null;const choices=[];
+    const confirmation=document.createElement('section');confirmation.className='theme-overwrite-confirm';confirmation.hidden=true;confirmation.setAttribute('role','alertdialog');confirmation.setAttribute('aria-label','Overwrite saved theme');
+    const message=document.createElement('p');confirmation.appendChild(message);
+    function lock(value){input.disabled=value;saveButton.disabled=value;for(const b of choices)b.disabled=value}
+    function cancelOverwrite(){pending=null;confirmation.hidden=true;lock(false);input.focus()}
+    function persist(name,target=null,expected=null){
+      const list=localProfiles(),index=target?list.findIndex(p=>p.id===target.id):-1;
+      if(target&&(index<0||JSON.stringify(list[index])!==expected))throw Error('The saved theme changed. Cancel and select it again before overwriting.');
+      if(list.some(p=>p.name.trim().toLowerCase()===name.toLowerCase()&&p.id!==target?.id))throw Error('That name is already saved.');
+      const saved={...exportProfile(name),id:target?.id||globalThis.crypto?.randomUUID?.()||Date.now()+'-'+Math.random().toString(36).slice(2),savedAt:new Date().toISOString()};
+      if(target)list[index]=saved;else list.push(saved);
+      writeProfiles(list);localStorage.setItem('comfier.theme.active.v1',saved.id);dismissProfiles();
+    }
+    action(confirmation,'Overwrite',()=>{if(!pending)return;try{persist(pending.name,pending.target,pending.expected)}catch(e){status.textContent=e.message}});
+    action(confirmation,'Cancel overwrite',cancelOverwrite);
+    function save(){
+      if(pending)return;
+      try{
+        const name=input.value.trim();if(!name)throw Error('Enter a theme name.');
+        const list=localProfiles(),target=list.find(p=>p.name.trim().toLowerCase()===name.toLowerCase());
+        if(existing){if(target&&target.id!==existing.id)throw Error('That name is already saved.');const p=list.find(p=>p.id===existing.id);if(!p)throw Error('Theme no longer exists.');p.name=name;writeProfiles(list);showProfiles();return}
+        if(target){pending={name,target,expected:JSON.stringify(target)};message.textContent='Overwrite “'+target.name+'” with the current theme?';confirmation.hidden=false;status.textContent='';lock(true);confirmation.scrollIntoView({block:'nearest'});return}
+        persist(name);
+      }catch(e){status.textContent=e.message}
+    }
+    const saveButton=action(foot,'Save',save);
+    if(!existing){
+      action(foot,'Share',()=>shareProfile(input.value,d));
+      const heading=document.createElement('h3');heading.textContent=window.__comfierDesktopBrowser?'Saved host themes':'Saved device themes';body.appendChild(heading);
+      function listChoices(profiles){if(!profiles.length){const p=document.createElement('p');p.textContent='No saved themes';body.appendChild(p)}for(const profile of profiles){const b=action(body,profile.name,()=>{input.value=profile.name;status.textContent='Save replaces this name with the current theme after confirmation.';input.focus()});b.dataset.themeSaveChoice=profile.id||profile.name;choices.push(b)}}
+      listChoices(localProfiles());
+      const provider=companionProvider||(window.ComfierUICompanion?.listThemes?{list:()=>window.ComfierUICompanion.listThemes()}:null);
+      if(provider&&!window.__comfierDesktopBrowser){
+        const token=++profileRequest;
+        Promise.race([Promise.resolve().then(()=>provider.list()),new Promise((_,reject)=>setTimeout(()=>reject(Error('Companion request timed out.')),5000))]).then(profiles=>{
+          if(token!==profileRequest||profileDialog!==d)return;
+          const valid=profiles.filter(p=>{try{return typeof p.name==='string'&&!!profileColors(p)}catch(_){return false}});if(!valid.length)return;
+          const h=document.createElement('h3');h.textContent='Companion themes — save a device copy';body.insertBefore(h,confirmation);
+          for(const profile of valid){const b=action(body,profile.name,()=>{input.value=profile.name;status.textContent='This saves the current theme on this device; the host file stays unchanged.';input.focus()});b.disabled=!!pending;b.dataset.themeSaveChoice=profile.name;choices.push(b);body.insertBefore(b,confirmation)}
+        }).catch(e=>{if(profileDialog===d)status.textContent=e.message});
+      }
+    }
+    body.appendChild(confirmation);
+    action(foot,'Cancel',()=>existing?showProfiles():dismissProfiles());
+    input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();save()}});input.focus();
+  }
   const MAX_THEME_BYTES=256*1024;
   function importProfile(text,fallback='Imported theme',kind='colors'){
     if(new Blob([text]).size>MAX_THEME_BYTES)throw Error('Theme file is too large (maximum 256 KB).');
@@ -127,8 +175,27 @@
     ctx.beginPath();ctx.arc(px,py,7*dpr,0,Math.PI*2);ctx.strokeStyle='#fff';ctx.lineWidth=3*dpr;ctx.stroke();ctx.beginPath();ctx.arc(px,py,9*dpr,0,Math.PI*2);ctx.strokeStyle='#000';ctx.lineWidth=dpr;ctx.stroke();
   }
   function wheelPick(event){const r=event.currentTarget.getBoundingClientRect(),x=event.clientX-r.left-r.width/2,y=event.clientY-r.top-r.height/2,rad=Math.min(r.width,r.height)/2-2;hsv.h=(Math.atan2(y,x)*180/Math.PI+360)%360;hsv.s=Math.min(1,Math.hypot(x,y)/rad);setSelected(hsvHex(hsv.h,hsv.s,hsv.v))}
+  const paletteHandlers=new WeakMap();
+  function activeColors(){
+    const found=new Map(),probe=document.createElement('span');probe.setAttribute('data-comfier-theme-probe','');probe.style.cssText='position:fixed;visibility:hidden;pointer-events:none';document.body.appendChild(probe);const canvas=document.createElement('canvas');canvas.width=canvas.height=1;const ctx=canvas.getContext('2d');
+    for(const {id,label}of roles){
+      let color=assigned.has(id)?colorPaint(id):null;
+      if(!color){probe.style.background=manifest.nativeSwatches[id]||defaults[id];const paint=getComputedStyle(probe).backgroundColor;
+        if(ctx){ctx.clearRect(0,0,1,1);ctx.fillStyle=paint;ctx.fillRect(0,0,1,1);const pixel=ctx.getImageData(0,0,1,1).data;color=rgbHex(...pixel.slice(0,3));if(pixel[3]<255)color+=pixel[3].toString(16).padStart(2,'0')}else color=defaults[id];
+      }
+      color=color.toLowerCase();if(!found.has(color))found.set(color,[]);found.get(color).push(label);
+    }
+    probe.remove();return found;
+  }
+  function renderPalette(host,colors=activeColors()){
+    const choose=paletteHandlers.get(host);if(!choose)return;host.replaceChildren();
+    for(const [color,labels]of colors){const b=document.createElement('button');b.type='button';b.className='theme-recent theme-active-color';b.style.setProperty('background',color,'important');b.dataset.color=color;b.title=labels.join(', ')+' · '+color;b.setAttribute('aria-label','Select active theme color '+color+' ('+labels.join(', ')+')');b.onclick=()=>choose(color);host.appendChild(b)}
+  }
+  function activePalette(choose){const host=document.createElement('div');host.className='theme-active-colors';host.setAttribute('role','group');host.setAttribute('aria-label','Active theme colors');paletteHandlers.set(host,choose);renderPalette(host);return host}
+  function refreshActiveColors(){const hosts=document.querySelectorAll('.theme-active-colors');if(!hosts.length)return;const colors=activeColors();hosts.forEach(host=>renderPalette(host,colors))}
   function renderRecents(){const host=page?.querySelector('.theme-recents');if(!host)return;host.replaceChildren();const list=recents();if(!list.length){host.innerHTML='<span class="theme-empty">Assigned colors appear here</span>';return}list.forEach(color=>{const b=document.createElement('button');b.type='button';b.className='theme-recent';b.style.background=color;b.setAttribute('aria-label','Select recent color '+color);b.addEventListener('click',()=>setSelected(color));host.appendChild(b)})}
   function renderRoles(){
+    refreshActiveColors();
     const host=page?.querySelector('.theme-roles');if(!host)return;
     if(!host.children.length){
       roles.forEach(({id,label})=>{const b=document.createElement('button');b.type='button';b.className='theme-role';b.dataset.themeRole=id;b.innerHTML='<span class="theme-role-swatch" aria-hidden="true"></span><span>'+label+'</span>';b.addEventListener('click',()=>applyRole(id));host.appendChild(b)});
@@ -143,6 +210,7 @@
     let color=normalize(String(initial).slice(0,7))||'#ffffff',value=rgbHsv(color),alpha=/^#[0-9a-f]{8}$/i.test(initial)?Math.round((1-parseInt(initial.slice(7),16)/255)*100):0,pointer=null,cache=null;
     const el=document.createElement('div');el.className='theme-picker';
     el.innerHTML='<canvas class="theme-wheel" aria-label="Color wheel"></canvas><label>Brightness <input class="picker-value" type="range" min="0" max="100"></label><label>Transparency <input class="picker-alpha" type="range" min="0" max="100" value="0"></label><label>Hex <input class="picker-hex" type="text" maxlength="6" aria-label="Selected color hex"></label>';
+    el.querySelector('canvas').after(activePalette(next=>{color=next.slice(0,7);value=rgbHsv(color);alpha=next.length===9?Math.round((1-parseInt(next.slice(7),16)/255)*100):0;el.querySelector('.picker-alpha').value=alpha;update()}));
     const canvas=el.querySelector('canvas'),bright=el.querySelector('.picker-value'),hex=el.querySelector('.picker-hex');
     function draw(){const px=220,dpr=Math.min(2,devicePixelRatio||1),pixels=Math.round(px*dpr);canvas.width=canvas.height=pixels;const ctx=canvas.getContext('2d');if(!ctx)return;const center=pixels/2,r=center-2*dpr;if(!cache||cache.v!==value.v){const img=ctx.createImageData(pixels,pixels);for(let y=0;y<pixels;y++)for(let x=0;x<pixels;x++){const dx=x-center,dy=y-center,dist=Math.hypot(dx,dy);if(dist>r)continue;const rgb=hexRgb(hsvHex((Math.atan2(dy,dx)*180/Math.PI+360)%360,dist/r,value.v)),i=(y*pixels+x)*4;img.data[i]=rgb[0];img.data[i+1]=rgb[1];img.data[i+2]=rgb[2];img.data[i+3]=255}cache={v:value.v,img}}ctx.putImageData(cache.img,0,0);const a=value.h*Math.PI/180;ctx.beginPath();ctx.arc(center+Math.cos(a)*value.s*r,center+Math.sin(a)*value.s*r,7*dpr,0,Math.PI*2);ctx.strokeStyle='#fff';ctx.lineWidth=3*dpr;ctx.stroke();ctx.strokeStyle='#000';ctx.lineWidth=dpr;ctx.stroke()}
     function update(){color=hsvHex(value.h,value.s,value.v);hex.value=color.slice(1).toUpperCase();bright.value=Math.round(value.v*100);draw();onChange?.(paint())}
@@ -157,6 +225,7 @@
   function build(){
     const el=document.createElement('section');el.className='comfier-theme-studio';el.hidden=true;
     el.innerHTML=`<header><button type="button" class="theme-back" aria-label="Back to UI Editor">‹</button><strong>Appearance</strong></header><div class="theme-picker"><canvas class="theme-wheel" aria-label="Color wheel"></canvas><label>Brightness <input class="theme-value" type="range" min="0" max="100" value="100"></label><label>Transparency <input class="theme-transparency" aria-label="Transparency" type="range" min="0" max="100" value="0"><output class="theme-transparency-value">0%</output></label><div class="theme-exact"><span class="theme-previous" title="Previous color"></span><span class="theme-current" title="Current color"></span><label>#<input class="theme-hex" type="text" inputmode="text" maxlength="6" pattern="[0-9a-fA-F]{6}" aria-label="Selected color hex"></label></div></div><h3>Recent colors</h3><div class="theme-recents"></div><h3>Apply selected color</h3><p class="theme-note">Tap a group to assign the selected color.</p><div class="theme-roles"></div>`;
+    el.querySelector('.theme-wheel').after(activePalette(color=>{setSelected(color.slice(0,7));selectTransparency(color.length===9?Math.round((1-parseInt(color.slice(7),16)/255)*100):0)}));
     const canvas=el.querySelector('.theme-wheel');canvas.addEventListener('pointerdown',e=>{wheelPointer=e.pointerId;canvas.setPointerCapture?.(e.pointerId);wheelPick(e)});canvas.addEventListener('pointermove',e=>{if(wheelPointer===e.pointerId&&canvas.hasPointerCapture?.(e.pointerId))wheelPick(e)});canvas.addEventListener('pointerup',releaseWheel);canvas.addEventListener('pointercancel',releaseWheel);canvas.addEventListener('lostpointercapture',()=>{wheelPointer=null});
     el.querySelector('.theme-value').addEventListener('input',e=>{hsv.v=Number(e.target.value)/100;setSelected(hsvHex(hsv.h,hsv.s,hsv.v))});
     el.querySelector('.theme-transparency').addEventListener('input',e=>selectTransparency(e.target.value));
@@ -166,7 +235,24 @@
   }
   function capture(){return{colors:Object.fromEntries(roles.filter(r=>assigned.has(r.id)).map(({id})=>[id,state[id]])),transparency:Object.fromEntries(roles.filter(r=>assigned.has(r.id)).map(({id})=>[id,transparency[id]])),dimensions:window.__comfierUiEditorModel?.getGlobal(),active:localStorage.getItem('comfier.theme.active.v1')}}
   function restore(value){assigned.clear();roles.forEach(({id})=>{state[id]=value.colors[id]||defaults[id];transparency[id]=value.colors[id]?(value.transparency[id]||0):profileTransparency[id]||0;if(value.colors[id]){assigned.add(id);localStorage.setItem(STORE+id,state[id]);localStorage.setItem(STORE+id+'.transparency',String(transparency[id]))}else{localStorage.removeItem(STORE+id);localStorage.removeItem(STORE+id+'.transparency')}});if(value.dimensions)window.__comfierUiEditorModel?.setGlobal(value.dimensions);if(value.active)localStorage.setItem('comfier.theme.active.v1',value.active);else localStorage.removeItem('comfier.theme.active.v1');paintRoles();renderRoles();const host=page?.querySelector('.theme-dimensions-tab');if(host&&!host.hidden)renderDimensions(host)}
-  function open(){if(!window.__comfierLayoutEditor?.isEditing?.())return false;if(!page)build();if(!editorHost){editorHost=document.createElement('dialog');editorHost.className='comfier-theme-editor';editorHost.setAttribute('aria-label','Appearance');editorHost.addEventListener('cancel',e=>{e.preventDefault();close()});document.body.appendChild(editorHost)}if(page.parentElement!==editorHost)editorHost.appendChild(page);page.hidden=false;if(!editorHost.open)editorHost.showModal();setSelected(selected);return true}
+  function appearanceBounds(){
+    const editor=window.__comfierLayoutEditor,snapshot=editor?.snapshot?.(),view=snapshot?.mode||window.__comfierViewport?.mode?.()||'innerLandscape',portrait=view==='outerPortrait',landscape=view==='outerLandscape';
+    let left=4,right=innerWidth-4,top=4,bottom=innerHeight-4;
+    for(const el of document.querySelectorAll('.ufu-editor-status,#topbar-workflow-tabs,[data-testid="topbar-workflow-tabs"]')){const b=el.getBoundingClientRect();if(b.width&&b.height)top=Math.max(top,b.bottom+4)}
+    for(const b of snapshot?.boxes||[]){
+      const shell=[...document.querySelectorAll('.ufu-shell')].find(el=>el.dataset.container===b.id),selected=!!shell?.querySelector('.ufu-selection-chrome');
+      if((b.track||1)!==1&&!(landscape&&selected))continue;
+      if(b.edge==='left'&&!portrait)left=Math.max(left,b.right+4);
+      else if(b.edge==='right'&&!portrait)right=Math.min(right,b.left-4);
+      else if(b.edge==='top'&&(!landscape||selected))top=Math.max(top,b.bottom+4);
+      else if(b.edge==='bottom'&&(!landscape||selected))bottom=Math.min(bottom,b.top-4);
+    }
+    const physical=editor?.physicalSpace?.();if(!portrait&&physical){left=Math.max(left,physical.left);right=Math.min(right,physical.right)}
+    return{left,top,width:Math.max(1,right-left),height:Math.max(1,bottom-top)};
+  }
+  function placeAppearance(){if(!editorHost?.open)return;const b=appearanceBounds();for(const [key,value]of Object.entries(b))editorHost.style.setProperty(key,value+'px','important');for(const [key,value]of Object.entries({position:'fixed',margin:'0',inset:'auto',maxWidth:'none',maxHeight:'none',boxSizing:'border-box'}))editorHost.style.setProperty(key.replace(/[A-Z]/g,c=>'-'+c.toLowerCase()),value,'important');editorHost.style.setProperty('left',b.left+'px','important');editorHost.style.setProperty('top',b.top+'px','important')}
+  window.addEventListener('resize',placeAppearance);window.addEventListener('comfier-layout-editor-change',placeAppearance);
+  function open(){if(!window.__comfierLayoutEditor?.isEditing?.())return false;if(!page)build();if(!editorHost){editorHost=document.createElement('dialog');editorHost.className='comfier-theme-editor';editorHost.setAttribute('aria-label','Appearance');editorHost.addEventListener('cancel',e=>{e.preventDefault();close()});document.body.appendChild(editorHost)}if(page.parentElement!==editorHost)editorHost.appendChild(page);page.hidden=false;if(!editorHost.open)editorHost.showModal();placeAppearance();setSelected(selected);return true}
   function close(){if(dismissProfiles())return true;if(!page||page.hidden)return false;releaseWheel();page.hidden=true;editorHost?.close();return true}
   function closeAll(){dismissProfiles();close();editorHost?.remove();editorHost=null}
   function mount(){const next=document.getElementById(ROOT)?.querySelector('.ui-zoom-panel');next?.querySelectorAll('.ui-theme-launch-row').forEach(el=>el.remove());next?.querySelectorAll('.ui-accent-row,.ui-font-row').forEach(row=>row.hidden=true);return !!next}
@@ -204,6 +290,9 @@ html:root body dialog.comfier-theme-profiles input::placeholder{color:#555!impor
 .theme-exact label{display:flex;align-items:center}
 .theme-hex{width:6.5ch;min-width:6.5ch;max-width:6.5ch;box-sizing:content-box;padding:6px;border:1px solid #fff;border-radius:6px;font:14px monospace;text-transform:uppercase}
 .comfier-theme-studio h3{margin:12px 0 6px;font-size:12px;text-transform:uppercase}
+.theme-active-colors{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;width:100%;min-width:0;box-sizing:border-box}
+html:root body .theme-active-colors>button.theme-active-color{width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;max-height:32px!important;flex:0 0 32px!important;padding:0!important;border:1px solid #888!important;border-radius:6px!important}
+.ufu-inspector[data-editor-view=outerLandscape] .theme-picker>.theme-active-colors{grid-column:1;grid-row:4;max-width:132px;justify-self:center}
 .theme-recents{display:flex;gap:8px;min-height:34px;align-items:center;overflow-x:auto}
 .theme-recent{flex:0 0 32px;width:32px;height:32px;border:1px solid #888;border-radius:6px}
 .theme-empty{font-size:12px}
@@ -223,7 +312,7 @@ html:root body #comfier-ui-zoom-test .ui-zoom-panel :is(input[type="range"],inpu
 `;(document.head||document.documentElement).appendChild(style);
   const semanticStyle=document.createElement('style');semanticStyle.id='comfier-theme-semantic-style';semanticStyle.textContent=manifest.compile();(document.head||document.documentElement).appendChild(semanticStyle);
   function installBack(){if(backOff||!window.__comfierBack)return;backOff=window.__comfierBack.register('theme-settings',55,close)}
-  function refresh(){paintRoles();mount();installBack()}
+  function refresh(){placeAppearance();paintRoles();refreshActiveColors();mount();installBack()}
   window.__comfierThemeStudio={capture,restore,open,close,closeAll,mount,refresh,reset,applyRole,createPicker,updateActiveProfile,exportProfile,loadProfile,importProfile,localProfiles,showProfiles,saveAs,setCompanionProvider(provider){companionProvider=provider&&typeof provider.list==='function'?provider:null},selectTransparency,getTransparency:()=>({...transparency}),getAssignedColor:key=>assigned.has(key)?colorPaint(key):null,getState:()=>({...state}),isAssigned:key=>assigned.has(key),setSelected};
   window.__comfierSettingsRows?.register('theme-studio',mount);refresh();
 })();

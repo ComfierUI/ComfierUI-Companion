@@ -129,11 +129,13 @@
     if(event.cancelable)event.preventDefault();event.stopPropagation();
   }
   function bottomResizeEnd(event){if(!bottomDrag||event.pointerId!==bottomDrag.id)return;if(bottomDrag.active){if(event.cancelable)event.preventDefault();event.stopPropagation();try{bottomHandle.releasePointerCapture(event.pointerId)}catch(_){}}bottomDrag=null}
+  function nativeTemplatesScroll(panel){return!!panel&&(!!window.__COMFIER_CLOUD_MODE||outerPortrait())&&(panel.matches('.comfier-templates-native-panel')||!!panel.querySelector('.comfier-templates-native-panel'))}
   function bindLeftScroll(panel){
+    if(nativeTemplatesScroll(panel)){unbindLeftScroll();return}
     var target=findLeftScrollTarget(panel);if(panel===scrollPanel&&target===scrollTarget)return;unbindLeftScroll();scrollPanel=panel;scrollTarget=target;if(!scrollPanel||!scrollTarget)return;
     scrollPanel.addEventListener('pointerdown',leftScrollDown,true);scrollPanel.addEventListener('pointermove',leftScrollMove,{capture:true,passive:false});scrollPanel.addEventListener('pointerup',leftScrollEnd,true);scrollPanel.addEventListener('pointercancel',leftScrollEnd,true);scrollPanel.addEventListener('click',blockLeftScrollClick,true);
   }
-  function leftScrollDown(event){if(event.target?.closest?.('.ufu-inspector'))return;if(!scrollTarget||event.isPrimary===false||event.pointerType==='mouse')return;scrollDrag={id:event.pointerId,x:event.clientX,y:event.clientY,top:scrollTarget.scrollTop,active:false}}
+  function leftScrollDown(event){if(nativeTemplatesScroll(scrollPanel)||event.target?.closest?.('.ufu-inspector'))return;if(!scrollTarget||event.isPrimary===false||event.pointerType==='mouse')return;scrollDrag={id:event.pointerId,x:event.clientX,y:event.clientY,top:scrollTarget.scrollTop,active:false}}
   function leftScrollMove(event){
     if(!scrollDrag||event.pointerId!==scrollDrag.id||!scrollTarget)return;var dx=event.clientX-scrollDrag.x,dy=event.clientY-scrollDrag.y;
     if(!scrollDrag.active){if(!window.__comfierUi.verticalDrag(dx,dy,7))return;scrollDrag.active=true;try{scrollPanel.setPointerCapture(event.pointerId)}catch(_){}}

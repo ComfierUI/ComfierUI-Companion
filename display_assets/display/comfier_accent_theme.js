@@ -1,5 +1,76 @@
 (() => {
   'use strict';
+  if(window.__comfierNodeAppearance)return;
+  const key='comfierAppearance';
+  const sockets=[['socketModel','Model'],['socketClip','CLIP'],['socketVae','VAE'],['socketLatent','Latent'],['socketMask','Mask'],['socketConditioning','Positive / negative conditioning'],['socketHidden','Hidden sockets'],['socketOther','Other sockets']];
+  const roles=[['nodeBg','Background'],['nodeLabel','Header'],...sockets];
+  function socketRole(slot){
+    if(slot?.hidden===true||slot?.isHidden===true)return 'socketHidden';
+    const type=String(slot?.type??'').trim().toUpperCase();
+    return ({MODEL:'socketModel',CLIP:'socketClip',VAE:'socketVae',LATENT:'socketLatent',MASK:'socketMask',CONDITIONING:'socketConditioning',HIDDEN:'socketHidden'})[type]||'socketOther';
+  }
+  const valid=value=>typeof value==='string'&&/^#[0-9a-f]{6}([0-9a-f]{2})?$/i.test(value);
+  const overrides=node=>Object.fromEntries(roles.map(([id])=>[id,node?.properties?.[key]?.colors?.[id]]).filter(([,v])=>valid(v)));
+  const color=(node,id)=>overrides(node)[id]||window.__comfierThemeStudio?.getAssignedColor?.(id)||null;
+  let dialog=null;
+  function close(){if(!dialog)return false;dialog.close();dialog.remove();dialog=null;return true}
+  function save(node,colors){
+    const graph=node.graph;
+    graph?.beforeChange?.();
+    node.properties||={};
+    if(Object.keys(colors).length)node.properties[key]={version:1,colors:{...colors}};
+    else delete node.properties[key];
+    graph?.afterChange?.();node.setDirtyCanvas?.(true,true);window.app?.canvas?.setDirty?.(true,true);
+  }
+  function open(node){
+    close();const studio=window.__comfierThemeStudio;if(!studio?.createPicker)return false;
+    const draft=overrides(node),d=document.createElement('dialog');dialog=d;d.className='comfier-node-appearance';d.setAttribute('aria-label','Node appearance');d.setAttribute('role','dialog');
+    if(!document.getElementById('comfier-node-dialog-style')){const style=document.createElement('style');style.id='comfier-node-dialog-style';style.textContent=".comfier-node-appearance{box-sizing:border-box;background:#111!important;color:#fff!important;border:1px solid #fff!important;border-radius:12px;width:min(390px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow-y:auto;padding:18px;font:14px/1.45 Arial,sans-serif}\n.comfier-node-appearance::backdrop{background:#0008}\n.comfier-node-appearance h3{margin:0 0 14px;color:#fff;font-size:19px;line-height:1.35}\n.comfier-node-appearance p{margin:0 0 16px;color:#fff}\n.comfier-node-appearance select,.comfier-node-appearance button,.comfier-node-appearance input[type=text]{box-sizing:border-box;background:#fff!important;color:#000!important;border:1px solid #ccc!important;border-radius:5px;font:inherit;min-height:34px;padding:7px 10px}\n.comfier-node-appearance select{width:100%;margin-bottom:16px}\n.comfier-node-appearance .theme-picker{display:flex;flex-direction:column;gap:16px;margin-bottom:18px}\n.comfier-node-appearance .theme-wheel{display:block;width:min(220px,100%);height:auto;aspect-ratio:1;align-self:center;touch-action:none}\n.comfier-node-appearance .theme-picker label{display:grid;grid-template-columns:98px minmax(0,1fr);gap:10px;align-items:center;color:#fff}\n.comfier-node-appearance input[type=range]{width:100%;min-width:0;margin:0;accent-color:#fff}\n.comfier-node-appearance input[type=text]{width:100%;min-width:0}\n.comfier-node-appearance .node-color-actions,.comfier-node-appearance .node-dialog-footer{display:grid;grid-template-columns:1fr 1fr;gap:10px}\n.comfier-node-appearance .node-color-actions button:last-child{grid-column:1/-1}\n.comfier-node-appearance [role=status]{margin:16px 0;min-height:20px}\n.comfier-node-appearance button:focus-visible,.comfier-node-appearance select:focus-visible,.comfier-node-appearance input:focus-visible{outline:2px solid #fff;outline-offset:3px}\n";document.head.appendChild(style)}
+    const title=document.createElement('h3');title.textContent='Node appearance — '+(node.title||node.type||'Node');d.appendChild(title);
+    const note=document.createElement('p');note.textContent='Unset colors follow the global theme. Overrides are saved with this workflow.';d.appendChild(note);
+    const select=document.createElement('select');select.setAttribute('aria-label','Node appearance target');for(const [id,label]of roles){const o=document.createElement('option');o.value=id;o.textContent=label;select.appendChild(o)}d.appendChild(select);
+    const host=document.createElement('div');d.appendChild(host);let picker;
+    const status=document.createElement('p');status.setAttribute('role','status');
+    function render(){host.replaceChildren();picker=studio.createPicker(draft[select.value]||studio.getAssignedColor?.(select.value)||'#aaaaaa');host.appendChild(picker.element);status.textContent=draft[select.value]?'Individual override':'Following global theme'}
+    select.onchange=render;
+    const actions=document.createElement('div');actions.className='node-color-actions';d.appendChild(actions);let buttons=actions;
+    function button(label,fn){const b=document.createElement('button');b.type='button';b.textContent=label;b.onclick=fn;buttons.appendChild(b);return b}
+    button('Set color',()=>{draft[select.value]=picker.value();render()});
+    button('Use global color',()=>{delete draft[select.value];render()});
+    button('Reset all to global',()=>{for(const id of Object.keys(draft))delete draft[id];render()});
+    d.appendChild(status);const footer=document.createElement('div');footer.className='node-dialog-footer';d.appendChild(footer);buttons=footer;button('Save',()=>{save(node,draft);close()});button('Cancel',close);
+    d.addEventListener('cancel',e=>{e.preventDefault();close()});document.body.appendChild(d);d.showModal();render();return true;
+  }
+  function install(canvas){
+    if(!canvas)return;
+    if(typeof canvas.getNodeMenuOptions==='function'&&!canvas.getNodeMenuOptions.__comfierNodeAppearance){
+      const original=canvas.getNodeMenuOptions;
+      const wrapped=function(node,...rest){const options=original.call(this,node,...rest)||[];return [...options,null,{content:'ComfierUI node appearance',callback:()=>open(node)}]};wrapped.__comfierNodeAppearance=true;canvas.getNodeMenuOptions=wrapped;
+    }
+    if(typeof canvas.drawNode==='function'&&!canvas.drawNode.__comfierNodeAppearance){
+      const original=canvas.drawNode;
+      const wrapped=function(node,...rest){
+        const restored=[];
+        try{
+          for(const list of ['inputs','outputs']){
+            for(const slot of node?.[list]||[]){const value=color(node,socketRole(slot));if(!value)continue;for(const property of ['color_on','color_off']){
+              restored.push([slot,property,Object.getOwnPropertyDescriptor(slot,property)]);slot[property]=value;
+            }}
+          }
+          return original.call(this,node,...rest);
+        }finally{for(const [slot,property,descriptor]of restored.reverse()){if(descriptor)Object.defineProperty(slot,property,descriptor);else delete slot[property]}}
+      };wrapped.__comfierNodeAppearance=true;canvas.drawNode=wrapped;
+    }
+  }
+  window.__comfierNodeAppearance={color,overrides,socketRole,open,close,save,install};
+  // Discovery can finish after the initial theme refreshes. Bind once the actual
+  // canvas exists; no editor interaction is needed to activate the node menu.
+  const readyCanvas=()=>{const canvas=window.app?.canvas;if(!canvas||typeof canvas.getNodeMenuOptions!=='function')return false;install(canvas);window.__comfierAccentTheme?.setCanvasText?.();return true};
+  if(!readyCanvas()){let attempts=0;const timer=setInterval(()=>{if(readyCanvas()||++attempts>=240)clearInterval(timer)},250)}
+})();
+
+(() => {
+  'use strict';
   if (window.__comfierAccentTheme) { window.__comfierAccentTheme.refresh(); return; }
   const DEFAULT = '#ffffff';
   const UI_FONT_DEFAULT = '#000000';
@@ -52,10 +123,11 @@
     // A configured background image retains its native transparent canvas.
     const canvas=window.app?.canvas;
     bindCanvasText(canvas,'clear_background_color',chosen('canvasBg'));
+    window.__comfierNodeAppearance?.install(canvas);
     if(canvas&&typeof canvas.drawNodeShape==='function'&&!canvas.drawNodeShape.__comfierThemeSurface){
       const original=canvas.drawNodeShape;
       const wrapped=function(node,ctx,size,header,body,...rest){
-        const studio=window.__comfierThemeStudio,label=studio?.getAssignedColor?.('nodeLabel'),bg=studio?.getAssignedColor?.('nodeBg');
+        const studio=window.__comfierThemeStudio,label=window.__comfierNodeAppearance?.color(node,'nodeLabel')||studio?.getAssignedColor?.('nodeLabel'),bg=window.__comfierNodeAppearance?.color(node,'nodeBg')||studio?.getAssignedColor?.('nodeBg');
         if(label)header=label;
         if(bg&&node?.mode!==4){
           const alpha=typeof body==='string'?body.match(/rgba\([^,]+,[^,]+,[^,]+,\s*([\d.]+)\)/)?.[1]:null;
@@ -346,6 +418,7 @@ button.lm-top-menu-button::before{
 .ui-accent-row>button[data-accent="set"]{margin-left:auto;display:grid;place-items:center}
 .ui-accent-row>button[data-accent="set"]>span,.ui-accent-row>button[data-accent="set"]::after{grid-area:1/1}
 .ui-accent-row>button[data-accent="set"]::after{content:"Reset";visibility:hidden}
+html body :is(.sidebar-icon-badge,.comfier-active-counter){background-color:var(--comfier-ui-font,var(--color-primary-background,#168ed0))!important;color:var(--comfier-icon-color,var(--color-base-foreground,#fff))!important;-webkit-text-fill-color:var(--comfier-icon-color,var(--color-base-foreground,#fff))!important}
 .ui-font-row{display:flex;flex-wrap:nowrap;align-items:center;gap:4px;min-width:0;grid-column:1/-1!important}
 .ui-font-row>label{flex:0 0 auto;font-size:12px;font-weight:600;white-space:nowrap}
 .ui-font-entry{flex:0 0 auto;display:flex;align-items:center;gap:3px}

@@ -25,8 +25,64 @@
       });
     });
   }
+  // Device preferences use the native setting setters (including onChange),
+  // but replace only the preference persistence API. Server configuration,
+  // workflows and user-data APIs retain their native behavior.
+  const PREFS_KEY='comfier.client.preferences.v1';
+  const preferenceApis=new WeakMap(),preferenceStores=new WeakMap();
+  let deviceValues=null;
+  const copyPreference=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value));
+  try{const saved=JSON.parse(localStorage.getItem(PREFS_KEY)||'null');if(saved&&saved.schemaVersion===1&&saved.values&&typeof saved.values==='object'&&!Array.isArray(saved.values))deviceValues=saved.values}catch(_){}
+  function persistPreferences(next){
+    const values=copyPreference(next);
+    // Fail closed when storage is unavailable: never fall through to host writes.
+    localStorage.setItem(PREFS_KEY,JSON.stringify({schemaVersion:1,values}));deviceValues=values;
+  }
+  function preferenceSnapshot(nativeStore){
+    const values=nativeStore?.settingValues||nativeStore?.values;
+    if(values instanceof Map)return Object.fromEntries(values);
+    return values&&typeof values==='object'&&!Array.isArray(values)?copyPreference(values):null;
+  }
+  function deviceApi(api,nativeStore){
+    if(!api)return null;let state=preferenceApis.get(api);if(state)return state;
+    const originalGet=api.getSettings,initial=preferenceSnapshot(nativeStore);
+    state={restores:[],ready:null};preferenceApis.set(api,state);
+    state.ready=Promise.resolve().then(async()=>{
+      if(deviceValues===null){const baseline=initial||(typeof originalGet==='function'?await originalGet.call(api):{});if(deviceValues===null)persistPreferences(baseline||{})}
+    });
+    const response=()=>typeof Response==='function'?new Response('{}',{status:200,headers:{'Content-Type':'application/json'}}):undefined;
+    for(const name of ['getSettings','getSetting','storeSetting','storeSettings','setSetting']){
+      const original=api[name];if(typeof original!=='function')continue;
+      const wrapper=async function(key,value){
+        await state.ready;
+        if(name==='getSettings')return copyPreference(deviceValues);
+        if(name==='getSetting')return copyPreference(deviceValues[key]);
+        const changes=name==='storeSettings'?key:{[key]:value};
+        if(!changes||typeof changes!=='object'||Array.isArray(changes))throw Error('Invalid device preferences');
+        const next={...deviceValues};for(const[id,settingValue]of Object.entries(changes)){if(settingValue===undefined)delete next[id];else next[id]=copyPreference(settingValue)}
+        persistPreferences(next);return response();
+      };
+      try{api[name]=wrapper;if(api[name]!==wrapper)throw Error('Cannot isolate client preferences')}catch(error){state.restores.reverse().forEach(fn=>fn());preferenceApis.delete(api);throw error}state.restores.push(()=>{if(api[name]===wrapper)api[name]=original});
+    }
+    jobs.own(()=>{const guard=apiGuards.get(api);if(guard){guard.restores.reverse().forEach(fn=>fn());apiGuards.delete(api)}state.restores.reverse().forEach(fn=>fn());preferenceApis.delete(api)});
+    return state;
+  }
+  async function hydratePreferences(api,nativeStore,s){
+    const state=deviceApi(api,nativeStore);if(!state)return;
+    await state.ready;if(!s||!nativeStore)return;
+    let hydration=preferenceStores.get(nativeStore);if(hydration)return hydration;
+    hydration=(async()=>{
+      const saved=copyPreference(deviceValues),current=preferenceSnapshot(nativeStore)||{},values={...saved};
+      // A setting introduced by an updated host starts at its native default,
+      // rather than importing another device's value during reconnect.
+      for(const key of Object.keys(current))if(!(key in saved))values[key]=nativeStore.settingsById?.[key]?.defaultValue;
+      if(typeof s.setMany==='function')await s.setMany(values);
+      else for(const[key,value]of Object.entries(values))if(get(s,key)!==value){if(typeof s.set==='function')await s.set(key,value);else await (s.setSettingValueAsync||s.setSettingValue).call(s,key,value)}
+    })();preferenceStores.set(nativeStore,hydration);
+    try{await hydration}catch(error){preferenceStores.delete(nativeStore);throw error}
+  }
   // One persistence filter per API object, reference-counted across overlapping
-  // local writes. Unrelated keys and mixed setMany batches still reach the server.
+  // policy writes. User preference writes go through device persistence below.
   const apiGuards=new WeakMap();
   function localOnly(api, keys) {
     if(!api||!['storeSetting','setSetting'].some(name=>typeof api[name]==='function'))throw Error('Client-only persistence guard is not ready');
@@ -96,6 +152,7 @@
   }
   function bind(){
     const next=endpoint(),nextStore=window.__comfierUi?.pinia?.()?._s?.get('setting')||(next?.settingsById?next:null);
+    deviceApi(window.app?.api,nextStore);
     if(source===next&&store===nextStore){fallback(!!source&&!store?.settingsById);return}
     unsubscribe?.();unaction?.();unsubscribe=null;unaction=null;restoreDefinitions();source=next;store=nextStore;lastSignature=[];
     if(typeof store?.$subscribe==='function')unsubscribe=store.$subscribe(changed,{detached:true});
@@ -107,6 +164,7 @@
     let retry=false;
     try{
       bind();if(!source)return;
+      await hydratePreferences(window.app?.api,store,source);if(stopped)return;
       applyDefinitions();
       const overrides=[[KEY,searchValue()],['Comfy.Pointer.ClickBufferTime',150]];
       for(const [key,value]of overrides){
@@ -136,7 +194,7 @@
   }
   jobs.own(window.__comfierDocument.subscribe('client-settings','settings',()=>enforce()));
   jobs.listen(window,'comfierui-session-reconnected',enforce);
-  window.__comfierClientSettings={enforce,acquire,snapshot:()=>({metadata:!!store?.settingsById,hidden:definitions.size,fallback:!!observer,search:searchValue(),sessions:sessions.size}),remove(){stopped=true;jobs.dispose();observer?.disconnect();unsubscribe?.();unaction?.();restoreDefinitions();for(const lease of [...sessions.values()])lease.release();delete window.__comfierClientSettings;delete window.__comfierEnforceNodeSearchMode;delete window.__comfierInstallPointerClickBufferMinimum;delete window.__comfierEnforceFloatingSidebar}};
+  window.__comfierClientSettings={enforce,acquire,snapshot:()=>({deviceLocal:!!preferenceApis.get(window.app?.api),metadata:!!store?.settingsById,hidden:definitions.size,fallback:!!observer,search:searchValue(),sessions:sessions.size}),remove(){stopped=true;jobs.dispose();observer?.disconnect();unsubscribe?.();unaction?.();restoreDefinitions();for(const lease of [...sessions.values()])lease.release();delete window.__comfierClientSettings;delete window.__comfierEnforceNodeSearchMode;delete window.__comfierInstallPointerClickBufferMinimum;delete window.__comfierEnforceFloatingSidebar}};
   window.__comfierEnforceNodeSearchMode=enforce;
   window.__comfierInstallPointerClickBufferMinimum=enforce;
   window.__comfierEnforceFloatingSidebar=enforce;
