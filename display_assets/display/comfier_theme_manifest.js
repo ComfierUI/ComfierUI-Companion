@@ -84,7 +84,7 @@
   add('panel-extensions-interior',['.comfier-extensions-panel>.p-dialog-content','.comfier-extensions-panel .manager-dialog'],[binding('panelBg','background-color','transparent')],'comfier_extensions_panel.js; src/workbench/extensions/manager/components/ManagerDialog.vue');
   const icons=['.side-bar-button :is(svg,i,.side-bar-button-icon)',`${canvasBar} button :is(svg,i,.p-icon)`,'[data-testid="action-bar-card"] button :is(svg,i)','[data-testid="view-mode-toggle"] i','.comfy-menu-button-wrapper .comfyui-logo'];
   add('icons-navigation',icons,[paint('icons')],'src/components/sidebar/SidebarIcon.vue; src/components/graph/GraphCanvasMenu.vue; comfier_accent_theme.js');
-  add('icons-node-resize',['#comfier-node-resize-handles button:not(.dragging)'],[paint('icons')],'comfier_node_resize_handles.js');
+  add('icons-node-resize',['#comfier-node-resize-handles button:not(.dragging)','.comfier-side-resize:not(.dragging)'],[paint('icons')],'comfier_node_resize_handles.js');
   add('icons-node-move',['#cm-move .cm-move-button:not(.dragging)'],[paint('icons')],'comfier_multi_select_move_handle.js');
   add('icons-memory-tools',['i.mdi.mdi-vacuum-outline::before'],[paint('icons')],'comfier_accent_theme.js; user-confirmed memory tool DOM');
   add('icons-multi-label',['#comfier-multiselect-toggle .comfier-multiselect-label'],[paint('icons')],'comfier_sidebar_bootstrap.js');

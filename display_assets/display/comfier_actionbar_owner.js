@@ -119,12 +119,12 @@ async function queue(selected){
 }
 function status(event){const remaining=event?.detail?.exec_info?.queue_remaining;if(remaining!=null&&Number.isFinite(Number(remaining))){receivedStatus=true;queueRemaining=Number(remaining)};syncState()}
 function openHistory(){
- const sidebar=window.app?.extensionManager?.sidebarTab||stores()?.get('sidebarTab'),setting=stores()?.get('setting')||window.app?.extensionManager?.setting;
- const v2=setting?.get?.('Comfy.Queue.QPOV2');
- if(v2===true&&typeof sidebar?.toggleSidebarTab==='function')return sidebar.toggleSidebarTab('job-history');
- if(v2===false){if(findCommand(['Comfy.Queue.ToggleOverlay']))return command(['Comfy.Queue.ToggleOverlay']);const queueUI=stores()?.get('queueUIStore');if(typeof queueUI?.toggleOverlay==='function')return queueUI.toggleOverlay()}
- if(typeof sidebar?.toggleSidebarTab==='function')return sidebar.toggleSidebarTab('queue');return command(['Comfy.Queue','Comfy.ToggleQueue','Job History','View Job History']);
+ const sidebar=window.app?.extensionManager?.sidebarTab||stores()?.get('sidebarTab');
+ window.__comfierClientSettings?.acquire('docked-job-history','Comfy.Queue.QPOV2',true,{hide:true});
+ if(typeof sidebar?.toggleSidebarTab==='function')return sidebar.toggleSidebarTab('job-history');
+ return command(['Comfy.Queue','Comfy.ToggleQueue','Job History','View Job History']);
 }
+
 function closeOptions(){popup?.remove();popup=null;options.setAttribute('aria-expanded','false')}
 function openOptions(){
  if(popup){closeOptions();return}popup=element('div',{id:'comfier-owned-run-options',role:'menu','aria-label':'Run options'});options.setAttribute('aria-expanded','true');
