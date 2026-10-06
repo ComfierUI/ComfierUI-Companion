@@ -38,7 +38,7 @@ Start ComfyUI normally. Companion starts automatically; it adds no workflow node
 
 ## Connect
 
-Version **0.7.0**, paired with ComfierUI **0.93.0-Dev**.
+Version **0.7.6**, paired with ComfierUI **0.92.6-Dev**.
 
 Connect the Android app to the host address and Companion port (default **8147**). Open `http://127.0.0.1:8147/` on the host to use the browser interface. ComfyUI continues running on its own port, normally **8188**. Companion's port can be changed in App Settings; 8188 is reserved for ComfyUI.
 
@@ -101,7 +101,7 @@ Hugging Face and Civitai browsing buttons are available in Download from URL. An
 
 Civitai offers Red (`civitai.red`) or Blue (`civitai.com`) with Remember my choice. ComfierUI Settings includes Civitai start page: Ask every time, Red or Blue. This choice is local to the client.
 
-When an Android repository browser opens a supported model download link, ComfierUI returns to the URL form for host folder selection. Companion 0.7.0 uses the temporary session for that download and its retries; cookies remain in memory and are never exposed in download listings or saved as a separate account credential. They are removed from cross-origin redirect requests and discarded after success or clearing the job. Keep host connections on a trusted network; the Companion LAN gateway uses HTTP.
+When an Android repository browser opens a supported model download link, ComfierUI returns to the URL form for host folder selection. Companion 0.7.6 uses the temporary session for that download and its retries; cookies remain in memory and are never exposed in download listings or saved as a separate account credential. They are removed from cross-origin redirect requests and discarded after success or clearing the job. Keep host connections on a trusted network; the Companion LAN gateway uses HTTP.
 
 Desktop browsing opens a separate repository window. Paste the model link into the URL form afterward; sharing a website's login session with the desktop Companion downloader is not supported by this build. Embedded sessions are an Android feature. Comfy Cloud still has no user host model filesystem.
 
@@ -110,3 +110,15 @@ Provider login and real gated downloads require on-device verification. Some soc
 ## Repository browser controls
 
 Android repository browsing retains the page and history when a download is selected. Reopen the same repository button to resume browsing. Exit or system Back at the beginning ends that browsing session. Browser toolbar and download chooser controls match the other ComfierUI menus. The supplied generic theme names are retained. Desktop browsing still uses a separate window and manual link paste.
+
+### Download filenames
+
+The URL download form resolves a model filename and lets you edit it before downloading into a registered model folder or subfolder. Downloads opens the URL form and monitoring panel together. Existing files are protected from overwriting. Browser session forwarding remains available in Android.
+
+### Install an extension from a repository URL
+Choose custom_nodes in Download from URL, paste a public repository URL, and press Download. Companion clones the repository into the active custom_nodes folder, installs requirements.txt if present using ComfyUI's running Python environment, and exposes Restart after successful completion. Git must be installed on the host. Dependency errors appear in the host console; failed requirements can be retried without cloning again. Existing repository folders are protected.
+The Android GitHub browser's Copy URL button copies and selects the repository while preserving the minimized browsing session. Desktop repository buttons open an external browser, matching the existing Civitai/Hugging Face behavior.
+
+### Workflow imports
+Choose workflows in Download from URL and select the active user's workflow root or an existing subfolder. JSON files and ZIP archives are supported. Nested ZIP folders are scanned for workflow graphs; media and unrelated JSON metadata are discarded, and the input directory is never populated. Duplicate names receive numbered suffixes instead of overwriting existing files. Use Load on the completed import; multiple workflows open a chooser, then follow the existing App Mode / Full Canvas load preference.
+Workflow downloads are limited to 256 MiB, JSON members to 16 MiB each and 64 MiB total; unsafe paths and symlinks are rejected. Supported provider downloads retain the same host URL restrictions and temporary Android session handoff as model downloads.

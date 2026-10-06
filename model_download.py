@@ -6,9 +6,15 @@ import logging
 import os
 import re
 import socket
+import signal
 import sys
 import time
 import uuid
+import tempfile
+import json
+import zipfile
+import stat
+from pathlib import PurePosixPath
 from pathlib import Path
 from urllib.parse import urljoin, urlparse, unquote, parse_qs
 
@@ -38,7 +44,7 @@ LOG = logging.getLogger("ComfierUI-Companion")
 ROUTE = "/comfierui/model-download"
 TASKS_ROUTE = "/comfierui/model-downloads"
 INFO_ROUTE = "/comfierui/capabilities"
-COMPANION_VERSION = "0.7.0"
+COMPANION_VERSION = "0.7.6"
 MAX_REDIRECTS = 8
 MAX_FILE_BYTES = 128 * 1024 * 1024 * 1024
 CHUNK_BYTES = 1024 * 1024
@@ -214,10 +220,10 @@ def _model_folders():
 
 
 async def _list_model_folders(request):
-    return web.json_response({**await asyncio.to_thread(_model_folders), "browserSessions": True})
+    return web.json_response({**await asyncio.to_thread(_model_folders), "browserSessions": True, "extensionInstalls": True})
 
 
-async def _url_model_file(value, session_headers=None):
+def _normalize_model_url(value):
     if not isinstance(value, str):
         raise web.HTTPBadRequest(text="Missing model URL")
     url = value.strip()
@@ -230,12 +236,16 @@ async def _url_model_file(value, session_headers=None):
             url = f"https://{parsed.hostname}/api/download/models/{version}"
         else:
             raise web.HTTPBadRequest(text="Use the Civitai download link or a model URL with modelVersionId")
-    url = _safe_initial_url(url)
+    return _safe_initial_url(url)
+
+
+async def _url_model_file(value, session_headers=None):
+    url = _normalize_model_url(value)
     candidate = unquote(Path(urlparse(url).path).name)
     if Path(candidate).suffix.lower() in ALLOWED_EXTENSIONS:
         return url, _safe_filename(candidate)
     try:
-        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=10)) as session:
+        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30, connect=10), headers={"User-Agent": f"ComfierUI-Companion/{COMPANION_VERSION}"}) as session:
             response = await _validated_download_response(session, url, session_headers) if session_headers else await _validated_download_response(session, url)
             try:
                 disposition = response.content_disposition
@@ -476,6 +486,30 @@ def _browser_session_headers(value: object, url: object) -> dict:
     return result
 
 
+async def _model_download_info(request):
+    if request.content_type != "application/json":
+        raise web.HTTPUnsupportedMediaType(text="Use application/json")
+    try:
+        payload = await request.json()
+    except Exception as error:
+        raise web.HTTPBadRequest(text="Invalid JSON request") from error
+    if not isinstance(payload, dict):
+        raise web.HTTPBadRequest(text="Invalid download request")
+    headers = _browser_session_headers(payload.get("browserSession"), payload.get("url"))
+    try:
+        try:
+            url, name = await _url_model_file(payload.get("url"), headers)
+        except web.HTTPBadRequest as error:
+            if error.text != "Unsupported model file type":raise
+            url,name = await _workflow_url_file(payload.get("url"), headers)
+            return web.json_response({"url":url,"name":name,"kind":"workflows"})
+    except web.HTTPException as error:
+        # Avoid logging URLs, cookies, or provider response bodies.
+        print(f"[ComfierUI] Filename lookup failed (HTTP {error.status}). Check provider access, login, and download URL.", flush=True)
+        raise
+    return web.json_response({"url": url, "name": name})
+
+
 async def _start_download(request: web.Request) -> web.Response:
     if request.content_type != "application/json":
         raise web.HTTPUnsupportedMediaType(text="Use application/json")
@@ -491,7 +525,7 @@ async def _start_download(request: web.Request) -> web.Response:
     if payload.get("name") is None:
         url, name = await _url_model_file(payload.get("url"), session_headers) if session_headers else await _url_model_file(payload.get("url"))
     else:
-        url = _safe_initial_url(payload.get("url"))
+        url = _normalize_model_url(payload.get("url"))
         name = _safe_filename(payload.get("name"))
     destination = (root / name).resolve()
     if destination.parent != root:
@@ -523,14 +557,14 @@ def _public_record(record: dict) -> dict:
 
 
 async def _list_downloads(request: web.Request) -> web.Response:
-    records = sorted(_task_records.values(), key=lambda item: item["created_at"])
+    records = sorted((r for r in _task_records.values() if _workflow_visible(request,r)), key=lambda item: item["created_at"])
     return web.json_response({"downloads": [_public_record(item) for item in records]})
 
 
 async def _cancel_download(request: web.Request) -> web.Response:
     task_id = request.match_info["task_id"]
     record = _task_records.get(task_id)
-    if record is None:
+    if record is None or not _workflow_visible(request,record):
         raise web.HTTPNotFound(text="Unknown download")
     task = _task_handles.get(task_id)
     if task is None or task.done() or record["status"] not in {"pending", "active"}:
@@ -542,10 +576,15 @@ async def _cancel_download(request: web.Request) -> web.Response:
 async def _retry_download(request: web.Request) -> web.Response:
     task_id = request.match_info["task_id"]
     record = _task_records.get(task_id)
-    if record is None:
+    if record is None or not _workflow_visible(request,record):
         raise web.HTTPNotFound(text="Unknown download")
     if record["status"] not in {"failed", "canceled"}:
         raise web.HTTPConflict(text="Only failed or canceled downloads can be retried")
+    if record.get("kind")=="workflows":
+        record.update(status="pending",error=None,finished_at=None)
+        _launch_workflow(record)
+        return web.json_response({"accepted":True,**_public_record(record)},status=202)
+    if record.get("kind")=="custom_nodes":return await _retry_extension(record)
     directory, root = _safe_directory(record["directory"], record.get("_root_index", 0), record.get("_subdirectory", ""))
     destination = (root / record["filename"]).resolve()
     if destination.exists():
@@ -572,8 +611,8 @@ async def _retry_download(request: web.Request) -> web.Response:
 async def _clear_completed(request: web.Request) -> web.Response:
     removed = []
     for task_id, record in list(_task_records.items()):
-        if record["status"] in {"completed", "canceled"}:
-            if record["status"] == "canceled":
+        if _workflow_visible(request,record) and record["status"] in {"completed", "canceled"}:
+            if record["status"] == "canceled" and record.get("kind") not in {"custom_nodes","workflows"}:
                 partial_path = Path(record.get("_partial_path", ""))
                 try:
                     if partial_path.name:
@@ -606,8 +645,8 @@ async def _companion_info(request: web.Request) -> web.Response:
     environment, recognition = _client_environment(request)
     common = ["version-reporting", "lan-gateway", "ui-display-bundle", "host-resources", "workflow-app-curation"]
     platform_capabilities = {
-        "android": ["model-downloads", "model-download-control", "model-browser-sessions"],
-        "browser": ["model-downloads"],
+        "android": ["model-downloads", "model-download-control", "model-browser-sessions", "extension-installs"],
+        "browser": ["model-downloads", "extension-installs"],
         "unknown": [],
     }
     return web.json_response(
@@ -623,11 +662,387 @@ async def _companion_info(request: web.Request) -> web.Response:
     )
 
 
+
+def _extension_repository(value):
+    if not isinstance(value,str):raise web.HTTPBadRequest(text="Missing repository URL")
+    parsed=urlparse(value.strip())
+    if parsed.scheme!='https' or parsed.hostname not in {'github.com','gitlab.com','codeberg.org','bitbucket.org'} or parsed.username or parsed.password or parsed.port not in {None,443}:
+        raise web.HTTPBadRequest(text="Use a public HTTPS GitHub, GitLab, Codeberg or Bitbucket repository URL")
+    parts=parsed.path.strip('/').split('/')
+    if parts[0] in {'search','topics','explore','settings','login','collections','marketplace','orgs','users','sponsors'}:raise web.HTTPBadRequest(text='Open a repository URL, not a search or profile page')
+    if len(parts)<2 or any(not re.fullmatch(r'[A-Za-z0-9_.-]+',p) or p in {'.','..'} for p in parts[:2]):raise web.HTTPBadRequest(text="Open a repository URL, not a search or profile page")
+    if len(parts)>2 and (parsed.hostname!='github.com' or parts[2] not in {'tree','blob','issues','pulls','releases','discussions','wiki','actions'}):raise web.HTTPBadRequest(text="Use the repository root URL")
+    name=parts[1].removesuffix('.git')
+    return f'https://{parsed.hostname}/{parts[0]}/{name}.git',name
+
+
+def _extension_destination(name):
+    if not isinstance(name,str) or not re.fullmatch(r'[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}',name) or name.endswith('.'):
+        raise web.HTTPBadRequest(text="Use a plain repository folder name")
+    roots=folder_paths.get_folder_paths('custom_nodes')
+    if not roots:raise web.HTTPBadRequest(text="Host custom_nodes folder is unavailable")
+    if name.split('.')[0].upper() in {'CON','PRN','AUX','NUL',*[f'COM{i}' for i in range(1,10)],*[f'LPT{i}' for i in range(1,10)]}:raise web.HTTPBadRequest(text='Reserved repository folder name')
+    root=Path(roots[0]).resolve();destination=root/name
+    if destination.resolve().parent!=root:raise web.HTTPBadRequest(text="Unsafe extension destination")
+    return destination
+
+
+async def _extension_info(request):
+    try:payload=await request.json()
+    except Exception as error:raise web.HTTPBadRequest(text='Invalid JSON request') from error
+    if not isinstance(payload,dict):raise web.HTTPBadRequest(text='Invalid repository lookup')
+    url,name=_extension_repository(payload.get('url'))
+    destination=_extension_destination(name)
+    return web.json_response({'url':url,'name':name,'destination':str(destination)})
+
+
+async def _extension_command(record,args,cwd=None):
+    env=dict(os.environ,GIT_TERMINAL_PROMPT='0',PYTHONUNBUFFERED='1')
+    process_options={'creationflags':0x200} if os.name=='nt' else {'start_new_session':True}
+    process=await asyncio.create_subprocess_exec(*args,**process_options,cwd=str(cwd) if cwd else None,env=env,stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.STDOUT)
+    try:
+        while True:
+            line=await process.stdout.readline()
+            if not line:break
+            print('[ComfierUI extension] '+line.decode(errors='replace').rstrip(),flush=True)
+        code=await process.wait()
+        if code:raise RuntimeError(f'{record["stage"]} failed (exit {code}); see host console')
+    except BaseException:
+        if process.returncode is None:
+            if os.name=='nt':
+                killer=await asyncio.create_subprocess_exec('taskkill','/PID',str(process.pid),'/T','/F',stdout=asyncio.subprocess.DEVNULL,stderr=asyncio.subprocess.DEVNULL)
+                await killer.wait()
+            else:
+                try:os.killpg(process.pid,signal.SIGTERM)
+                except ProcessLookupError:pass
+            try:await asyncio.wait_for(process.wait(),5)
+            except asyncio.TimeoutError:
+                if os.name=='nt':process.kill()
+                else:
+                    try:os.killpg(process.pid,signal.SIGKILL)
+                    except ProcessLookupError:pass
+                await process.wait()
+        raise
+
+
+async def _extension_run(record):
+    destination=Path(record['_destination']);record.update(status='active',percent=None,restart_required=False)
+    try:
+        if not record.get('_clone_complete'):
+            if destination.exists():raise RuntimeError('Repository folder already exists; no files were changed')
+            record['stage']='clone';destination.parent.mkdir(parents=True,exist_ok=True);record['_clone_dir']=tempfile.mkdtemp(prefix='.comfier-clone-',dir=destination.parent)
+            await _extension_command(record,['git','-c','credential.helper=','-c','protocol.file.allow=never','clone','--',record['url'],record['_clone_dir']])
+            if destination.exists():raise RuntimeError('Repository folder already exists; no files were changed')
+            Path(record['_clone_dir']).rename(destination)
+            record['_clone_complete']=True
+        requirements=destination/'requirements.txt'
+        if requirements.exists():
+            if requirements.is_symlink() or requirements.resolve().parent!=destination.resolve() or not requirements.is_file():raise RuntimeError('Unsafe requirements.txt')
+            record['stage']='requirements'
+            await _extension_command(record,[sys.executable,'-m','pip','install','-r','requirements.txt'],destination)
+        record.update(status='completed',stage='completed',percent=100,restart_required=True,error=None)
+    except asyncio.CancelledError:
+        record.update(status='canceled',error='Canceled',restart_required=False)
+    except Exception as error:
+        print(f'[ComfierUI extension] {error}',flush=True)
+        record.update(status='failed',error=str(error),restart_required=False)
+    finally:
+        if record.get('_clone_dir') and Path(record['_clone_dir']).exists():
+            import shutil
+            try:await asyncio.to_thread(shutil.rmtree,record['_clone_dir'])
+            except OSError as error:print(f'[ComfierUI extension] Could not clean partial clone: {error}',flush=True)
+        record['finished_at']=time.time();_active_targets.discard(destination);_task_handles.pop(record['task_id'],None)
+
+
+def _launch_extension(record):
+    destination=Path(record['_destination']);_active_targets.add(destination)
+    task=asyncio.create_task(_extension_run(record));_tasks.add(task);_task_handles[record['task_id']]=task
+    def finished(task):
+        _tasks.discard(task);_active_targets.discard(destination);_task_handles.pop(record['task_id'],None)
+        if task.cancelled():record.update(status='canceled',error='Canceled',restart_required=False,finished_at=time.time())
+    task.add_done_callback(finished)
+
+
+async def _install_extension(request):
+    if request.content_type!='application/json':raise web.HTTPUnsupportedMediaType(text='Use application/json')
+    try:payload=await request.json()
+    except Exception as error:raise web.HTTPBadRequest(text='Invalid JSON request') from error
+    if not isinstance(payload,dict):raise web.HTTPBadRequest(text='Invalid install request')
+    url,name=_extension_repository(payload.get('url'));name=payload.get('name') or name;destination=_extension_destination(name)
+    if destination.exists() or destination in _active_targets:raise web.HTTPConflict(text='Repository folder already exists or is installing')
+    record=dict(task_id=uuid.uuid4().hex,filename=name,directory='custom_nodes',kind='custom_nodes',url=url,status='pending',stage='clone',percent=None,received_bytes=0,total_bytes=None,error=None,restart_required=False,created_at=time.time(),finished_at=None,_destination=str(destination))
+    _task_records[record['task_id']]=record;_launch_extension(record)
+    return web.json_response({'accepted':True,**_public_record(record)},status=202)
+
+
+async def _retry_extension(record):
+    destination=Path(record['_destination'])
+    if destination in _active_targets:raise web.HTTPConflict(text='Extension is already installing')
+    if destination.exists() and not record.get('_clone_complete'):raise web.HTTPConflict(text='Repository folder already exists')
+    if record.get('_clone_complete') and (not destination.is_dir() or destination.is_symlink()):raise web.HTTPConflict(text='Cloned repository folder is unavailable')
+    record.update(status='pending',error=None,finished_at=None,restart_required=False)
+    _launch_extension(record)
+    return web.json_response({'accepted':True,**_public_record(record)},status=202)
+
+
+
+# Workflow archives never extract media, paths, or executable contents.
+WORKFLOW_DOWNLOAD_LIMIT = 256 * 1024 * 1024
+WORKFLOW_JSON_LIMIT = 16 * 1024 * 1024
+WORKFLOW_TOTAL_LIMIT = 64 * 1024 * 1024
+
+def _workflow_graph(data):
+    if not isinstance(data, dict):
+        return False
+    nodes = data.get("nodes")
+    if isinstance(nodes, list) and isinstance(data.get("links"), list):
+        return all(isinstance(n, dict) and "id" in n and isinstance(n.get("type"), str) for n in nodes)
+    # API-format workflows have numeric node keys, class_type and inputs.
+    return bool(data) and all(str(k).isdigit() and isinstance(n, dict)
+        and isinstance(n.get("class_type"), str) and isinstance(n.get("inputs"), dict)
+        for k, n in data.items())
+
+
+def _workflow_name(value):
+    if not isinstance(value, str) or not value or len(value) > 180 or value != Path(value).name:
+        raise web.HTTPBadRequest(text="Unsafe workflow filename")
+    if any(c in value for c in '\\/:<>"|?*') or any(ord(c) < 32 for c in value) or value.endswith((' ', '.')):
+        raise web.HTTPBadRequest(text="Unsafe workflow filename")
+    if value.split('.')[0].upper() in {"CON","PRN","AUX","NUL",*[f"COM{i}" for i in range(1,10)],*[f"LPT{i}" for i in range(1,10)]}:
+        raise web.HTTPBadRequest(text="Unsafe workflow filename")
+    if Path(value).suffix.lower() not in {".json", ".zip"}:
+        raise web.HTTPBadRequest(text="Use a .json workflow or .zip archive")
+    return value
+
+
+def _workflow_files(source, name):
+    result = []
+    total = 0
+    def keep(filename, raw):
+        nonlocal total
+        if len(raw) > WORKFLOW_JSON_LIMIT:
+            raise ValueError("Workflow JSON exceeds 16 MiB")
+        total += len(raw)
+        if total > WORKFLOW_TOTAL_LIMIT:
+            raise ValueError("Workflow JSON contents exceed 64 MiB")
+        try:
+            graph = json.loads(raw.decode("utf-8-sig"), parse_constant=lambda value: (_ for _ in ()).throw(ValueError("Non-finite JSON value")))
+        except (UnicodeError, ValueError):
+            return
+        if _workflow_graph(graph):
+            result.append((_workflow_name(filename), json.dumps(graph, ensure_ascii=False, allow_nan=False).encode("utf-8")))
+    if zipfile.is_zipfile(source):
+        with zipfile.ZipFile(source) as archive:
+            entries = archive.infolist()
+            if len(entries) > 10000:
+                raise ValueError("Archive contains too many entries")
+            for entry in entries:
+                path = PurePosixPath(entry.filename)
+                mode = entry.external_attr >> 16
+                if path.is_absolute() or '..' in path.parts or '\\' in entry.filename or ':' in entry.filename or stat.S_ISLNK(mode):
+                    raise ValueError("Unsafe archive entry")
+                if entry.is_dir() or path.suffix.lower() != '.json':
+                    continue
+                if entry.flag_bits & 1 or entry.file_size > WORKFLOW_JSON_LIMIT:
+                    raise ValueError("Encrypted or oversized workflow JSON")
+                if entry.file_size > max(1, entry.compress_size) * 1000:
+                    raise ValueError("Workflow JSON expansion limit exceeded")
+                with archive.open(entry) as stream:
+                    raw = stream.read(WORKFLOW_JSON_LIMIT + 1)
+                keep(path.name, raw)
+    else:
+        if Path(name).suffix.lower() != '.json':
+            raise ValueError("Download is not a JSON workflow or ZIP archive")
+        with open(source, 'rb') as stream:
+            keep(name, stream.read(WORKFLOW_JSON_LIMIT + 1))
+    if not result:
+        raise ValueError("No valid workflow JSON files found")
+    return result
+
+
+def _workflow_user(request):
+    return PromptServer.instance.user_manager.get_request_user_id(request)
+
+
+def _workflow_root(request):
+    path = PromptServer.instance.user_manager.get_request_user_filepath(request, "workflows")
+    if path is None:
+        raise web.HTTPBadRequest(text="Unknown workflow user")
+    return Path(path).resolve()
+
+
+def _workflow_folder(request, subdirectory=""):
+    root = _workflow_root(request)
+    if not isinstance(subdirectory, str) or '\\' in subdirectory or ':' in subdirectory or PurePosixPath(subdirectory).is_absolute() or '..' in PurePosixPath(subdirectory).parts:
+        raise web.HTTPBadRequest(text="Unsafe workflow folder")
+    folder = (root / subdirectory).resolve()
+    if not folder.is_relative_to(root):
+        raise web.HTTPBadRequest(text="Unsafe workflow folder")
+    return root, folder
+
+
+async def _list_workflow_folders(request):
+    root = _workflow_root(request)
+    choices = [{"label": "workflows", "directory": "workflows", "subdirectory": ""}]
+    if root.exists():
+        for directory, dirs, files in os.walk(root, followlinks=False):
+            dirs[:] = sorted(d for d in dirs if not d.startswith('.') and not (Path(directory)/d).is_symlink())
+            for d in dirs:
+                relative = (Path(directory)/d).relative_to(root).as_posix()
+                choices.append({"label": "workflows/"+relative, "directory": "workflows", "subdirectory": relative})
+                if len(choices) >= 4000:
+                    return web.json_response({"folders": choices, "truncated": True})
+    return web.json_response({"folders": choices})
+
+
+async def _workflow_url_file(value, headers=None, name=None):
+    url = _normalize_model_url(value)
+    if name:
+        return url, _workflow_name(name)
+    candidate = unquote(Path(urlparse(url).path).name)
+    if Path(candidate).suffix.lower() in {'.json', '.zip'}:
+        return url, _workflow_name(candidate)
+    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30, connect=10), headers={"User-Agent": f"ComfierUI-Companion/{COMPANION_VERSION}"}) as session:
+        response = await _validated_download_response(session, url, headers)
+        try:
+            disposition = response.content_disposition
+            candidate = disposition.filename if disposition and disposition.filename else unquote(Path(urlparse(str(response.url)).path).name)
+            return url, _workflow_name(candidate)
+        finally:
+            response.release()
+
+
+async def _workflow_payload(request):
+    if request.content_type != "application/json":
+        raise web.HTTPUnsupportedMediaType(text="Use application/json")
+    try:
+        payload = await request.json()
+    except Exception as error:
+        raise web.HTTPBadRequest(text="Invalid JSON request") from error
+    if not isinstance(payload, dict):
+        raise web.HTTPBadRequest(text="Invalid workflow request")
+    return payload
+
+
+async def _workflow_info(request):
+    payload = await _workflow_payload(request)
+    url, name = await _workflow_url_file(payload.get('url'), _browser_session_headers(payload.get('browserSession'),payload.get('url')))
+    return web.json_response({"url":url,"name":name})
+
+
+def _publish_workflows(files, destination, name):
+    destination.mkdir(parents=True, exist_ok=True)
+    published = []
+    try:
+        for filename, data in files:
+            # A manual JSON filename renames only a single-workflow import.
+            if len(files) == 1 and Path(name).suffix.lower() == '.json':
+                filename = name
+            stem = Path(filename).stem
+            for index in range(10000):
+                final = destination / (filename if index == 0 else f"{stem} ({index}).json")
+                try:
+                    with final.open('xb') as output:
+                        published.append(final)
+                        output.write(data)
+                    break
+                except FileExistsError:
+                    continue
+            else:
+                raise ValueError("Too many workflows with the same filename")
+        return published
+    except BaseException:
+        for path in published:
+            path.unlink(missing_ok=True)
+        raise
+
+
+async def _workflow_run(record):
+    record.update(status='active',stage='download',error=None)
+    try:
+        with tempfile.TemporaryDirectory(prefix='comfier-workflow-') as temp:
+            source = Path(temp)/'download'
+            headers = {"User-Agent": f"ComfierUI-Companion/{COMPANION_VERSION}", **record.get('_session_headers', {})}
+            async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=None, sock_read=60, connect=15)) as session:
+                response = await _validated_download_response(session, record['url'], headers)
+                try:
+                    with source.open('wb') as output:
+                        async for chunk in response.content.iter_chunked(CHUNK_BYTES):
+                            record['received_bytes'] += len(chunk)
+                            if record['received_bytes'] > WORKFLOW_DOWNLOAD_LIMIT:
+                                raise ValueError('Workflow download exceeds 256 MiB')
+                            await _write_chunk(output,chunk)
+                finally:
+                    response.release()
+            record['stage']='extract'
+            # Bounded inspection reads JSON members only; no extractall or input writes.
+            files = _workflow_files(source,record['filename'])
+            root=Path(record['_root'])
+            destination=(root/record['_subdirectory']).resolve()
+            if not destination.is_relative_to(root):
+                raise ValueError('Unsafe workflow folder')
+            published=_publish_workflows(files,destination,record['filename'])
+            record['workflows']=[path.relative_to(root).as_posix() for path in published]
+            record.update(status='completed',percent=100,stage='completed')
+            print(f"[ComfierUI] Imported {len(published)} workflow(s); bundled media discarded.",flush=True)
+    except asyncio.CancelledError:
+        record.update(status='canceled',error=None)
+    except Exception as error:
+        record.update(status='failed',error=str(error))
+        print(f"[ComfierUI] Workflow import failed: {error}",flush=True)
+    finally:
+        record['finished_at']=time.time()
+        if record['status']=='completed':record.pop('_session_headers',None)
+
+
+def _launch_workflow(record):
+    record['received_bytes']=0
+    task=asyncio.create_task(_workflow_run(record))
+    _tasks.add(task);_task_handles[record['task_id']]=task
+    def finished(task):
+        _tasks.discard(task);_task_handles.pop(record['task_id'],None)
+        if task.cancelled():record.update(status='canceled',finished_at=time.time())
+    task.add_done_callback(finished)
+
+
+async def _start_workflow(request):
+    payload=await _workflow_payload(request)
+    subdirectory=payload.get('subdirectory','')
+    root,folder=_workflow_folder(request,subdirectory)
+    headers=_browser_session_headers(payload.get('browserSession'),payload.get('url'))
+    url,name=await _workflow_url_file(payload.get('url'),headers,payload.get('name'))
+    record=dict(task_id=uuid.uuid4().hex,kind='workflows',filename=name,directory='workflows',url=url,status='pending',stage='download',percent=None,received_bytes=0,total_bytes=None,error=None,created_at=time.time(),finished_at=None,_user=_workflow_user(request),_root=str(root),_subdirectory=subdirectory,_session_headers=headers)
+    _task_records[record['task_id']]=record
+    _launch_workflow(record)
+    return web.json_response({'accepted':True,**_public_record(record)},status=202)
+
+
+def _workflow_visible(request,record):
+    return record.get('kind') != 'workflows' or record.get('_user') == _workflow_user(request)
+
+
+async def _workflow_data(request):
+    record=_task_records.get(request.match_info['task_id'])
+    if record is None or not _workflow_visible(request,record):raise web.HTTPNotFound(text='Unknown workflow import')
+    filename=request.query.get('file')
+    if filename not in record.get('workflows',[]):raise web.HTTPNotFound(text='Unknown workflow')
+    root=_workflow_root(request);path=(root/filename).resolve()
+    if not path.is_relative_to(root) or not path.is_file():raise web.HTTPNotFound(text='Workflow unavailable')
+    return web.FileResponse(path)
+
+
 def register_routes() -> None:
     global _registered
     if _registered:
         return
+    PromptServer.instance.routes.get("/comfierui/workflow-folders")(_list_workflow_folders)
+    PromptServer.instance.routes.post("/comfierui/workflow-download-info")(_workflow_info)
+    PromptServer.instance.routes.post("/comfierui/workflow-download")(_start_workflow)
+    PromptServer.instance.routes.get(TASKS_ROUTE + "/{task_id}/workflow")(_workflow_data)
+    PromptServer.instance.routes.post("/comfierui/extension-info")(_extension_info)
+    PromptServer.instance.routes.post("/comfierui/extension-install")(_install_extension)
     PromptServer.instance.routes.get("/comfierui/model-folders")(_list_model_folders)
+    PromptServer.instance.routes.post("/comfierui/model-download-info")(_model_download_info)
     PromptServer.instance.routes.post(ROUTE)(_start_download)
     PromptServer.instance.routes.get(TASKS_ROUTE)(_list_downloads)
     PromptServer.instance.routes.delete(TASKS_ROUTE + "/completed")(_clear_completed)
