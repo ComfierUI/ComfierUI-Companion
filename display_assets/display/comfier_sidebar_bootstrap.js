@@ -24,6 +24,7 @@
 .${PANEL_CLASS}{width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;box-sizing:border-box!important;overflow:hidden!important;padding:8px!important;overscroll-behavior:contain!important;touch-action:pan-y!important}
 .${PANEL_CLASS}>#${SETTINGS_ROOT_ID}{position:static!important;inset:auto!important;display:block!important;width:100%!important;height:100%!important;margin:0!important;transform:none!important;pointer-events:auto!important;font-family:inherit!important}
 .${PANEL_CLASS} .ui-zoom-panel{position:static!important;inset:auto!important;display:flex!important;flex-direction:column!important;gap:8px!important;height:100%!important;visibility:visible!important;opacity:1!important;transform:none!important;width:100%!important;max-width:none!important;max-height:none!important;min-width:0!important;box-sizing:border-box!important;overflow-y:auto!important;overflow-x:hidden!important;box-shadow:none!important;border:0!important;border-radius:0!important;background:transparent!important;padding:4px!important;white-space:normal!important;pointer-events:auto!important}
+.${PANEL_CLASS} .ui-zoom-panel[data-comfier-browser-settings="true"]>:not(.comfier-app-settings-heading):not(.comfier-browser-start-row):not(.comfier-companion-port-row):not(.ui-diagnostics-row):not(.ufu-launch){display:none!important}
 .${PANEL_CLASS} .ui-zoom-range{min-width:0!important;max-width:100%!important}
 .${PANEL_CLASS} .ui-zoom-reset{max-width:100%!important}
 .${PANEL_CLASS} :is(.ui-auto-reconnect-row,.ui-node-move-row,.ui-generation-notifications-row,.ui-accent-row,.ui-font-row,.ui-theme-launch-row,.comfier-theme-studio,.ui-disconnect,.ui-hard-refresh,.ui-app-version,.ui-companion-version){grid-column:1/-1!important;width:100%!important;max-width:none!important;box-sizing:border-box!important}
@@ -80,18 +81,25 @@
       if(!Number.isInteger(port)||port<1024||port>65535||reserved.includes(port)){notify('Choose a port from 1024–65535, excluding ComfyUI’s port.');return}
       if(gatewayPort===null){notify('Wait for Companion port information.');return}
       if(location.protocol!=='http:'||Number(location.port||80)!==gatewayPort){notify('Change gateway ports using a direct HTTP Companion connection.');return}
-      if(typeof window.ComfierApp?.reconnectCompanionPort!=='function'){notify('Change ports from the ComfierUI app.');return}
       // Verify storage can be read before changing the server's listening port.
       let storage;try{storage=JSON.stringify(Object.fromEntries(Object.keys(localStorage).map(key=>[key,localStorage.getItem(key)])))}catch(_){notify('Could not preserve this device’s settings; port unchanged.');return}
       apply.disabled=true;input.disabled=true;
-      try{const result=await request({method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({port})});window.ComfierApp.reconnectCompanionPort(result.port,storage)}catch(error){notify(error.message)}finally{apply.disabled=false;input.disabled=false}
+      try{const result=await request({method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({port})});typeof window.ComfierApp?.reconnectCompanionPort==='function'?window.ComfierApp.reconnectCompanionPort(result.port,storage):location.assign(location.protocol+'//'+location.hostname+':'+result.port+location.pathname)}catch(error){notify(error.message)}finally{apply.disabled=false;input.disabled=false}
     };
+  }
+  function browserSettings(panel){
+    const browser=!window.__comfierAndroidClient&&!window.__COMFIER_CLOUD_MODE;
+    panel.dataset.comfierBrowserSettings=String(browser);if(!browser){panel.querySelector('.comfier-browser-start-row')?.remove();return}
+    if(panel.querySelector('.comfier-browser-start-row'))return;
+    const row=document.createElement('label');row.className='comfier-browser-start-row';row.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px;order:3';const text=document.createElement('span');text.textContent='Browser start page';const select=document.createElement('select');select.setAttribute('aria-label','Browser start page');for(const [value,title]of [['companion','ComfierUI'],['comfy','Default ComfyUI']]){const option=document.createElement('option');option.value=value;option.textContent=title;select.append(option)}select.disabled=true;row.append(text,select);panel.append(row);
+    async function request(options){const response=await window.app.api.fetchApi('/comfierui/gateway/browser-start',options);if(!response.ok)throw Error(await response.text()||'Could not save browser start page');return response.json()}
+    let saved='companion';request().then(config=>{saved=config.page;select.value=saved;select.disabled=false}).catch(error=>{select.title=error.message});select.onchange=async()=>{select.disabled=true;try{const result=await request({method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page:select.value})});saved=result.page;select.value=saved}catch(error){select.value=saved;window.alert(error.message)}finally{select.disabled=false}};
   }
   function heading(){
     const panel=settingsRoot?.querySelector('.ui-zoom-panel');if(!panel)return;
-    portControls(panel);
+    portControls(panel);browserSettings(panel);
     panel.querySelectorAll('.ui-companion-display-row').forEach(el=>el.remove());
-    if(!panel.querySelector('.comfier-app-settings-heading')){const title=document.createElement('h2');title.className='comfier-app-settings-heading';title.textContent='App Settings';panel.prepend(title)}
+    if(!panel.querySelector('.comfier-app-settings-heading')){const title=document.createElement('h2');title.className='comfier-app-settings-heading';title.textContent='ComfierUI Settings';panel.prepend(title)}
   }
   function captureSettings(){
     if(settingsRoot){heading();return true;}
@@ -110,7 +118,7 @@
     if(activeContainer)activeContainer.classList.remove(PANEL_CLASS);activeContainer=null;
     if(settingsRoot&&settingsRoot.parentElement!==parking)parking.appendChild(settingsRoot);
   }
-  function register(){registered=tab.ensure({icon:'icon-[lucide--ellipsis]',title:'App Settings',tooltip:'App Settings',label:'App Settings',type:'custom',render:mount,destroy:park});if(registered)window.__comfierUnifiedSidebarTest?.refresh?.();return registered}
+  function register(){registered=tab.ensure({icon:'icon-[lucide--ellipsis]',title:'ComfierUI Settings',tooltip:'ComfierUI Settings',label:'ComfierUI Settings',type:'custom',render:mount,destroy:park});if(registered)window.__comfierUnifiedSidebarTest?.refresh?.();return registered}
   function open(){
     if(!register())return false;
     if(!tab.active()){const store=tab.store();if(typeof store?.toggleSidebarTab==='function')store.toggleSidebarTab(TAB_ID);else if(store)store.activeSidebarTabId=TAB_ID;}

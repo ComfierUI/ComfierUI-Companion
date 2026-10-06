@@ -38,9 +38,13 @@ Start ComfyUI normally. Companion starts automatically; it adds no workflow node
 
 ## Connect
 
-Version **0.5.1**, paired with ComfierUI **0.91.12-Dev**.
+Version **0.5.2**, paired with ComfierUI **0.91.13-Dev**.
 
 Connect the Android app to the host address and Companion port (default **8147**). Open `http://127.0.0.1:8147/` on the host to use the browser interface. ComfyUI continues running on its own port, normally **8188**. Companion's port can be changed in App Settings; 8188 is reserved for ComfyUI.
+
+## ComfierUI Settings
+
+Host browser settings contain Browser start page, Companion Port, Diagnostic Mode and UI Editor. Choose ComfierUI or Default ComfyUI for the next automatic browser launch. The host remembers this setting. It does not change an open page or enable browser launches for headless runs. Open the Companion port directly anytime to change it. Android and Cloud retain their own controls.
 
 ## Features
 
@@ -57,7 +61,7 @@ App Mode preserves the workflow's wiring and settings. It does not create extra 
 
 ## Updating
 
-Replace the extension files in place, then restart ComfyUI and reconnect or hard-refresh clients. Preserve your existing themes, `gateway_port.json`, `ui_updates`, diagnostics and backups. Do not install a second copy of Companion alongside the first.
+Replace the extension files in place, then restart ComfyUI and reconnect or hard-refresh clients. Preserve your existing themes, `gateway_port.json`, `browser_start.json`, `ui_updates`, diagnostics and backups. Do not install a second copy of Companion alongside the first.
 
 ## Development
 
