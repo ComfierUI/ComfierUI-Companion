@@ -38,7 +38,7 @@ Start ComfyUI normally. Companion starts automatically; it adds no workflow node
 
 ## Connect
 
-Version **0.7.6**, paired with ComfierUI **0.92.6-Dev**.
+Version **0.7.7**, paired with ComfierUI **0.92.7-Dev**.
 
 Connect the Android app to the host address and Companion port (default **8147**). Open `http://127.0.0.1:8147/` on the host to use the browser interface. ComfyUI continues running on its own port, normally **8188**. Companion's port can be changed in App Settings; 8188 is reserved for ComfyUI.
 
@@ -101,7 +101,7 @@ Hugging Face and Civitai browsing buttons are available in Download from URL. An
 
 Civitai offers Red (`civitai.red`) or Blue (`civitai.com`) with Remember my choice. ComfierUI Settings includes Civitai start page: Ask every time, Red or Blue. This choice is local to the client.
 
-When an Android repository browser opens a supported model download link, ComfierUI returns to the URL form for host folder selection. Companion 0.7.6 uses the temporary session for that download and its retries; cookies remain in memory and are never exposed in download listings or saved as a separate account credential. They are removed from cross-origin redirect requests and discarded after success or clearing the job. Keep host connections on a trusted network; the Companion LAN gateway uses HTTP.
+When an Android repository browser opens a supported model download link, ComfierUI returns to the URL form for host folder selection. Companion 0.7.7 uses the temporary session for that download and its retries; cookies remain in memory and are never exposed in download listings or saved as a separate account credential. They are removed from cross-origin redirect requests and discarded after success or clearing the job. Keep host connections on a trusted network; the Companion LAN gateway uses HTTP.
 
 Desktop browsing opens a separate repository window. Paste the model link into the URL form afterward; sharing a website's login session with the desktop Companion downloader is not supported by this build. Embedded sessions are an Android feature. Comfy Cloud still has no user host model filesystem.
 
