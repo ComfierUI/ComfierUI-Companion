@@ -54,9 +54,9 @@ html:root body ${roots}${roots} :is(.ui-auto-reconnect-state,.ui-generation-noti
 html:root body ${roots}${roots} .comfier-workflow-mode-row{display:flex!important;flex-direction:row!important;justify-content:space-between!important;align-items:center!important;gap:8px!important}
 html:root body ${roots}${roots} .comfier-workflow-mode-row>span{flex:1;min-width:0;text-align:left!important}
 html:root body ${roots}${roots} .comfier-workflow-mode-row>select{flex:0 1 auto!important;max-width:58%;margin-left:auto!important}
-html:root body ${roots}${roots}:is(.ufu-inspector,.ufu-confirm) label:has(>input[type=number]):has(>button){display:grid!important;grid-template-columns:minmax(0,1fr) 7ch 42px!important;column-gap:4px!important;align-items:center!important;text-align:left!important}
+html:root body ${roots}${roots}:is(.ufu-inspector,.ufu-confirm) label:has(>input[type=number]):has(>button){display:grid!important;grid-template-columns:minmax(0,1fr) 7ch 56px!important;column-gap:4px!important;align-items:center!important;text-align:left!important}
 html:root body ${roots}${roots}:is(.ufu-inspector,.ufu-confirm) label:has(>input[type=number]):has(>button)>input{grid-column:2!important;grid-row:1!important;width:100%!important;min-width:0!important;margin:0!important}
-html:root body ${roots}${roots}:is(.ufu-inspector,.ufu-confirm) label:has(>input[type=number]):has(>button)>button{grid-column:3!important;grid-row:1!important;width:42px!important;min-width:0!important;margin:0!important}
+html:root body ${roots}${roots}:is(.ufu-inspector,.ufu-confirm) label:has(>input[type=number]):has(>button)>button{grid-column:3!important;grid-row:1!important;width:56px!important;min-width:0!important;margin:0!important}
 html:root body ${roots}${roots}:is(#comfier-ui-zoom-test,.comfier-app-settings-native-panel,.ufu-inspector,.ufu-confirm,.ufu-editor-status,.ufu-toolbar-menu,.comfier-theme-editor,.comfier-theme-profiles) button:not(.theme-recent){text-align:center!important;justify-content:center!important}
 
 /* Phone UI Editor only: landscape uses horizontal space; portrait keeps one column. */
@@ -87,7 +87,7 @@ html:root body .ufu-inspector[data-editor-view="outerLandscape"] .theme-picker>.
 html:root body ${roots}${roots} .ufu-color-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;box-sizing:border-box}
 html:root body ${roots}${roots} .ufu-color-actions>span{display:flex;align-items:center;gap:4px;min-width:0}
 html:root body ${roots}${roots} .ufu-color-actions>span>button:first-child{flex:1;min-width:0;padding-inline:4px!important}
-html:root body ${roots}${roots} .ufu-color-actions>span>button:last-child{flex:0 0 28px;width:28px;min-width:0;padding-inline:0!important}
+html:root body ${roots}${roots} .ufu-color-actions>span>button:last-child{flex:0 0 56px;width:56px;min-width:0;padding-inline:0!important}
 html:root body ${roots}${roots} .ufu-color-actions>span:nth-child(2){justify-self:end;width:100%}
 `;
 document.head.append(style);

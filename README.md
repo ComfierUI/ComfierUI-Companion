@@ -38,13 +38,13 @@ Start ComfyUI normally. Companion starts automatically; it adds no workflow node
 
 ## Connect
 
-Version **0.5.4**, paired with ComfierUI **0.91.15-Dev**.
+Version **0.5.6**, paired with ComfierUI **0.91.16-Dev**.
 
 Connect the Android app to the host address and Companion port (default **8147**). Open `http://127.0.0.1:8147/` on the host to use the browser interface. ComfyUI continues running on its own port, normally **8188**. Companion's port can be changed in App Settings; 8188 is reserved for ComfyUI.
 
 ## App Mode
 
-Generate stays in the panel footer while fields, preview and output scroll above it. Phone portrait prompt boxes remain taller; other views use a shorter prompt box. Full Canvas retains complete workflow controls.
+Generate stays in the panel footer while fields, preview and output scroll above it. Prompt boxes grow and shrink with text, starting at five lines for positive prompts and one for empty negative prompts. Manual resizing remains available. Full Canvas retains complete workflow controls.
 
 ## ComfierUI Settings
 
@@ -80,3 +80,7 @@ python -m unittest discover -s tests
 See [LICENSE](LICENSE).
 
 Live Preview appears only after the workflow sends a preview; workflows without previews leave this section hidden.
+
+UI Editor reset buttons use the text Reset instead of a glyph.
+
+App Mode recognizes editable text inputs feeding LLM prompt enhancement inside subgraphs. Positive prompts appear before negatives. Finished results appear at the top without a heading; live previews remain at the bottom and are hidden when unavailable.

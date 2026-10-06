@@ -31,6 +31,13 @@ def control_kind(control):
     if (re.fullmatch(r'(image\d*|video|audio|file|filename|image_path|video_path|audio_path|reference_image|start_image|end_image)', name)
             and not re.search(r'save|output|preview', node_type)):
         return 'file'
+    if control.get('textInput') and any(
+        re.search(r'(?:textencode|text_encode|textinput|text_input)[^.]*\.(?:text|text_g|text_l|prompt|positive|negative)$|\.(?:user_prompt|user_message|input_text|positive|negative|prompt)$|(?:llm|ollama|anthropic|claude|gemini|qwen|llama|openai|promptenhanc)[^.]*\.(?:text|message|input)$', h)
+        for h in hints):
+        return 'prompt'
+    if (control.get('textInput') and name in ('text', 'string', 'value', 'user_message', 'input_text') and
+            re.search(r'llm|ollama|anthropic|claude|gemini|qwen|llama|openai|promptenhanc|textinput|text_input', node_type)):
+        return 'prompt'
     if re.search(r'primitive|reroute', node_type) and name in ('value', 'text', 'number'):
         if any(re.search(r'(^|\.)((noise_|random_)?seed)$', h) for h in hints):
             return 'seed'

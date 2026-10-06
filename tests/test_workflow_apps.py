@@ -11,6 +11,11 @@ spec=importlib.util.spec_from_file_location('workflow_apps_fixture',Path(__file_
 module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
 
 class WorkflowApps(unittest.IsolatedAsyncioTestCase):
+    def test_llm_user_text_inputs(self):
+        for typ,name,targets in [('StringInput','value',['LLMEnhancer.text']),('Anything','value',['CLIPTextEncode.text']),('Qwen','input_text',[])]:
+            c=dict(key='user',nodeType=typ,name=name,targets=targets,textInput=True)
+            self.assertEqual(module.curate(dict(schemaVersion=1,controls=[c],outputs=[]))['controls'][0]['kind'],'prompt')
+
     async def test_host_plan_and_validation(self):
         app=web.Application();app.router.add_post('/comfierui/workflow/curate',module._curate)
         async with TestClient(TestServer(app)) as client:
