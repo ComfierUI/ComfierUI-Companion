@@ -38,9 +38,13 @@ Start ComfyUI normally. Companion starts automatically; it adds no workflow node
 
 ## Connect
 
-Version **0.5.2**, paired with ComfierUI **0.91.13-Dev**.
+Version **0.5.3**, paired with ComfierUI **0.91.14-Dev**.
 
 Connect the Android app to the host address and Companion port (default **8147**). Open `http://127.0.0.1:8147/` on the host to use the browser interface. ComfyUI continues running on its own port, normally **8188**. Companion's port can be changed in App Settings; 8188 is reserved for ComfyUI.
+
+## App Mode
+
+Generate stays in the panel footer while fields, preview and output scroll above it. Phone portrait prompt boxes remain taller; other views use a shorter prompt box. Full Canvas retains complete workflow controls.
 
 ## ComfierUI Settings
 

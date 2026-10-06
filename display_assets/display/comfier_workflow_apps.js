@@ -85,6 +85,13 @@ function button(text,fn){const b=el('button',text);b.type='button';b.addEventLis
 const style=el('style');style.id='comfier-workflow-app-style';style.textContent=`
 html.comfier-lite-active #graph-canvas,html.comfier-lite-active [data-testid=transform-pane]{visibility:hidden!important;pointer-events:none!important}
 .comfier-lite-form{display:flex;flex-direction:column;gap:14px;padding:12px;box-sizing:border-box;color:var(--comfier-ui-font,#fff);font:inherit;min-width:0}
+html.comfier-lite-active #comfier-apps-content{overflow:hidden!important;display:flex;flex-direction:column}
+html.comfier-lite-active .comfier-lite-form{height:100%;width:100%;min-height:0;flex:1;overflow:hidden}
+.comfier-lite-fields{display:flex;flex-direction:column;gap:14px;flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-y}
+.comfier-lite-fields>*{flex-shrink:0}
+.comfier-lite-footer{flex:none;display:flex;width:100%;min-width:0}
+.comfier-lite-footer>.comfier-lite-generate{width:100%}
+html:root body #comfier-apps-panel[data-comfier-apps-view="outerPortrait"] .comfier-lite-form textarea{min-height:350px!important}
 .comfier-lite-form fieldset{display:flex;flex-direction:column;gap:10px;min-width:0;margin:0;padding:12px;border:1px solid var(--interface-stroke,#555);border-radius:8px}
 .comfier-lite-form label{display:flex;flex-direction:column;gap:6px;min-width:0;text-align:left!important}
 .comfier-lite-form :is(input,select,textarea,button),#comfier-workflow-choice button{font:inherit;box-sizing:border-box;min-height:40px;border:1px solid #aaa;border-radius:6px;padding:8px;background:#fff;color:#111;max-width:100%}
@@ -94,7 +101,7 @@ html:root body #comfier-apps-panel#comfier-apps-panel .comfier-lite-resolution-t
 .comfier-lite-resolution-row{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;min-width:0}
 html:root body #comfier-apps-panel#comfier-apps-panel .comfier-lite-resolution-row input{width:calc(4ch + 18px)!important;min-width:0!important;flex:0 1 calc(4ch + 18px)!important;padding-inline:8px!important;font-family:monospace!important;text-align:center!important;appearance:textfield}
 .comfier-lite-resolution-row input::-webkit-inner-spin-button,.comfier-lite-resolution-row input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
-.comfier-lite-form textarea{min-height:350px!important;resize:vertical;width:100%}
+.comfier-lite-form textarea{min-height:245px!important;resize:vertical;width:100%}
 .comfier-lite-form img,.comfier-lite-form video{width:100%;height:auto;object-fit:contain;max-height:420px}.comfier-lite-form audio{width:100%}
 .comfier-lite-form pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}.comfier-lite-form [role=status]{font-size:12px;overflow-wrap:anywhere}.comfier-lite-form .comfier-lite-output{display:flex;flex-direction:column;gap:8px}
 #comfier-workflow-choice{border:1px solid #777;border-radius:12px;padding:20px;background:var(--comfy-menu-bg,#171717);color:var(--comfier-ui-font,#fff);width:min(380px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;font:inherit}
@@ -166,16 +173,16 @@ function pairResolution(group,state){
  }
 }
 async function render(state,container){
- document.documentElement.classList.add('comfier-lite-active');state.media=[];clearMedia();const form=el('section');form.className='comfier-lite-form';form.dataset.processor=state.plan.processor||'client';const status=el('p');status.setAttribute('role','status');const canvasButton=button('Full Canvas',fullCanvas);canvasButton.className='comfier-lite-canvas';form.append(canvasButton,status);container.append(form);
+ document.documentElement.classList.add('comfier-lite-active');state.media=[];clearMedia();const form=el('section');form.className='comfier-lite-form';form.dataset.processor=state.plan.processor||'client';const fields=el('div');fields.className='comfier-lite-fields';const footer=el('footer');footer.className='comfier-lite-footer';form.append(fields,footer);const status=el('p');status.setAttribute('role','status');const canvasButton=button('Full Canvas',fullCanvas);canvasButton.className='comfier-lite-canvas';fields.append(canvasButton,status);container.append(form);
  const valid=()=>active===state&&form.isConnected;
  for(const [k,title]of [['resolution','Resolution'],['prompt','Prompts'],['file','Input files']]){
   const picks=state.plan.controls.filter(c=>c.kind===k&&state.bindings.has(c.key));if(!picks.length)continue;
-  const group=el('fieldset');group.append(el('legend',title));form.append(group);
+  const group=el('fieldset');group.append(el('legend',title));fields.append(group);
   for(const pick of picks){try{await field(state.bindings.get(pick.key),k,group,status,valid)}catch(e){status.textContent='Some controls need Full Canvas: '+e.message}if(!valid())return}
   if(k==='resolution')pairResolution(group,state);
  }
- const run=button('Generate',async()=>{run.disabled=true;status.textContent='Queuing…';try{const action=window.__comfierActionbarOwner;if(action?.findCommand?.(['Comfy.QueuePrompt']))await action.executeCommand(['Comfy.QueuePrompt'],{metadata:{subscribe_to_run:false,trigger_source:'button'}});else await getApp().queuePrompt(0,1);if(valid()){status.textContent='Queued';refreshSeeds(state,form)}}catch(e){if(valid())status.textContent=e.message}finally{run.disabled=false}});run.className='comfier-lite-generate';form.append(run);
- const progress=el('p','Ready');progress.setAttribute('role','status');const preview=el('img');preview.alt='Generation in progress';preview.hidden=true;const output=el('div');output.className='comfier-lite-output';form.append(el('h3','Live preview'),progress,preview,el('h3','Output'),output);
+ const run=button('Generate',async()=>{run.disabled=true;status.textContent='Queuing…';try{const action=window.__comfierActionbarOwner;if(action?.findCommand?.(['Comfy.QueuePrompt']))await action.executeCommand(['Comfy.QueuePrompt'],{metadata:{subscribe_to_run:false,trigger_source:'button'}});else await getApp().queuePrompt(0,1);if(valid()){status.textContent='Queued';refreshSeeds(state,form)}}catch(e){if(valid())status.textContent=e.message}finally{run.disabled=false}});run.className='comfier-lite-generate';footer.append(run);
+ const progress=el('p','Ready');progress.setAttribute('role','status');const preview=el('img');preview.alt='Generation in progress';preview.hidden=true;const output=el('div');output.className='comfier-lite-output';fields.append(el('h3','Live preview'),progress,preview,el('h3','Output'),output);
  state.form=form;state.progress=progress;state.preview=preview;state.output=output;
  restoreOutput(state);bindApi();
 }
