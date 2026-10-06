@@ -4,7 +4,13 @@
 if(window.__comfierPanelPolish)return;
 const roots=':is(.comfier-download-url-body,.comfier-repository-choice,#comfier-apps-panel,#comfier-workflow-choice,#comfier-ui-zoom-test,.comfier-app-settings-native-panel,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles,.comfier-mini-panel,.ufu-editor-status,.ufu-toolbar-menu,#comfier-owned-run-options,#comfier-owned-canvas-zoom,#comfier-owned-feed-preview)';
 const controls=':is(button:not(.theme-recent):not(.theme-back),select,textarea,input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=hidden]))';
-const style=document.createElement('style');style.id='comfier-panel-polish-style';style.textContent=`
+const cloudHeaders=window.__COMFIER_CLOUD_MODE?`
+html:root body .comfy-vue-side-bar-container .p-toolbar{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:space-between!important;gap:8px!important}
+html:root body .comfy-vue-side-bar-container .p-toolbar-start{display:flex!important;flex-direction:row!important;align-items:center!important;flex:1 1 auto!important;min-width:0!important;text-align:left!important}
+html:root body .comfy-vue-side-bar-container .p-toolbar-start>span{min-width:0!important;text-align:left!important;white-space:nowrap!important}
+html:root body .comfy-vue-side-bar-container .p-toolbar-end{display:flex!important;flex:0 0 auto!important;align-items:center!important;margin-left:auto!important}
+`:'';
+const style=document.createElement('style');style.id='comfier-panel-polish-style';style.textContent=cloudHeaders+`
 html:root body ${roots}{font-family:system-ui,sans-serif!important;font-size:14px!important;line-height:1.4;color:#fff!important;--comfier-ui-font:#fff!important}
 html:root body ${roots} ${controls}{box-sizing:border-box!important;font-family:system-ui,sans-serif!important;font-size:14px!important;line-height:1.3!important;font-weight:500!important;min-height:40px;border:1px solid #aaa!important;border-radius:6px!important;padding:8px!important;background:#fff!important;color:#111!important;-webkit-text-fill-color:#111!important;color-scheme:light;text-align:left}
 html:root body ${roots} button:not(.theme-recent):not(.theme-back){text-align:center;cursor:pointer}

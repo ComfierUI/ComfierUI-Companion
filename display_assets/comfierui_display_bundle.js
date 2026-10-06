@@ -62,7 +62,7 @@ async function installOnce(){
   window.__comfierOwnedChromePending=false;
   window.__comfierRequestLayout?.();
   window.__comfierLayoutEditor?.refresh();
-  window.__comfierCompanionDisplayMode=Object.freeze({ready:true,version:VERSION,visualSource:'0.93.0-Dev',modules:Object.freeze(loaded.slice())});
+  window.__comfierCompanionDisplayMode=Object.freeze({ready:true,version:VERSION,visualSource:'0.92.6-Dev',modules:Object.freeze(loaded.slice())});
   window.dispatchEvent(new CustomEvent('comfierui-companion-display-ready',{detail:window.__comfierCompanionDisplayMode}));
   return window.__comfierCompanionDisplayMode;
 }

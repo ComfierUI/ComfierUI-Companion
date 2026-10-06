@@ -69,7 +69,7 @@ html.comfier-layout-right #comfier-owned-feed-panel{left:auto;right:var(--cef-le
 #comfier-owned-feed-panel[data-open]{display:flex!important;flex-direction:column}
 #comfier-owned-feed-panel>.comfier-owned-feed-content{position:relative!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important;transform:none!important;inset:auto!important;width:100%!important;max-width:100%!important;height:auto!important;max-height:100%!important;margin:0!important;flex:1;min-height:0;display:grid!important}
 #comfier-owned-monitors{display:flex;align-items:center;gap:4px;pointer-events:none}
-#comfier-owned-feed-panel header>span{flex:1;text-align:center}
+#comfier-owned-feed-panel header>span{flex:1;min-width:0;text-align:left}
 #comfier-owned-feed-panel header>button[aria-label="Clear Image Feed"]{margin-left:auto}
 #comfier-owned-feed-panel header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px;color:var(--comfier-ui-font,#fff)}
 #comfier-owned-feed-panel header button{min-width:${window.__comfierUiAuthority.minimums.squareWidth}px;min-height:${window.__comfierUiAuthority.minimums.buttonHeight}px;color:inherit;background:var(--comfy-input-bg,#242427);border:1px solid var(--interface-stroke,#3b4554);border-radius:6px}

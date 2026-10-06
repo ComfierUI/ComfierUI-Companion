@@ -23,6 +23,15 @@ class BrowserSessions(unittest.IsolatedAsyncioTestCase):
     self.assertEqual(r.status,202);public=await r.json();record=D._task_records[public['task_id']]
     self.assertEqual(record['_session_headers']['Cookie'],'session=fixture');self.assertNotIn('session=fixture',json.dumps(public));self.assertNotIn('session=fixture',await (await client.get('/downloads')).text())
     D._task_records.pop(public['task_id'])
+ async def test_filename_lookup_and_renamed_blob_queue(self):
+  with tempfile.TemporaryDirectory() as temp,patch.object(D.folder_paths,'get_folder_paths',create=True,return_value=[temp]),patch.object(D,'_launch_task'):
+   app=web.Application();app.router.add_post('/info',D._model_download_info);app.router.add_post('/download',D._start_download)
+   async with TestClient(TestServer(app)) as client:
+    url='https://huggingface.co/o/r/blob/main/original.safetensors'
+    info=await client.post('/info',json={'url':url});self.assertEqual(info.status,200);self.assertEqual((await info.json())['name'],'original.safetensors')
+    r=await client.post('/download',json={'url':url,'name':'family_custom.safetensors','directory':'loras'})
+    self.assertEqual(r.status,202);record=D._task_records[(await r.json())['task_id']];self.assertIn('/resolve/',record['url']);self.assertEqual(record['filename'],'family_custom.safetensors');D._task_records.pop(record['task_id'])
+    bad=await client.post('/info',json={'url':'https://localhost/private.pt'});self.assertEqual(bad.status,400)
  async def test_redirect_drops_credentials_retains_range(self):
   initial='https://civitai.red/api/download/models/1';cdn='https://cdn.example/model.safetensors'
   session=types.SimpleNamespace(get=AsyncMock(side_effect=[response(302,initial,{'Location':cdn}),response(200,cdn)]))
@@ -40,6 +49,7 @@ class BrowserSessions(unittest.IsolatedAsyncioTestCase):
   with patch.object(D,'_validated_download_response',new=AsyncMock(return_value=result)) as preflight:
    _,name=await D._url_model_file('https://civitai.com/api/download/models/1',{'Cookie':'session=fixture'})
    self.assertEqual(name,'m.safetensors');self.assertEqual(preflight.call_args.args[2]['Cookie'],'session=fixture')
+   session=preflight.call_args.args[0];self.assertEqual(session.timeout.total,30);self.assertEqual(session.headers['User-Agent'],f'ComfierUI-Companion/{D.COMPANION_VERSION}')
  async def test_auth_errors_do_not_echo_provider_body(self):
   url='https://civitai.com/api/download/models/1';r=response(401,url);session=types.SimpleNamespace(get=AsyncMock(return_value=r))
   with patch.object(D,'_host_is_public',new=AsyncMock(return_value=True)):
