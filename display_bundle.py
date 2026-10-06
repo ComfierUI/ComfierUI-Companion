@@ -39,7 +39,7 @@ async def _browser_asset(request):
     root = asset_root(revision).resolve()
     name = request.match_info['name']
     if name == 'comfier_download_monitor.js':
-        source = (ROOT.parent / 'browser_assets' / name).read_text()
+        source = (root / 'display' / name).read_text()
     elif name == 'comfier_layout_editor.js':
         source = (root / 'display' / name).read_text()
         source = source.replace('c?.available!==false&&c.el.isConnected', 'c?.available!==false&&c?.el?.isConnected')
@@ -51,7 +51,7 @@ async def _browser_asset(request):
     elif name == 'comfierui_display_bundle.js':
         source = (root / name).read_text()
         source = source.replace('./display/comfier_layout_editor.js', '/comfierui/browser-assets/comfier_layout_editor.js?revision=' + revision)
-        source = source.replace("  await load('./display/comfier_actionbar_owner.js');", "  await load('./display/comfier_actionbar_owner.js');\n  await load('/comfierui/browser-assets/comfier_download_monitor.js?revision=" + revision + "');")
+        source = source.replace('./display/comfier_download_monitor.js', '/comfierui/browser-assets/comfier_download_monitor.js?revision=' + revision)
         source = source.replace('./display/', '/comfierui/display-assets/revisions/' + revision + '/display/')
     else:
         raise web.HTTPNotFound()

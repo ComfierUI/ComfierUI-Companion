@@ -2,7 +2,7 @@
 (function(){
 'use strict';
 if(window.__comfierPanelPolish)return;
-const roots=':is(#comfier-apps-panel,#comfier-workflow-choice,#comfier-ui-zoom-test,.comfier-app-settings-native-panel,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles,.comfier-mini-panel,.ufu-editor-status,.ufu-toolbar-menu,#comfier-owned-run-options,#comfier-owned-canvas-zoom,#comfier-owned-feed-preview)';
+const roots=':is(.comfier-download-url-body,.comfier-repository-choice,#comfier-apps-panel,#comfier-workflow-choice,#comfier-ui-zoom-test,.comfier-app-settings-native-panel,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles,.comfier-mini-panel,.ufu-editor-status,.ufu-toolbar-menu,#comfier-owned-run-options,#comfier-owned-canvas-zoom,#comfier-owned-feed-preview)';
 const controls=':is(button:not(.theme-recent):not(.theme-back),select,textarea,input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=hidden]))';
 const style=document.createElement('style');style.id='comfier-panel-polish-style';style.textContent=`
 html:root body ${roots}{font-family:system-ui,sans-serif!important;font-size:14px!important;line-height:1.4;color:#fff!important;--comfier-ui-font:#fff!important}
@@ -14,6 +14,8 @@ html:root body ${roots} :is(input,textarea)::placeholder{color:#666!important;-w
 html:root body ${roots} ${controls}:focus-visible{outline:2px solid #9dce70!important;outline-offset:2px}
 html:root body ${roots} button:disabled{cursor:default;opacity:.5}
 html:root body ${roots} :is(h2,h3){font-family:system-ui,sans-serif!important;font-size:18px!important;font-weight:600!important;line-height:1.3!important}
+html:root body .comfier-download-url-body.comfier-download-url-body button{text-align:center!important;justify-content:center!important}
+html:root body #comfier-download-url-panel#comfier-download-url-panel .comfier-download-url-submit{font-size:25px!important;text-align:center!important}
 html:root body #comfier-apps-panel>header{position:relative;justify-content:center!important;min-height:36px}
 html:root body #comfier-apps-label{display:block;width:100%;text-align:center;font-size:20px!important;font-weight:600;line-height:1.3;padding-inline:40px;box-sizing:border-box}
 html:root body #comfier-apps-panel>header>button{position:absolute;right:0;min-height:32px;width:32px;padding:4px!important;font-size:16px!important}
@@ -73,11 +75,11 @@ html:root body .ufu-inspector[data-editor-view="outerLandscape"] .theme-picker i
 html:root body .ufu-inspector[data-editor-view="outerLandscape"] [data-inspector-tab="colors"]>.ufu-buttons{grid-column:2;min-width:0;justify-content:flex-start}
 html:root body .ufu-inspector[data-editor-view="outerLandscape"] [data-inspector-tab="dimensions"]>*{min-width:0}
 
-html:root body ${roots}${roots} .comfier-browser-start-row{display:flex!important;flex-direction:row!important;justify-content:space-between!important;align-items:center!important;width:100%!important;text-align:left!important}
-html:root body ${roots}${roots} .comfier-browser-start-row>span{margin-right:auto!important;text-align:left!important}
-html:root body ${roots}${roots} .comfier-browser-start-row>select{margin-left:auto!important;flex:0 1 auto;max-width:60%}
+html:root body ${roots}${roots} :is(.comfier-browser-start-row,.comfier-civitai-start-row){display:flex!important;flex-direction:row!important;justify-content:space-between!important;align-items:center!important;width:100%!important;text-align:left!important}
+html:root body ${roots}${roots} :is(.comfier-browser-start-row,.comfier-civitai-start-row)>span{margin-right:auto!important;text-align:left!important}
+html:root body ${roots}${roots} :is(.comfier-browser-start-row,.comfier-civitai-start-row)>select{margin-left:auto!important;flex:0 1 auto;max-width:60%}
 html:root body ${roots}${roots} .comfier-companion-port-row>input{width:calc(5ch + 30px)!important;min-width:calc(5ch + 30px)!important;font-family:monospace!important}
-html:root body ${roots}${roots} .ui-zoom-panel[data-comfier-browser-settings="true"]>:not(.comfier-app-settings-heading):not(.comfier-browser-start-row):not(.comfier-companion-port-row):not(.ui-diagnostics-row):not(.ufu-launch){display:none!important}
+html:root body ${roots}${roots} .ui-zoom-panel[data-comfier-browser-settings="true"]>:not(.comfier-app-settings-heading):not(.comfier-browser-start-row):not(.comfier-civitai-start-row):not(.comfier-companion-port-row):not(.ui-diagnostics-row):not(.ufu-launch){display:none!important}
 /* Nine compact theme swatches per row; hex and color action pairs. */
 html:root body .theme-active-colors{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:2px!important;width:min(304px,100%)!important;max-width:100%!important;justify-self:center;align-self:center!important;margin-inline:auto!important}
 html:root body ${roots}${roots} .theme-active-colors>button.theme-active-color{width:calc((100% - 16px)/9)!important;flex:0 0 calc((100% - 16px)/9)!important;min-width:0!important;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:1;box-sizing:border-box!important}

@@ -10,7 +10,7 @@ import sys
 import time
 import uuid
 from pathlib import Path
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin, urlparse, unquote, parse_qs
 
 import aiohttp
 from aiohttp import web
@@ -38,7 +38,7 @@ LOG = logging.getLogger("ComfierUI-Companion")
 ROUTE = "/comfierui/model-download"
 TASKS_ROUTE = "/comfierui/model-downloads"
 INFO_ROUTE = "/comfierui/capabilities"
-COMPANION_VERSION = "0.5.6"
+COMPANION_VERSION = "0.7.0"
 MAX_REDIRECTS = 8
 MAX_FILE_BYTES = 128 * 1024 * 1024 * 1024
 CHUNK_BYTES = 1024 * 1024
@@ -66,7 +66,7 @@ ALLOWED_DIRECTORIES = {
     "vae_approx",
 }
 
-ALLOWED_EXTENSIONS = {".safetensors", ".sft", ".ckpt", ".pth", ".pt"}
+ALLOWED_EXTENSIONS = {".safetensors", ".sft", ".ckpt", ".pth", ".pt", ".gguf", ".bin", ".onnx"}
 INITIAL_HOSTS = {"huggingface.co", "civitai.com", "civitai.red", "github.com"}
 
 _active_targets: set[Path] = set()
@@ -144,7 +144,7 @@ def _safe_filename(value: object) -> str:
     return name
 
 
-def _safe_directory(value: object) -> tuple[str, Path]:
+def _safe_directory(value: object, root_index: object = 0, subdirectory: object = "") -> tuple[str, Path]:
     if not isinstance(value, str):
         raise web.HTTPBadRequest(text="Missing model directory")
     directory = value.strip()
@@ -156,8 +156,18 @@ def _safe_directory(value: object) -> tuple[str, Path]:
         raise web.HTTPBadRequest(text="Unknown ComfyUI model directory") from error
     if not roots:
         raise web.HTTPBadRequest(text="No writable path exists for this model directory")
-    root = Path(roots[0]).resolve()
-    return directory, root
+    if isinstance(root_index, bool) or not isinstance(root_index, int) or not 0 <= root_index < len(roots):
+        raise web.HTTPBadRequest(text="Unknown registered model root")
+    if not isinstance(subdirectory, str) or "\\" in subdirectory or ":" in subdirectory or "\x00" in subdirectory:
+        raise web.HTTPBadRequest(text="Unsafe model subfolder")
+    relative = Path(subdirectory)
+    if relative.is_absolute() or ".." in relative.parts:
+        raise web.HTTPBadRequest(text="Unsafe model subfolder")
+    root = Path(roots[root_index]).resolve()
+    destination = (root / relative).resolve()
+    if not destination.is_relative_to(root) or (subdirectory and not destination.is_dir()):
+        raise web.HTTPBadRequest(text="Unknown or unsafe model subfolder")
+    return directory, destination
 
 
 def _safe_initial_url(value: object) -> str:
@@ -177,6 +187,67 @@ def _safe_initial_url(value: object) -> str:
     if host == "github.com" and "/releases/download/" not in parsed.path:
         raise web.HTTPBadRequest(text="Unsupported GitHub download URL")
     return url
+
+
+def _model_folders():
+    choices = []
+    for directory in sorted(ALLOWED_DIRECTORIES):
+        try:
+            roots = folder_paths.get_folder_paths(directory)
+        except Exception:
+            continue
+        for index, value in enumerate(roots):
+            root = Path(value).resolve()
+            suffix = "" if len(roots) == 1 else f" [root {index + 1}]"
+            choices.append(dict(directory=directory, rootIndex=index, subdirectory="", label=directory + suffix, path=str(root)))
+            if root.is_dir():
+                for base, dirs, _ in os.walk(root, followlinks=False):
+                    dirs[:] = sorted(d for d in dirs if (Path(base) / d).resolve().is_relative_to(root))
+                    if len(Path(base).relative_to(root).parts) >= 32:
+                        dirs[:] = []
+                    for name in dirs:
+                        sub = (Path(base) / name).relative_to(root).as_posix()
+                        choices.append(dict(directory=directory, rootIndex=index, subdirectory=sub, label=directory + "/" + sub + suffix, path=str(root / sub)))
+                        if len(choices) >= 4000:
+                            return dict(folders=choices, truncated=True)
+    return dict(folders=choices, truncated=False)
+
+
+async def _list_model_folders(request):
+    return web.json_response({**await asyncio.to_thread(_model_folders), "browserSessions": True})
+
+
+async def _url_model_file(value, session_headers=None):
+    if not isinstance(value, str):
+        raise web.HTTPBadRequest(text="Missing model URL")
+    url = value.strip()
+    parsed = urlparse(url)
+    if parsed.hostname == "huggingface.co":
+        url = url.replace("/blob/", "/resolve/", 1)
+    if parsed.hostname in {"civitai.com", "civitai.red"} and re.fullmatch(r"/models/\d+(?:/[^/]*)?/?", parsed.path):
+        version = parse_qs(parsed.query).get("modelVersionId", [None])[0]
+        if version and version.isdigit():
+            url = f"https://{parsed.hostname}/api/download/models/{version}"
+        else:
+            raise web.HTTPBadRequest(text="Use the Civitai download link or a model URL with modelVersionId")
+    url = _safe_initial_url(url)
+    candidate = unquote(Path(urlparse(url).path).name)
+    if Path(candidate).suffix.lower() in ALLOWED_EXTENSIONS:
+        return url, _safe_filename(candidate)
+    try:
+        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=10)) as session:
+            response = await _validated_download_response(session, url, session_headers) if session_headers else await _validated_download_response(session, url)
+            try:
+                disposition = response.content_disposition
+                candidate = disposition.filename if disposition and disposition.filename else unquote(Path(urlparse(str(response.url)).path).name)
+                name = _safe_filename(candidate)
+            finally:
+                response.release()
+    except web.HTTPException:
+        raise
+    except Exception as error:
+        raise web.HTTPBadRequest(text=str(error)) from error
+    return url, name
 
 
 async def _host_is_public(host: str) -> bool:
@@ -200,13 +271,19 @@ async def _validated_download_response(
     request_headers: dict[str, str] | None = None,
 ) -> aiohttp.ClientResponse:
     url = initial_url
+    origin = urlparse(initial_url)
+    original_headers = dict(request_headers or {})
     for _ in range(MAX_REDIRECTS + 2):
         parsed = urlparse(url)
         host = (parsed.hostname or "").lower()
         if parsed.scheme != "https" or not host or not await _host_is_public(host):
             raise RuntimeError("Download redirected to an unsafe address")
+        headers = dict(original_headers)
+        if (parsed.scheme, parsed.hostname, parsed.port) != (origin.scheme, origin.hostname, origin.port):
+            headers.pop("Cookie", None)
+            headers.pop("Authorization", None)
         response = await session.get(
-            url, allow_redirects=False, headers=request_headers
+            url, allow_redirects=False, headers=headers or None
         )
         if response.status in {301, 302, 303, 307, 308}:
             location = response.headers.get("Location")
@@ -215,13 +292,13 @@ async def _validated_download_response(
                 raise RuntimeError("Download redirect did not include a destination")
             url = urljoin(str(response.url), location)
             continue
-        if response.status == 416 and request_headers:
+        if response.status == 416 and "Range" in original_headers:
             response.release()
-            request_headers = None
+            original_headers.pop("Range", None)
             url = initial_url
             continue
         if response.status < 200 or response.status >= 300:
-            detail = await response.text(errors="replace")
+            detail = "Sign in again through the model browser." if response.status in {401, 403} else "" if original_headers.get("Cookie") else await response.text(errors="replace")
             response.release()
             raise RuntimeError(f"Provider returned HTTP {response.status}: {detail[:160]}")
         return response
@@ -237,7 +314,9 @@ async def _download(url: str, destination: Path, task_id: str) -> None:
         async with aiohttp.ClientSession(timeout=timeout, headers=headers) as session:
             record = _task_records[task_id]
             existing_bytes = partial_path.stat().st_size if partial_path.exists() else 0
-            range_headers = {"Range": f"bytes={existing_bytes}-"} if existing_bytes else None
+            range_headers = dict(record.get("_session_headers") or {})
+            if existing_bytes: range_headers["Range"] = f"bytes={existing_bytes}-"
+            range_headers = range_headers or None
             response = await _validated_download_response(session, url, range_headers)
             resumed = False
             declared_size = response.content_length
@@ -252,10 +331,13 @@ async def _download(url: str, destination: Path, task_id: str) -> None:
                         declared_size = existing_bytes + response.content_length
                 else:
                     response.release()
-                    response = await _validated_download_response(session, url)
+                    response = await _validated_download_response(session, url, record.get("_session_headers"))
                     declared_size = response.content_length
             if not resumed:
                 existing_bytes = 0
+            if response.headers.get("Content-Type", "").split(";", 1)[0].strip().lower() in {"text/html", "application/json"}:
+                response.release()
+                raise RuntimeError("Provider returned a web page instead of a model. Sign in again through the model browser.")
             record["total_bytes"] = declared_size
             if declared_size is not None and declared_size > MAX_FILE_BYTES:
                 response.release()
@@ -314,6 +396,7 @@ async def _download(url: str, destination: Path, task_id: str) -> None:
                 raise RuntimeError("A model with this filename already exists")
             os.replace(partial_path, destination)
             _invalidate_model_inventory()
+            record.pop("_session_headers", None)
             record["status"] = "completed"
             record["percent"] = 100.0
             record["received_bytes"] = received
@@ -349,7 +432,7 @@ def _launch_task(record: dict, destination: Path) -> None:
     task.add_done_callback(_tasks.discard)
     if len(_active_targets) > 1:
         _end_live_progress()
-    LOG.info("Queued download %s: %s -> %s", task_id, record["url"], destination)
+    LOG.info("Queued download %s: %s -> %s", task_id, urlparse(record["url"])._replace(query="", fragment="").geturl(), destination)
 
 
 def _start_task(url: str, name: str, directory: str, destination: Path) -> dict:
@@ -374,6 +457,25 @@ def _start_task(url: str, name: str, directory: str, destination: Path) -> dict:
     return record
 
 
+def _browser_session_headers(value: object, url: object) -> dict:
+    if value is None:
+        return {}
+    if not isinstance(value, dict) or not isinstance(url, str):
+        raise web.HTTPBadRequest(text="Invalid browser download session")
+    host = (urlparse(url).hostname or "").lower()
+    if host not in {"huggingface.co", "civitai.com", "civitai.red"}:
+        raise web.HTTPBadRequest(text="Browser sessions are limited to model providers")
+    result = {}
+    for source, header, limit in [("cookie", "Cookie", 16384), ("userAgent", "User-Agent", 1024)]:
+        text = value.get(source)
+        if text is None or text == "":
+            continue
+        if not isinstance(text, str) or len(text) > limit or any(ord(c) < 32 or ord(c) == 127 for c in text):
+            raise web.HTTPBadRequest(text="Invalid browser session header")
+        result[header] = text
+    return result
+
+
 async def _start_download(request: web.Request) -> web.Response:
     if request.content_type != "application/json":
         raise web.HTTPUnsupportedMediaType(text="Use application/json")
@@ -382,9 +484,15 @@ async def _start_download(request: web.Request) -> web.Response:
     except Exception as error:
         raise web.HTTPBadRequest(text="Invalid JSON request") from error
 
-    url = _safe_initial_url(payload.get("url"))
-    name = _safe_filename(payload.get("name"))
-    directory, root = _safe_directory(payload.get("directory"))
+    if not isinstance(payload, dict):
+        raise web.HTTPBadRequest(text="Invalid download request")
+    directory, root = _safe_directory(payload.get("directory"), payload.get("rootIndex", 0), payload.get("subdirectory", ""))
+    session_headers = _browser_session_headers(payload.get("browserSession"), payload.get("url"))
+    if payload.get("name") is None:
+        url, name = await _url_model_file(payload.get("url"), session_headers) if session_headers else await _url_model_file(payload.get("url"))
+    else:
+        url = _safe_initial_url(payload.get("url"))
+        name = _safe_filename(payload.get("name"))
     destination = (root / name).resolve()
     if destination.parent != root:
         raise web.HTTPBadRequest(text="Unsafe model destination")
@@ -398,6 +506,9 @@ async def _start_download(request: web.Request) -> web.Response:
             raise web.HTTPConflict(text="This download already exists; use Retry or Clear")
 
     record = _start_task(url, name, directory, destination)
+    if session_headers: record["_session_headers"] = session_headers
+    record["_root_index"] = payload.get("rootIndex", 0)
+    record["_subdirectory"] = payload.get("subdirectory", "")
     return web.json_response(
         {"accepted": True, **_public_record(record)},
         status=202,
@@ -435,7 +546,7 @@ async def _retry_download(request: web.Request) -> web.Response:
         raise web.HTTPNotFound(text="Unknown download")
     if record["status"] not in {"failed", "canceled"}:
         raise web.HTTPConflict(text="Only failed or canceled downloads can be retried")
-    directory, root = _safe_directory(record["directory"])
+    directory, root = _safe_directory(record["directory"], record.get("_root_index", 0), record.get("_subdirectory", ""))
     destination = (root / record["filename"]).resolve()
     if destination.exists():
         raise web.HTTPConflict(text="A model with this filename already exists")
@@ -495,7 +606,7 @@ async def _companion_info(request: web.Request) -> web.Response:
     environment, recognition = _client_environment(request)
     common = ["version-reporting", "lan-gateway", "ui-display-bundle", "host-resources", "workflow-app-curation"]
     platform_capabilities = {
-        "android": ["model-downloads", "model-download-control"],
+        "android": ["model-downloads", "model-download-control", "model-browser-sessions"],
         "browser": ["model-downloads"],
         "unknown": [],
     }
@@ -516,6 +627,7 @@ def register_routes() -> None:
     global _registered
     if _registered:
         return
+    PromptServer.instance.routes.get("/comfierui/model-folders")(_list_model_folders)
     PromptServer.instance.routes.post(ROUTE)(_start_download)
     PromptServer.instance.routes.get(TASKS_ROUTE)(_list_downloads)
     PromptServer.instance.routes.delete(TASKS_ROUTE + "/completed")(_clear_completed)

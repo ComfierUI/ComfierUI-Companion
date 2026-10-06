@@ -24,7 +24,7 @@
 .${PANEL_CLASS}{width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;box-sizing:border-box!important;overflow:hidden!important;padding:8px!important;overscroll-behavior:contain!important;touch-action:pan-y!important}
 .${PANEL_CLASS}>#${SETTINGS_ROOT_ID}{position:static!important;inset:auto!important;display:block!important;width:100%!important;height:100%!important;margin:0!important;transform:none!important;pointer-events:auto!important;font-family:inherit!important}
 .${PANEL_CLASS} .ui-zoom-panel{position:static!important;inset:auto!important;display:flex!important;flex-direction:column!important;gap:8px!important;height:100%!important;visibility:visible!important;opacity:1!important;transform:none!important;width:100%!important;max-width:none!important;max-height:none!important;min-width:0!important;box-sizing:border-box!important;overflow-y:auto!important;overflow-x:hidden!important;box-shadow:none!important;border:0!important;border-radius:0!important;background:transparent!important;padding:4px!important;white-space:normal!important;pointer-events:auto!important}
-.${PANEL_CLASS} .ui-zoom-panel[data-comfier-browser-settings="true"]>:not(.comfier-app-settings-heading):not(.comfier-browser-start-row):not(.comfier-companion-port-row):not(.ui-diagnostics-row):not(.ufu-launch){display:none!important}
+.${PANEL_CLASS} .ui-zoom-panel[data-comfier-browser-settings="true"]>:not(.comfier-app-settings-heading):not(.comfier-browser-start-row):not(.comfier-civitai-start-row):not(.comfier-companion-port-row):not(.ui-diagnostics-row):not(.ufu-launch){display:none!important}
 .${PANEL_CLASS} .ui-zoom-range{min-width:0!important;max-width:100%!important}
 .${PANEL_CLASS} .ui-zoom-reset{max-width:100%!important}
 .${PANEL_CLASS} :is(.ui-auto-reconnect-row,.ui-node-move-row,.ui-generation-notifications-row,.ui-accent-row,.ui-font-row,.ui-theme-launch-row,.comfier-theme-studio,.ui-disconnect,.ui-hard-refresh,.ui-app-version,.ui-companion-version){grid-column:1/-1!important;width:100%!important;max-width:none!important;box-sizing:border-box!important}
@@ -95,9 +95,17 @@
     async function request(options){const response=await window.app.api.fetchApi('/comfierui/gateway/browser-start',options);if(!response.ok)throw Error(await response.text()||'Could not save browser start page');return response.json()}
     let saved='companion';request().then(config=>{saved=config.page;select.value=saved;select.disabled=false}).catch(error=>{select.title=error.message});select.onchange=async()=>{select.disabled=true;try{const result=await request({method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page:select.value})});saved=result.page;select.value=saved}catch(error){select.value=saved;window.alert(error.message)}finally{select.disabled=false}};
   }
+  function repositorySettings(panel){
+    if(panel.querySelector('.comfier-civitai-start-row'))return;
+    const key='comfier.repository.civitai.v1',row=document.createElement('label');row.className='comfier-civitai-start-row';row.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px;order:3;width:100%';
+    const text=document.createElement('span');text.textContent='Civitai start page';text.style.textAlign='left';const select=document.createElement('select');select.style.marginLeft='auto';select.setAttribute('aria-label','Civitai start page');
+    for(const [value,title]of [['ask','Ask every time'],['red','Civitai Red'],['blue','Civitai Blue']]){const option=document.createElement('option');option.value=value;option.textContent=title;select.append(option)}
+    const update=()=>{try{const value=localStorage.getItem(key);select.value=['red','blue'].includes(value)?value:'ask'}catch(_){select.value='ask'}};
+    update();select.onchange=()=>{try{localStorage.setItem(key,select.value)}catch(_){update();window.alert('Could not save the Civitai preference')}};jobs.listen(window,'comfier-repository-preference',update);jobs.listen(window,'storage',update);row.append(text,select);panel.append(row);
+  }
   function heading(){
     const panel=settingsRoot?.querySelector('.ui-zoom-panel');if(!panel)return;
-    portControls(panel);browserSettings(panel);
+    portControls(panel);browserSettings(panel);repositorySettings(panel);
     panel.querySelectorAll('.ui-companion-display-row').forEach(el=>el.remove());
     if(!panel.querySelector('.comfier-app-settings-heading')){const title=document.createElement('h2');title.className='comfier-app-settings-heading';title.textContent='ComfierUI Settings';panel.prepend(title)}
   }

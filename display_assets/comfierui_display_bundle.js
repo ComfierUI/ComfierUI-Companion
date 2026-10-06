@@ -52,6 +52,7 @@ async function installOnce(){
   await load('./display/comfier_transient_menus.js');
   await load('./display/comfier_owned_overlay_layers.js');
   await load('./display/comfier_actionbar_owner.js');
+  await load('./display/comfier_download_monitor.js');
   await load('./display/comfier_workflow_owner.js');
   await load('./display/comfier_workflow_apps.js');
   await load('./display/comfier_panel_polish.js');
@@ -61,7 +62,7 @@ async function installOnce(){
   window.__comfierOwnedChromePending=false;
   window.__comfierRequestLayout?.();
   window.__comfierLayoutEditor?.refresh();
-  window.__comfierCompanionDisplayMode=Object.freeze({ready:true,version:VERSION,visualSource:'0.91.17-Dev',modules:Object.freeze(loaded.slice())});
+  window.__comfierCompanionDisplayMode=Object.freeze({ready:true,version:VERSION,visualSource:'0.93.0-Dev',modules:Object.freeze(loaded.slice())});
   window.dispatchEvent(new CustomEvent('comfierui-companion-display-ready',{detail:window.__comfierCompanionDisplayMode}));
   return window.__comfierCompanionDisplayMode;
 }

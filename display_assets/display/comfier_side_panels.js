@@ -49,6 +49,7 @@ function geometry(side='left',running=false){
  if(!portrait){const budget=Math.max(0,available-(count===2?48:24)),minimum=Math.min(280,budget/(count===2?2:1)),wanted=(which,fallback)=>{const value=Number(widths[mode()]?.[which]);return Math.max(minimum,Math.min(budget,Number.isFinite(value)&&value>0?value:fallback))};width=wanted(side,initial);if(count===2){const otherSide=side==='left'?'right':'left',other=lanes[otherSide],otherRunning=other?.id==='apps'&&window.__comfierAppsPanel?.contentMode?.()==='running',otherWidth=wanted(otherSide,otherRunning?available:Math.min(mode()==='outerLandscape'?available*2/3:600,cap));if(width+otherWidth>budget){const spare=Math.max(0,budget-minimum*2),total=(width-minimum)+(otherWidth-minimum);width=minimum+(total?spare*(width-minimum)/total:0)}}}
  return{...(running?{...b,leftTop:b.top,rightTop:b.top,leftBottom:b.bottom,rightBottom:b.bottom}:bounds(width)),width,height:Math.max(0,b.bottom-b.top),portrait,count};
 }
+function fixedGeometry(e){const b=bounds(),available=Math.max(0,b.right-b.left),portrait=mode()==='outerPortrait',running=e.id==='apps'&&window.__comfierAppsPanel?.contentMode?.()==='running';if(running)return{...b,width:available,height:Math.max(0,b.bottom-b.top),portrait,count:1,leftTop:b.top,rightTop:b.top,leftBottom:b.bottom,rightBottom:b.bottom};const other=lanes[e.side==='left'?'right':'left'];const width=other&&!portrait?Math.max(0,available-geometry(other.side).width-28):mode()==='outerLandscape'?available*2/3:available;return{...bounds(width),width,height:Math.max(0,b.bottom-b.top),portrait,count:other?2:1}}
 function saveWidth(side,width){widths[mode()]={...(widths[mode()]||{}),[side]:Math.round(width)};try{localStorage.setItem('comfier.side-panel-widths.v1',JSON.stringify(widths))}catch(_){}}
 function finishResize(event,cancel=false){if(!resizeDrag||event.pointerId!==resizeDrag.id)return;const d=resizeDrag;resizeDrag=null;d.handle.classList.remove('dragging');try{d.handle.releasePointerCapture(event.pointerId)}catch(_){}if(cancel){if(d.previous===undefined)delete widths[d.view]?.[d.side];else widths[d.view][d.side]=d.previous;paint()}else{try{localStorage.setItem('comfier.side-panel-widths.v1',JSON.stringify(widths))}catch(_){}}event.preventDefault();event.stopPropagation()}
 function panelHandle(side,el,g,top,height,z){
@@ -70,17 +71,17 @@ function polishHistory(){
 
 function paint(){
  for(const handle of resizeHandles.values())handle.hidden=true;
- for(const e of Object.values(lanes)){if(!e)continue;const p=providers.get(e.id),el=p?.surface?.();if(!el?.isConnected)continue;const g=geometry(e.side,e.id==='apps'&&window.__comfierAppsPanel?.contentMode?.()==='running');
+ for(const e of Object.values(lanes)){if(!e)continue;const p=providers.get(e.id),el=p?.surface?.();if(!el?.isConnected)continue;const fixed=e.id==='lora'||e.id==='apps'&&window.__comfierAppsPanel?.contentMode?.()==='running',g=fixed?fixedGeometry(e):geometry(e.side);
  if(admittedHosts.get(el)!==el.parentElement){window.__comfierEarlyFloatingPanels?.admitSideSurface?.(el);admittedHosts.set(el,el.parentElement)}
  if(el.classList.contains('comfier-native-side-host'))put(el,'display','block');
  el.setAttribute('data-comfier-side-panel',e.side);el.setAttribute('data-comfier-panel-key',e.id);el.setAttribute('role','complementary');
- const top=e.side==='left'?g.leftTop:g.rightTop,bottom=e.side==='left'?g.leftBottom:g.rightBottom,height=Math.max(0,bottom-top),x=e.side==='left'?g.left:g.right-g.width,z=500+(g.portrait&&e.order===Math.max(...Object.values(lanes).filter(Boolean).map(x=>x.order))?2:1);
+ const top=e.side==='left'?g.leftTop:g.rightTop,bottom=e.side==='left'?g.leftBottom:g.rightBottom,height=Math.min(Math.max(0,bottom-top),p.compactHeight?.()??Infinity),x=e.side==='left'?g.left:g.right-g.width,z=500+(g.portrait&&e.order===Math.max(...Object.values(lanes).filter(Boolean).map(x=>x.order))?2:1);
  rankWrapper(el,e.id,z);
  // Portrait Nodes content may rerender while its popovers toggle. Keep overflow
  // inside the routed host; its geometry continues to come only from bounds().
  if(mode()==='outerPortrait'&&el.matches('[data-comfier-native-host="node-library"],[data-comfier-native-host="nodes"]')){put(el,'overflow','auto');put(el,'overflow-x','hidden')}
  for(const[k,v]of Object.entries({position:'fixed',left:x+'px',right:'auto',top:top+'px',bottom:'auto',width:g.width+'px','min-width':'0','max-width':g.width+'px',height:height+'px','min-height':'0','max-height':height+'px','z-index':String(z),transform:'none',translate:'none',zoom:'1','pointer-events':'auto','box-sizing':'border-box','--cef-lora-content-width':g.width+'px'}))put(el,k,v);
- panelHandle(e.side,el,g,top,height,z);
+ if(!fixed)panelHandle(e.side,el,g,top,height,z);
  }
  for(const [side,handle]of resizeHandles)if(!lanes[side]||mode()==='outerPortrait')handle.hidden=true;
  for(const [id,p]of providers){const opened=!!entry(id);const buttons=p.buttons?.()||[];for(const button of buttons){if(!button)continue;button.setAttribute('data-comfier-panel-launcher',id);const pressed=String(opened);if(button.getAttribute('aria-pressed')!==pressed)button.setAttribute('aria-pressed',pressed);if(button.getAttribute('aria-expanded')!==pressed)button.setAttribute('aria-expanded',pressed);button.classList.toggle('comfier-panel-active',opened);if(button.classList.contains('side-bar-button'))button.classList.toggle('side-bar-button-selected',opened)} }
@@ -131,7 +132,7 @@ const style=document.createElement('style');style.id='comfier-unified-side-panel
 html body .comfier-history-header{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;width:100%!important;min-width:0!important}
 html body .comfier-history-header>:not(.comfier-history-menu):not(.comfier-history-actions):not(.comfier-history-clear){flex:1 1 auto!important;min-width:0!important;text-align:left!important;white-space:nowrap!important}
 html body .comfier-history-menu,html body .comfier-history-actions{display:none!important}
-html body .comfier-history-clear{flex:0 0 auto!important;margin-left:auto!important;text-align:center!important;justify-content:center!important;font:500 14px/1.3 system-ui,sans-serif!important;min-height:40px;padding:8px!important;border:1px solid #aaa!important;border-radius:6px!important;background:#fff!important;color:#111!important;-webkit-text-fill-color:#111!important}
+html:root body .comfier-history-header>.comfier-history-clear{flex:0 0 auto!important;margin-left:auto!important;text-align:center!important;justify-content:center!important;font:500 14px/1.3 system-ui,sans-serif!important;min-height:40px;padding:8px!important;border:1px solid var(--comfier-button-frame,var(--interface-stroke,#aaa))!important;border-radius:6px!important;background:var(--comfier-control-background,var(--comfier-button-bg,var(--color-secondary-background,#242427)))!important;color:var(--comfier-ui-font,var(--color-base-foreground,var(--fg-color,#fff)))!important;-webkit-text-fill-color:currentColor!important}
 html body rgthree-progress-bar{z-index:200!important}
 .comfier-native-side-host{border:1px solid var(--comfier-panel-frame,var(--interface-stroke,#3b4554));border-radius:10px;background:var(--comfy-menu-bg,#171717);overflow:auto;overscroll-behavior:contain;touch-action:pan-x pan-y}
 .comfier-native-side-host>*{min-width:0;max-width:100%;min-height:0;height:100%}

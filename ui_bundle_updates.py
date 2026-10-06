@@ -27,7 +27,7 @@ _lock = asyncio.Lock()
 _tokens = {}
 _registered = False
 PRIVATE = {'comfier_device_authority.js', 'comfier_device_input_compat.js',
-           'comfier_touch_multi_select.js', 'comfier_download_monitor.js',
+           'comfier_touch_multi_select.js',
            'comfier_node_resize_handles.js', 'comfier_multi_select_move_handle.js',
            'comfier_tap_to_link.js', 'comfier_prompt_popup.js', 'comfier_test_console.js', 'comfier_companion_ui_sync.js', 'comfier_blob_download.js', 'comfier_ui_bundle_check.js', 'comfier_retirement.js'}
 BOOTSTRAPS = {'comfierui_display_runtime.js', 'comfierui_display_bundle.js'}

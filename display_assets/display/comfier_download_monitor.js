@@ -1,7 +1,10 @@
 (function(){
   'use strict';
+  if(window.__COMFIER_CLOUD_MODE)return;
   if(window.__comfierDownloads)return;
   const jobs=window.__comfierRuntime.scope('downloads'),requests=window.__comfierDocument.requests(),pollRequests=window.__comfierDocument.requests();
+  let browserContext=null,repositoryChoice=null,browserSessionSupported=false;
+  let urlPanel=null,urlBody=null,urlInput=null,urlFolders=null,urlStatus=null,urlDownloadButton=null,urlOpen=false,urlBusy=false,urlRegistration=null;
   let pollGeneration=0,endpointStatus='unknown';
   let clearBusy=false,modelActions=0;
   let stopped=false,restartBusy=false,restartGeneration=0,restartCancel=null;
@@ -16,6 +19,18 @@
   function installStyle(){
     if(document.getElementById(STYLE_ID))return;
     const style=document.createElement('style');style.id=STYLE_ID;style.textContent=`
+#comfier-download-url-panel{border:1px solid var(--comfier-panel-frame,#666);border-radius:10px;background:var(--comfy-menu-bg,#171717);overflow:auto;color:var(--comfier-ui-font,#fff);box-sizing:border-box}
+#comfier-download-url-panel[hidden]{display:none!important}
+.comfier-download-url-body{padding:14px;box-sizing:border-box;font:14px/1.3 system-ui,sans-serif}
+.comfier-download-url-body h2{margin:0 0 14px;text-align:center;font:600 18px/1.3 system-ui,sans-serif}
+.comfier-download-url-body :is(input,select,button){box-sizing:border-box;min-height:40px;border:1px solid var(--comfier-button-frame,#aaa);border-radius:6px;background:var(--comfier-control-background,var(--comfier-button-bg,#242427));color:var(--comfier-ui-font,#fff);-webkit-text-fill-color:currentColor;font:500 14px/1.3 system-ui,sans-serif;padding:8px}
+.comfier-download-url-body input{width:100%;display:block}
+.comfier-download-url-options{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px}
+.comfier-download-url-options button{flex:0 1 auto;text-align:center}.comfier-download-url-options select{flex:0 1 55%;min-width:0;margin-left:auto;max-width:55%}
+.comfier-download-url-space{height:40px}
+html:root body .comfier-download-url-body .comfier-download-url-submit{display:block;min-height:52px;width:80%;margin:0 auto;font-size:25px!important;text-align:center!important}
+.comfier-download-url-body [role=status]{margin:8px 0 0;overflow-wrap:anywhere}.comfier-download-url-body [role=status]:empty{display:none}
+.comfier-download-url-body button:disabled{opacity:.5}
 .comfier-manager-progress-suppressed,.comfier-manager-notice-suppressed{display:none!important;visibility:hidden!important;pointer-events:none!important}
 #${PANEL_ID}{display:none;flex-direction:column;background:var(--comfy-menu-bg,#171718)!important;color:var(--comfier-ui-font,var(--fg-color,#fff))!important}
 #${PANEL_ID}.open{display:flex!important}
@@ -35,31 +50,39 @@
 #${PANEL_ID} progress::-webkit-progress-bar{background:#262626;border-radius:5px}
 #${PANEL_ID} progress::-webkit-progress-value{background:var(--comfier-progress-fill,var(--color-interface-panel-job-progress-primary,#0b8ce9));border-radius:5px}
 #${PANEL_ID} progress::-moz-progress-bar{background:var(--comfier-progress-fill,var(--color-interface-panel-job-progress-primary,#0b8ce9));border-radius:5px}
-#comfier-downloads-action-slot{display:none}
-#comfier-downloads-action-slot.has-downloads{position:relative;display:flex;align-items:center;justify-content:center;flex:0 0 32px;width:32px;min-width:32px;max-width:32px;height:32px;overflow:visible;transition:none}
-#comfier-downloads-action-toggle{display:none;align-items:center;justify-content:center;width:32px;min-width:32px;max-width:32px;height:32px;min-height:32px;max-height:32px;padding:0;margin:0;border:0;border-radius:7px;background:transparent!important;color:var(--comfier-icon-color,var(--comfier-accent,#fff))!important;touch-action:manipulation}
+#comfier-downloads-action-slot{display:flex}
+#comfier-downloads-action-slot{position:relative;display:flex;align-items:center;justify-content:center;flex:0 0 32px;width:32px;min-width:32px;max-width:32px;height:32px;overflow:visible;transition:none}
+#comfier-downloads-action-toggle{display:inline-flex;align-items:center;justify-content:center;width:32px;min-width:32px;max-width:32px;height:32px;min-height:32px;max-height:32px;padding:0;margin:0;border:0;border-radius:7px;background:transparent!important;color:var(--comfier-icon-color,var(--comfier-accent,#fff))!important;touch-action:manipulation}
 #comfier-downloads-action-slot.has-downloads #comfier-downloads-action-toggle{display:inline-flex}
+#comfier-downloads-action-toggle{position:relative}
+.comfier-download-icon{position:relative;display:block;width:16px;height:16px}
+.comfier-active-counter{position:absolute;top:-4px;right:-4px;min-width:16px;padding:1px 0;border-radius:9999px;background:var(--color-primary-background,#168ed0);font:500 10px/14px sans-serif;text-align:center;pointer-events:none}
+.comfier-active-counter[hidden]{display:none!important}
 #comfier-downloads-action-toggle svg{display:block;width:16px;height:16px;color:var(--comfier-icon-color,var(--comfier-accent,#fff));stroke:currentColor;fill:none}
 `;(document.head||document.documentElement).appendChild(style);
   }
   function actionbar(){
+    if(window.__comfierActionbarOwner)return window.__comfierActionbarOwner.launcherHome;
     const extensions=document.getElementById('comfier-extensions-toggle');
-    return extensions?.closest('.actionbar-container')||document.querySelector('[data-testid="action-bar-card"] .actionbar-container');
+    return (!extensions?.closest('[role="dialog"],.side-bar-panel')&&extensions?.closest('.actionbar-container'))||document.querySelector('[data-testid="action-bar-card"] .actionbar-container');
   }
   function ensureLauncher(){
-    installStyle();const bar=actionbar();if(!bar)return null;
+    installStyle();const bar=actionbar();
     if(!launcherSlot){
       launcherSlot=document.createElement('span');launcherSlot.id='comfier-downloads-action-slot';
       launcherButton=document.createElement('button');launcherButton.id='comfier-downloads-action-toggle';launcherButton.type='button';launcherButton.title='Downloads';launcherButton.setAttribute('aria-label','Downloads');
-      launcherButton.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      launcherButton.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();if(!hasContent())return;setOpen(!panelWantedOpen)});launcherSlot.appendChild(launcherButton);
+      launcherButton.innerHTML='<span class="sidebar-icon-wrapper comfier-download-icon"><span class="sidebar-icon-badge comfier-active-counter" hidden></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+      launcherButton.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();openUrlPanel(launcherButton)});launcherSlot.appendChild(launcherButton);
     }
     const extensions=document.getElementById('comfier-extensions-toggle');
-    if(launcherSlot.parentElement!==bar||extensions&&launcherSlot.nextElementSibling!==extensions)bar.insertBefore(launcherSlot,extensions||null);
+    const home=bar||document.body,anchor=extensions?.parentElement===home?extensions:null;
+    if(launcherSlot.parentElement!==home||anchor&&launcherSlot.nextElementSibling!==anchor){home.insertBefore(launcherSlot,anchor);window.__comfierLayoutEditor?.refresh?.()}
     syncLauncher();return launcherSlot;
   }
   function syncLauncher(){
-    if(!launcherSlot||!launcherButton)return;const present=hasContent();launcherSlot.classList.toggle('has-downloads',present);launcherButton.setAttribute('aria-pressed',String(present&&panelWantedOpen));launcherButton.setAttribute('aria-expanded',String(present&&panelWantedOpen));launcherButton.disabled=!present;
+    if(!launcherSlot||!launcherButton)return;const present=hasContent();launcherSlot.classList.toggle('has-downloads',present);launcherButton.setAttribute('aria-pressed',String(present&&panelWantedOpen));launcherButton.setAttribute('aria-expanded',String(present&&panelWantedOpen));launcherButton.disabled=false;
+    const count=items.filter(taskActive).length+managerTasks().filter(task=>managerTaskState(task).running).length;
+    const badge=launcherButton.querySelector('.comfier-active-counter');if(badge){setText(badge,String(count));badge.hidden=count===0}
   }
   function ensurePanelHome(){
     if(!panel)return;const nativePanel=document.querySelector('.bottom-panel.comfier-early-floating-bottom'),home=nativePanel?.parentElement||document.querySelector('.comfier-early-bottom-panel-splitter');
@@ -71,8 +94,56 @@
     const header=document.createElement('div');header.className='p-tablist';title=document.createElement('div');title.className='comfier-downloads-title';title.textContent='Downloads';statusText=document.createElement('div');statusText.className='comfier-downloads-status';
     restartButton=document.createElement('button');restartButton.type='button';restartButton.className='comfier-downloads-manager-action';restartButton.textContent='Restart';restartButton.addEventListener('click',restartBackend);
     hardRefreshButton=document.createElement('button');hardRefreshButton.type='button';hardRefreshButton.className='comfier-downloads-manager-action';hardRefreshButton.textContent='Hard Refresh';hardRefreshButton.addEventListener('click',hardRefresh);
-    clearButton=document.createElement('button');clearButton.type='button';clearButton.textContent='Clear';clearButton.addEventListener('click',clearCompleted);header.append(title,statusText,restartButton,hardRefreshButton,clearButton);
+    clearButton=document.createElement('button');clearButton.type='button';clearButton.textContent='Clear';clearButton.addEventListener('click',clearCompleted);const addButton=document.createElement('button');addButton.type='button';addButton.className='comfier-downloads-add-url';addButton.textContent='Add';addButton.title='Download from URL';addButton.setAttribute('aria-label','Download from URL');addButton.addEventListener('click',()=>openUrlPanel(addButton));header.append(title,statusText,restartButton,hardRefreshButton,clearButton,addButton);
     list=document.createElement('div');list.className='comfier-downloads-list';rows.clear();list.addEventListener('click',rowAction);panel.append(header,list);document.body.appendChild(panel);ensurePanelHome();return panel;
+  }
+  function urlMessage(message){if(urlStatus)urlStatus.textContent=message;window.__comfierSidePanels?.refresh()}
+  function closeUrlPanel(){if(window.__comfierSidePanels?.isOpen('downloads-url'))return window.__comfierSidePanels.close('downloads-url');urlOpen=false;if(urlPanel)urlPanel.hidden=true;return true}
+  function ensureUrlPanel(){
+    if(urlPanel?.isConnected)return;
+    urlPanel=document.createElement('section');urlPanel.id='comfier-download-url-panel';urlPanel.className='comfier-early-floating-panel';urlPanel.hidden=true;
+    urlBody=document.createElement('div');urlBody.className='comfier-download-url-body';urlPanel.append(urlBody);
+    const heading=document.createElement('h2');heading.textContent='Download from URL';urlBody.append(heading);
+    const repos=document.createElement('div');repos.className='comfier-download-url-options';repos.style.marginBottom='10px';
+    for(const [site,label]of [['hf','Hugging Face'],['civitai','Civitai']]){const button=document.createElement('button');button.type='button';button.textContent=label;button.style.flex='1';button.addEventListener('click',()=>browseRepository(site));repos.append(button)}urlBody.append(repos);
+    const form=document.createElement('form');urlBody.append(form);urlInput=document.createElement('input');urlInput.type='url';urlInput.required=true;urlInput.placeholder='Model file URL';urlInput.setAttribute('aria-label','Model URL');form.append(urlInput);urlInput.addEventListener('input',()=>{browserContext=null});
+    const options=document.createElement('div');options.className='comfier-download-url-options';const paste=document.createElement('button');paste.type='button';paste.textContent='Paste from clipboard';paste.addEventListener('click',async()=>{try{const text=window.ComfierApp?.getClipboardText?ComfierApp.getClipboardText():await navigator.clipboard.readText();if(text){browserContext=null;urlInput.value=String(text).trim();urlInput.focus();urlMessage('')}else urlMessage('Clipboard is empty.')}catch(_){urlInput.focus();urlMessage('Paste into the URL field using your keyboard.')}});urlFolders=document.createElement('select');urlFolders.required=true;urlFolders.setAttribute('aria-label','Host model folder');options.append(paste,urlFolders);form.append(options);
+    const space=document.createElement('div');space.className='comfier-download-url-space';space.setAttribute('aria-hidden','true');form.append(space);
+    urlDownloadButton=document.createElement('button');urlDownloadButton.type='submit';urlDownloadButton.className='comfier-download-url-submit';urlDownloadButton.textContent='Download';form.append(urlDownloadButton);urlStatus=document.createElement('p');urlStatus.setAttribute('role','status');urlBody.append(urlStatus);
+    form.addEventListener('submit',async event=>{event.preventDefault();if(urlBusy||!urlInput.value.trim()||!urlFolders.value)return;urlBusy=true;urlDownloadButton.disabled=true;urlMessage('Queuing download…');try{const folder=JSON.parse(urlFolders.value),response=await fetchOwned('/comfierui/model-download',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:urlInput.value.trim(),...folder,...(browserContext&&browserContext.url===urlInput.value.trim()?{browserSession:browserContext.session,...(browserContext.name?{name:browserContext.name}:{})}:{})})});if(!response.ok)throw Error(await response.text()||'Download failed');const accepted=await response.json();if(stopped)return;if(!accepted.accepted||!accepted.task_id)throw Error('Host did not accept the download');render([...items.filter(item=>item.task_id!==accepted.task_id),accepted]);urlInput.value='';browserContext=null;urlMessage('');closeUrlPanel();setOpen(true);wake()}catch(error){if(!stopped)urlMessage(error.message)}finally{urlBusy=false;if(urlDownloadButton)urlDownloadButton.disabled=false}});
+    document.body.append(urlPanel);
+    urlRegistration=window.__comfierSidePanels?.register('downloads-url',{surface:()=>urlPanel,isOpen:()=>urlOpen,open:()=>{urlOpen=true;urlPanel.hidden=false;return true},close:()=>{urlOpen=false;urlPanel.hidden=true},compactHeight:()=>Math.ceil(urlBody.getBoundingClientRect().height+2),buttons:()=>[launcherButton]});
+  }
+  async function openUrlPanel(trigger){
+    if(stopped)return;ensureUrlPanel();const router=window.__comfierSidePanels;if(router){if(!router.isOpen('downloads-url'))router.open('downloads-url',trigger,()=>{urlOpen=true;urlPanel.hidden=false;return true})}else{urlOpen=true;urlPanel.hidden=false}
+    browserSessionSupported=false;urlMessage('Loading host folders…');try{const response=await fetchOwned('/comfierui/model-folders',{credentials:'same-origin',cache:'no-store'});if(!response.ok)throw Error(response.status===404?'Update Companion to 0.5.9 to download from URLs.':await response.text());const payload=await response.json();browserSessionSupported=payload.browserSessions===true;if(stopped)return;const previous=urlFolders.value;urlFolders.replaceChildren();for(const folder of payload.folders||[]){const option=document.createElement('option');option.textContent=folder.label;option.title=folder.path||folder.label;option.value=JSON.stringify({directory:folder.directory,rootIndex:folder.rootIndex,subdirectory:folder.subdirectory});urlFolders.append(option)}if([...urlFolders.options].some(o=>o.value===previous))urlFolders.value=previous;else if([...urlFolders.options].some(o=>JSON.parse(o.value).directory==='checkpoints'&&!JSON.parse(o.value).subdirectory))urlFolders.value=[...urlFolders.options].find(o=>JSON.parse(o.value).directory==='checkpoints'&&!JSON.parse(o.value).subdirectory).value;urlMessage(urlFolders.options.length?(payload.truncated?'Showing the first 4,000 model folders.':''):'No host model folders are available.')}catch(error){if(!stopped)urlMessage(error.message)}
+  }
+  const repositoryPreferenceKey='comfier.repository.civitai.v1';
+  function repositoryPreference(){try{const value=localStorage.getItem(repositoryPreferenceKey);return ['red','blue'].includes(value)?value:'ask'}catch(_){return 'ask'}}
+  function openRepository(site){
+    if(typeof window.ComfierApp?.openModelRepository==='function'){const button=document.querySelector('.comfier-download-url-body button'),style=button?getComputedStyle(button):null;
+      const color=(value,fallback)=>{const channels=String(value||'').match(/[\d.]+/g);if(!channels||channels.length<3)return fallback;return (255<<24)|(Number(channels[0])<<16)|(Number(channels[1])<<8)|Number(channels[2])};
+      window.ComfierApp.openModelRepository(site,JSON.stringify({background:color(style?.backgroundColor,-1),foreground:color(style?.color,-15658735),border:color(style?.borderTopColor,-5592406)}));return}
+    const url=site==='hf'?'https://huggingface.co/models':site==='red'?'https://civitai.red/models':'https://civitai.com/models';
+    const opened=window.open(url,'_blank','noopener,noreferrer');
+    urlMessage('Browse in the repository window, then paste the model download link here. Authenticated session handoff requires the Android app.');
+  }
+  function browseRepository(site){
+    if(site==='hf')return openRepository(site);
+    const preferred=repositoryPreference();if(preferred!=='ask')return openRepository(preferred);
+    if(repositoryChoice){repositoryChoice.showModal();return}
+    const dialog=document.createElement('dialog');repositoryChoice=dialog;dialog.className='comfier-download-url-body comfier-repository-choice';dialog.style.cssText='border:1px solid #777;border-radius:10px;background:var(--comfy-menu-bg,#171717);color:var(--comfier-ui-font,#fff);max-width:calc(100vw - 16px)';
+    const heading=document.createElement('h2');heading.textContent='Choose Civitai';dialog.append(heading);
+    const row=document.createElement('div');row.className='comfier-download-url-options';const remember=document.createElement('input');remember.type='checkbox';remember.style.cssText='width:auto;min-height:0';
+    for(const [value,label]of [['red','Civitai Red'],['blue','Civitai Blue']]){const button=document.createElement('button');button.type='button';button.textContent=label;button.addEventListener('click',()=>{if(remember.checked){try{localStorage.setItem(repositoryPreferenceKey,value);window.dispatchEvent(new Event('comfier-repository-preference'))}catch(_){urlMessage('Could not remember the Civitai choice.')}}dialog.close();openRepository(value)});row.append(button)}dialog.append(row);
+    const label=document.createElement('label');label.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px';label.append(document.createTextNode('Remember my choice'),remember);dialog.append(label);
+    const cancel=document.createElement('button');cancel.type='button';cancel.textContent='Cancel';cancel.style.cssText='display:block;margin:12px auto 0';cancel.onclick=()=>dialog.close();dialog.append(cancel);document.body.append(dialog);dialog.showModal();
+  }
+  async function fromBrowser(data){
+    if(stopped||!data||typeof data.url!=='string')return;
+    let session={};try{session=JSON.parse(window.ComfierApp?.takeModelDownloadSession?.(data.sessionId)||'{}')}catch(_){}
+    await openUrlPanel();if(stopped)return;
+    urlInput.value=data.url;if(!browserSessionSupported){browserContext=null;urlMessage('Update Companion to 0.6.0 for authenticated browser downloads.');return}browserContext={url:data.url,name:data.name,session};urlMessage('Choose the host folder, then press Download.');urlInput.focus();
   }
   function refreshLayout(){if(stopped)return;window.__comfierEarlyFloatingPanels?.refresh?.()}
   function hasContent(){return items.length>0||managerTasks().length>0||managerActive||restartNeeded||hardRefreshNeeded}
@@ -191,15 +262,16 @@
   function pause(){nativeVisible=false;clearTimeout(timer);timer=0;pollGeneration++;pollRequests.abort();queued=false}
   function resume(){if(stopped)return;const was=nativeVisible;nativeVisible=true;refreshLayout();if(!was||!timer&&!inFlight)poll(true)}
   function remove(){
+    browserContext=null;repositoryChoice?.remove();repositoryChoice=null;
     if(stopped)return;stopped=true;restartGeneration++;jobs.dispose();restartCancel?.();clearTimeout(timer);timer=0;clearTimeout(managerTimer);clearTimeout(restartTimeout);
     if(reconnectHandler)window.app?.api?.removeEventListener?.('reconnected',reconnectHandler);managerBinding.remove();launcherObserver?.disconnect();requests.remove();pollGeneration++;pollRequests.remove();
-    document.querySelectorAll('.comfier-manager-progress-suppressed,.comfier-manager-notice-suppressed').forEach(el=>el.classList.remove('comfier-manager-progress-suppressed','comfier-manager-notice-suppressed'));panel?.remove();launcherSlot?.remove();rows.clear();document.getElementById(STYLE_ID)?.remove();document.documentElement.classList.remove(OPEN_CLASS);
+    document.querySelectorAll('.comfier-manager-progress-suppressed,.comfier-manager-notice-suppressed').forEach(el=>el.classList.remove('comfier-manager-progress-suppressed','comfier-manager-notice-suppressed'));urlRegistration?.();urlPanel?.remove();panel?.remove();launcherSlot?.remove();rows.clear();document.getElementById(STYLE_ID)?.remove();document.documentElement.classList.remove(OPEN_CLASS);
     if(window.__comfierDownloads?.remove===remove){delete window.__comfierDownloads;delete window.__comfierDownloadsMonitor}if(window.__comfierPollDownloads===wake)delete window.__comfierPollDownloads;
   }
   jobs.listen(document,'visibilitychange',()=>{if(document.hidden){clearTimeout(timer);timer=0;pollGeneration++;pollRequests.abort();queued=false}else{ensureLauncher();refreshLayout();syncManager();poll(true)}});
   jobs.listen(window,'comfierui-session-reconnected',wake);jobs.listen(window,'comfierui-download-accepted',wake);jobs.listen(window,'resize',refreshLayout,{passive:true});jobs.listen(window.visualViewport,'resize',refreshLayout,{passive:true});
   launcherObserver=window.__comfierMutations.create(records=>{
-    if(stopped)return;let reconcile=false;
+    if(stopped)return;let reconcile=false;if(!launcherSlot||!document.body.contains(launcherSlot))ensureLauncher();
     for(const record of records){
       if(record.target.closest?.(OWNED_SELECTOR))continue;
       if(record.target.closest?.(NOTICE_SELECTOR))reconcile=true;
@@ -210,5 +282,5 @@
     }
     if(reconcile){clearTimeout(managerTimer);managerTimer=setTimeout(syncManager,0)}
   });launcherObserver.observe(document.body,{childList:true,subtree:true});ensureLauncher();syncManager();
-  window.__comfierDownloads={pause,resume,refreshLayout,poll:()=>poll(true),isOpen:()=>panelWantedOpen&&!!panel?.classList.contains('open'),closeIfOpen,snapshot:()=>({endpointStatus,active,inFlight,failures,timer:!!timer,visible:visible(),items:items.length,managerActive,restartNeeded,hardRefreshNeeded,restartBusy}),remove};window.__comfierPollDownloads=wake;window.__comfierDownloadsMonitor=true;poll(true);
+  window.__comfierDownloads={browseRepository,fromBrowser,openUrlPanel,closeUrlPanel,pause,resume,refreshLayout,poll:()=>poll(true),isOpen:()=>panelWantedOpen&&!!panel?.classList.contains('open'),closeIfOpen,snapshot:()=>({endpointStatus,active,inFlight,failures,timer:!!timer,visible:visible(),items:items.length,managerActive,restartNeeded,hardRefreshNeeded,restartBusy}),remove};window.__comfierPollDownloads=wake;window.__comfierDownloadsMonitor=true;poll(true);
 })();
