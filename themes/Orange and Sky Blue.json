@@ -1,0 +1,939 @@
+{
+  "schemaVersion": 1,
+  "name": "Test Layout - Orange and Sky Blue",
+  "colors": {
+    "icons": "#f0f7ff",
+    "buttonBg": "#14202b",
+    "buttonFrame": "#ff9c32",
+    "promptText": "#f0f7ff",
+    "uiText": "#f0f7ff",
+    "containerFrame": "#39bfff",
+    "active": "#ff9c32",
+    "progress": "#39bfff",
+    "success": "#a6eaff"
+  },
+  "transparency": {
+    "icons": 0,
+    "buttonBg": 100,
+    "buttonFrame": 0,
+    "promptText": 0,
+    "uiText": 0,
+    "containerFrame": 0,
+    "active": 51,
+    "progress": 0,
+    "success": 0
+  },
+  "layout": {
+    "schemaVersion": 1,
+    "views": {
+      "outerPortrait": [
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {
+            "action:host-resources": {
+              "monitors": {
+                "cpu": true,
+                "ram": true,
+                "gpu": true,
+                "vram": true,
+                "temp": true,
+                "cpuTemp": false
+              }
+            }
+          },
+          "track": 1,
+          "placedAt": 1,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "action",
+          "name": "Actionbar",
+          "edge": "top",
+          "align": "center",
+          "flow": "horizontal",
+          "size": 32,
+          "items": [
+            "action:host-resources",
+            "action:crystools"
+          ],
+          "hidden": [
+            "action:crystools"
+          ],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {},
+          "track": 1,
+          "placedAt": 2,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "run",
+          "name": "Run / queue",
+          "edge": "bottom",
+          "align": "center",
+          "flow": "horizontal",
+          "size": 32,
+          "items": [
+            "run:Batch_Count",
+            "run:Increment",
+            "run:Decrement",
+            "run:queue-button",
+            "run:queue-mode-menu-trigger",
+            "run:Interrupt",
+            "run:queue-overlay-toggle",
+            "canvas:zoom-controls-button"
+          ],
+          "hidden": [
+            "run:Increment",
+            "run:Decrement"
+          ],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {},
+          "track": 1,
+          "placedAt": 3,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "canvas",
+          "name": "Canvas toolbar",
+          "edge": "bottom",
+          "align": "center",
+          "flow": "horizontal",
+          "size": 32,
+          "items": [
+            "canvas:Canvas_Mode"
+          ],
+          "hidden": [
+            "canvas:Canvas_Mode"
+          ],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {},
+          "connected": true,
+          "visibleButtons": 11,
+          "autofill": false,
+          "length": 450,
+          "thickness": 50,
+          "track": 1,
+          "placedAt": 4,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "group-munkce8d",
+          "name": "Custom container",
+          "edge": "side",
+          "align": "center",
+          "flow": "vertical",
+          "size": 32,
+          "items": [
+            "action:Downloads",
+            "action:Launch_LoRA_Manager",
+            "action:Unload_Models",
+            "action:Unload_Models_and_Execution_Cache",
+            "action:image-feed",
+            "action:Toggle_properties_panel",
+            "action:Manage_extensions",
+            "workflow:Enter_app_mode",
+            "workflow:Graph_mode__workflow_actions",
+            "canvas:Fit_View____",
+            "canvas:toggle-minimap-button",
+            "canvas:toggle-link-visibility-button"
+          ],
+          "hidden": [],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {
+            "sidebar:comfier-native-settings-tab-button": {}
+          },
+          "connected": true,
+          "visibleButtons": 11,
+          "autofill": false,
+          "length": 450,
+          "thickness": 50,
+          "track": 1,
+          "placedAt": 5,
+          "widthScale": 2,
+          "heightScale": 1.5604166666666668,
+          "id": "sidebar",
+          "name": "Sidebar",
+          "edge": "sidebar",
+          "align": "center",
+          "flow": "vertical",
+          "size": 26,
+          "items": [
+            "sidebar:Comfy_menu",
+            "sidebar:job-history-tab-button",
+            "sidebar:assets-tab-button",
+            "sidebar:node-library-tab-button",
+            "sidebar:model-library-tab-button",
+            "sidebar:workflows-tab-button",
+            "sidebar:easyuse_nodes_map-tab-button",
+            "sidebar:comfier-templates-tab-button",
+            "sidebar:Multi_select",
+            "sidebar:comfier-app-settings-tab-button",
+            "sidebar:comfier-native-settings-tab-button",
+            "sidebar:Toggle_Bottom_Panel",
+            "sidebar:help-center-button"
+          ],
+          "hidden": [],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        }
+      ],
+      "outerLandscape": [
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {},
+          "track": 1,
+          "placedAt": 1,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "action",
+          "name": "Actionbar",
+          "edge": "top",
+          "align": "center",
+          "flow": "horizontal",
+          "size": 32,
+          "items": [
+            "action:host-resources",
+            "action:crystools"
+          ],
+          "hidden": [
+            "action:crystools"
+          ],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {
+            "canvas:zoom-controls-button": {}
+          },
+          "track": 1,
+          "placedAt": 2,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "run",
+          "name": "Run / queue",
+          "edge": "bottom",
+          "align": "center",
+          "flow": "horizontal",
+          "size": 32,
+          "items": [
+            "run:Batch_Count",
+            "run:queue-button",
+            "run:queue-mode-menu-trigger",
+            "run:Interrupt",
+            "run:Increment",
+            "run:Decrement",
+            "run:queue-overlay-toggle",
+            "canvas:zoom-controls-button"
+          ],
+          "hidden": [
+            "run:Increment",
+            "run:Decrement"
+          ],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {},
+          "visibleButtons": 10,
+          "thickness": 48,
+          "track": 1,
+          "placedAt": 3,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "sidebar",
+          "name": "Sidebar",
+          "edge": "sidebar",
+          "align": "start",
+          "flow": "vertical",
+          "size": 26,
+          "items": [
+            "sidebar:Comfy_menu",
+            "sidebar:job-history-tab-button",
+            "sidebar:assets-tab-button",
+            "sidebar:node-library-tab-button",
+            "sidebar:model-library-tab-button",
+            "sidebar:workflows-tab-button",
+            "sidebar:easyuse_nodes_map-tab-button",
+            "sidebar:comfier-templates-tab-button",
+            "sidebar:Multi_select",
+            "sidebar:comfier-app-settings-tab-button",
+            "sidebar:Toggle_Bottom_Panel",
+            "sidebar:help-center-button",
+            "sidebar:comfier-native-settings-tab-button"
+          ],
+          "hidden": [],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {
+            "action:Unload_Models": {},
+            "action:Unload_Models_and_Execution_Cache": {},
+            "action:image-feed": {},
+            "action:Launch_LoRA_Manager": {},
+            "workflow:Graph_mode__workflow_actions": {},
+            "action:Downloads": {},
+            "action:Toggle_properties_panel": {},
+            "action:Manage_extensions": {},
+            "workflow:Enter_app_mode": {},
+            "canvas:Canvas_Mode": {},
+            "canvas:Fit_View____": {},
+            "canvas:toggle-minimap-button": {},
+            "canvas:toggle-link-visibility-button": {}
+          },
+          "connected": true,
+          "visibleButtons": 10,
+          "autofill": true,
+          "length": 282,
+          "thickness": 48,
+          "offset": 0.5574782641965952,
+          "track": 1,
+          "placedAt": 4,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "group-mushllyb-p0yn",
+          "name": "Custom container",
+          "edge": "right",
+          "align": "center",
+          "flow": "vertical",
+          "size": 32,
+          "items": [
+            "action:Unload_Models",
+            "action:Unload_Models_and_Execution_Cache",
+            "action:image-feed",
+            "action:Launch_LoRA_Manager",
+            "workflow:Graph_mode__workflow_actions",
+            "canvas:Canvas_Mode",
+            "canvas:Fit_View____",
+            "canvas:toggle-minimap-button",
+            "canvas:toggle-link-visibility-button",
+            "action:Downloads",
+            "action:Toggle_properties_panel",
+            "action:Manage_extensions",
+            "workflow:Enter_app_mode"
+          ],
+          "hidden": [],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        }
+      ],
+      "innerPortrait": [
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {},
+          "track": 1,
+          "placedAt": 1,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "action",
+          "name": "Actionbar",
+          "edge": "bottom",
+          "align": "start",
+          "flow": "horizontal",
+          "size": 32,
+          "items": [
+            "action:host-resources",
+            "action:crystools"
+          ],
+          "hidden": [
+            "action:crystools"
+          ],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {
+            "action:Unload_Models": {},
+            "action:Unload_Models_and_Execution_Cache": {},
+            "action:image-feed": {},
+            "action:Launch_LoRA_Manager": {},
+            "action:Downloads": {},
+            "action:Toggle_properties_panel": {},
+            "action:Manage_extensions": {},
+            "workflow:Graph_mode__workflow_actions": {}
+          },
+          "connected": true,
+          "visibleButtons": 11,
+          "autofill": false,
+          "length": 400,
+          "thickness": 50,
+          "track": 1,
+          "placedAt": 2,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "canvas",
+          "name": "Canvas toolbar",
+          "edge": "right",
+          "align": "center",
+          "flow": "vertical",
+          "size": 32,
+          "items": [
+            "canvas:Canvas_Mode",
+            "action:Unload_Models",
+            "action:Unload_Models_and_Execution_Cache",
+            "action:image-feed",
+            "action:Launch_LoRA_Manager",
+            "action:Downloads",
+            "action:Toggle_properties_panel",
+            "action:Manage_extensions",
+            "workflow:Graph_mode__workflow_actions",
+            "canvas:Fit_View____",
+            "canvas:toggle-minimap-button",
+            "canvas:toggle-link-visibility-button"
+          ],
+          "hidden": [],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {
+            "canvas:zoom-controls-button": {}
+          },
+          "track": 1,
+          "placedAt": 3,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "run",
+          "name": "Run / queue",
+          "edge": "bottom",
+          "align": "end",
+          "flow": "horizontal",
+          "size": 32,
+          "items": [
+            "run:Batch_Count",
+            "run:queue-button",
+            "run:queue-mode-menu-trigger",
+            "run:Interrupt",
+            "run:Increment",
+            "run:Decrement",
+            "run:queue-overlay-toggle",
+            "canvas:zoom-controls-button"
+          ],
+          "hidden": [
+            "run:Increment",
+            "run:Decrement"
+          ],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {
+            "workflow:Enter_app_mode": {},
+            "sidebar:comfier-native-settings-tab-button": {}
+          },
+          "connected": true,
+          "visibleButtons": 11,
+          "autofill": false,
+          "length": 400,
+          "thickness": 50,
+          "track": 1,
+          "placedAt": 4,
+          "widthScale": 1.2307692307692308,
+          "heightScale": 1.175388796942129,
+          "id": "sidebar",
+          "name": "Sidebar",
+          "edge": "sidebar",
+          "align": "center",
+          "flow": "vertical",
+          "size": 26,
+          "items": [
+            "sidebar:Comfy_menu",
+            "sidebar:job-history-tab-button",
+            "sidebar:assets-tab-button",
+            "sidebar:node-library-tab-button",
+            "sidebar:model-library-tab-button",
+            "sidebar:workflows-tab-button",
+            "sidebar:easyuse_nodes_map-tab-button",
+            "sidebar:comfier-templates-tab-button",
+            "sidebar:Multi_select",
+            "sidebar:comfier-app-settings-tab-button",
+            "sidebar:comfier-native-settings-tab-button",
+            "sidebar:Toggle_Bottom_Panel",
+            "workflow:Enter_app_mode",
+            "sidebar:help-center-button"
+          ],
+          "hidden": [],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        }
+      ],
+      "innerLandscape": [
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {},
+          "track": 1,
+          "placedAt": 1,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "action",
+          "name": "Actionbar",
+          "edge": "top",
+          "align": "center",
+          "flow": "horizontal",
+          "size": 32,
+          "items": [
+            "action:host-resources",
+            "action:crystools"
+          ],
+          "hidden": [
+            "action:crystools"
+          ],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {
+            "canvas:zoom-controls-button": {}
+          },
+          "track": 1,
+          "placedAt": 2,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "run",
+          "name": "Run / queue",
+          "edge": "bottom",
+          "align": "center",
+          "flow": "horizontal",
+          "size": 32,
+          "items": [
+            "run:Batch_Count",
+            "run:queue-button",
+            "run:queue-mode-menu-trigger",
+            "run:Interrupt",
+            "run:Increment",
+            "run:Decrement",
+            "run:queue-overlay-toggle",
+            "canvas:zoom-controls-button"
+          ],
+          "hidden": [
+            "run:Increment",
+            "run:Decrement"
+          ],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {
+            "workflow:Enter_app_mode": {}
+          },
+          "connected": true,
+          "visibleButtons": 11,
+          "autofill": false,
+          "length": 400,
+          "thickness": 50,
+          "track": 1,
+          "placedAt": 3,
+          "widthScale": 1.2877032940204327,
+          "heightScale": 1.0290007215787025,
+          "id": "sidebar",
+          "name": "Sidebar",
+          "edge": "sidebar",
+          "align": "center",
+          "flow": "vertical",
+          "size": 26,
+          "items": [
+            "sidebar:Comfy_menu",
+            "sidebar:job-history-tab-button",
+            "sidebar:assets-tab-button",
+            "sidebar:node-library-tab-button",
+            "sidebar:model-library-tab-button",
+            "sidebar:workflows-tab-button",
+            "sidebar:easyuse_nodes_map-tab-button",
+            "sidebar:comfier-templates-tab-button",
+            "sidebar:Multi_select",
+            "sidebar:comfier-app-settings-tab-button",
+            "sidebar:Toggle_Bottom_Panel",
+            "workflow:Enter_app_mode",
+            "sidebar:help-center-button",
+            "sidebar:comfier-native-settings-tab-button"
+          ],
+          "hidden": [],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        },
+        {
+          "containerStyle": {},
+          "buttonDefaults": {},
+          "buttonStyles": {
+            "canvas:Canvas_Mode": {},
+            "canvas:Fit_View____": {},
+            "canvas:toggle-minimap-button": {},
+            "canvas:toggle-link-visibility-button": {},
+            "action:Unload_Models": {},
+            "action:Unload_Models_and_Execution_Cache": {},
+            "action:image-feed": {},
+            "action:Launch_LoRA_Manager": {},
+            "action:Downloads": {},
+            "action:Toggle_properties_panel": {},
+            "action:Manage_extensions": {},
+            "workflow:Graph_mode__workflow_actions": {}
+          },
+          "connected": true,
+          "visibleButtons": 11,
+          "autofill": false,
+          "length": 372,
+          "thickness": 42,
+          "track": 1,
+          "placedAt": 4,
+          "widthScale": 1,
+          "heightScale": 1,
+          "id": "group-musxf97b-nlzs",
+          "name": "Custom container",
+          "edge": "right",
+          "align": "center",
+          "flow": "vertical",
+          "size": 32,
+          "items": [
+            "action:Unload_Models",
+            "action:Unload_Models_and_Execution_Cache",
+            "action:image-feed",
+            "action:Launch_LoRA_Manager",
+            "action:Downloads",
+            "action:Toggle_properties_panel",
+            "action:Manage_extensions",
+            "workflow:Graph_mode__workflow_actions",
+            "canvas:Canvas_Mode",
+            "canvas:Fit_View____",
+            "canvas:toggle-minimap-button",
+            "canvas:toggle-link-visibility-button"
+          ],
+          "hidden": [],
+          "appearance": {
+            "containerCorners": "rounded",
+            "buttonCorners": "rounded",
+            "containerFrame": 1,
+            "buttonFrame": 1
+          },
+          "contentAlign": {
+            "horizontal": "center",
+            "vertical": "center"
+          }
+        }
+      ]
+    }
+  },
+  "appearance": {
+    "schemaVersion": 1,
+    "views": {
+      "outerPortrait": {
+        "containers": {
+          "action": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "run": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "canvas": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "group-munkce8d": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "sidebar": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          }
+        },
+        "buttons": {
+          "action:host-resources": {
+            "monitors": {
+              "cpu": true,
+              "ram": true,
+              "gpu": true,
+              "vram": true,
+              "temp": true,
+              "cpuTemp": false
+            }
+          },
+          "sidebar:comfier-native-settings-tab-button": {}
+        }
+      },
+      "outerLandscape": {
+        "containers": {
+          "action": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "run": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "sidebar": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "group-mushllyb-p0yn": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          }
+        },
+        "buttons": {
+          "canvas:zoom-controls-button": {},
+          "action:Unload_Models": {},
+          "action:Unload_Models_and_Execution_Cache": {},
+          "action:image-feed": {},
+          "action:Launch_LoRA_Manager": {},
+          "workflow:Graph_mode__workflow_actions": {},
+          "action:Downloads": {},
+          "action:Toggle_properties_panel": {},
+          "action:Manage_extensions": {},
+          "workflow:Enter_app_mode": {},
+          "canvas:Canvas_Mode": {},
+          "canvas:Fit_View____": {},
+          "canvas:toggle-minimap-button": {},
+          "canvas:toggle-link-visibility-button": {}
+        }
+      },
+      "innerPortrait": {
+        "containers": {
+          "action": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "canvas": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "run": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "sidebar": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          }
+        },
+        "buttons": {
+          "action:Unload_Models": {},
+          "action:Unload_Models_and_Execution_Cache": {},
+          "action:image-feed": {},
+          "action:Launch_LoRA_Manager": {},
+          "action:Downloads": {},
+          "action:Toggle_properties_panel": {},
+          "action:Manage_extensions": {},
+          "workflow:Graph_mode__workflow_actions": {},
+          "canvas:zoom-controls-button": {},
+          "workflow:Enter_app_mode": {},
+          "sidebar:comfier-native-settings-tab-button": {}
+        }
+      },
+      "innerLandscape": {
+        "containers": {
+          "action": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "run": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "sidebar": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          },
+          "group-musxf97b-nlzs": {
+            "containerStyle": {},
+            "buttonDefaults": {}
+          }
+        },
+        "buttons": {
+          "canvas:zoom-controls-button": {},
+          "workflow:Enter_app_mode": {},
+          "canvas:Canvas_Mode": {},
+          "canvas:Fit_View____": {},
+          "canvas:toggle-minimap-button": {},
+          "canvas:toggle-link-visibility-button": {},
+          "action:Unload_Models": {},
+          "action:Unload_Models_and_Execution_Cache": {},
+          "action:image-feed": {},
+          "action:Launch_LoRA_Manager": {},
+          "action:Downloads": {},
+          "action:Toggle_properties_panel": {},
+          "action:Manage_extensions": {},
+          "workflow:Graph_mode__workflow_actions": {}
+        }
+      }
+    }
+  },
+  "dimensions": {
+    "container": {
+      "frame": 1,
+      "curve": 6
+    },
+    "button": {
+      "frame": 1,
+      "curve": 6,
+      "round": false,
+      "height": 26,
+      "iconSize": 18
+    }
+  }
+}
