@@ -55,7 +55,8 @@ class HostThemes(unittest.IsolatedAsyncioTestCase):
         (themes.ROOT / 'README.md').write_text('preserve')
         existing = themes.list_profiles(True)[0]
         await self.write({'id': existing['id'], 'expected': existing, 'profile': dict(profile, name='Edited')})
-        self.assertEqual(json.loads(path.read_text())['name'], 'Edited')
+        self.assertFalse(path.exists())
+        self.assertEqual(json.loads((themes.ROOT / 'Edited.json').read_text())['name'], 'Edited')
         self.assertEqual((themes.ROOT / 'README.md').read_text(), 'preserve')
 
     async def test_invalid_input_and_cross_site_writes_rejected(self):
@@ -68,3 +69,28 @@ class HostThemes(unittest.IsolatedAsyncioTestCase):
         await self.write(dict(value, profile=dict(profile, transparency={'icons': True})), 400)
         (themes.ROOT / 'comfier-new.json').symlink_to(themes.ROOT / 'outside')
         await self.write(value, 400)
+
+    async def test_generated_name_migration_preserves_sync_id(self):
+        import hashlib
+        profile = {'schemaVersion': 1, 'name': 'Amber and Teal', 'colors': {}, 'transparency': {}}
+        old = themes.ROOT / 'comfier-1234567890123-ab12cd34ef56.json'
+        old.write_text(json.dumps(profile))
+        identity = hashlib.sha256(old.name.encode()).hexdigest()
+        listed = themes.list_profiles(True)
+        self.assertEqual(listed[0]['id'], identity)
+        self.assertTrue((themes.ROOT / 'Amber and Teal.json').exists())
+        self.assertFalse(old.exists())
+        saved = (await self.write({'id': identity, 'expected': listed[0], 'profile': dict(profile, name='Renamed')}))['profile']
+        self.assertEqual(saved['id'], identity)
+        self.assertFalse((themes.ROOT / 'Amber and Teal.json').exists())
+        self.assertTrue((themes.ROOT / 'Renamed.json').exists())
+        await self.write({'id': identity, 'expected': saved, 'delete': True})
+        self.assertEqual(themes.list_profiles(True), [])
+
+    async def test_named_files_sanitize_collide_and_keep_identity(self):
+        for name, identity in [('A/B', 'first'), ('A:B', 'second'), ('CON', 'third')]:
+            profile = {'schemaVersion': 1, 'name': name, 'colors': {}, 'transparency': {}}
+            saved = (await self.write({'id': identity, 'expected': None, 'profile': profile}))['profile']
+            self.assertEqual(saved['id'], identity)
+        self.assertEqual({p.name for p in themes.ROOT.iterdir()}, {'A_B.json', 'A_B (2).json', '_CON.json'})
+        self.assertEqual({p['id'] for p in themes.list_profiles(True)}, {'first', 'second', 'third'})

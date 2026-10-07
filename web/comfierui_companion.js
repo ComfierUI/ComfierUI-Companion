@@ -2,7 +2,7 @@ import { app } from "../../../scripts/app.js";
 import { api } from "../../../scripts/api.js";
 
 const ROUTE = "/comfierui/model-download";
-const VERSION = "0.5.0";
+const VERSION = "0.7.13";
 import { prepareDesktop, installDesktopClose } from "./comfierui_desktop.js";
 import { installBrowserThemes } from "./comfierui_browser_themes.js";
 
@@ -82,6 +82,7 @@ app.registerExtension({
       await prepareDisplayRuntime();
       await installDisplayBundle(desktop);
       window.__comfierBrowserThemesReady?.();
+      if (!desktop) window.__comfierThemeStudio?.syncProfiles().catch(console.error);
       if (desktop) installDesktopClose();
     } catch (error) {
       console.error('ComfierUI browser startup failed', error);

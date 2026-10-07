@@ -19,6 +19,8 @@ def control_kind(control):
     if (control.get('connected') or control.get('readOnly') or control.get('disabled')
             or re.search(r'note|markdown', node_type)):
         return None
+    if control.get('multiline'):
+        return 'prompt'
     if re.fullmatch(r'(seed|noise_seed|random_seed)', name) or name in ('control_after_generate', 'seed_mode'):
         return 'seed'
     if re.fullmatch(r'(?:(?:image_|video_|target_|output_)?(?:width|height)|megapixels|megapixel|resolution|image_size|aspect_ratio)', name):

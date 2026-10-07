@@ -16,6 +16,12 @@ class WorkflowApps(unittest.IsolatedAsyncioTestCase):
             c=dict(key='user',nodeType=typ,name=name,targets=targets,textInput=True)
             self.assertEqual(module.curate(dict(schemaVersion=1,controls=[c],outputs=[]))['controls'][0]['kind'],'prompt')
 
+    def test_arbitrary_multiline_inputs(self):
+        base=dict(key='script',nodeType='CustomScript',name='script',multiline=True)
+        self.assertEqual(module.curate(dict(schemaVersion=1,controls=[base],outputs=[]))['controls'],[{'key':'script','kind':'prompt'}])
+        for flag in ('connected','readOnly','disabled'):
+            self.assertEqual(module.curate(dict(schemaVersion=1,controls=[dict(base,**{flag:True})],outputs=[]))['controls'],[])
+
     async def test_host_plan_and_validation(self):
         app=web.Application();app.router.add_post('/comfierui/workflow/curate',module._curate)
         async with TestClient(TestServer(app)) as client:

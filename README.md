@@ -38,7 +38,7 @@ Start ComfyUI normally. Companion starts automatically; it adds no workflow node
 
 ## Connect
 
-Version **0.7.7**, paired with ComfierUI **0.92.7-Dev**.
+Version **0.7.13**, paired with ComfierUI **0.92.12-Dev**.
 
 Connect the Android app to the host address and Companion port (default **8147**). Open `http://127.0.0.1:8147/` on the host to use the browser interface. ComfyUI continues running on its own port, normally **8188**. Companion's port can be changed in App Settings; 8188 is reserved for ComfyUI.
 
@@ -101,7 +101,7 @@ Hugging Face and Civitai browsing buttons are available in Download from URL. An
 
 Civitai offers Red (`civitai.red`) or Blue (`civitai.com`) with Remember my choice. ComfierUI Settings includes Civitai start page: Ask every time, Red or Blue. This choice is local to the client.
 
-When an Android repository browser opens a supported model download link, ComfierUI returns to the URL form for host folder selection. Companion 0.7.7 uses the temporary session for that download and its retries; cookies remain in memory and are never exposed in download listings or saved as a separate account credential. They are removed from cross-origin redirect requests and discarded after success or clearing the job. Keep host connections on a trusted network; the Companion LAN gateway uses HTTP.
+When an Android repository browser opens a supported model download link, ComfierUI returns to the URL form for host folder selection. Companion 0.7.13 uses the temporary session for that download and its retries; cookies remain in memory and are never exposed in download listings or saved as a separate account credential. They are removed from cross-origin redirect requests and discarded after success or clearing the job. Keep host connections on a trusted network; the Companion LAN gateway uses HTTP.
 
 Desktop browsing opens a separate repository window. Paste the model link into the URL form afterward; sharing a website's login session with the desktop Companion downloader is not supported by this build. Embedded sessions are an Android feature. Comfy Cloud still has no user host model filesystem.
 
@@ -122,3 +122,19 @@ The Android GitHub browser's Copy URL button copies and selects the repository w
 ### Workflow imports
 Choose workflows in Download from URL and select the active user's workflow root or an existing subfolder. JSON files and ZIP archives are supported. Nested ZIP folders are scanned for workflow graphs; media and unrelated JSON metadata are discarded, and the input directory is never populated. Duplicate names receive numbered suffixes instead of overwriting existing files. Use Load on the completed import; multiple workflows open a chooser, then follow the existing App Mode / Full Canvas load preference.
 Workflow downloads are limited to 256 MiB, JSON members to 16 MiB each and 64 MiB total; unsafe paths and symlinks are rejected. Supported provider downloads retain the same host URL restrictions and temporary Android session handoff as model downloads.
+
+### Shared theme library
+
+Profiles now shows one editable list. Hosted clients reconcile saved themes with the Companion themes folder at connection, when Profiles opens, and after profile changes. Android stores its library in one private app themes folder shared by hosted and Cloud modes. Old address-specific profiles migrate when revisited. Simultaneous edits are preserved as named copies; offline edits retry on refresh. Keep the themes folder when updating.
+
+Theme files now use readable theme names. Renames retain the sync identity stored inside each JSON file. Existing generated filenames migrate automatically on theme refresh. Unsafe filename characters are replaced; collisions use numbered suffixes. New features are frozen while documentation and existing behavior are refined.
+
+### App Mode field management
+
+Manage Selected Nodes adds/hides editable fields from workflow nodes, including nested subgraphs. Displayed fields and groups can be dragged by their handles; the arrangement is stored with the workflow. Multiline inputs are selected automatically. Connected/read-only inputs remain protected. App Mode and its manager follow panel and UI Font colors. Color theme presets originate in the app and sync to Companion; no preset JSON files ship in this host package. Existing saved themes remain yours.
+
+Bundled themes originate in the Android shared device library. Companion ships an empty theme folder and receives presets through sync. App Mode buttons use transparent rounded frames, themed text/frame colors and centered 20px labels (Generate/Full Canvas remain 25px).
+
+## 0.7.13 desktop correction
+
+Desktop browsers suppress Chrome’s native context menu everywhere using a window capture listener. ComfyUI’s own context menus and event propagation remain available. Native text-field context menus are suppressed too. Android/mobile detection and shared app display assets are unchanged. Compatible with ComfierUI 0.92.12-Dev; no app rebuild needed.

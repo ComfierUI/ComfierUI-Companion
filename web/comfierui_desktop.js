@@ -3,6 +3,11 @@ export function prepareDesktop() {
   if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) return false;
   window.__comfierDesktopBrowser = true;
+  // Desktop-wide browser suppression: retain ComfyUI handlers and propagation.
+  if (!window.__comfierDesktopContextMenuGuard) {
+    window.addEventListener('contextmenu', e => e.preventDefault(), { capture: true });
+    window.__comfierDesktopContextMenuGuard = true;
+  }
   function snapshot() {
     const width = window.innerWidth, height = window.innerHeight;
     const portrait = height >= width;

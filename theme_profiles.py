@@ -1,4 +1,4 @@
-"""Read-only JSON themes dropped into the extension's themes directory."""
+"""Portable named theme files with stable sync identities."""
 import asyncio
 import json
 import logging
@@ -19,6 +19,8 @@ _registered = False
 
 
 def list_profiles(include_ids=False):
+    with _store_lock:
+        _migrate_generated_files()
     profiles = []
     total = 0
     root = ROOT.resolve()
@@ -58,7 +60,7 @@ def list_profiles(include_ids=False):
                         raise ValueError(f'{field} must be an object')
                     profile[field] = data[field]
             if include_ids:
-                profile['id'] = hashlib.sha256(path.name.encode()).hexdigest()
+                profile['id'] = _identity(path, data)
             profiles.append(profile)
         except (OSError, ValueError, UnicodeError) as error:
             logging.getLogger('ComfierUI-Companion').warning('Skipping theme %s: %s', path.name, error)
@@ -79,7 +81,62 @@ def register_theme_routes():
     _registered = True
 
 
-_store_lock = threading.Lock()
+_store_lock = threading.RLock()
+
+
+def _identity(path, data):
+    identity = data.get('_comfierThemeId')
+    return identity if isinstance(identity, str) and re.fullmatch(r'[a-zA-Z0-9-]{1,100}', identity) else hashlib.sha256(path.name.encode()).hexdigest()
+
+
+def _named_path(root, name, current=None):
+    stem = re.sub(r'[\\/:*?"<>|\x00-\x1f]', '_', name).strip(' .')[:100] or 'Theme'
+    if stem.split('.')[0].upper() in {'CON', 'PRN', 'AUX', 'NUL', *('COM'+str(i) for i in range(1,10)), *('LPT'+str(i) for i in range(1,10))}:
+        stem = '_' + stem
+    number = 1
+    occupied = {p.name.casefold() for p in root.iterdir() if p != current}
+    while True:
+        filename = stem + ('' if number == 1 else ' ('+str(number)+')') + '.json'
+        if filename.casefold() not in occupied:
+            return root / filename
+        number += 1
+
+
+def _atomic_write(path, raw):
+    handle, temporary = tempfile.mkstemp(prefix='.theme-', dir=path.parent)
+    try:
+        with os.fdopen(handle, 'wb') as stream:
+            stream.write(raw)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def _migrate_generated_files():
+    if not ROOT.is_dir():
+        return
+    for path in sorted(ROOT.iterdir()):
+        if not re.fullmatch(r'comfier-[a-zA-Z0-9-]{1,100}\.json', path.name) or path.is_symlink() or not path.is_file():
+            continue
+        try:
+            if path.stat().st_size > MAX_BYTES:
+                continue
+            data = json.loads(path.read_text(encoding='utf-8-sig'))
+            profile, _ = validate_profile(data)
+            identity = _identity(path, data)
+            destination = _named_path(ROOT, profile['name'], path)
+            data['_comfierThemeId'] = identity
+            raw = json.dumps(data, ensure_ascii=False, allow_nan=False, indent=2).encode('utf-8')
+            if len(raw) > MAX_BYTES:
+                continue
+            _atomic_write(path, raw)  # Commit identity before moving: recovery retains the original sync ID.
+            path.rename(destination)
+        except (OSError, ValueError, UnicodeError) as error:
+            logging.getLogger('ComfierUI-Companion').warning('Could not rename theme %s: %s', path.name, error)
+
 
 def validate_profile(data):
     if not isinstance(data, dict) or type(data.get('schemaVersion')) is not int or data['schemaVersion'] != 1:
@@ -112,8 +169,18 @@ def save_operation(value):
         identity = value.get('id')
         if not isinstance(identity, str) or not re.fullmatch(r'[a-zA-Z0-9-]{1,100}', identity):
             raise ValueError('Invalid theme identity')
-        paths = {hashlib.sha256(p.name.encode()).hexdigest(): p for p in root.iterdir()
-                 if p.suffix.lower() == '.json' and p.is_file() and not p.is_symlink()}
+        list_profiles(True)  # Migrate old generated names before resolving stable identities.
+        paths = {}
+        for candidate in root.iterdir():
+            if candidate.suffix.lower() != '.json' or candidate.is_symlink() or not candidate.is_file():
+                continue
+            try:
+                if candidate.stat().st_size <= MAX_BYTES:
+                    data = json.loads(candidate.read_text(encoding='utf-8-sig'))
+                    if isinstance(data, dict):
+                        paths[_identity(candidate, data)] = candidate
+            except (OSError, ValueError, UnicodeError):
+                continue
         path = paths.get(identity, root / ('comfier-' + identity + '.json'))
         if path.is_symlink():
             raise ValueError('Theme path is a symbolic link')
@@ -133,18 +200,19 @@ def save_operation(value):
         files = [p for p in root.iterdir() if p.is_file() and not p.is_symlink() and p.suffix.lower() == '.json']
         if (not path.exists() and len(files) >= 256) or sum(p.stat().st_size for p in files if p != path) + len(raw) > MAX_TOTAL_BYTES:
             raise ValueError('Theme folder storage limit reached')
-        # Stable IDs are derived from filenames, including newly generated ones.
-        handle, temporary = tempfile.mkstemp(prefix='.theme-', dir=root)
-        try:
-            with os.fdopen(handle, 'wb') as stream:
-                stream.write(raw)
-                stream.flush()
-                os.fsync(stream.fileno())
-            os.replace(temporary, path)
-        finally:
-            if os.path.exists(temporary):
-                os.unlink(temporary)
-        return dict(profile, id=hashlib.sha256(path.name.encode()).hexdigest())
+        destination = _named_path(root, profile['name'], path)
+        stored = dict(profile, _comfierThemeId=identity)
+        raw = json.dumps(stored, ensure_ascii=False, allow_nan=False, indent=2).encode('utf-8')
+        if len(raw) > MAX_BYTES:
+            raise ValueError('Maximum theme size is 256 KB')
+        if sum(p.stat().st_size for p in files if p != path) + len(raw) > MAX_TOTAL_BYTES:
+            raise ValueError('Theme folder storage limit reached')
+        # Persist the identity at the old path before renaming, so a interrupted rename is recoverable.
+        _atomic_write(path, raw)
+        if destination != path:
+            path.rename(destination)
+        return dict(profile, id=identity)
+
 
 
 async def mutate_theme(request):

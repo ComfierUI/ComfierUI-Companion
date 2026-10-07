@@ -16,6 +16,7 @@ function kind(control){
  const n=String(control.name||'').toLowerCase(),t=String(control.nodeType||'').toLowerCase();
  const hints=(control.targets||[]).map(v=>String(v).toLowerCase());
  if(control.connected||control.readOnly||control.disabled||/note|markdown/.test(t))return null;
+ if(control.multiline)return'prompt';
  if(/^(seed|noise_seed|random_seed)$/.test(n)||n==='control_after_generate'||n==='seed_mode')return'seed';
  if(/^(?:(?:image_|video_|target_|output_)?(?:width|height)|megapixels|megapixel|resolution|image_size|aspect_ratio)$/.test(n))return'resolution';
  if(/prompt/.test(n)&&!/strength|weight|style|filename|path/.test(n))return'prompt';
@@ -34,7 +35,7 @@ function kind(control){
 function curate(controls,outputs){return{schemaVersion:1,controls:controls.flatMap(c=>{const k=kind(c);return k?[{key:c.key,kind:k}]:[]}),outputs:outputs.map(o=>o.key),processor:'client'}}
 function graphNodes(g){return g?._nodes||g?.nodes||[]}
 function snapshot(){
- const app=getApp(),root=app?.rootGraph||app?.graph,controls=[],outputs=[],bindings=new Map(),outputBindings=new Map();
+ const app=getApp(),root=app?.rootGraph||app?.graph,controls=[],outputs=[],nodes=[],bindings=new Map(),outputBindings=new Map();
  const visited=new Set(),widgetsSeen=new Set(),contexts=new Map();
  const linkAt=(g,id)=>g?.getLink?.(id)||g?.links?.get?.(id)||g?.links?.[id];
  // A subgraph input wire is an editable host widget unless a real upstream
@@ -63,8 +64,9 @@ function snapshot(){
  function walk(g,path,context){
   if(!g||visited.has(g))return;visited.add(g);if(context)contexts.set(g,context);
   for(const node of graphNodes(g)){
-   if(node.mode===2||node.mode===4)continue;
    const nodePath=path.concat(String(node.id)),type=String(node.type||node.constructor?.type||'');
+   const nodeKey=JSON.stringify(nodePath);nodes.push({key:nodeKey,title:(context?String(context.node.title||context.node.type)+' / ':'')+String(node.title||type||'Node')+' · '+node.id});
+   if(node.mode===2||node.mode===4)continue;
    if(node.subgraph){walk(node.subgraph,nodePath,{node,graph:g,parent:context});continue}
    const info=node.constructor?.nodeData||node.constructor?.comfyClass||{};
    if(info.output_node||node.constructor?.nodeData?.output_node||/^(Save|Preview)(Image|Video|Audio|Animated|3D)|VideoCombine|SaveGLB|SaveMesh/i.test(type)){
@@ -76,14 +78,15 @@ function snapshot(){
     const exposed=editableInput(node,slot,g,context),bound=exposed.widget||widget;
     if(widgetsSeen.has(bound))continue;widgetsSeen.add(bound);
     const key=JSON.stringify(nodePath.concat([String(index),String(widget.name)]));
-    const c={key,nodeId:String(node.id),nodeType:type,name:widget.name,widgetName:bound.name,title:(exposed.node||node).title||node.title||'',sourceTitle:node.title||'',textInput:typeof bound.value==='string'&&!Array.isArray(bound.options?.values),widgetType:bound.type,connected:exposed.connected,readOnly:!!bound.options?.read_only,disabled:!!bound.disabled,targets:targets(node,g)};
+    const multiline=!!(bound.options?.multiline||widget.options?.multiline||bound.inputEl?.tagName==='TEXTAREA'||info.input?.required?.[widget.name]?.[1]?.multiline||info.input?.optional?.[widget.name]?.[1]?.multiline);
+    const c={key,nodeKey,multiline,nodeId:String(node.id),nodeType:type,name:widget.name,widgetName:bound.name,title:(exposed.node||node).title||node.title||'',sourceTitle:node.title||'',textInput:typeof bound.value==='string'&&!Array.isArray(bound.options?.values),widgetType:bound.type,connected:exposed.connected,readOnly:!!bound.options?.read_only,disabled:!!bound.disabled,targets:targets(node,g)};
     if(['button','hidden'].includes(bound.type)||bound.type==='converted-widget'&&!exposed.widget)continue;
     controls.push(c);bindings.set(key,{node:exposed.node||node,widget:bound,graph:exposed.graph||g,sourceNode:node,control:c});
    }
   }
   visited.delete(g);
  }
- walk(root,[]);return{root,controls,outputs,bindings,outputBindings};
+ walk(root,[]);return{root,controls,outputs,nodes,bindings,outputBindings};
 }
 function el(tag,text){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;return e}
 function button(text,fn){const b=el('button',text);b.type='button';b.addEventListener('click',fn);return b}
@@ -111,6 +114,26 @@ html:root body #comfier-apps-panel#comfier-apps-panel .comfier-lite-resolution-r
 .comfier-lite-form img,.comfier-lite-form video{width:100%;height:auto;object-fit:contain;max-height:420px}.comfier-lite-form audio{width:100%}
 .comfier-lite-form pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}.comfier-lite-form [role=status]{font-size:12px;overflow-wrap:anywhere}.comfier-lite-form .comfier-lite-output{display:flex;flex-direction:column;gap:8px}
 #comfier-workflow-choice{border:1px solid #777;border-radius:12px;padding:20px;background:var(--comfy-menu-bg,#171717);color:var(--comfier-ui-font,#fff);width:min(380px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;font:inherit}
+
+html body .comfier-lite-form[hidden]{display:none!important}
+.comfier-lite-control-groups{display:flex;flex-direction:column;gap:14px}
+html body #comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager){background:var(--comfier-panel-bg,var(--comfy-menu-bg,#171717));color:var(--comfier-ui-font,#fff);font:500 14px system-ui,sans-serif}
+html body #comfier-apps-panel .comfier-lite-form :is(input:not([type=file]),textarea,select){background:var(--comfier-panel-bg,var(--comfy-menu-bg,#171717))!important;color:var(--comfier-ui-font,#fff)!important;-webkit-text-fill-color:var(--comfier-ui-font,#fff)!important;border-color:var(--comfier-panel-frame,#aaa)!important}
+html body #comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager) :is(label,legend,span,p,h3,strong){color:var(--comfier-ui-font,#fff)!important;-webkit-text-fill-color:var(--comfier-ui-font,#fff)!important}
+html body #comfier-apps-panel .comfier-lite-manage{width:100%;min-height:48px;font:500 20px system-ui,sans-serif!important;text-align:center!important;justify-content:center!important}
+.comfier-lite-manager{display:flex;flex-direction:column;height:100%;min-height:0;padding:12px;gap:12px;box-sizing:border-box;width:100%}
+.comfier-lite-manager header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:none}.comfier-lite-manager header strong{font-size:18px}
+.comfier-lite-manager button{font:500 14px system-ui,sans-serif;min-height:40px;border:1px solid #aaa;border-radius:6px;padding:8px;background:white;color:#111;box-sizing:border-box}
+.comfier-lite-node-list{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;display:flex;flex-direction:column;gap:8px}.comfier-lite-node-list>*{flex-shrink:0}
+.comfier-lite-node-row{display:flex;align-items:center;gap:8px;min-width:0;padding:4px;border-radius:6px;border:1px solid var(--comfier-panel-frame,#555);min-height:44px;box-sizing:border-box}
+.comfier-lite-node-label{flex:1;min-width:0;overflow-wrap:anywhere;text-align:left!important}.comfier-lite-node-action,.comfier-lite-drag-handle{flex:none;min-width:40px}.comfier-lite-drag-handle{touch-action:none;cursor:grab}.comfier-lite-node-row.dragging{opacity:.55}.comfier-lite-node-row.drop-before{border-top:3px solid var(--comfier-ui-font,#fff)}.comfier-lite-node-row.drop-after{border-bottom:3px solid var(--comfier-ui-font,#fff)}
+.comfier-lite-selected-group{display:flex;flex-direction:column;gap:6px}.comfier-lite-node-row.group-heading{font-weight:600}.comfier-lite-node-row.available-field{margin-left:16px}.comfier-lite-node-action:disabled{opacity:.4}
+
+
+html:root body #comfier-apps-panel#comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager) button{font-family:system-ui,sans-serif!important;font-size:20px!important;font-weight:500!important;line-height:1.3!important;text-align:center!important;justify-content:center!important;background:transparent!important;background-image:none!important;color:var(--comfier-ui-font,#fff)!important;-webkit-text-fill-color:var(--comfier-ui-font,#fff)!important;border:1px solid var(--comfier-button-frame,#aaa)!important;border-radius:6px!important;box-shadow:none!important}
+html:root body #comfier-apps-panel#comfier-apps-panel .comfier-lite-form button:is(.comfier-lite-generate,.comfier-lite-canvas){font-size:25px!important}
+html:root body #comfier-apps-panel#comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager) button :is(span,i,svg){color:inherit!important;-webkit-text-fill-color:inherit!important}
+
 #comfier-workflow-choice::backdrop{background:#0009}#comfier-workflow-choice .choices{display:flex;flex-direction:column;gap:12px}#comfier-workflow-choice label{display:flex;align-items:center;gap:8px;margin:16px 0}
 `;
 document.head.append(style);
@@ -134,7 +157,7 @@ function markChanged(binding,value,event){
  node.onWidgetChanged?.(widget.name,value,old,widget);graph?.change?.();node.setDirtyCanvas?.(true,true);
 }
 async function values(widget){const v=widget.options?.values;return await(typeof v==='function'?v.call(widget):v)||[]}
-function friendly(binding){const c=binding.control,display=binding.sourceNode||binding.node;let name=String(c.name).replace(/_/g,' ');if(kind(c)==='prompt')name=promptRole(c)==='negative'?'Negative prompt':'Prompt';if(/^(seed|noise_seed|random_seed)$/.test(c.name))name='Seed';if(c.name==='control_after_generate')name='Seed mode';return name+' · '+(display.title||c.nodeType)}
+function friendly(binding){const c=binding.control,display=binding.sourceNode||binding.node;let name=String(c.name).replace(/_/g,' ');if(kind(c)==='prompt'&&(!c.multiline||/^(text|text_g|text_l|positive|negative|prompt|user_prompt)$/.test(c.name)))name=promptRole(c)==='negative'?'Negative prompt':'Prompt';if(/^(seed|noise_seed|random_seed)$/.test(c.name))name='Seed';if(c.name==='control_after_generate')name='Seed mode';return name+' · '+(display.title||c.nodeType)}
 function fitPrompt(input,baseline){if(!input.isConnected)return;const c=getComputedStyle(input),line=parseFloat(c.lineHeight)||18,padding=parseFloat(c.paddingTop)+parseFloat(c.paddingBottom),border=parseFloat(c.borderTopWidth)+parseFloat(c.borderBottomWidth);const minimum=line+padding+border;input.style.minHeight=minimum+'px';if(input.dataset.manualHeight){const chosen=Number(input.dataset.manualHeight);input.style.height='0px';const content=input.scrollHeight+border;input.style.height=Math.max(chosen,content)+'px'}else{input.style.height='0px';input.style.height=Math.max(baseline*line+padding+border,input.scrollHeight+border)+'px'}input.dataset.fitHeight=input.getBoundingClientRect().height}
 function autoPrompt(input,role){const baseline=role==='positive'?5:1;input.rows=baseline;input.dataset.promptRole=role;const fit=()=>fitPrompt(input,baseline);input.addEventListener('input',fit);input.addEventListener('pointerup',()=>{if(Math.abs(input.getBoundingClientRect().height-Number(input.dataset.fitHeight||0))>2){input.dataset.manualHeight=input.getBoundingClientRect().height;input.dataset.fitHeight=input.dataset.manualHeight}});const observer=new ResizeObserver(()=>{const width=input.getBoundingClientRect().width;if(input.dataset.fitWidth!==String(width)){input.dataset.fitWidth=String(width);fit()}});observer.observe(input);active?.promptObservers?.push(observer);requestAnimationFrame(fit)}
 async function field(binding,category,form,status,valid){
@@ -143,9 +166,10 @@ async function field(binding,category,form,status,valid){
  const opts=await values(widget);if(!valid())return;
  if(category==='prompt'){input=el('textarea');input.value=String(widget.value??'')}
  else if(Array.isArray(opts)&&opts.length){input=el('select');for(const option of opts){const o=el('option',String(option));o.value=String(option);input.append(o)}if(!opts.map(String).includes(String(widget.value))){const o=el('option',String(widget.value??''));o.value=String(widget.value??'');input.append(o)}input.value=String(widget.value??'')}
+ else if(typeof widget.value==='boolean'){input=el('input');input.type='checkbox';input.checked=widget.value}
  else{input=el('input');const numeric=typeof widget.value==='number';input.type=numeric?'number':'text';input.value=String(widget.value??'');if(numeric){input.step=Number.isFinite(widget.options?.step2)?String(widget.options.step2):Number.isFinite(widget.options?.step)?String(widget.options.step/10):Number.isInteger(widget.value)?'1':'any';if(Number.isFinite(widget.options?.min))input.min=widget.options.min;if(Number.isFinite(widget.options?.max))input.max=Math.min(widget.options.max,Number.MAX_SAFE_INTEGER)}}
  input.dataset.controlKey=binding.control.key;input.setAttribute('aria-label',friendly(binding));
- const update=event=>{const numeric=typeof widget.value==='number',v=numeric?Number(input.value):input.value;if(numeric&&(input.value===''||!Number.isFinite(v)||!input.checkValidity())){status.textContent='Enter a valid '+widget.name;return}try{markChanged(binding,v,event);status.textContent=''}catch(e){status.textContent=e.message}};
+ const update=event=>{const numeric=typeof widget.value==='number',v=typeof widget.value==='boolean'?(input.type==='checkbox'?input.checked:input.value==='true'):numeric?Number(input.value):input.value;if(numeric&&(input.value===''||!Number.isFinite(v)||!input.checkValidity())){status.textContent='Enter a valid '+widget.name;return}try{markChanged(binding,v,event);status.textContent=''}catch(e){status.textContent=e.message}};
  input.addEventListener(category==='prompt'?'input':'change',update);label.append(input);
  if(category==='seed'&&typeof widget.value==='number')label.append(button('New seed',()=>{const max=Math.min(widget.options?.max??Number.MAX_SAFE_INTEGER,Number.MAX_SAFE_INTEGER),min=Math.max(0,widget.options?.min??0);const random=new Uint32Array(2);crypto.getRandomValues(random);const value=Math.floor(min+((random[0]*2097152+(random[1]>>>11))/9007199254740992)*(max-min));input.value=String(value);update(new Event('change'))}));
  if(category==='file'){
@@ -156,7 +180,7 @@ async function field(binding,category,form,status,valid){
 }
 function clearPromptObservers(){for(const observer of active?.promptObservers||[])observer.disconnect();if(active)active.promptObservers=[]}
 function clearMedia(){if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl=null}}
-function fullCanvas(){document.documentElement.classList.remove('comfier-lite-active');clearPromptObservers();active=null;clearMedia();window.__comfierAppsPanel?.closeIfOpen?.();const stores=window.__comfierUi?.pinia?.()?._s;stores?.get('appMode')?.exitBuilder?.();const canvas=stores?.get('canvas');if(canvas)canvas.linearMode=false;}
+function fullCanvas(){closeManager(active,false);document.documentElement.classList.remove('comfier-lite-active');clearPromptObservers();active=null;clearMedia();window.__comfierAppsPanel?.closeIfOpen?.();const stores=window.__comfierUi?.pinia?.()?._s;stores?.get('appMode')?.exitBuilder?.();const canvas=stores?.get('canvas');if(canvas)canvas.linearMode=false;}
 async function openCurrent(){
  const seq=++requestId,s=snapshot();
  if(!s.controls.length&&!s.outputs.length){fullCanvas();return false}
@@ -167,35 +191,94 @@ async function openCurrent(){
   try{const response=await getApi().fetchApi('/comfierui/workflow/curate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({schemaVersion:1,controls:s.controls,outputs:s.outputs}),signal:abort.signal});if(response.ok){const host=await response.json();if(host.schemaVersion===1&&Array.isArray(host.controls)&&Array.isArray(host.outputs))plan=host}}
   catch(_){/* identical client curation covers older/offline hosts */}finally{clearTimeout(timeout)}
  }
+ for(const c of s.controls)if(c.multiline&&editable(c)&&!plan.controls.some(p=>p.key===c.key))plan.controls.push({key:c.key,kind:'prompt'});
  if(stopped||seq!==requestId)return false;
- if(!plan.controls.length&&!plan.outputs.length){fullCanvas();return false}
- clearPromptObservers();clearMedia();const state={...s,plan,seq,media:[],seedInputs:[],promptObservers:[]};active=state;
+ // Keep the manual manager available even when automatic curation finds no inputs.
+ closeManager(active,false);clearPromptObservers();clearMedia();const state={...s,plan,seq,media:[],seedInputs:[],promptObservers:[]};state.groups=initialGroups(state);active=state;
  window.__comfierTemplatesSidebar?.closeIfOpen?.();
  const owner=window.__comfierAppsPanel;if(!owner?.openLite){active=null;return false}
  owner.openLite(container=>render(state,container));return true;
 }
+const GROUP_TITLES={resolution:'Resolution',prompt:'Prompts',file:'Input files',other:'Additional inputs'};
+function editable(c){return !c.connected&&!c.readOnly&&!c.disabled&&!/note|markdown/i.test(c.nodeType)}
+function manualKind(c){return kind(c)||(c.multiline?'prompt':'other')}
+function initialGroups(state){
+ const saved=state.root.extra?.comfierAppMode;
+ const seen=new Set();
+ if(saved?.schemaVersion===1&&Array.isArray(saved.groups)){const groups=saved.groups.map(g=>({id:String(g.id),title:String(g.title||'Inputs'),controls:(Array.isArray(g.controls)?g.controls:[]).filter(key=>state.bindings.has(key)&&editable(state.bindings.get(key).control)&&!seen.has(key)&&seen.add(key)).map(key=>({key,kind:manualKind(state.bindings.get(key).control)}))}));
+ const known=new Set(saved.knownControls||state.controls.map(c=>c.key));for(const c of state.controls)if(c.multiline&&editable(c)&&!known.has(c.key)&&!seen.has(c.key)){let group=groups.find(g=>g.id==='prompt');if(!group){group={id:'prompt',title:GROUP_TITLES.prompt,controls:[]};groups.push(group)}group.controls.push({key:c.key,kind:'prompt'})}return groups;}
+ return ['resolution','prompt','file','other'].map(id=>({id,title:GROUP_TITLES[id],controls:state.plan.controls.filter(p=>state.bindings.has(p.key)&&p.kind!=='seed'&&(p.kind in GROUP_TITLES?p.kind:'other')===id).sort((a,b)=>id==='prompt'?Number(promptRole(state.bindings.get(a.key).control)==='negative')-Number(promptRole(state.bindings.get(b.key).control)==='negative'):0)}));
+}
+function saveGroups(state){state.root.extra=state.root.extra||{};state.root.extra.comfierAppMode={schemaVersion:1,knownControls:state.controls.map(c=>c.key),groups:state.groups.map(g=>({id:g.id,title:g.title,controls:g.controls.map(p=>p.key)}))};state.root.change?.();}
+async function renderControls(state){
+ const host=state.controlsHost;if(!host)return;const epoch=state.fieldEpoch=(state.fieldEpoch||0)+1;clearPromptObservers();host.replaceChildren();
+ const valid=()=>active===state&&state.form.isConnected&&epoch===state.fieldEpoch;
+ for(const g of state.groups){if(!g.controls.length)continue;const group=el('fieldset');group.dataset.groupId=g.id;group.append(el('legend',g.title));host.append(group);
+  for(const pick of g.controls){if(!valid())return;const binding=state.bindings.get(pick.key);if(!binding)continue;try{await field(binding,pick.kind,group,state.status,valid)}catch(e){state.status.textContent='Some controls need Full Canvas: '+e.message}}
+  // Keep adjacent width/height controls paired without overriding the user's field ordering.
+  if(g.id==='resolution')pairResolution(group,state);
+ }
+}
+function closeManager(state=active,returnToForm=true){if(!state?.manager)return false;state.dragCleanup?.();state.managerBack?.();state.managerBack=null;state.manager.remove();state.manager=null;state.form.hidden=false;if(returnToForm)renderControls(state);return true}
+function openManager(state){
+ if(active!==state||state.manager)return;
+ const fresh=snapshot();state.controls=fresh.controls;state.nodes=fresh.nodes;state.bindings=fresh.bindings;
+ for(const group of state.groups)group.controls=group.controls.filter(p=>state.bindings.has(p.key)&&editable(state.bindings.get(p.key).control));
+ const panel=el('section');panel.className='comfier-lite-manager';panel.setAttribute('aria-label','Manage Selected Nodes');
+ const header=el('header');header.append(el('strong','Manage Selected Nodes'),button('Back',()=>closeManager(state)));const list=el('div');list.className='comfier-lite-node-list';panel.append(header,list);state.form.hidden=true;state.form.parentElement.append(panel);state.manager=panel;
+ state.managerBack=window.__comfierBack?.register('app-mode-manage-nodes',110,()=>closeManager(state));
+ function update(){saveGroups(state);draw()}
+ function add(picks){let group=state.groups.find(g=>g.id==='other');if(!group){group={id:'other',title:GROUP_TITLES.other,controls:[]};state.groups.push(group)}const selected=new Set(state.groups.flatMap(g=>g.controls.map(p=>p.key)));for(const c of picks)if(editable(c)&&!selected.has(c.key)){group.controls.push({key:c.key,kind:manualKind(c)});selected.add(c.key)}update()}
+ function row(label,action,sign,description){const r=el('div');r.className='comfier-lite-node-row';const text=el('span',label);text.className='comfier-lite-node-label';const b=button(sign,action);b.className='comfier-lite-node-action';b.setAttribute('aria-label',description);r.append(text,b);return r}
+ function handle(row,group,key){const b=button('☰',()=>{});b.className='comfier-lite-drag-handle';b.setAttribute('aria-label','Reorder '+(key?friendly(state.bindings.get(key)):group.title));b.setAttribute('aria-description','Drag to reorder, or use the up and down arrow keys.');row.prepend(b);
+  b.addEventListener('keydown',e=>{if(!['ArrowUp','ArrowDown'].includes(e.key))return;e.preventDefault();const array=key?group.controls:state.groups,index=array.findIndex(p=>key?p.key===key:p===group),next=index+(e.key==='ArrowUp'?-1:1);if(next<0||next>=array.length)return;[array[index],array[next]]=[array[next],array[index]];update()});
+  b.addEventListener('pointerdown',e=>{
+   if(e.button!==0)return;e.preventDefault();e.stopPropagation();b.setPointerCapture(e.pointerId);let target=null,after=false,scrollFrame=0,lastPoint=null;row.classList.add('dragging');
+   function move(event){lastPoint={clientX:event.clientX,clientY:event.clientY};
+    panel.querySelectorAll('.drop-before,.drop-after').forEach(r=>r.classList.remove('drop-before','drop-after'));
+    const found=document.elementFromPoint(event.clientX,event.clientY)?.closest(key?'[data-selected-key],[data-selected-group]':'[data-selected-group]');target=found&&list.contains(found)&&found!==row?found:null;if(target){const r=target.getBoundingClientRect();after=event.clientY>(r.top+r.height/2);target.classList.add(after?'drop-after':'drop-before')}
+   }
+   function scroll(){if(lastPoint){const rect=list.getBoundingClientRect();if(lastPoint.clientY<rect.top+45){list.scrollTop-=10;move(lastPoint)}else if(lastPoint.clientY>rect.bottom-45){list.scrollTop+=10;move(lastPoint)}}scrollFrame=requestAnimationFrame(scroll)}
+   scrollFrame=requestAnimationFrame(scroll);
+   function cleanup(){cancelAnimationFrame(scrollFrame);row.classList.remove('dragging');panel.querySelectorAll('.drop-before,.drop-after').forEach(r=>r.classList.remove('drop-before','drop-after'));b.removeEventListener('pointermove',move);b.removeEventListener('pointerup',finish);b.removeEventListener('pointercancel',cancel);if(b.hasPointerCapture(e.pointerId))b.releasePointerCapture(e.pointerId);state.dragCleanup=null}
+   function cancel(){cleanup()}
+   function finish(){const destination=target;cleanup();if(!destination)return;
+    if(key){const from=group.controls.findIndex(p=>p.key===key);if(from<0)return;const dest=state.groups.find(g=>g.id===(destination.dataset.selectedGroup||destination.closest('[data-group-block]')?.dataset.groupBlock));if(!dest)return;const pick=group.controls.splice(from,1)[0],at=destination.dataset.selectedKey?dest.controls.findIndex(p=>p.key===destination.dataset.selectedKey)+(after?1:0):(after?dest.controls.length:0);dest.controls.splice(Math.max(0,at),0,pick)}
+    else{const dest=state.groups.find(g=>g.id===destination.dataset.selectedGroup);if(!dest||dest===group)return;state.groups.splice(state.groups.indexOf(group),1);state.groups.splice(state.groups.indexOf(dest)+(after?1:0),0,group)}update();
+   }
+   state.dragCleanup=cleanup;b.addEventListener('pointermove',move);b.addEventListener('pointerup',finish);b.addEventListener('pointercancel',cancel);
+  });
+ }
+ function draw(){list.replaceChildren();list.append(el('h3','Displayed fields'));const selected=new Set(state.groups.flatMap(g=>g.controls.map(p=>p.key)));
+  for(const group of state.groups){const block=el('section');block.className='comfier-lite-selected-group';block.dataset.groupBlock=group.id;const title=row(group.title,()=>{group.controls=[];update()},'−','Hide '+group.title+' group');title.dataset.selectedGroup=group.id;title.classList.add('group-heading');handle(title,group);block.append(title);
+   for(const pick of group.controls){const binding=state.bindings.get(pick.key);if(!binding)continue;const r=row(friendly(binding),()=>{group.controls=group.controls.filter(p=>p.key!==pick.key);update()},'−','Hide '+friendly(binding));r.dataset.selectedKey=pick.key;handle(r,group,pick.key);block.append(r)}list.append(block)
+  }
+  list.append(el('h3','Workflow nodes'));const nodes=[...state.nodes].sort((a,b)=>a.title.localeCompare(b.title,undefined,{sensitivity:'base'})||a.key.localeCompare(b.key));
+  for(const node of nodes){const controls=state.controls.filter(c=>c.nodeKey===node.key),available=controls.filter(c=>editable(c)&&!selected.has(c.key));const heading=row(node.title,()=>add(available),'+','Show inputs from '+node.title);heading.classList.add('group-heading');heading.querySelector('button').disabled=!available.length;list.append(heading);
+   for(const c of controls.filter(c=>!selected.has(c.key))){const r=row(String(c.name).replace(/_/g,' '),()=>add([c]),'+','Show '+c.name+' · '+node.title);r.classList.add('available-field');const b=r.querySelector('button');b.disabled=!editable(c);if(!editable(c))r.querySelector('span').textContent+=' (connected or unavailable)';list.append(r)}
+  }
+ }
+ draw();
+}
+
 function pairResolution(group,state){
  const labels=[...group.querySelectorAll(':scope > label')],done=new Set();
  for(const label of labels){if(done.has(label))continue;const input=label.querySelector('[data-control-key]'),binding=state.bindings.get(input?.dataset.controlKey);if(!binding||binding.control.name!=='width')continue;
- const other=labels.find(candidate=>{const c=state.bindings.get(candidate.querySelector('[data-control-key]')?.dataset.controlKey);return c&&c.control.name==='height'&&c.node===binding.node&&c.sourceNode===binding.sourceNode});if(!other)continue;
+ const other=labels[labels.indexOf(label)+1],c=other&&state.bindings.get(other.querySelector('[data-control-key]')?.dataset.controlKey);if(!c||c.control.name!=='height'||c.node!==binding.node||c.sourceNode!==binding.sourceNode)continue;
  const height=other.querySelector('[data-control-key]'),block=el('div'),heading=el('div',(binding.sourceNode||binding.node).title||binding.control.nodeType),row=el('div');block.className='comfier-lite-resolution';heading.className='comfier-lite-resolution-title';row.className='comfier-lite-resolution-row';label.replaceWith(block);other.remove();row.append(el('span','Width'),input,el('span','X'),height,el('span','Height'));block.append(heading,row);done.add(label);done.add(other);
  }
 }
 async function render(state,container){
+ closeManager(state,false);
  document.documentElement.classList.add('comfier-lite-active');state.media=[];clearMedia();const form=el('section');form.className='comfier-lite-form';form.dataset.processor=state.plan.processor||'client';const fields=el('div');fields.className='comfier-lite-fields';const footer=el('footer');footer.className='comfier-lite-footer';form.append(fields,footer);const status=el('p');status.setAttribute('role','status');const canvasButton=button('Full Canvas',fullCanvas);canvasButton.className='comfier-lite-canvas';fields.append(canvasButton,status);container.append(form);
  const valid=()=>active===state&&form.isConnected;
- for(const [k,title]of [['resolution','Resolution'],['prompt','Prompts'],['file','Input files']]){
-  const picks=state.plan.controls.filter(c=>c.kind===k&&state.bindings.has(c.key));if(k==='prompt')picks.sort((a,b)=>({positive:0,negative:1,other:2}[promptRole(state.bindings.get(a.key).control)]-{positive:0,negative:1,other:2}[promptRole(state.bindings.get(b.key).control)]));if(!picks.length)continue;
-  const group=el('fieldset');group.append(el('legend',title));fields.append(group);
-  for(const pick of picks){try{await field(state.bindings.get(pick.key),k,group,status,valid)}catch(e){status.textContent='Some controls need Full Canvas: '+e.message}if(!valid())return}
-  if(k==='resolution')pairResolution(group,state);
- }
+ const controlsHost=el('div');controlsHost.className='comfier-lite-control-groups';fields.append(controlsHost);state.controlsHost=controlsHost;state.form=form;state.status=status;await renderControls(state);if(!valid())return;
  const run=button('Generate',async()=>{run.disabled=true;status.textContent='Queuing…';try{const action=window.__comfierActionbarOwner;if(action?.findCommand?.(['Comfy.QueuePrompt']))await action.executeCommand(['Comfy.QueuePrompt'],{metadata:{subscribe_to_run:false,trigger_source:'button'}});else await getApp().queuePrompt(0,1);if(valid()){status.textContent='Queued';refreshSeeds(state,form)}}catch(e){if(valid())status.textContent=e.message}finally{run.disabled=false}});run.className='comfier-lite-generate';footer.append(run);
- const progress=el('p','Ready');progress.setAttribute('role','status');const preview=el('img');preview.alt='Generation in progress';preview.hidden=true;const output=el('div');output.className='comfier-lite-output';output.hidden=true;const previewGroup=el('section');previewGroup.className='comfier-lite-preview';previewGroup.hidden=true;previewGroup.append(el('h3','Live preview'),progress,preview);fields.prepend(output);fields.append(previewGroup);
+ const progress=el('p','Ready');progress.setAttribute('role','status');const preview=el('img');preview.alt='Generation in progress';preview.hidden=true;const output=el('div');output.className='comfier-lite-output';output.hidden=true;const previewGroup=el('section');previewGroup.className='comfier-lite-preview';previewGroup.hidden=true;previewGroup.append(el('h3','Live preview'),progress,preview);fields.prepend(output);const manage=button('Manage Selected Nodes',()=>openManager(state));manage.className='comfier-lite-manage';fields.append(manage,previewGroup);
  state.form=form;state.progress=progress;state.preview=preview;state.previewGroup=previewGroup;state.output=output;
  restoreOutput(state);bindApi();
 }
-function refreshSeeds(state,form){for(const control of state.plan.controls.filter(c=>c.kind==='seed')){const binding=state.bindings.get(control.key);const input=[...form.querySelectorAll('[data-control-key]')].find(i=>i.dataset.controlKey===control.key);if(binding&&input)input.value=String(binding.widget.value??'')}}
+function refreshSeeds(state,form){for(const control of state.groups.flatMap(g=>g.controls).filter(c=>c.kind==='seed')){const binding=state.bindings.get(control.key);const input=[...form.querySelectorAll('[data-control-key]')].find(i=>i.dataset.controlKey===control.key);if(binding&&input)input.value=String(binding.widget.value??'')}}
 function mediaUrl(file){if(!file||typeof file.filename!=='string')return null;const q=new URLSearchParams({filename:file.filename,type:file.type||'output',subfolder:file.subfolder||''});return(getApi()?.apiURL?.('/view')||'/view')+'?'+q}
 function showOutput(state,result){
  if(active!==state||!state.output)return;
@@ -239,7 +322,18 @@ function notice(message){console.warn('ComfierUI App Mode: '+message);window.Com
 function settings(){const panel=document.querySelector('#comfier-ui-zoom-test .ui-zoom-panel');if(!panel||panel.querySelector('.comfier-workflow-mode-row'))return;const row=el('label');row.className='comfier-workflow-mode-row';row.style.cssText='order:5;width:100%;display:flex;flex-direction:column;gap:8px';const select=el('select');select.setAttribute('aria-label','Open workflows as');for(const [value,text]of [['ask','Ask every time'],['app','App Mode'],['graph','Full Canvas']]){const option=el('option',text);option.value=value;select.append(option)}select.value=preference();select.addEventListener('change',()=>{try{setPreference(select.value)}catch(_){select.value=preference();notice('Could not save the workflow opening preference')}});row.append(el('span','Open workflows as'),select);panel.append(row)}
 const intercept=e=>{const trigger=window.__comfierWorkflowOwner?.control?.('apps');if(trigger&&trigger.contains(e.target)&&graphNodes(getApp()?.rootGraph||getApp()?.graph).length){e.preventDefault();e.stopImmediatePropagation();if(active&&window.__comfierAppsPanel?.isOpen())fullCanvas();else openCurrent().catch(error=>notice(error.message))}};
 jobs.listen(document,'click',intercept,true);
-jobs.listen(window,'comfier-app-view-closed',()=>{document.documentElement.classList.remove('comfier-lite-active');active=null;clearMedia()});
+// Install with the shared workflow UI rather than relying on gateway setup order.
+jobs.listen(window,'contextmenu',event=>{
+ if(window.ComfyRemoteDownloads||/Android|iPhone|iPad|iPod/i.test(navigator.userAgent))return;
+ const path=event.composedPath();
+ if(path.some(element=>element?.matches?.('input,textarea,select,[contenteditable="true"]')))return;
+ // Windows may target the newly opened menu on mouse-up when it is shifted upward to fit the lower viewport.
+ if(path.some(element=>element?.matches?.('.litecontextmenu,.p-contextmenu'))){event.preventDefault();return;}
+ const canvas=getApp()?.canvas?.canvas;
+ if(path.some(element=>element===canvas||element?.matches?.('#graph-canvas,#graph-canvas-container,canvas.lgraphcanvas,[data-testid="graph-canvas"],[data-testid="transform-pane"]')))event.preventDefault();
+},true);
+
+jobs.listen(window,'comfier-app-view-closed',()=>{closeManager(active,false);clearPromptObservers();document.documentElement.classList.remove('comfier-lite-active');active=null;clearMedia()});
 jobs.observe(document.body,{subtree:true,childList:true},()=>jobs.frame('settings',settings));
 jobs.burst('install',()=>{install();settings()},[0,80,300,1000,2500,5000]);
 const unsubscribeReady=window.__comfierDocument?.subscribe?.('workflow-apps-runtime','app',install);

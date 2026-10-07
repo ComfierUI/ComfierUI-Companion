@@ -55,8 +55,110 @@
     if(value.transparency){for(const {id} of roles){const v=value.transparency[id];if(v!==undefined&&(typeof v!=='number'||!Number.isFinite(v)||v<0||v>100))throw Error('Invalid transparency for '+id)}}
     const colors={};for(const {id} of roles){if(Object.prototype.hasOwnProperty.call(value.colors,id)){const c=normalize(value.colors[id]);if(!c)throw Error('Invalid color for '+id);colors[id]=c}}return colors;
   }
-  function localProfiles(){try{const list=JSON.parse(localStorage.getItem(PROFILE_STORE)||'[]');return Array.isArray(list)?list.filter(p=>{try{return typeof p.id==='string'&&typeof p.name==='string'&&!!profileColors(p)}catch(_){return false}}):[]}catch(_){return[]}}
-  function writeProfiles(list){localStorage.setItem(PROFILE_STORE,JSON.stringify(list))}
+  const SYNC_STORE='comfier.theme.sync.v2';
+  const nativeLibrary=window.ComfierApp?.getThemeLibrary&&window.ComfierApp?.setThemeLibrary;
+  let library={profiles:[],sync:{}},syncing=null,syncMessage='';
+  function identity(){return globalThis.crypto?.randomUUID?.()||Date.now()+'-'+Math.random().toString(36).slice(2)}
+  function validProfiles(list){if(!Array.isArray(list))throw Error('Invalid theme library.');return list.map(p=>{profileColors(p);if(typeof p.name!=='string'||!p.name.trim())throw Error('Invalid theme name.');return {...p,id:typeof p.id==='string'?p.id:identity()}})}
+  function canonical(value){if(Array.isArray(value))return value.map(canonical);if(value&&typeof value==='object')return Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])]));return value}
+  function content(p){if(!p)return null;const {id,savedAt,...data}=p;return JSON.stringify(canonical(data))}
+  function nameKey(p){return p.name.trim().toLowerCase()}
+  function uniqueName(name,list){let out=name.slice(0,80),n=2;while(list.some(p=>nameKey(p)===out.toLowerCase()))out=name.slice(0,68)+' ('+(n++)+')';return out}
+  function persistLibrary(){
+    const raw=JSON.stringify(library);if(new Blob([raw]).size>8*1024*1024||library.profiles.length>256)throw Error('Theme library storage limit reached.');
+    if(nativeLibrary)window.ComfierApp.setThemeLibrary(raw);
+    // Origin storage remains a migration/cache copy; the native file is authoritative.
+    try{localStorage.setItem(PROFILE_STORE,JSON.stringify(library.profiles));localStorage.setItem(SYNC_STORE,JSON.stringify(library.sync))}catch(e){if(!nativeLibrary)throw e}
+  }
+  try{
+    const previous=JSON.parse(localStorage.getItem(PROFILE_STORE)||'[]');
+    library=nativeLibrary?JSON.parse(window.ComfierApp.getThemeLibrary()):{profiles:previous,sync:JSON.parse(localStorage.getItem(SYNC_STORE)||'{}')};
+    library.profiles=validProfiles(library.profiles);library.sync=library.sync||{};
+    // Each old connection is migrated once when revisited. Preserve differing same-name copies.
+    const migration='migrated:'+location.origin;
+    if(nativeLibrary&&!library.sync[migration]){
+      for(const p of validProfiles(previous)){
+        if(library.profiles.some(x=>content(x)===content(p)))continue;
+        const copy={...p,id:library.profiles.some(x=>x.id===p.id)?identity():p.id};copy.name=uniqueName(copy.name,library.profiles);library.profiles.push(copy);
+      }
+      library.sync[migration]=true;
+    }
+    if(nativeLibrary&&window.ComfierApp.getBundledThemes){
+      for(const preset of validProfiles(JSON.parse(window.ComfierApp.getBundledThemes()))){
+        const marker='bundled-theme:v1:'+nameKey(preset);
+        if(library.sync[marker])continue;
+        // Seed missing names once; preserve user edits and remember deletions across modes/restarts.
+        if(!library.profiles.some(p=>nameKey(p)===nameKey(preset)))library.profiles.push({...preset,id:identity()});
+        library.sync[marker]=true;
+      }
+    }
+    persistLibrary();
+  }catch(e){throw Error('Theme library initialization failed: '+e.message)}
+  function localProfiles(){return JSON.parse(JSON.stringify(library.profiles))}
+  function writeProfiles(list){
+    if(syncing)throw Error('Themes are syncing. Please try again when refresh finishes.');
+    const previous=library.profiles;library.profiles=validProfiles(list);
+    try{persistLibrary()}catch(e){library.profiles=previous;throw e}
+    if(!isCloud())setTimeout(()=>syncProfiles().catch(reportSync),0);
+  }
+  function isCloud(){return location.hostname==='cloud.comfy.org'||!!window.__comfierCloudMode}
+  function reportSync(e){syncMessage='Theme sync failed: '+e.message+' Saved themes are retained.';console.error(e);const status=profileDialog?.querySelector('.theme-profile-status');if(status)status.textContent=syncMessage}
+  async function themeRequest(path,options={}){
+    const api=window.app?.api||window.comfyAPI?.api?.api;
+    const request=api?.fetchApi?api.fetchApi.bind(api):fetch;
+    const response=await request(path,{...options,cache:'no-store',signal:AbortSignal.timeout(15000)});
+    if(!response.ok)throw Error((await response.text()).slice(0,240)||'HTTP '+response.status);
+    return response.json();
+  }
+  function syncProfiles(){
+    if(isCloud()){syncMessage='';return Promise.resolve(localProfiles())}
+    if(syncing)return syncing;
+    syncing=Promise.resolve().then(reconcileProfiles).catch(e=>{reportSync(e);throw e}).finally(()=>{syncing=null});return syncing;
+  }
+  async function reconcileProfiles(){
+    // Refresh the device root after a different origin wrote it.
+    if(nativeLibrary){const root=JSON.parse(window.ComfierApp.getThemeLibrary());library={profiles:validProfiles(root.profiles),sync:root.sync||{}}}
+    const response=await themeRequest('/comfierui/themes?store=host');
+    const remote=validProfiles(response.profiles),scope='host:'+location.origin;
+    const links=library.sync[scope]||{};library.sync[scope]=links;
+    let conflicts=0;
+    async function operation(value){return (await themeRequest('/comfierui/themes',{method:'POST',headers:{'Content-Type':'application/json','X-Comfier-Theme-Store':'1'},body:JSON.stringify(value)})).profile}
+    async function push(local,host){const saved=await operation({id:host?.id||identity(),expected:host||null,profile:local});links[local.id]={remoteId:saved.id,base:content(local)};persistLibrary();return saved}
+    // Reconcile tracked themes against the last successful exchange, not timestamps.
+    for(const [localId,link]of Object.entries({...links})){
+      let local=library.profiles.find(p=>p.id===localId),host=remote.find(p=>p.id===link.remoteId);
+      const lc=content(local),hc=content(host);
+      if(!local&&!host){delete links[localId];persistLibrary();continue}
+      if(!local){
+        if(hc===link.base){await operation({id:host.id,expected:host,delete:true});remote.splice(remote.indexOf(host),1);delete links[localId]}
+        else{local={...host,id:localId};local.name=uniqueName(local.name,library.profiles);library.profiles.push(local);links[localId]={remoteId:host.id,base:hc};conflicts++}
+        persistLibrary();continue;
+      }
+      if(!host){
+        if(lc===link.base){library.profiles=library.profiles.filter(p=>p.id!==localId);delete links[localId];persistLibrary()}
+        else{const saved=await push(local,null);remote.push(saved)}
+        continue;
+      }
+      if(lc===hc){links[localId].base=lc;persistLibrary();continue}
+      if(lc===link.base){const name=host.name;if(library.profiles.some(p=>p.id!==localId&&nameKey(p)===nameKey(host))){local={...host,id:localId,name:uniqueName(name,library.profiles.filter(p=>p.id!==localId))};library.profiles[library.profiles.findIndex(p=>p.id===localId)]=local;await push(local,host)}else{library.profiles[library.profiles.findIndex(p=>p.id===localId)]={...host,id:localId};links[localId].base=hc;persistLibrary()}continue}
+      if(hc!==link.base){
+        // The client keeps its edited theme; preserve the simultaneous host edit as a named copy.
+        const copy={...host,id:identity(),name:uniqueName(host.name+' (host copy)',library.profiles)};library.profiles.push(copy);persistLibrary();conflicts++;
+      }
+      const saved=await push(local,host);remote[remote.indexOf(host)]=saved;
+    }
+    // Import untracked host files into the one editable collection.
+    for(const host of remote){
+      if(Object.values(links).some(link=>link.remoteId===host.id))continue;
+      let local=library.profiles.find(p=>content(p)===content(host));
+      if(!local){local={...host,id:identity(),name:uniqueName(host.name,library.profiles)};library.profiles.push(local)}
+      links[local.id]={remoteId:host.id,base:content(host)};persistLibrary();
+      if(content(local)!==content(host))await push(local,host);
+    }
+    for(const local of library.profiles)if(!links[local.id])await push(local,null);
+    syncMessage=conflicts?'Themes synced; conflicting edits were preserved as copies.':'';
+    persistLibrary();return localProfiles();
+  }
   function exportProfile(name){return {schemaVersion:1,name,colors:Object.fromEntries([...assigned].map(id=>[id,state[id]])),transparency:Object.fromEntries([...assigned].map(id=>[id,transparency[id]])),...(window.__comfierLayoutEditor?{layout:window.__comfierLayoutEditor.exportLayout(),appearance:window.__comfierLayoutEditor.exportAppearance?.()}:{}),...(window.__comfierUiEditorModel?{dimensions:window.__comfierUiEditorModel.getGlobal()}:{})}}
   function loadProfile(profile,kind='colors'){return edit(()=>doLoadProfile(profile,kind))}
   function doLoadProfile(profile,kind='colors'){
@@ -107,19 +209,9 @@
     const saveButton=action(foot,'Save',save);
     if(!existing){
       action(foot,'Share',()=>shareProfile(input.value,d));
-      const heading=document.createElement('h3');heading.textContent=window.__comfierDesktopBrowser?'Saved host themes':'Saved device themes';body.appendChild(heading);
-      function listChoices(profiles){if(!profiles.length){const p=document.createElement('p');p.textContent='No saved themes';body.appendChild(p)}for(const profile of profiles){const b=action(body,profile.name,()=>{input.value=profile.name;status.textContent='Save replaces this name with the current theme after confirmation.';input.focus()});b.dataset.themeSaveChoice=profile.id||profile.name;choices.push(b)}}
-      listChoices(localProfiles());
-      const provider=companionProvider||(window.ComfierUICompanion?.listThemes?{list:()=>window.ComfierUICompanion.listThemes()}:null);
-      if(provider&&!window.__comfierDesktopBrowser){
-        const token=++profileRequest;
-        Promise.race([Promise.resolve().then(()=>provider.list()),new Promise((_,reject)=>setTimeout(()=>reject(Error('Companion request timed out.')),5000))]).then(profiles=>{
-          if(token!==profileRequest||profileDialog!==d)return;
-          const valid=profiles.filter(p=>{try{return typeof p.name==='string'&&!!profileColors(p)}catch(_){return false}});if(!valid.length)return;
-          const h=document.createElement('h3');h.textContent='Companion themes — save a device copy';body.insertBefore(h,confirmation);
-          for(const profile of valid){const b=action(body,profile.name,()=>{input.value=profile.name;status.textContent='This saves the current theme on this device; the host file stays unchanged.';input.focus()});b.disabled=!!pending;b.dataset.themeSaveChoice=profile.name;choices.push(b);body.insertBefore(b,confirmation)}
-        }).catch(e=>{if(profileDialog===d)status.textContent=e.message});
-      }
+      const heading=document.createElement('h3');heading.textContent='Saved themes';body.appendChild(heading);
+      for(const profile of localProfiles()){const b=action(body,profile.name,()=>{input.value=profile.name;status.textContent='Save replaces this name after confirmation.';input.focus()});b.dataset.themeSaveChoice=profile.id;choices.push(b)}
+
     }
     body.appendChild(confirmation);
     action(foot,'Cancel',()=>existing?showProfiles():dismissProfiles());
@@ -159,10 +251,10 @@
     const extra=document.createElement('div');extra.className='theme-profile-extra';foot.after(extra);action(extra,'Upload',()=>uploadProfile(d));
     load.disabled=rename.disabled=del.disabled=true;
     function section(label,profiles,source){const h=document.createElement('h3');h.textContent=label;body.appendChild(h);if(!profiles.length){const p=document.createElement('p');p.textContent='No saved themes';body.appendChild(p)}profiles.forEach(profile=>{const b=action(body,profile.name,()=>{profileSelection={profile,source};body.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));load.disabled=false;rename.disabled=del.disabled=source!=='device'});b.setAttribute('aria-pressed','false')})}
-    section('Device',localProfiles(),'device');
-    const provider=companionProvider||(window.ComfierUICompanion?.listThemes?{list:()=>window.ComfierUICompanion.listThemes()}:null);
-    if(!provider){status.textContent='Host themes require Companion 0.4.4 or newer. Upload is available on this device.';return}
-    status.textContent='Loading Companion themes…';try{const profiles=await Promise.race([provider.list(),new Promise((_,reject)=>setTimeout(()=>reject(Error('Companion request timed out.')),5000))]);if(token!==profileRequest||profileDialog!==d)return;section('Companion',profiles.filter(p=>{try{return typeof p.name==='string'&&!!profileColors(p)}catch(_){return false}}),'companion');status.textContent='Companion themes can be loaded and saved to this device.'}catch(e){if(profileDialog===d)status.textContent=e.message}
+    function render(){profileSelection=null;load.disabled=rename.disabled=del.disabled=true;body.replaceChildren();section('Saved themes',localProfiles(),'device')}
+    render();status.textContent='Refreshing themes…';
+    try{await syncProfiles();if(token!==profileRequest||profileDialog!==d)return;render();status.textContent=syncMessage}catch(e){if(profileDialog===d)status.textContent=e.message}
+
   }
 
   function drawWheel(){
@@ -313,6 +405,7 @@ html:root body #comfier-ui-zoom-test .ui-zoom-panel :is(input[type="range"],inpu
   const semanticStyle=document.createElement('style');semanticStyle.id='comfier-theme-semantic-style';semanticStyle.textContent=manifest.compile();(document.head||document.documentElement).appendChild(semanticStyle);
   function installBack(){if(backOff||!window.__comfierBack)return;backOff=window.__comfierBack.register('theme-settings',55,close)}
   function refresh(){placeAppearance();paintRoles();refreshActiveColors();mount();installBack()}
-  window.__comfierThemeStudio={capture,restore,open,close,closeAll,mount,refresh,reset,applyRole,createPicker,updateActiveProfile,exportProfile,loadProfile,importProfile,localProfiles,showProfiles,saveAs,setCompanionProvider(provider){companionProvider=provider&&typeof provider.list==='function'?provider:null},selectTransparency,getTransparency:()=>({...transparency}),getAssignedColor:key=>assigned.has(key)?colorPaint(key):null,getState:()=>({...state}),isAssigned:key=>assigned.has(key),setSelected};
+  window.__comfierThemeStudio={capture,restore,open,close,closeAll,mount,refresh,reset,applyRole,createPicker,updateActiveProfile,exportProfile,loadProfile,importProfile,localProfiles,syncProfiles,showProfiles,saveAs,setCompanionProvider(provider){companionProvider=provider&&typeof provider.list==='function'?provider:null},selectTransparency,getTransparency:()=>({...transparency}),getAssignedColor:key=>assigned.has(key)?colorPaint(key):null,getState:()=>({...state}),isAssigned:key=>assigned.has(key),setSelected};
   window.__comfierSettingsRows?.register('theme-studio',mount);refresh();
+  if(!isCloud())setTimeout(()=>syncProfiles().catch(reportSync),0);
 })();

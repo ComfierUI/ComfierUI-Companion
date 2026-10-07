@@ -2,7 +2,7 @@
 (function(){
 'use strict';
 if(window.__comfierPanelPolish)return;
-const roots=':is(.comfier-download-url-body,.comfier-repository-choice,#comfier-apps-panel,#comfier-workflow-choice,#comfier-ui-zoom-test,.comfier-app-settings-native-panel,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles,.comfier-mini-panel,.ufu-editor-status,.ufu-toolbar-menu,#comfier-owned-run-options,#comfier-owned-canvas-zoom,#comfier-owned-feed-preview)';
+const roots=':is(.comfier-download-url-body,.comfier-repository-choice,#comfier-workflow-choice,#comfier-ui-zoom-test,.comfier-app-settings-native-panel,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles,.comfier-mini-panel,.ufu-editor-status,.ufu-toolbar-menu,#comfier-owned-run-options,#comfier-owned-canvas-zoom,#comfier-owned-feed-preview)';
 const controls=':is(button:not(.theme-recent):not(.theme-back),select,textarea,input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=hidden]))';
 // Persistent CSS also covers headers recreated by host sidebar mounts.
 const sidebarHeaders=`
@@ -28,8 +28,8 @@ html:root body #comfier-apps-label{display:block;width:100%;text-align:center;fo
 html:root body #comfier-apps-panel>header>button{position:absolute;right:0;min-height:32px;width:32px;padding:4px!important;font-size:16px!important}
 html:root body #comfier-apps-panel>header>button[hidden]{display:none!important}
 html:root body .comfier-lite-form :is(input,textarea,select){width:100%}
-html:root body .comfier-lite-form fieldset{border-color:#666}
-html:root body .comfier-lite-form :is(h3,legend){color:#fff!important;-webkit-text-fill-color:#fff!important}
+html:root body .comfier-lite-form fieldset{border-color:var(--comfier-panel-frame,#666)}
+html:root body .comfier-lite-form :is(h3,legend){color:var(--comfier-ui-font,#fff)!important;-webkit-text-fill-color:var(--comfier-ui-font,#fff)!important}
 html:root body :is(.comfier-workflow-mode-row,.comfier-companion-port-row){align-items:center!important}
 html:root body .comfier-workflow-mode-row select{min-width:0;flex:1}
 html:root body :is(#comfier-ui-zoom-test,.comfier-app-settings-native-panel) :is(.ufu-launch,.ui-hard-refresh,.ui-disconnect){font-size:14px!important}

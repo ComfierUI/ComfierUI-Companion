@@ -45,6 +45,7 @@
     paint(family+'Frame','border-color','var(--interface-stroke,#3b4554)'),
     binding(family+'Frame','--shadow-inset-highlight',`inset 0 0 0 1px var(--comfier-${family}-frame,var(--interface-stroke,#3b4554))`)
   ],source,{alphaSource:base,paintVariable:'--comfier-'+id+'-paint',paintExpression:nativeAlpha(family+'Bg',base)});
+  surface('panel-app-mode',['#comfier-apps-panel','.comfier-lite-form','.comfier-lite-manager'],'panel','var(--comfy-menu-bg,#171717)','comfier_workflow_apps.js');
   const rootPanel='.comfier-early-floating-panel:not(:has(.comfier-app-settings-native-panel))';
   const canvasBar='[role="toolbar"][aria-label="Canvas Toolbar"]';
   surface('container-actionbar',['[data-testid="action-bar-card"]'],'container','var(--color-interface-panel-surface,var(--comfy-menu-bg,#171717))','src/components/TopMenuSection.vue');
