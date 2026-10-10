@@ -1,0 +1,2 @@
+
+.comfier-custom-run-icon{display:block;width:52px;height:20px;flex:0 0 52px;background:var(--comfier-icon-color,var(--color-base-foreground,#fff));mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='20 0 52 20'%3E%3Cpath d='M22 2h9c4 0 6 2 6 5 0 2.4-1.3 4.1-3.7 4.7L38 18h-5l-4.2-6H26v6h-4V2zm4 3v4h5c1.3 0 2-.7 2-2s-.7-2-2-2h-5zm13-3h4v10c0 2 1 3 3 3s3-1 3-3V2h4v10c0 4.5-2.5 6.5-7 6.5S39 16.5 39 12V2zm16 0h4l7 10V2h4v16h-4L59 8v10h-4V2z'/%3E%3C/svg%3E") center/contain no-repeat}
