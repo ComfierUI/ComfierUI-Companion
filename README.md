@@ -1,10 +1,18 @@
-# ComfierUI Companion 0.9.0
+# 0.9.2 update
 
-Full Companion baseline for ComfierUI 0.94.0-Dev. Includes the confirmed four-view panel layouts and Apps theme updates from 0.93.3–0.93.5. Category frames, labels and input-field outlines follow Button Frames; entered text follows UI Font. The Companion Diag performance monitor remains included.
+Shared focused-control outlines now follow Button Frames; their width and spacing are unchanged.
+
+# 0.9.2 update
+
+Zoom dropdown labels, shortcuts, percentage input and plus/minus controls use UI Font. The normal zoom button and Jobs History counter use Icons. Applies in all four modes and Hosted/Cloud; panel geometry is unchanged.
+
+# ComfierUI Companion 0.9.2
+
+Full Companion baseline for ComfierUI 0.94.2-Dev. Includes the confirmed four-view panel layouts and Apps theme updates from 0.93.3–0.93.5. Category frames, labels and input-field outlines follow Button Frames; entered text follows UI Font. The Companion Diag performance monitor remains included.
 
 Install into the existing Companion custom_nodes directory and restart ComfyUI. Preserve user themes/settings, diagnostics/scripts/backups, gateway_port.json and browser_start.json. Remove obsolete packaged files when updating. Connect the app or a desktop browser to http://HOST-IP:8147 (or your configured gateway port); ComfyUI normally remains on8188. The app requires Companion for self-hosted connections; direct Comfy Cloud does not require a local host.
 
-The 0.94.0 app contains no upgrade payload ZIPs. This full package includes the updates directly; no app transfer is needed for this baseline. The module upgrade system remains available for future app-delivered updates. Built-in core/frontend modules29 supersede the earlier26/28 upgrades.
+The 0.94.2 app contains no upgrade payload ZIPs. This full package includes the updates directly; no app transfer is needed for this baseline. The module upgrade system remains available for future app-delivered updates. Built-in core/frontend modules31 supersede the earlier26/28 upgrades.
 
 ## Python requirements
 

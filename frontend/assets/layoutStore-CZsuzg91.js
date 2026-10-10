@@ -88605,6 +88605,9 @@ function installThemeManifest() {
 	const exclusion = ":not(:where(.comfier-theme-profiles,.comfier-theme-profiles *,.comfier-theme-editor,.comfier-theme-editor *,.ufu-editor-status,.ufu-editor-status *,.ufu-inspector,.ufu-inspector *,.ufu-confirm,.ufu-confirm *,.ufu-toolbar-menu,.ufu-toolbar-menu *,#comfier-ui-zoom-test,#comfier-ui-zoom-test *,.comfier-app-settings-native-panel,.comfier-app-settings-native-panel *))";
 	const optionalRoles = roles.map((r) => r.id);
 	const refinementDefaults = `
+html:root body #comfier-owned-canvas-zoom#comfier-owned-canvas-zoom,html:root body #comfier-owned-canvas-zoom#comfier-owned-canvas-zoom :is(div,span,input,button,svg,i){color:var(--comfier-ui-text-paint,var(--comfier-ui-font,#fff))!important;-webkit-text-fill-color:var(--comfier-ui-text-paint,var(--comfier-ui-font,#fff))!important}
+html:root body [data-ufu-control="canvas:zoom-controls-button"][data-ufu-control],html:root body [data-ufu-control="canvas:zoom-controls-button"][data-ufu-control] :is(span,i,svg),html:root body [data-ufu-control="run:queue-overlay-toggle"][data-ufu-control],html:root body [data-ufu-control="run:queue-overlay-toggle"][data-ufu-control] :is(span,i,svg){color:var(--comfier-icon-color,#fff)!important;-webkit-text-fill-color:var(--comfier-icon-color,#fff)!important}
+
 html:root body :is([data-testid="comfier-app-settings-tab-button"],#comfier-multiselect-toggle){color:var(--comfier-icon-color,var(--color-muted-foreground,var(--muted-foreground,#8a8a8a)))!important}
 html:root body #comfier-multiselect-toggle .comfier-multiselect-label{color:var(--comfier-icon-color,var(--color-muted-foreground,var(--muted-foreground,#8a8a8a)))!important;-webkit-text-fill-color:currentColor!important}
 html:root body #comfier-multiselect-toggle input[type="checkbox"]{border-color:var(--comfier-icon-color,var(--color-muted-foreground,var(--muted-foreground,#8a8a8a)))!important}
