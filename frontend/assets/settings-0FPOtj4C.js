@@ -1,0 +1,556 @@
+//#region src/locales/ja/settings.json
+var Comfy_Appearance_DisableAnimations = {
+	"name": "アニメーションを無効化",
+	"tooltip": "ほとんどのCSSアニメーションとトランジションをオフにします。表示用GPUが生成にも使われている場合、推論速度が向上します。"
+};
+var Comfy_Canvas_BackgroundImage = {
+	"name": "キャンバス背景画像",
+	"tooltip": "キャンバスの背景画像のURLです。出力パネルで画像を右クリックし、「背景として設定」を選択すると使用できます。"
+};
+var Comfy_Canvas_LeftMouseClickBehavior = {
+	"name": "左クリックの動作",
+	"options": {
+		"Panning": "パン（移動）",
+		"Select": "選択"
+	}
+};
+var Comfy_Canvas_MouseWheelScroll = {
+	"name": "マウスホイールスクロール",
+	"options": {
+		"Panning": "パン（移動）",
+		"Zoom in/out": "ズームイン/アウト"
+	}
+};
+var Comfy_Canvas_NavigationMode = {
+	"name": "キャンバスナビゲーションモード",
+	"options": {
+		"Custom": "カスタム",
+		"Drag Navigation": "ドラッグナビゲーション",
+		"Standard (New)": "標準（新）"
+	}
+};
+var Comfy_Canvas_SelectionToolbox = {
+	"name": "選択ツールボックスを表示",
+	"tooltip": "ノードが選択されているときにフローティングツールバーを表示し、よく使う操作に素早くアクセスできます。"
+};
+var Comfy_ConfirmClear = { "name": "ワークフローをクリアする際に確認を要求する" };
+var Comfy_DOMClippingEnabled = { "name": "DOM要素のクリッピングを有効にする（有効にするとパフォーマンスが低下する可能性があります）" };
+var Comfy_DevMode = { "name": "開発モードオプションを有効にする（API保存など）" };
+var Comfy_DisableFloatRounding = {
+	"name": "デフォルトの浮動小数点ウィジェットの丸めを無効にする。",
+	"tooltip": "(ページの再読み込みが必要) バックエンドのノードで丸めが設定されている場合、丸めを無効にすることはできません。"
+};
+var Comfy_DisableSliders = { "name": "ノードウィジェットスライダーを無効にする" };
+var Comfy_EditAttention_Delta = { "name": "Ctrl+上/下の精度" };
+var Comfy_EnableTooltips = { "name": "ツールチップを有効にする" };
+var Comfy_EnableWorkflowViewRestore = { "name": "ワークフロー内のキャンバスの位置とズームレベルを保存および復元する" };
+var Comfy_ErrorSystem_ShowMissingModels = {
+	"name": "問題タブに不足しているモデルを表示",
+	"tooltip": "無効にすると、見つからないモデルファイルは問題タブに表示されず、該当ノードも強調表示されません。"
+};
+var Comfy_Execution_PreviewMethod = {
+	"name": "ライブプレビューメソッド",
+	"options": {
+		"auto": "auto",
+		"default": "default",
+		"latent2rgb": "latent2rgb",
+		"none": "none",
+		"taesd": "taesd"
+	},
+	"tooltip": "画像生成中のライブプレビューメソッド。「default」はサーバーのCLI設定を使用します。"
+};
+var Comfy_FloatRoundingPrecision = {
+	"name": "浮動小数点ウィジェットの丸め小数点数 [0 = 自動]。",
+	"tooltip": "(ページの再読み込みが必要)"
+};
+var Comfy_Graph_AutoPanSpeed = {
+	"name": "自動パン速度",
+	"tooltip": "キャンバス端にドラッグしたときの自動パンの最大速度。0に設定すると自動パンが無効になります。"
+};
+var Comfy_Graph_CanvasInfo = { "name": "左下隅にキャンバス情報を表示する（fpsなど）" };
+var Comfy_Graph_CanvasMenu = { "name": "グラフキャンバスメニューを表示する" };
+var Comfy_Graph_CtrlShiftZoom = { "name": "ファストズームショートカットを有効にする（Ctrl + Shift + ドラッグ）" };
+var Comfy_Graph_DeduplicateSubgraphNodeIds = {
+	"name": "サブグラフノードIDの重複排除",
+	"tooltip": "ワークフローを読み込む際に、サブグラフ内の重複したノードIDを自動的に再割り当てします。"
+};
+var Comfy_Graph_LinkMarkers = {
+	"name": "リンク中点マーカー",
+	"options": {
+		"Arrow": "矢印",
+		"Circle": "円",
+		"None": "なし"
+	}
+};
+var Comfy_Graph_LiveSelection = {
+	"name": "ライブ選択",
+	"tooltip": "有効にすると、他のデザインツールのように選択範囲をドラッグする際、ノードがリアルタイムで選択／解除されます。"
+};
+var Comfy_Graph_ZoomSpeed = { "name": "キャンバスズーム速度" };
+var Comfy_GroupSelectedNodes_Padding = { "name": "選択したノードのパディング" };
+var Comfy_Group_DoubleClickTitleToEdit = { "name": "グループタイトルをダブルクリックして編集" };
+var Comfy_LinkRelease_Action = {
+	"name": "リンクリリース時のアクション（修飾子なし）",
+	"options": {
+		"context menu": "コンテキストメニュー",
+		"no action": "アクションなし",
+		"search box": "検索ボックス"
+	}
+};
+var Comfy_LinkRelease_ActionShift = {
+	"name": "リンクリリース時のアクション（Shift）",
+	"options": {
+		"context menu": "コンテキストメニュー",
+		"no action": "アクションなし",
+		"search box": "検索ボックス"
+	}
+};
+var Comfy_LinkRenderMode = {
+	"name": "リンクレンダーモード",
+	"options": {
+		"Hidden": "隠す",
+		"Linear": "リニア",
+		"Spline": "スプライン",
+		"Straight": "ストレート"
+	},
+	"tooltip": "キャンバス上のノード間の接続リンクの外観と表示を制御します。"
+};
+var Comfy_Load3D_3DViewerEnable = {
+	"name": "3Dビューアーを有効化（ベータ）",
+	"tooltip": "選択したノードに対して3Dビューアー（ベータ）を有効にします。この機能により、フルサイズの3Dビューアー内で3Dモデルを直接可視化し、操作できます。"
+};
+var Comfy_Load3D_BackgroundColor = {
+	"name": "初期背景色",
+	"tooltip": "3Dシーンのデフォルト背景色を設定します。この設定は新しい3Dウィジェット作成時の背景の見た目を決定しますが、作成後に各ウィジェットごとに個別調整が可能です。"
+};
+var Comfy_Load3D_CameraType = {
+	"name": "初期カメラタイプ",
+	"options": {
+		"orthographic": "直交投影",
+		"perspective": "パースペクティブ"
+	},
+	"tooltip": "新しい3Dウィジェット作成時に、カメラがデフォルトでパースペクティブか直交投影かを制御します。このデフォルトは作成後に各ウィジェットごとに切り替え可能です。"
+};
+var Comfy_Load3D_LightAdjustmentIncrement = {
+	"name": "ライト調整増分",
+	"tooltip": "3Dシーンでライトの強度を調整する際の増分サイズを制御します。小さいステップ値はより細かい調整を可能にし、大きい値は一度の調整でより大きな変化となります。"
+};
+var Comfy_Load3D_LightIntensity = {
+	"name": "初期ライト強度",
+	"tooltip": "3Dシーンの照明のデフォルトの明るさレベルを設定します。この値は新しい3Dウィジェット作成時にライトがどれだけ強くオブジェクトを照らすかを決定しますが、作成後に各ウィジェットごとに調整可能です。"
+};
+var Comfy_Load3D_LightIntensityMaximum = {
+	"name": "ライト強度の最大値",
+	"tooltip": "3Dシーンで設定可能なライト強度の最大値を設定します。これは、任意の3Dウィジェットで照明を調整する際の明るさの上限を定義します。"
+};
+var Comfy_Load3D_LightIntensityMinimum = {
+	"name": "ライト強度の最小値",
+	"tooltip": "3Dシーンで設定可能なライト強度の最小値を設定します。これは、任意の3Dウィジェットで照明を調整する際の明るさの下限を定義します。"
+};
+var Comfy_Load3D_PLYEngine = {
+	"name": "PLYエンジン",
+	"options": {
+		"fastply": "fastply",
+		"threejs": "threejs"
+	},
+	"tooltip": "PLYファイルを読み込むエンジンを選択します。「threejs」はネイティブのThree.js PLYLoaderを使用（メッシュPLYファイルに最適）。「fastply」はASCIIポイントクラウドPLYファイル用の最適化ローダーを使用。「sparkjs」は3DガウシアンスプラッティングPLYファイル用にSpark.jsを使用します。"
+};
+var Comfy_Load3D_ShowGrid = {
+	"name": "初期グリッド表示",
+	"tooltip": "新しい3Dウィジェット作成時にグリッドがデフォルトで表示されるかどうかを制御します。このデフォルトは作成後に各ウィジェットごとに切り替え可能です。"
+};
+var Comfy_Locale = { "name": "言語" };
+var Comfy_MaskEditor_BrushAdjustmentSpeed = {
+	"name": "ブラシ調整速度の倍率",
+	"tooltip": "調整時にブラシのサイズと硬さがどれだけ速く変化するかを制御します。値が高いほど、変化が速くなります。"
+};
+var Comfy_MaskEditor_UseDominantAxis = {
+	"name": "ブラシ調整を優先軸に固定する",
+	"tooltip": "有効にすると、ブラシの調整は、どの方向に多く動かすかに基づいて、サイズまたは硬さのいずれかにのみ影響します。"
+};
+var Comfy_ModelLibrary_AutoLoadAll = {
+	"name": "すべてのモデルフォルダーを自動的に読み込む",
+	"tooltip": "trueの場合、モデルライブラリを開くとすぐにすべてのフォルダーが読み込まれます（これにより読み込み中に遅延が発生する可能性があります）。falseの場合、ルートレベルのモデルフォルダーはクリックするまで読み込まれません。"
+};
+var Comfy_ModelLibrary_NameFormat = {
+	"name": "モデルライブラリツリービューに表示する名前",
+	"options": {
+		"filename": "ファイル名",
+		"title": "タイトル"
+	},
+	"tooltip": "\"ファイル名\"を選択すると、モデルリストにディレクトリや\".safetensors\"拡張子なしの生のファイル名の簡略化されたビューが表示されます。\"タイトル\"を選択すると、設定可能なモデルメタデータタイトルが表示されます。"
+};
+var Comfy_NodeBadge_NodeIdBadgeMode = {
+	"name": "ノードIDバッジモード",
+	"options": {
+		"None": "なし",
+		"Show all": "すべて表示"
+	}
+};
+var Comfy_NodeBadge_NodeLifeCycleBadgeMode = {
+	"name": "ノードライフサイクルバッジモード",
+	"options": {
+		"None": "なし",
+		"Show all": "すべて表示"
+	}
+};
+var Comfy_NodeBadge_NodeSourceBadgeMode = {
+	"name": "ノードソースバッジモード",
+	"options": {
+		"Hide built-in": "組み込みを隠す",
+		"None": "なし",
+		"Show all": "すべて表示"
+	}
+};
+var Comfy_NodeBadge_ShowApiPricing = { "name": "APIノードの料金バッジを表示" };
+var Comfy_NodeLibrary_NewDesign = {
+	"name": "新しいノードライブラリデザイン",
+	"tooltip": "タブ（Essential、All、Custom）、強化された検索機能、ホバープレビューを備えた再設計されたノードライブラリサイドバーを有効にします。"
+};
+var Comfy_NodeReplacement_Enabled = {
+	"name": "自動ノード置換を有効にする",
+	"tooltip": "有効にすると、置換マッピングが存在する場合、欠落しているノードが自動的に新しい同等ノードに置き換えられます。"
+};
+var Comfy_NodeSearchBoxImpl = {
+	"name": "ノード検索ボックスの実装",
+	"options": {
+		"default": "デフォルト",
+		"litegraph (legacy)": "litegraph (レガシー)",
+		"v1 (legacy)": "v1（レガシー）"
+	}
+};
+var Comfy_NodeSearchBoxImpl_FollowCursor = {
+	"name": "追加されたノードがカーソルに追従",
+	"tooltip": "有効にすると、検索ボックスから追加されたノードがクリックして配置するまでカーソルに追従します。デフォルトの実装にのみ適用されます。"
+};
+var Comfy_NodeSearchBoxImpl_NodePreview = {
+	"name": "ノードプレビュー",
+	"tooltip": "デフォルトの実装にのみ適用されます"
+};
+var Comfy_NodeSearchBoxImpl_ShowCategory = {
+	"name": "検索結果にノードカテゴリを表示",
+	"tooltip": "デフォルトの実装にのみ適用されます"
+};
+var Comfy_NodeSearchBoxImpl_ShowIdName = {
+	"name": "検索結果にノードID名を表示",
+	"tooltip": "デフォルトの実装にのみ適用されます"
+};
+var Comfy_NodeSearchBoxImpl_ShowNodeFrequency = {
+	"name": "検索結果にノード頻度を表示",
+	"tooltip": "デフォルトの実装にのみ適用されます"
+};
+var Comfy_NodeSuggestions_number = {
+	"name": "ノード提案の数",
+	"tooltip": "ライトグラフの検索ボックス/コンテキストメニュー専用"
+};
+var Comfy_Node_AllowImageSizeDraw = { "name": "画像プレビューの下に幅×高さを表示する" };
+var Comfy_Node_AlwaysShowAdvancedWidgets = {
+	"name": "すべてのノードで常に高度なウィジェットを表示",
+	"tooltip": "有効にすると、すべてのノードで高度なウィジェットが個別に展開しなくても常に表示されます。"
+};
+var Comfy_Node_AutoSnapLinkToSlot = {
+	"name": "ノードスロットにリンクを自動スナップ",
+	"tooltip": "ノードの上にリンクをドラッグすると、リンクがノードの有効な入力スロットに自動的にスナップします"
+};
+var Comfy_Node_BypassAllLinksOnDelete = {
+	"name": "ノード削除時にすべてのリンクを保持",
+	"tooltip": "ノードを削除する際、削除されたノードをバイパスしてすべての入力および出力リンクを再接続しようとします"
+};
+var Comfy_Node_DoubleClickTitleToEdit = { "name": "ノードタイトルをダブルクリックして編集" };
+var Comfy_Node_MiddleClickRerouteNode = { "name": "ミドルクリックで新しいリルートノードを作成" };
+var Comfy_Node_Opacity = { "name": "ノードの不透明度" };
+var Comfy_Node_ShowDeprecated = {
+	"name": "検索で非推奨ノードを表示",
+	"tooltip": "非推奨ノードはデフォルトでUIに隠されていますが、それを使用する既存のワークフローでは機能し続けます。"
+};
+var Comfy_Node_ShowExperimental = {
+	"name": "検索で実験的ノードを表示",
+	"tooltip": "実験的ノードはUIでそのようにマークされており、将来のバージョンで大幅な変更や削除の対象となる可能性があります。生産ワークフローでの使用には注意が必要です"
+};
+var Comfy_Node_SnapHighlightsNode = {
+	"name": "スナップハイライトノード",
+	"tooltip": "有効な入力スロットを持つノードの上にリンクをドラッグすると、ノードがハイライトされます"
+};
+var Comfy_Notification_ShowVersionUpdates = {
+	"name": "バージョン更新を表示",
+	"tooltip": "新しいモデルや主要な新機能のアップデートを表示します。"
+};
+var Comfy_Pointer_ClickDrift = {
+	"name": "ポインタークリックドリフト（最大距離）",
+	"tooltip": "ボタンを押し続けている間にポインタがこの距離以上移動した場合、クリックではなくドラッグと見なされます。\n\nクリック中にポインタが移動した場合、オブジェクトが意図せず動かされるのを防ぎます。"
+};
+var Comfy_Pointer_DoubleClickTime = {
+	"name": "ダブルクリック間隔（最大）",
+	"tooltip": "ダブルクリックの2回のクリック間の最大時間（ミリ秒単位）。この値を増やすことで、ダブルクリックが時々登録されない場合に助けになるかもしれません。"
+};
+var Comfy_PreviewFormat = {
+	"name": "プレビュー画像フォーマット",
+	"tooltip": "画像ウィジェットでプレビューを表示する際、軽量画像に変換します（例：webp、jpeg、webp;50など）。"
+};
+var Comfy_PromptFilename = { "name": "ワークフローを保存する際にファイル名を入力するよう促す" };
+var Comfy_QueueButton_BatchCountLimit = {
+	"name": "バッチ数制限",
+	"tooltip": "1回のボタンクリックでキューに追加できるタスクの最大数"
+};
+var Comfy_Queue_MaxHistoryItems = {
+	"name": "キュー履歴サイズ",
+	"tooltip": "キュー履歴に表示されるタスクの最大数。"
+};
+var Comfy_Queue_QPOV2 = {
+	"name": "アセットサイドパネルで統一ジョブキューを使用",
+	"tooltip": "フローティングジョブキューパネルを、アセットサイドパネルに埋め込まれた同等のジョブキューに置き換えます。無効にすると、フローティングパネルのレイアウトに戻ります。"
+};
+var Comfy_RightSidePanel_ShowErrorsTab = {
+	"name": "サイドパネルに問題タブを表示",
+	"tooltip": "有効にすると、右側のサイドパネルに問題タブが表示され、ブロッキングエラーや設定が必要な不足リソースが表示されます。"
+};
+var Comfy_Sidebar_Location = {
+	"name": "サイドバーの位置",
+	"options": {
+		"left": "左",
+		"right": "右"
+	}
+};
+var Comfy_Sidebar_Size = {
+	"name": "サイドバーのサイズ",
+	"options": {
+		"normal": "通常",
+		"small": "小"
+	}
+};
+var Comfy_Sidebar_Style = {
+	"name": "サイドバーのスタイル",
+	"options": {
+		"connected": "接続",
+		"floating": "フローティング"
+	}
+};
+var Comfy_Sidebar_UnifiedWidth = { "name": "サイドバーの幅を統一" };
+var Comfy_SnapToGrid_GridSize = {
+	"name": "グリッドサイズにスナップ",
+	"tooltip": "シフトを押しながらノードをドラッグおよびサイズ変更すると、グリッドに整列されます。これにより、そのグリッドのサイズが制御されます。"
+};
+var Comfy_TextareaWidget_FontSize = { "name": "テキストエリアウィジェットのフォントサイズ" };
+var Comfy_TextareaWidget_Spellcheck = { "name": "テキストエリアウィジェットのスペルチェック" };
+var Comfy_TreeExplorer_ItemPadding = { "name": "ツリーエクスプローラーアイテムのパディング" };
+var Comfy_UI_TabBarLayout = {
+	"name": "タブバーのレイアウト",
+	"options": {
+		"Default": "デフォルト",
+		"Legacy": "レガシー"
+	},
+	"tooltip": "タブバーのレイアウトを制御します。「統合」を選択すると、ヘルプとユーザーコントロールがタブバーエリアに移動します。"
+};
+var Comfy_UseNewMenu = {
+	"name": "新しいメニューを使用",
+	"options": {
+		"Disabled": "無効",
+		"Top": "上"
+	},
+	"tooltip": "メニューバーの位置。モバイルデバイスでは、メニューは常に上部に表示されます。"
+};
+var Comfy_Validation_Workflows = { "name": "ワークフローを検証" };
+var Comfy_VueNodes_Enabled = {
+	"name": "モダンノードデザイン（Vueノード）",
+	"tooltip": "モダン：DOMベースのレンダリングで、操作性の向上、ネイティブブラウザ機能、最新のビジュアルデザインを実現。クラシック：従来のキャンバスレンダリング。"
+};
+var Comfy_WidgetControlMode = {
+	"name": "ウィジェット制御モード",
+	"options": {
+		"after": "後",
+		"before": "前"
+	},
+	"tooltip": "ウィジェットの値が更新されるタイミングを制御します（ランダム化/インクリメント/デクリメント）、プロンプトがキューに入れられる前または後のいずれかです。"
+};
+var Comfy_Window_UnloadConfirmation = { "name": "ウィンドウを閉じるときに確認を表示" };
+var Comfy_Workflow_AutoSave = {
+	"name": "自動保存",
+	"options": {
+		"after delay": "遅延後",
+		"off": "オフ"
+	}
+};
+var Comfy_Workflow_AutoSaveDelay = {
+	"name": "自動保存遅延（ms）",
+	"tooltip": "自動保存が「遅延後」に設定されている場合のみ適用されます。"
+};
+var Comfy_Workflow_ConfirmDelete = { "name": "ワークフローを削除する際に確認を表示" };
+var Comfy_Workflow_NamedValuesRestore = { "name": "ウィジェット値を名前で復元" };
+var Comfy_Workflow_Persist = { "name": "ページ（再）ロード時にワークフローの状態を保持し、復元します" };
+var Comfy_Workflow_ShowMissingMediaWarning = {
+	"name": "問題タブに不足しているメディアを表示",
+	"tooltip": "無効にすると、見つからない入力画像、動画、音声は問題タブに表示されず、該当ノードも強調表示されません。"
+};
+var Comfy_Workflow_ShowMissingNodesWarning = {
+	"name": "問題タブに不足しているノードを表示",
+	"tooltip": "無効にすると、不足しているノードパックは問題タブに表示されず、該当ノードも強調表示されません。インストールされるまで、ワークフローは実行できません。"
+};
+var Comfy_Workflow_SortNodeIdOnSave = { "name": "ワークフローを保存する際にノードIDをソート" };
+var Comfy_Workflow_WarnBlueprintOverwrite = { "name": "既存のサブグラフブループリントを上書きする際に確認を要求" };
+var Comfy_Workflow_WorkflowTabsPosition = {
+	"name": "開いているワークフローの位置",
+	"options": {
+		"Sidebar": "サイドバー",
+		"Topbar": "トップバー"
+	}
+};
+var LiteGraph_Canvas_MaximumFps = {
+	"name": "最大FPS",
+	"tooltip": "キャンバスがレンダリングできる最大フレーム数です。スムーズさの代わりにGPU使用量を制限します。0の場合、画面のリフレッシュレートが使用されます。デフォルト：0"
+};
+var LiteGraph_Canvas_MinFontSizeForLOD = {
+	"name": "ズームノードの詳細レベル - フォントサイズしきい値",
+	"tooltip": "ノードが低品質LODレンダリングに切り替わるタイミングを制御します。ピクセル単位のフォントサイズを使用して切り替えタイミングを決定します。0に設定すると無効になります。値1-24はLODの最小フォントサイズしきい値を設定します - 値が高いほど(24px) ズームアウト時にノードが簡略化されたレンダリングに早く切り替わり、値が低いほど(1px) 完全なノード品質がより長く維持されます。"
+};
+var LiteGraph_ContextMenu_Scaling = { "name": "ズームイン時にノードコンボウィジェットメニュー（リスト）をスケーリングする" };
+var LiteGraph_Group_SelectChildrenOnClick = {
+	"name": "グループ内の子要素をクリックで選択",
+	"tooltip": "有効にすると、グループをクリックした際に内部のすべてのノードとアイテムが選択されます"
+};
+var LiteGraph_Node_DefaultPadding = {
+	"name": "新しいノードを常に縮小",
+	"tooltip": "ノード作成時に可能な限り小さいサイズにリサイズします。無効にすると、新しく追加されたノードはウィジェットの値が表示されるように少し幅広くなります。"
+};
+var LiteGraph_Node_TooltipDelay = { "name": "ツールチップ遅延" };
+var LiteGraph_Reroute_SplineOffset = {
+	"name": "リルートスプラインオフセット",
+	"tooltip": "リルート中心点からのベジエ制御点のオフセット"
+};
+var pysssss_SnapToGrid = {
+	"name": "常にグリッドにスナップ",
+	"tooltip": "有効にすると、ノードを移動またはサイズ変更した際に自動的にグリッドに揃えます。"
+};
+var settings_default = {
+	"Comfy-Desktop_AutoUpdate": { "name": "自動的に更新を確認する" },
+	"Comfy-Desktop_SendStatistics": { "name": "匿名の使用統計を送信する" },
+	"Comfy-Desktop_UV_PypiInstallMirror": {
+		"name": "Pypi インストールミラー",
+		"tooltip": "デフォルトの pip インストールミラー"
+	},
+	"Comfy-Desktop_UV_PythonInstallMirror": {
+		"name": "Pythonインストールミラー",
+		"tooltip": "管理されたPythonのインストールは、Astral python-build-standaloneプロジェクトからダウンロードされます。この変数は、Pythonのインストールのための異なるソースを使用するためのミラーURLに設定することができます。提供されたURLは、例えば、https://github.com/astral-sh/python-build-standalone/releases/download/20240713/cpython-3.12.4%2B20240713-aarch64-apple-darwin-install_only.tar.gzの中でhttps://github.com/astral-sh/python-build-standalone/releases/downloadを置き換えます。ディストリビューションは、file:// URLスキームを使用してローカルディレクトリから読み取ることができます。"
+	},
+	"Comfy-Desktop_UV_TorchInstallMirror": {
+		"name": "Torchインストールミラー",
+		"tooltip": "pytorchのpipインストールミラー"
+	},
+	"Comfy-Desktop_WindowStyle": {
+		"name": "ウィンドウスタイル",
+		"options": {
+			"custom": "カスタム",
+			"default": "デフォルト"
+		},
+		"tooltip": "システムタイトルバーを非表示にするにはカスタムオプションを選択してください"
+	},
+	Comfy_Appearance_DisableAnimations,
+	Comfy_Canvas_BackgroundImage,
+	Comfy_Canvas_LeftMouseClickBehavior,
+	Comfy_Canvas_MouseWheelScroll,
+	Comfy_Canvas_NavigationMode,
+	Comfy_Canvas_SelectionToolbox,
+	Comfy_ConfirmClear,
+	Comfy_DOMClippingEnabled,
+	Comfy_DevMode,
+	Comfy_DisableFloatRounding,
+	Comfy_DisableSliders,
+	Comfy_EditAttention_Delta,
+	Comfy_EnableTooltips,
+	Comfy_EnableWorkflowViewRestore,
+	Comfy_ErrorSystem_ShowMissingModels,
+	Comfy_Execution_PreviewMethod,
+	Comfy_FloatRoundingPrecision,
+	Comfy_Graph_AutoPanSpeed,
+	Comfy_Graph_CanvasInfo,
+	Comfy_Graph_CanvasMenu,
+	Comfy_Graph_CtrlShiftZoom,
+	Comfy_Graph_DeduplicateSubgraphNodeIds,
+	Comfy_Graph_LinkMarkers,
+	Comfy_Graph_LiveSelection,
+	Comfy_Graph_ZoomSpeed,
+	Comfy_GroupSelectedNodes_Padding,
+	Comfy_Group_DoubleClickTitleToEdit,
+	Comfy_LinkRelease_Action,
+	Comfy_LinkRelease_ActionShift,
+	Comfy_LinkRenderMode,
+	Comfy_Load3D_3DViewerEnable,
+	Comfy_Load3D_BackgroundColor,
+	Comfy_Load3D_CameraType,
+	Comfy_Load3D_LightAdjustmentIncrement,
+	Comfy_Load3D_LightIntensity,
+	Comfy_Load3D_LightIntensityMaximum,
+	Comfy_Load3D_LightIntensityMinimum,
+	Comfy_Load3D_PLYEngine,
+	Comfy_Load3D_ShowGrid,
+	Comfy_Locale,
+	Comfy_MaskEditor_BrushAdjustmentSpeed,
+	Comfy_MaskEditor_UseDominantAxis,
+	Comfy_ModelLibrary_AutoLoadAll,
+	Comfy_ModelLibrary_NameFormat,
+	Comfy_NodeBadge_NodeIdBadgeMode,
+	Comfy_NodeBadge_NodeLifeCycleBadgeMode,
+	Comfy_NodeBadge_NodeSourceBadgeMode,
+	Comfy_NodeBadge_ShowApiPricing,
+	Comfy_NodeLibrary_NewDesign,
+	Comfy_NodeReplacement_Enabled,
+	Comfy_NodeSearchBoxImpl,
+	Comfy_NodeSearchBoxImpl_FollowCursor,
+	Comfy_NodeSearchBoxImpl_NodePreview,
+	Comfy_NodeSearchBoxImpl_ShowCategory,
+	Comfy_NodeSearchBoxImpl_ShowIdName,
+	Comfy_NodeSearchBoxImpl_ShowNodeFrequency,
+	Comfy_NodeSuggestions_number,
+	Comfy_Node_AllowImageSizeDraw,
+	Comfy_Node_AlwaysShowAdvancedWidgets,
+	Comfy_Node_AutoSnapLinkToSlot,
+	Comfy_Node_BypassAllLinksOnDelete,
+	Comfy_Node_DoubleClickTitleToEdit,
+	Comfy_Node_MiddleClickRerouteNode,
+	Comfy_Node_Opacity,
+	Comfy_Node_ShowDeprecated,
+	Comfy_Node_ShowExperimental,
+	Comfy_Node_SnapHighlightsNode,
+	Comfy_Notification_ShowVersionUpdates,
+	Comfy_Pointer_ClickDrift,
+	Comfy_Pointer_DoubleClickTime,
+	Comfy_PreviewFormat,
+	Comfy_PromptFilename,
+	Comfy_QueueButton_BatchCountLimit,
+	Comfy_Queue_MaxHistoryItems,
+	Comfy_Queue_QPOV2,
+	Comfy_RightSidePanel_ShowErrorsTab,
+	Comfy_Sidebar_Location,
+	Comfy_Sidebar_Size,
+	Comfy_Sidebar_Style,
+	Comfy_Sidebar_UnifiedWidth,
+	Comfy_SnapToGrid_GridSize,
+	Comfy_TextareaWidget_FontSize,
+	Comfy_TextareaWidget_Spellcheck,
+	Comfy_TreeExplorer_ItemPadding,
+	Comfy_UI_TabBarLayout,
+	Comfy_UseNewMenu,
+	Comfy_Validation_Workflows,
+	Comfy_VueNodes_Enabled,
+	Comfy_WidgetControlMode,
+	Comfy_Window_UnloadConfirmation,
+	Comfy_Workflow_AutoSave,
+	Comfy_Workflow_AutoSaveDelay,
+	Comfy_Workflow_ConfirmDelete,
+	Comfy_Workflow_NamedValuesRestore,
+	Comfy_Workflow_Persist,
+	Comfy_Workflow_ShowMissingMediaWarning,
+	Comfy_Workflow_ShowMissingNodesWarning,
+	Comfy_Workflow_SortNodeIdOnSave,
+	Comfy_Workflow_WarnBlueprintOverwrite,
+	Comfy_Workflow_WorkflowTabsPosition,
+	LiteGraph_Canvas_MaximumFps,
+	LiteGraph_Canvas_MinFontSizeForLOD,
+	LiteGraph_ContextMenu_Scaling,
+	LiteGraph_Group_SelectChildrenOnClick,
+	LiteGraph_Node_DefaultPadding,
+	LiteGraph_Node_TooltipDelay,
+	LiteGraph_Reroute_SplineOffset,
+	pysssss_SnapToGrid
+};
+//#endregion
+export { Comfy_Appearance_DisableAnimations, Comfy_Canvas_BackgroundImage, Comfy_Canvas_LeftMouseClickBehavior, Comfy_Canvas_MouseWheelScroll, Comfy_Canvas_NavigationMode, Comfy_Canvas_SelectionToolbox, Comfy_ConfirmClear, Comfy_DOMClippingEnabled, Comfy_DevMode, Comfy_DisableFloatRounding, Comfy_DisableSliders, Comfy_EditAttention_Delta, Comfy_EnableTooltips, Comfy_EnableWorkflowViewRestore, Comfy_ErrorSystem_ShowMissingModels, Comfy_Execution_PreviewMethod, Comfy_FloatRoundingPrecision, Comfy_Graph_AutoPanSpeed, Comfy_Graph_CanvasInfo, Comfy_Graph_CanvasMenu, Comfy_Graph_CtrlShiftZoom, Comfy_Graph_DeduplicateSubgraphNodeIds, Comfy_Graph_LinkMarkers, Comfy_Graph_LiveSelection, Comfy_Graph_ZoomSpeed, Comfy_GroupSelectedNodes_Padding, Comfy_Group_DoubleClickTitleToEdit, Comfy_LinkRelease_Action, Comfy_LinkRelease_ActionShift, Comfy_LinkRenderMode, Comfy_Load3D_3DViewerEnable, Comfy_Load3D_BackgroundColor, Comfy_Load3D_CameraType, Comfy_Load3D_LightAdjustmentIncrement, Comfy_Load3D_LightIntensity, Comfy_Load3D_LightIntensityMaximum, Comfy_Load3D_LightIntensityMinimum, Comfy_Load3D_PLYEngine, Comfy_Load3D_ShowGrid, Comfy_Locale, Comfy_MaskEditor_BrushAdjustmentSpeed, Comfy_MaskEditor_UseDominantAxis, Comfy_ModelLibrary_AutoLoadAll, Comfy_ModelLibrary_NameFormat, Comfy_NodeBadge_NodeIdBadgeMode, Comfy_NodeBadge_NodeLifeCycleBadgeMode, Comfy_NodeBadge_NodeSourceBadgeMode, Comfy_NodeBadge_ShowApiPricing, Comfy_NodeLibrary_NewDesign, Comfy_NodeReplacement_Enabled, Comfy_NodeSearchBoxImpl, Comfy_NodeSearchBoxImpl_FollowCursor, Comfy_NodeSearchBoxImpl_NodePreview, Comfy_NodeSearchBoxImpl_ShowCategory, Comfy_NodeSearchBoxImpl_ShowIdName, Comfy_NodeSearchBoxImpl_ShowNodeFrequency, Comfy_NodeSuggestions_number, Comfy_Node_AllowImageSizeDraw, Comfy_Node_AlwaysShowAdvancedWidgets, Comfy_Node_AutoSnapLinkToSlot, Comfy_Node_BypassAllLinksOnDelete, Comfy_Node_DoubleClickTitleToEdit, Comfy_Node_MiddleClickRerouteNode, Comfy_Node_Opacity, Comfy_Node_ShowDeprecated, Comfy_Node_ShowExperimental, Comfy_Node_SnapHighlightsNode, Comfy_Notification_ShowVersionUpdates, Comfy_Pointer_ClickDrift, Comfy_Pointer_DoubleClickTime, Comfy_PreviewFormat, Comfy_PromptFilename, Comfy_QueueButton_BatchCountLimit, Comfy_Queue_MaxHistoryItems, Comfy_Queue_QPOV2, Comfy_RightSidePanel_ShowErrorsTab, Comfy_Sidebar_Location, Comfy_Sidebar_Size, Comfy_Sidebar_Style, Comfy_Sidebar_UnifiedWidth, Comfy_SnapToGrid_GridSize, Comfy_TextareaWidget_FontSize, Comfy_TextareaWidget_Spellcheck, Comfy_TreeExplorer_ItemPadding, Comfy_UI_TabBarLayout, Comfy_UseNewMenu, Comfy_Validation_Workflows, Comfy_VueNodes_Enabled, Comfy_WidgetControlMode, Comfy_Window_UnloadConfirmation, Comfy_Workflow_AutoSave, Comfy_Workflow_AutoSaveDelay, Comfy_Workflow_ConfirmDelete, Comfy_Workflow_NamedValuesRestore, Comfy_Workflow_Persist, Comfy_Workflow_ShowMissingMediaWarning, Comfy_Workflow_ShowMissingNodesWarning, Comfy_Workflow_SortNodeIdOnSave, Comfy_Workflow_WarnBlueprintOverwrite, Comfy_Workflow_WorkflowTabsPosition, LiteGraph_Canvas_MaximumFps, LiteGraph_Canvas_MinFontSizeForLOD, LiteGraph_ContextMenu_Scaling, LiteGraph_Group_SelectChildrenOnClick, LiteGraph_Node_DefaultPadding, LiteGraph_Node_TooltipDelay, LiteGraph_Reroute_SplineOffset, settings_default as default, pysssss_SnapToGrid };
