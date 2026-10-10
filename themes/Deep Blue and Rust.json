@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "name": "Violet and Silver",
+  "name": "Deep Blue and Rust",
   "colors": {
-    "icons": "#eee5ff",
-    "buttonBg": "#150d22",
-    "buttonFrame": "#a855f7",
-    "promptText": "#f5efff",
-    "uiText": "#f5efff",
-    "containerFrame": "#a7a9b8",
-    "active": "#c46bff",
-    "progress": "#a855f7",
-    "success": "#dfc2ff"
+    "icons": "#dca68c",
+    "buttonBg": "#1c2b3b",
+    "buttonFrame": "#d28d6c",
+    "promptText": "#ece7df",
+    "uiText": "#ece7df",
+    "containerFrame": "#82a7c7",
+    "active": "#d28d6c",
+    "progress": "#82a7c7",
+    "success": "#a7c68b"
   },
   "transparency": {
     "icons": 0,

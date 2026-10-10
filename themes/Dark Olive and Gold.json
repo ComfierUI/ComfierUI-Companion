@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "name": "Violet and Silver",
+  "name": "Dark Olive and Gold",
   "colors": {
-    "icons": "#eee5ff",
-    "buttonBg": "#150d22",
-    "buttonFrame": "#a855f7",
-    "promptText": "#f5efff",
-    "uiText": "#f5efff",
-    "containerFrame": "#a7a9b8",
-    "active": "#c46bff",
-    "progress": "#a855f7",
-    "success": "#dfc2ff"
+    "icons": "#dcc480",
+    "buttonBg": "#25291c",
+    "buttonFrame": "#d2b35c",
+    "promptText": "#f0edd9",
+    "uiText": "#f0edd9",
+    "containerFrame": "#9ba577",
+    "active": "#d2b35c",
+    "progress": "#9ba577",
+    "success": "#a7c68b"
   },
   "transparency": {
     "icons": 0,

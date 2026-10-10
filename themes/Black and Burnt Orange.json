@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "name": "Violet and Silver",
+  "name": "Black and Burnt Orange",
   "colors": {
-    "icons": "#eee5ff",
-    "buttonBg": "#150d22",
-    "buttonFrame": "#a855f7",
-    "promptText": "#f5efff",
-    "uiText": "#f5efff",
-    "containerFrame": "#a7a9b8",
-    "active": "#c46bff",
-    "progress": "#a855f7",
-    "success": "#dfc2ff"
+    "icons": "#eea87e",
+    "buttonBg": "#1c1917",
+    "buttonFrame": "#e99059",
+    "promptText": "#f3e6d9",
+    "uiText": "#f3e6d9",
+    "containerFrame": "#b6a28c",
+    "active": "#e99059",
+    "progress": "#b6a28c",
+    "success": "#a7c68b"
   },
   "transparency": {
     "icons": 0,

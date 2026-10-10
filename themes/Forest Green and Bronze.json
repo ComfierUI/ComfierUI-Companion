@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "name": "Violet and Silver",
+  "name": "Forest Green and Bronze",
   "colors": {
-    "icons": "#eee5ff",
-    "buttonBg": "#150d22",
-    "buttonFrame": "#a855f7",
-    "promptText": "#f5efff",
-    "uiText": "#f5efff",
-    "containerFrame": "#a7a9b8",
-    "active": "#c46bff",
-    "progress": "#a855f7",
-    "success": "#dfc2ff"
+    "icons": "#cfaf87",
+    "buttonBg": "#192e26",
+    "buttonFrame": "#c19865",
+    "promptText": "#eee9db",
+    "uiText": "#eee9db",
+    "containerFrame": "#7ca995",
+    "active": "#c19865",
+    "progress": "#7ca995",
+    "success": "#a7c68b"
   },
   "transparency": {
     "icons": 0,

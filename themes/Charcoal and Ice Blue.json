@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "name": "Violet and Silver",
+  "name": "Charcoal and Ice Blue",
   "colors": {
-    "icons": "#eee5ff",
-    "buttonBg": "#150d22",
-    "buttonFrame": "#a855f7",
-    "promptText": "#f5efff",
-    "uiText": "#f5efff",
-    "containerFrame": "#a7a9b8",
-    "active": "#c46bff",
-    "progress": "#a855f7",
-    "success": "#dfc2ff"
+    "icons": "#b0d8ec",
+    "buttonBg": "#202830",
+    "buttonFrame": "#9acde6",
+    "promptText": "#e6f1f7",
+    "uiText": "#e6f1f7",
+    "containerFrame": "#7f98ab",
+    "active": "#9acde6",
+    "progress": "#7f98ab",
+    "success": "#a7c68b"
   },
   "transparency": {
     "icons": 0,

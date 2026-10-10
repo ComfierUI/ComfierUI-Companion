@@ -40446,8 +40446,10 @@ html:root body #comfier-apps-panel#comfier-apps-panel .comfier-lite-resolution-r
 html body .comfier-lite-form[hidden]{display:none!important}
 .comfier-lite-control-groups{display:flex;flex-direction:column;gap:14px}
 html body #comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager){background:var(--comfier-panel-bg,var(--comfy-menu-bg,#171717));color:var(--comfier-ui-font,#fff);font:500 14px system-ui,sans-serif}
-html body #comfier-apps-panel .comfier-lite-form :is(input,textarea,select){background:var(--comfier-panel-bg,var(--comfy-menu-bg,#171717))!important;color:var(--comfier-ui-font,#fff)!important;-webkit-text-fill-color:var(--comfier-ui-font,#fff)!important;border-color:var(--comfier-panel-frame,#aaa)!important}
+html body #comfier-apps-panel .comfier-lite-form :is(input,textarea,select){background:var(--comfier-panel-bg,var(--comfy-menu-bg,#171717))!important;color:var(--comfier-ui-font,#fff)!important;-webkit-text-fill-color:var(--comfier-ui-font,#fff)!important;border-color:var(--comfier-button-frame,#aaa)!important}
 html body #comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager) :is(label,legend,span,p,h3,strong){color:var(--comfier-ui-font,#fff)!important;-webkit-text-fill-color:var(--comfier-ui-font,#fff)!important}
+html:root body #comfier-apps-panel#comfier-apps-panel .comfier-lite-form fieldset{border-color:var(--comfier-button-frame,#aaa)!important}
+html:root body #comfier-apps-panel#comfier-apps-panel .comfier-lite-form :is(legend,label,label>span,.comfier-lite-resolution-title,.comfier-lite-resolution-row>span){color:var(--comfier-button-frame,#aaa)!important;-webkit-text-fill-color:var(--comfier-button-frame,#aaa)!important}
 html body #comfier-apps-panel .comfier-lite-manage{width:100%;min-height:48px;font:500 20px system-ui,sans-serif!important;text-align:center!important;justify-content:center!important}
 .comfier-lite-manager{display:flex;flex-direction:column;height:100%;min-height:0;padding:12px;gap:12px;box-sizing:border-box;width:100%}
 .comfier-lite-manager header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:none}.comfier-lite-manager header strong{font-size:18px}

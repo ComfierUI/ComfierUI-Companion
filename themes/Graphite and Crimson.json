@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "name": "Violet and Silver",
+  "name": "Graphite and Crimson",
   "colors": {
-    "icons": "#eee5ff",
-    "buttonBg": "#150d22",
-    "buttonFrame": "#a855f7",
-    "promptText": "#f5efff",
-    "uiText": "#f5efff",
-    "containerFrame": "#a7a9b8",
-    "active": "#c46bff",
-    "progress": "#a855f7",
-    "success": "#dfc2ff"
+    "icons": "#f3959a",
+    "buttonBg": "#27282c",
+    "buttonFrame": "#ef777d",
+    "promptText": "#f1e5e7",
+    "uiText": "#f1e5e7",
+    "containerFrame": "#abb1bd",
+    "active": "#ef777d",
+    "progress": "#abb1bd",
+    "success": "#a7c68b"
   },
   "transparency": {
     "icons": 0,

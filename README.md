@@ -1,16 +1,10 @@
-# ComfierUI Companion 0.8.2
+# ComfierUI Companion 0.9.0
 
-Based on Companion 0.8.1. Restores only Diag → Performance, its collector, profiling hooks, menu/export entry, translation and matching source maps from 0.8.0. No standalone app monitor is added. Android and its guide are unchanged. Main diagnostics, host services, desktop editor and other behavior are preserved.
+Full Companion baseline for ComfierUI 0.94.0-Dev. Includes the confirmed four-view panel layouts and Apps theme updates from 0.93.3–0.93.5. Category frames, labels and input-field outlines follow Button Frames; entered text follows UI Font. The Companion Diag performance monitor remains included.
 
-Companion version 0.8.2; paired module identities 24 with updated payload hashes. Verified that frontend differences from 0.8.1 are confined to three monitor-related chunks, their restored maps and the integrity manifest. Python compilation, Companion frontend integrity loader and root ZIP checks pass. No live server/browser test performed.
+Install into the existing Companion custom_nodes directory and restart ComfyUI. Preserve user themes/settings, diagnostics/scripts/backups, gateway_port.json and browser_start.json. Remove obsolete packaged files when updating. Connect the app or a desktop browser to http://HOST-IP:8147 (or your configured gateway port); ComfyUI normally remains on8188. The app requires Companion for self-hosted connections; direct Comfy Cloud does not require a local host.
 
-Install into the existing Companion directory, preserve settings/themes/diagnostic scripts and backups, and restart ComfyUI.
-
-# ComfierUI Companion 0.8.0
-
-Companion gateway and host services for ComfierUI 0.93.0-Dev, including the custom frontend built from ComfyUI frontend 1.57.0 source. Connect the app or a desktop browser to http://HOST-IP:8147. The ComfyUI backend normally remains on 8188. App self-hosted connections require Companion; Comfy Cloud runs directly without a local host.
-
-Install into your existing Companion custom_nodes directory. Preserve user themes/settings, diagnostics/scripts/backups, gateway_port.json and browser_start.json, replace obsolete packaged code, and restart ComfyUI. Older Companion versions without the stable module loader require this complete package once.
+The 0.94.0 app contains no upgrade payload ZIPs. This full package includes the updates directly; no app transfer is needed for this baseline. The module upgrade system remains available for future app-delivered updates. Built-in core/frontend modules29 supersede the earlier26/28 upgrades.
 
 ## Python requirements
 
@@ -36,10 +30,8 @@ Themes are cross-compatible across app, Cloud and desktop. Fresh installs use th
 
 The unified Downloads panel includes the URL/website form and its monitor, with pause/resume/cancel. Companion provides model/extension/workflow download services, host resources, theme sync, workflow apps, notifications and the full diagnostic suite. Enable Diagnostic Mode in ComfierUI settings and open Diag for reports, script editing, launch order and backups.
 
-## Delivery boundary
+## Delivery and licensing
 
-The gateway validates the complete packaged frontend before serving it and fails closed when assets are missing or corrupt. Stock UI fallbacks and the stock feed are blocked. Backend APIs, websocket events, media and approved extension scripts retain their routes. Android device implementations stay in the app and are absent from the public frontend.
+The gateway validates its packaged frontend before serving it. Stock UI fallback and stock feed remain blocked. Android device implementations remain in the app; the hosted frontend retains Companion diagnostics and desktop behavior.
 
-Protocol1 ships paired companion-core/hosted-frontend module version22. Only newer compatible modules are offered; dependencies commit together and activate on restart. User files stay at the extension root.
-
-Production build, automated tests and compiled desktop/Hosted/Cloud browser checks pass. Physical Android and live inference/provider downloads are not certified here. Full source overlay and validation evidence are in the separate Build Notes archive.
+See LICENSE.md for the original Companion MIT terms, the modified ComfyUI frontend's GPLv3 terms, attribution, and corresponding-source requirements.

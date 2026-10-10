@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "name": "Violet and Silver",
+  "name": "Army Green and Khaki",
   "colors": {
-    "icons": "#eee5ff",
-    "buttonBg": "#150d22",
-    "buttonFrame": "#a855f7",
-    "promptText": "#f5efff",
-    "uiText": "#f5efff",
-    "containerFrame": "#a7a9b8",
-    "active": "#c46bff",
-    "progress": "#a855f7",
-    "success": "#dfc2ff"
+    "icons": "#cdc29f",
+    "buttonBg": "#293026",
+    "buttonFrame": "#bfb184",
+    "promptText": "#ecebdc",
+    "uiText": "#ecebdc",
+    "containerFrame": "#8ba17e",
+    "active": "#bfb184",
+    "progress": "#8ba17e",
+    "success": "#a7c68b"
   },
   "transparency": {
     "icons": 0,

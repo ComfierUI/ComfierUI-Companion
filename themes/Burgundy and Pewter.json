@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "name": "Violet and Silver",
+  "name": "Burgundy and Pewter",
   "colors": {
-    "icons": "#eee5ff",
-    "buttonBg": "#150d22",
-    "buttonFrame": "#a855f7",
-    "promptText": "#f5efff",
-    "uiText": "#f5efff",
-    "containerFrame": "#a7a9b8",
-    "active": "#c46bff",
-    "progress": "#a855f7",
-    "success": "#dfc2ff"
+    "icons": "#c8ccd0",
+    "buttonBg": "#342127",
+    "buttonFrame": "#b8bdc3",
+    "promptText": "#f0e6e9",
+    "uiText": "#f0e6e9",
+    "containerFrame": "#db8a9b",
+    "active": "#b8bdc3",
+    "progress": "#db8a9b",
+    "success": "#a7c68b"
   },
   "transparency": {
     "icons": 0,

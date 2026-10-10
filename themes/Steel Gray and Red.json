@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "name": "Violet and Silver",
+  "name": "Steel Gray and Red",
   "colors": {
-    "icons": "#eee5ff",
-    "buttonBg": "#150d22",
-    "buttonFrame": "#a855f7",
-    "promptText": "#f5efff",
-    "uiText": "#f5efff",
-    "containerFrame": "#a7a9b8",
-    "active": "#c46bff",
-    "progress": "#a855f7",
-    "success": "#dfc2ff"
+    "icons": "#f19a92",
+    "buttonBg": "#2c3035",
+    "buttonFrame": "#ed7d73",
+    "promptText": "#f3e8e5",
+    "uiText": "#f3e8e5",
+    "containerFrame": "#a9b4bf",
+    "active": "#ed7d73",
+    "progress": "#a9b4bf",
+    "success": "#a7c68b"
   },
   "transparency": {
     "icons": 0,
