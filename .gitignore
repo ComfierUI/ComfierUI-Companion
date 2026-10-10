@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.venv/
+ui_updates/
+gateway_port.json
+diagnostics/
+*.log
+browser_start.json
