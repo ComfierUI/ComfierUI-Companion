@@ -1,0 +1,4 @@
+//#region packages/design-system/src/icons/topaz.svg?raw
+var topaz_default = "<svg width=\"512\" height=\"512\" viewBox=\"0 0 512 512\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<g clip-path=\"url(#clip0_1483_16780)\">\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M13 337.575V499H174.595V337.575H13ZM336.676 337.575V176.15H175.081V337.575H336.676ZM499 174.425V13H337.405V174.425H499Z\" fill=\"currentColor\"/>\n</g>\n<defs>\n<clipPath id=\"clip0_1483_16780\">\n<rect width=\"512\" height=\"512\" fill=\"white\"/>\n</clipPath>\n</defs>\n</svg>\n";
+//#endregion
+export { topaz_default as default };
