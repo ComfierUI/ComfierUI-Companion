@@ -1,0 +1,21 @@
+// Shim for extensions/core/cameraAngle/cameraAngleMath.ts
+console.warn('[ComfyUI Notice] "extensions/core/cameraAngle/cameraAngleMath.js" is an internal module, not part of the public API. Future updates may break this import.');
+export const HORIZONTAL_TERMS = window.comfyAPI.cameraAngleMath.HORIZONTAL_TERMS;
+export const VERTICAL_TERMS = window.comfyAPI.cameraAngleMath.VERTICAL_TERMS;
+export const DISTANCE_TERMS = window.comfyAPI.cameraAngleMath.DISTANCE_TERMS;
+export const normalizeHorizontal = window.comfyAPI.cameraAngleMath.normalizeHorizontal;
+export const clampState = window.comfyAPI.cameraAngleMath.clampState;
+export const roundState = window.comfyAPI.cameraAngleMath.roundState;
+export const horizontalTerm = window.comfyAPI.cameraAngleMath.horizontalTerm;
+export const verticalTerm = window.comfyAPI.cameraAngleMath.verticalTerm;
+export const distanceTerm = window.comfyAPI.cameraAngleMath.distanceTerm;
+export const describeCameraAngle = window.comfyAPI.cameraAngleMath.describeCameraAngle;
+export const zoomToLensZoom = window.comfyAPI.cameraAngleMath.zoomToLensZoom;
+export const zoomToDisplayDistance = window.comfyAPI.cameraAngleMath.zoomToDisplayDistance;
+export const displayDistanceToZoom = window.comfyAPI.cameraAngleMath.displayDistanceToZoom;
+export const toOrbitCameraInfoState = window.comfyAPI.cameraAngleMath.toOrbitCameraInfoState;
+export const toHandleOrbitState = window.comfyAPI.cameraAngleMath.toHandleOrbitState;
+export const overviewDistance = window.comfyAPI.cameraAngleMath.overviewDistance;
+export const rotateByDrag = window.comfyAPI.cameraAngleMath.rotateByDrag;
+export const dollyByWheel = window.comfyAPI.cameraAngleMath.dollyByWheel;
+export const stateFromHandleDrag = window.comfyAPI.cameraAngleMath.stateFromHandleDrag;
