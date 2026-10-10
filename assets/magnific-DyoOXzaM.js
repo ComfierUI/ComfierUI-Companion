@@ -1,0 +1,4 @@
+//#region packages/design-system/src/icons/magnific.svg?raw
+var magnific_default = "<svg width=\"512\" height=\"512\" viewBox=\"0 0 512 512\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<defs>\n  <linearGradient id=\"magnific_gradient\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n    <stop offset=\"0%\" stop-color=\"#F19F3A\"/>\n    <stop offset=\"13%\" stop-color=\"#EA6040\"/>\n    <stop offset=\"31%\" stop-color=\"#E95267\"/>\n    <stop offset=\"50%\" stop-color=\"#7380BD\"/>\n    <stop offset=\"66%\" stop-color=\"#5FB2CF\"/>\n    <stop offset=\"79%\" stop-color=\"#91BB8F\"/>\n    <stop offset=\"100%\" stop-color=\"#E6B051\"/>\n  </linearGradient>\n</defs>\n<path d=\"M492.858 461.125H19.1416L256 50.875L492.858 461.125ZM148.18 386.625H363.82L256 199.875L148.18 386.625Z\" fill=\"url(#magnific_gradient)\"/>\n</svg>\n";
+//#endregion
+export { magnific_default as default };
