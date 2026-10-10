@@ -1,0 +1,22 @@
+
+[data-v-b1b65723] .p-terminal .xterm {
+  overflow: hidden;
+}
+[data-v-b1b65723] .p-terminal .xterm-screen {
+  overflow: hidden;
+  background-color: var(--color-neutral-900);
+}
+
+[data-v-cbbff91a] .p-terminal .xterm {
+  overflow-x: auto;
+}
+[data-v-cbbff91a] .p-terminal .xterm-screen {
+  overflow-y: hidden;
+}
+
+[data-v-49782f06] .p-terminal .xterm {
+  overflow-x: auto;
+}
+[data-v-49782f06] .p-terminal .xterm-screen {
+  overflow-y: hidden;
+}
