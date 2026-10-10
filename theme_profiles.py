@@ -12,7 +12,7 @@ from pathlib import Path
 from aiohttp import web
 from server import PromptServer
 
-ROOT = Path(__file__).resolve().parent / 'themes'
+ROOT = Path(os.environ.get('COMFIER_EXTENSION_ROOT', Path(__file__).resolve().parent)) / 'themes'
 MAX_BYTES = 256 * 1024
 MAX_TOTAL_BYTES = 4 * 1024 * 1024
 _registered = False
@@ -85,8 +85,28 @@ _store_lock = threading.RLock()
 
 
 def _identity(path, data):
-    identity = data.get('_comfierThemeId')
-    return identity if isinstance(identity, str) and re.fullmatch(r'[a-zA-Z0-9-]{1,100}', identity) else hashlib.sha256(path.name.encode()).hexdigest()
+    # The filename registry survives external overwrites that omit the embedded ID.
+    # No watcher/cache: every listing reads the current file bytes.
+    with _store_lock:
+        registry_path = path.parent / '.comfier-theme-identities'
+        try:
+            registry = json.loads(registry_path.read_text(encoding='utf-8'))
+            if not isinstance(registry, dict):
+                registry = {}
+        except (OSError, ValueError):
+            registry = {}
+        key = path.name.casefold()
+        identity = data.get('_comfierThemeId')
+        if not isinstance(identity, str) or not re.fullmatch(r'[a-zA-Z0-9-]{1,100}', identity):
+            identity = registry.get(key)
+        if not isinstance(identity, str) or not re.fullmatch(r'[a-zA-Z0-9-]{1,100}', identity):
+            identity = hashlib.sha256(path.name.encode()).hexdigest()
+        if registry.get(key) != identity:
+            existing = {p.name.casefold() for p in path.parent.iterdir() if p.suffix.lower() == '.json'}
+            registry = {k: v for k, v in registry.items() if k in existing}
+            registry[key] = identity
+            _atomic_write(registry_path, json.dumps(registry, sort_keys=True).encode('utf-8'))
+        return identity
 
 
 def _named_path(root, name, current=None):
@@ -211,6 +231,7 @@ def save_operation(value):
         _atomic_write(path, raw)
         if destination != path:
             path.rename(destination)
+        _identity(destination, stored)
         return dict(profile, id=identity)
 
 

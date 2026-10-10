@@ -44,7 +44,7 @@ LOG = logging.getLogger("ComfierUI-Companion")
 ROUTE = "/comfierui/model-download"
 TASKS_ROUTE = "/comfierui/model-downloads"
 INFO_ROUTE = "/comfierui/capabilities"
-COMPANION_VERSION = "0.7.13"
+COMPANION_VERSION = "0.8.4"
 MAX_REDIRECTS = 8
 MAX_FILE_BYTES = 128 * 1024 * 1024 * 1024
 CHUNK_BYTES = 1024 * 1024
@@ -643,7 +643,7 @@ def _client_environment(request: web.Request) -> tuple[str, str]:
 
 async def _companion_info(request: web.Request) -> web.Response:
     environment, recognition = _client_environment(request)
-    common = ["version-reporting", "lan-gateway", "ui-display-bundle", "host-resources", "workflow-app-curation"]
+    common = ["version-reporting", "lan-gateway", "source-custom-frontend", "host-resources", "workflow-app-curation"]
     platform_capabilities = {
         "android": ["model-downloads", "model-download-control", "model-browser-sessions", "extension-installs"],
         "browser": ["model-downloads", "extension-installs"],

@@ -2,8 +2,11 @@
 
 import asyncio
 import logging
+import html
 import json
 import os
+import re
+from urllib.parse import unquote
 from pathlib import Path
 import time
 from dataclasses import dataclass
@@ -15,20 +18,22 @@ from aiohttp import web
 from yarl import URL
 
 from server import PromptServer
+from .custom_frontend import CustomFrontend, FrontendBundleError
+from .module_store import EXTENSION_ROOT, module_store, register_module_routes
 
 
 LOG = logging.getLogger("ComfierUI-Companion")
 GATEWAY_HOST = "0.0.0.0"
 GATEWAY_PORT = 8147
 BACKEND = "http://127.0.0.1:8188"
-DISPLAY_TEST_VERSION = "0.5.6"
+DISPLAY_TEST_VERSION = "0.8.4"
 _registered = False
 _runner = None
 _site = None
 _port_lock = asyncio.Lock()
-_PORT_FILE = Path(__file__).with_name("gateway_port.json")
+_PORT_FILE = EXTENSION_ROOT / "gateway_port.json"
 
-_BROWSER_FILE = Path(__file__).with_name("browser_start.json")
+_BROWSER_FILE = EXTENSION_ROOT / "browser_start.json"
 
 def _browser_page():
     try:
@@ -64,6 +69,12 @@ DATA_CACHE_MAX_ENTRIES = 128
 _data_cache = OrderedDict()
 _data_cache_stripes = [asyncio.Lock() for _ in range(64)]
 _sessions = {}
+_frontend = CustomFrontend(module_store().active_root('hosted-frontend'), '1.57.0')
+_frontend_error = None
+try:
+    _frontend.load()
+except FrontendBundleError as error:
+    _frontend_error = str(error)
 _cache_epoch = 0
 _data_cache_stats = {"hits": 0, "misses": 0, "stores": 0, "bypasses": 0, "prewarmed": 0}
 
@@ -208,29 +219,6 @@ def _backend_url(request: web.Request) -> URL:
     return URL(target, encoded=True)
 
 
-def _preprocess_html(payload: bytes) -> bytes:
-    """Stamp/preload Companion Pre-Processor before the document reaches WebView."""
-    try:
-        html = payload.decode("utf-8")
-    except UnicodeDecodeError:
-        return payload
-    if 'name="comfierui-gateway"' in html:
-        return payload
-    stamp = (
-        '<meta name="comfierui-gateway" content="browser">'
-        '<meta name="comfierui-companion-display" content="' + DISPLAY_TEST_VERSION + '">'
-        '<meta name="comfierui-stage1-data" content="host-cache-prewarm-v1"><meta name="comfierui-stage2-data" content="parsed-response-broker-v1"><meta name="comfierui-stage3-metadata" content="host-metadata-catalog-v1">'
-        '<link rel="modulepreload" href="/comfierui/display-assets/comfierui_display_runtime.js?v=' + DISPLAY_TEST_VERSION + '">'
-        '<link rel="modulepreload" href="/comfierui/display-assets/comfierui_display_bundle.js?v=' + DISPLAY_TEST_VERSION + '">'
-    )
-    marker = "</head>"
-    if marker in html:
-        html = html.replace(marker, stamp + marker, 1)
-    else:
-        html = stamp + html
-    return html.encode("utf-8")
-
-
 async def _relay_websocket(request: web.Request) -> web.WebSocketResponse:
     downstream = web.WebSocketResponse(heartbeat=25.0, max_msg_size=0)
     await downstream.prepare(request)
@@ -298,6 +286,8 @@ async def _fetch_cacheable(request: web.Request, target: URL, headers: dict[str,
             async with session.get(target, headers=cache_headers, allow_redirects=False, timeout=aiohttp.ClientTimeout(total=15)) as upstream:
                 payload = await upstream.read()
                 content_type = upstream.headers.get("Content-Type", "application/json")
+                if 'text/html' in content_type.lower() or 'application/xhtml+xml' in content_type.lower():
+                    raise web.HTTPNotFound(text='Backend UI documents are not served by this gateway')
                 if upstream.status == 200 and len(payload) <= DATA_CACHE_MAX_ITEM_BYTES and not any(x in upstream.headers.get("Cache-Control", "").lower() for x in ("no-store", "no-cache", "private")):
                     entry = _CacheEntry(payload, content_type, time.monotonic(), ttl)
                     if generation == _cache_epoch: _store_cache(key, entry)
@@ -334,6 +324,8 @@ async def _prewarm_locked(path: str, ttl: float) -> None:
         async with _session(auto_decompress=True) as session:
             async with session.get(BACKEND + path, headers=headers, timeout=aiohttp.ClientTimeout(total=15)) as response:
                 if response.status != 200:
+                    return
+                if 'json' not in response.headers.get('Content-Type', '').lower():
                     return
                 payload = await response.read()
                 if len(payload) > DATA_CACHE_MAX_ITEM_BYTES:
@@ -489,6 +481,23 @@ def _cache_status() -> web.Response:
 
 
 async def _relay_http(request: web.Request) -> web.StreamResponse:
+    decoded_path = unquote(request.path)
+    if '\\' in decoded_path or '\x00' in decoded_path or any(part in {'.', '..'} for part in decoded_path.split('/')):
+        raise web.HTTPNotFound(text='Invalid gateway path')
+    if decoded_path == '/__comfier_device__' or decoded_path.startswith('/__comfier_device__/'):
+        raise web.HTTPNotFound(text='Device assets are supplied by the app')
+    if request.path == '/comfierui/frontend/status':
+        return web.json_response({**_frontend.snapshot(), 'error': _frontend_error}, headers={'Cache-Control':'no-store'})
+    if request.method in {'GET', 'HEAD'}:
+        if _frontend_error and (request.path in {'/', '/index.html'} or request.path.startswith('/assets/')):
+            return web.Response(status=503, text=_frontend_error, headers={'Cache-Control':'no-store'})
+        asset = _frontend.asset(request.path) if not _frontend_error else None
+        if asset is not None:
+            return web.Response(body=asset.body, content_type=asset.content_type, headers={
+                'Cache-Control':'no-cache', 'ETag':'"'+asset.checksum+'"',
+                'X-ComfierUI-Custom-Frontend':_frontend.build_id})
+    if decoded_path.startswith(('/assets/', '/scripts/')) or decoded_path in {'/assets', '/scripts', '/index.html', '/user.css'}:
+        raise web.HTTPNotFound(text='Asset is not in the custom frontend bundle')
     if request.path == "/comfierui/data-cache/status":
         return _cache_status()
     if request.path == "/comfierui/metadata/catalog":
@@ -502,6 +511,8 @@ async def _relay_http(request: web.Request) -> web.StreamResponse:
 
     target = _backend_url(request)
     headers = _backend_request_headers(request.headers)
+    if decoded_path.rstrip('/') == '/loras':
+        headers['Accept-Encoding'] = 'identity'
     if request.method == "GET" and not any(request.headers.get(h) for h in ("Authorization", "Range", "Cache-Control")):
         ttl = _data_cache_ttl(request.path)
         if ttl is not None:
@@ -521,20 +532,20 @@ async def _relay_http(request: web.Request) -> web.StreamResponse:
                 allow_redirects=False,
             ) as upstream:
                 response_headers = _forward_headers(upstream.headers)
+                location = upstream.headers.get('Location')
+                if location:
+                    redirect = URL(location)
+                    backend = URL(BACKEND)
+                    if redirect.is_absolute() and redirect.port == backend.port and redirect.host in {backend.host, 'localhost', '127.0.0.1', '::1'}:
+                        response_headers['Location'] = str(redirect.relative())
                 content_type = upstream.headers.get("Content-Type", "").lower()
-                if request.method == "GET" and "text/html" in content_type:
-                    payload = await upstream.read()
-                    transformed = _preprocess_html(payload)
-                    response_headers.pop("Content-Encoding", None)
-                    response_headers.pop("content-encoding", None)
-                    response_headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
-                    response_headers["X-ComfierUI-Display-Path"] = DISPLAY_TEST_VERSION
-                    return web.Response(
-                        body=transformed,
-                        status=upstream.status,
-                        reason=upstream.reason,
-                        headers=response_headers,
-                    )
+                if 'text/html' in content_type or 'application/xhtml+xml' in content_type:
+                    if decoded_path.rstrip('/') != '/loras':
+                        raise web.HTTPNotFound(text='Backend UI documents are not served by this gateway')
+                    body = await upstream.read()
+                    if len(body) > 4 * 1024 * 1024 or not re.search(rb'<title[^>]*>[^<]*lora', body, re.I):
+                        raise web.HTTPNotFound(text='LoRA Manager page is unavailable')
+                    return web.Response(body=body, status=upstream.status, headers=response_headers)
                 response = web.StreamResponse(
                     status=upstream.status,
                     reason=upstream.reason,
@@ -616,6 +627,7 @@ async def _start_gateway() -> None:
     GATEWAY_PORT = _read_port()
     application = web.Application(client_max_size=MAX_REQUEST_BYTES)
     application.on_cleanup.append(_cleanup_sessions)
+    register_module_routes(application, lambda: {**_frontend.snapshot(), 'error': _frontend_error}, None)
     for path in ("/comfierui/gateway/port", "/api/comfierui/gateway/port"):
         application.router.add_get(path, _gateway_port)
         application.router.add_post(path, _gateway_port)

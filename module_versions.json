@@ -1,0 +1,23 @@
+{
+  "protocol": 1,
+  "modules": {
+    "companion-core": {
+      "id": "companion-core",
+      "versionCode": 26,
+      "requires": {
+        "hosted-frontend": 26
+      },
+      "bytes": 35088,
+      "sha256": "a313d763eca65ec3d2014ba97fd2c527456a1cf06afbbe55fed9f645247cdab9"
+    },
+    "hosted-frontend": {
+      "id": "hosted-frontend",
+      "versionCode": 26,
+      "requires": {
+        "companion-core": 26
+      },
+      "bytes": 23554950,
+      "sha256": "949183608150bfbd2c1b2efa04bd5d6ce804b462995334599414251dd3490779"
+    }
+  }
+}

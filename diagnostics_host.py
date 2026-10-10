@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import os
 import threading
 import json
 import re
@@ -13,7 +14,7 @@ from pathlib import Path
 from aiohttp import web
 from server import PromptServer
 
-ROOT = Path(__file__).resolve().parent / "diagnostics"
+ROOT = Path(os.environ.get("COMFIER_EXTENSION_ROOT", Path(__file__).resolve().parent)) / "diagnostics"
 SCRIPTS = ROOT / "scripts"
 BACKUPS = ROOT / "backups"
 MANIFEST = ROOT / "scripts.json"
