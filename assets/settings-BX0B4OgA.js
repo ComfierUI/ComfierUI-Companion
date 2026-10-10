@@ -1,0 +1,556 @@
+//#region src/locales/zh-TW/settings.json
+var Comfy_Appearance_DisableAnimations = {
+	"name": "停用動畫",
+	"tooltip": "關閉大多數 CSS 動畫與過渡效果。當顯示卡同時用於生成時，可加快推理速度。"
+};
+var Comfy_Canvas_BackgroundImage = {
+	"name": "畫布背景圖片",
+	"tooltip": "畫布背景的圖片網址。你可以在輸出面板中右鍵點擊圖片並選擇「設為背景」來使用，或是使用上傳按鈕上傳你自己的圖片。"
+};
+var Comfy_Canvas_LeftMouseClickBehavior = {
+	"name": "左鍵點擊行為",
+	"options": {
+		"Panning": "平移",
+		"Select": "選取"
+	}
+};
+var Comfy_Canvas_MouseWheelScroll = {
+	"name": "滑鼠滾輪捲動",
+	"options": {
+		"Panning": "平移",
+		"Zoom in/out": "縮放"
+	}
+};
+var Comfy_Canvas_NavigationMode = {
+	"name": "畫布導航模式",
+	"options": {
+		"Custom": "自訂",
+		"Drag Navigation": "拖曳導覽",
+		"Standard (New)": "標準（新）"
+	}
+};
+var Comfy_Canvas_SelectionToolbox = {
+	"name": "顯示選取工具箱",
+	"tooltip": "當選取節點時顯示浮動工具列，快速存取常用操作。"
+};
+var Comfy_ConfirmClear = { "name": "清除工作流程時需要確認" };
+var Comfy_DOMClippingEnabled = { "name": "啟用 DOM 元素裁剪（啟用後可能會降低效能）" };
+var Comfy_DevMode = { "name": "啟用開發者模式選項（API 儲存等）" };
+var Comfy_DisableFloatRounding = {
+	"name": "停用預設浮點數元件四捨五入。",
+	"tooltip": "（需重新載入頁面）當後端節點已設定四捨五入時，無法停用四捨五入。"
+};
+var Comfy_DisableSliders = { "name": "停用節點元件滑桿" };
+var Comfy_EditAttention_Delta = { "name": "Ctrl+上/下 精確調整" };
+var Comfy_EnableTooltips = { "name": "啟用工具提示" };
+var Comfy_EnableWorkflowViewRestore = { "name": "在工作流程中儲存並還原畫布位置與縮放等級" };
+var Comfy_ErrorSystem_ShowMissingModels = {
+	"name": "在問題分頁中顯示缺少的模型",
+	"tooltip": "停用時，找不到的模型檔案不會列在問題分頁中，其節點也不會醒目顯示。"
+};
+var Comfy_Execution_PreviewMethod = {
+	"name": "即時預覽方式",
+	"options": {
+		"auto": "auto",
+		"default": "default",
+		"latent2rgb": "latent2rgb",
+		"none": "none",
+		"taesd": "taesd"
+	},
+	"tooltip": "在圖像生成過程中使用的即時預覽方式。「default」會使用伺服器 CLI 設定。"
+};
+var Comfy_FloatRoundingPrecision = {
+	"name": "浮點元件小數點位數 [0 = 自動]。",
+	"tooltip": "（需重新載入頁面）"
+};
+var Comfy_Graph_AutoPanSpeed = {
+	"name": "自動平移速度",
+	"tooltip": "拖曳至畫布邊緣時自動平移的最大速度。設為 0 可停用自動平移。"
+};
+var Comfy_Graph_CanvasInfo = { "name": "在左下角顯示畫布資訊（fps 等）" };
+var Comfy_Graph_CanvasMenu = { "name": "顯示圖形畫布選單" };
+var Comfy_Graph_CtrlShiftZoom = { "name": "啟用快速縮放快捷鍵（Ctrl + Shift + 拖曳）" };
+var Comfy_Graph_DeduplicateSubgraphNodeIds = {
+	"name": "去重子圖節點 ID",
+	"tooltip": "載入工作流程時，自動重新分配子圖中重複的節點 ID。"
+};
+var Comfy_Graph_LinkMarkers = {
+	"name": "連結中點標記",
+	"options": {
+		"Arrow": "箭頭",
+		"Circle": "圓圈",
+		"None": "無"
+	}
+};
+var Comfy_Graph_LiveSelection = {
+	"name": "即時選取",
+	"tooltip": "啟用後，拖曳選取框時會即時選取/取消選取節點，類似其他設計工具的操作方式。"
+};
+var Comfy_Graph_ZoomSpeed = { "name": "畫布縮放速度" };
+var Comfy_GroupSelectedNodes_Padding = { "name": "群組所選節點間距" };
+var Comfy_Group_DoubleClickTitleToEdit = { "name": "雙擊群組標題以編輯" };
+var Comfy_LinkRelease_Action = {
+	"name": "釋放連結時的動作（無修飾鍵）",
+	"options": {
+		"context menu": "右鍵選單",
+		"no action": "無動作",
+		"search box": "搜尋框"
+	}
+};
+var Comfy_LinkRelease_ActionShift = {
+	"name": "連結釋放時的動作（Shift）",
+	"options": {
+		"context menu": "右鍵選單",
+		"no action": "無動作",
+		"search box": "搜尋框"
+	}
+};
+var Comfy_LinkRenderMode = {
+	"name": "連結渲染模式",
+	"options": {
+		"Hidden": "隱藏",
+		"Linear": "線性",
+		"Spline": "曲線",
+		"Straight": "直線"
+	},
+	"tooltip": "控制畫布上節點連接線的外觀與可見性。"
+};
+var Comfy_Load3D_3DViewerEnable = {
+	"name": "啟用 3D 檢視器（Beta）",
+	"tooltip": "為所選節點啟用 3D 檢視器（Beta）。此功能可讓您在全尺寸 3D 檢視器中直接視覺化並互動 3D 模型。"
+};
+var Comfy_Load3D_BackgroundColor = {
+	"name": "初始背景顏色",
+	"tooltip": "控制 3D 場景的預設背景顏色。此設定決定新建立 3D 元件時的背景外觀，但建立後可針對每個元件單獨調整。"
+};
+var Comfy_Load3D_CameraType = {
+	"name": "初始相機類型",
+	"options": {
+		"orthographic": "正交",
+		"perspective": "透視"
+	},
+	"tooltip": "控制新建立 3D 元件時相機預設為透視或正交。此預設值可於建立後針對每個元件單獨切換。"
+};
+var Comfy_Load3D_LightAdjustmentIncrement = {
+	"name": "燈光調整增量",
+	"tooltip": "控制調整 3D 場景燈光強度時的增量大小。較小的步進值可更細緻地控制燈光調整，較大的值則每次調整變化更明顯。"
+};
+var Comfy_Load3D_LightIntensity = {
+	"name": "初始燈光強度",
+	"tooltip": "設定 3D 場景燈光的預設亮度。此值決定新建立 3D 元件時燈光照亮物件的強度，但建立後可針對每個元件單獨調整。"
+};
+var Comfy_Load3D_LightIntensityMaximum = {
+	"name": "燈光強度上限",
+	"tooltip": "設定 3D 場景可允許的最大燈光強度值。此值定義在任何 3D 元件中調整燈光時可設定的最高亮度。"
+};
+var Comfy_Load3D_LightIntensityMinimum = {
+	"name": "燈光強度下限",
+	"tooltip": "設定 3D 場景可允許的最小燈光強度值。此值定義在任何 3D 元件中調整燈光時可設定的最低亮度。"
+};
+var Comfy_Load3D_PLYEngine = {
+	"name": "PLY 引擎",
+	"options": {
+		"fastply": "fastply",
+		"threejs": "threejs"
+	},
+	"tooltip": "選擇用於載入 PLY 檔案的引擎。「threejs」使用原生 Three.js PLYLoader（適合網格 PLY 檔案）。「fastply」使用優化的 ASCII 點雲 PLY 檔案載入器。「sparkjs」使用 Spark.js 處理 3D Gaussian Splatting PLY 檔案。"
+};
+var Comfy_Load3D_ShowGrid = {
+	"name": "初始格線可見性",
+	"tooltip": "控制新建立 3D 元件時格線是否預設可見。此預設值可於建立後針對每個元件單獨切換。"
+};
+var Comfy_Locale = { "name": "語言" };
+var Comfy_MaskEditor_BrushAdjustmentSpeed = {
+	"name": "筆刷調整速度倍數",
+	"tooltip": "控制調整筆刷大小與硬度時的變化速度。數值越高，變化越快。"
+};
+var Comfy_MaskEditor_UseDominantAxis = {
+	"name": "鎖定筆刷調整至主軸",
+	"tooltip": "啟用後，筆刷調整只會根據你移動較多的方向，分別影響大小或硬度"
+};
+var Comfy_ModelLibrary_AutoLoadAll = {
+	"name": "自動載入所有模型資料夾",
+	"tooltip": "若為開啟，當你打開模型庫時，所有資料夾將自動載入（這可能會導致載入時延遲）。若為關閉，只有在你點擊根目錄下的模型資料夾時才會載入。"
+};
+var Comfy_ModelLibrary_NameFormat = {
+	"name": "在模型庫樹狀檢視中顯示的名稱",
+	"options": {
+		"filename": "filename",
+		"title": "title"
+	},
+	"tooltip": "選擇「filename」可在模型清單中顯示簡化的原始檔名（不含目錄或「.safetensors」副檔名）。選擇「title」則顯示可設定的模型中繼資料標題。"
+};
+var Comfy_NodeBadge_NodeIdBadgeMode = {
+	"name": "節點 ID 標籤模式",
+	"options": {
+		"None": "無",
+		"Show all": "全部顯示"
+	}
+};
+var Comfy_NodeBadge_NodeLifeCycleBadgeMode = {
+	"name": "節點生命週期徽章模式",
+	"options": {
+		"None": "無",
+		"Show all": "顯示全部"
+	}
+};
+var Comfy_NodeBadge_NodeSourceBadgeMode = {
+	"name": "節點來源徽章模式",
+	"options": {
+		"Hide built-in": "隱藏內建",
+		"None": "無",
+		"Show all": "全部顯示"
+	}
+};
+var Comfy_NodeBadge_ShowApiPricing = { "name": "顯示 API 節點價格標籤" };
+var Comfy_NodeLibrary_NewDesign = {
+	"name": "全新節點庫設計",
+	"tooltip": "啟用重新設計的節點庫側邊欄，包含分頁（精選、全部、自訂）、強化搜尋功能及滑鼠懸停預覽。"
+};
+var Comfy_NodeReplacement_Enabled = {
+	"name": "啟用自動節點替換",
+	"tooltip": "啟用後，若有替換對應關係，遺失的節點可自動以其較新的對應節點替換。"
+};
+var Comfy_NodeSearchBoxImpl = {
+	"name": "節點搜尋框實作",
+	"options": {
+		"default": "預設",
+		"litegraph (legacy)": "litegraph（舊版）",
+		"v1 (legacy)": "v1（舊版）"
+	}
+};
+var Comfy_NodeSearchBoxImpl_FollowCursor = {
+	"name": "新增節點跟隨游標",
+	"tooltip": "啟用後，從搜尋框新增的節點會跟隨游標，直到點擊以放置。僅適用於預設實作。"
+};
+var Comfy_NodeSearchBoxImpl_NodePreview = {
+	"name": "節點預覽",
+	"tooltip": "僅適用於預設實作"
+};
+var Comfy_NodeSearchBoxImpl_ShowCategory = {
+	"name": "在搜尋結果中顯示節點分類",
+	"tooltip": "僅適用於預設實作"
+};
+var Comfy_NodeSearchBoxImpl_ShowIdName = {
+	"name": "在搜尋結果中顯示節點 ID 名稱",
+	"tooltip": "僅適用於預設實作"
+};
+var Comfy_NodeSearchBoxImpl_ShowNodeFrequency = {
+	"name": "在搜尋結果中顯示節點頻率",
+	"tooltip": "僅適用於預設實作"
+};
+var Comfy_NodeSuggestions_number = {
+	"name": "節點建議數量",
+	"tooltip": "僅適用於 litegraph 搜尋框／右鍵選單"
+};
+var Comfy_Node_AllowImageSizeDraw = { "name": "在圖片預覽下方顯示寬度 × 高度" };
+var Comfy_Node_AlwaysShowAdvancedWidgets = {
+	"name": "在所有節點上總是顯示進階小工具",
+	"tooltip": "啟用後，所有節點的進階小工具將始終可見，無需單獨展開。"
+};
+var Comfy_Node_AutoSnapLinkToSlot = {
+	"name": "自動吸附連結到節點插槽",
+	"tooltip": "拖曳連結到節點時，連結會自動吸附到節點上可用的輸入插槽"
+};
+var Comfy_Node_BypassAllLinksOnDelete = {
+	"name": "刪除節點時保留所有連結",
+	"tooltip": "刪除節點時，嘗試自動重新連接其所有輸入與輸出連結（繞過被刪除的節點）"
+};
+var Comfy_Node_DoubleClickTitleToEdit = { "name": "雙擊節點標題以編輯" };
+var Comfy_Node_MiddleClickRerouteNode = { "name": "中鍵點擊建立新的重導節點" };
+var Comfy_Node_Opacity = { "name": "節點不透明度" };
+var Comfy_Node_ShowDeprecated = {
+	"name": "在搜尋中顯示已棄用節點",
+	"tooltip": "已棄用的節點在介面中預設隱藏，但在現有使用這些節點的工作流程中仍可運作。"
+};
+var Comfy_Node_ShowExperimental = {
+	"name": "在搜尋中顯示實驗性節點",
+	"tooltip": "實驗性節點會在介面中標註，未來版本可能會有重大變動或被移除。請在正式工作流程中謹慎使用"
+};
+var Comfy_Node_SnapHighlightsNode = {
+	"name": "節點高亮顯示對齊",
+	"tooltip": "當拖曳連結到具有可用輸入插槽的節點時，高亮顯示該節點"
+};
+var Comfy_Notification_ShowVersionUpdates = {
+	"name": "顯示版本更新",
+	"tooltip": "顯示新模型和主要新功能的更新。"
+};
+var Comfy_Pointer_ClickDrift = {
+	"name": "指標點擊漂移（最大距離）",
+	"tooltip": "如果在按住按鈕時指標移動超過此距離，則視為拖曳（而非點擊）。\n\n可防止在點擊時不小心移動指標導致物件被意外推動。"
+};
+var Comfy_Pointer_DoubleClickTime = {
+	"name": "雙擊間隔（最大值）",
+	"tooltip": "兩次點擊被視為雙擊的最長間隔時間（毫秒）。增加此數值可協助在雙擊有時未被辨識時改善操作體驗。"
+};
+var Comfy_PreviewFormat = {
+	"name": "預覽圖片格式",
+	"tooltip": "在圖片元件中顯示預覽時，將其轉換為輕量級圖片格式，例如 webp、jpeg、webp;50 等。"
+};
+var Comfy_PromptFilename = { "name": "儲存工作流程時提示輸入檔案名稱" };
+var Comfy_QueueButton_BatchCountLimit = {
+	"name": "批次數量上限",
+	"tooltip": "每次按鈕點擊可加入佇列的最大任務數"
+};
+var Comfy_Queue_MaxHistoryItems = {
+	"name": "佇列歷史記錄大小",
+	"tooltip": "佇列歷史中顯示的最大任務數量。"
+};
+var Comfy_Queue_QPOV2 = {
+	"name": "在資產側邊欄中使用統一任務佇列",
+	"tooltip": "將浮動任務佇列面板替換為嵌入資產側邊欄的等效任務佇列。您可以停用此選項以恢復浮動面板佈局。"
+};
+var Comfy_RightSidePanel_ShowErrorsTab = {
+	"name": "在側邊面板中顯示問題分頁",
+	"tooltip": "啟用後，右側面板會顯示「問題」分頁，以顯示會阻礙執行的錯誤及需要設定的缺少資源。"
+};
+var Comfy_Sidebar_Location = {
+	"name": "側邊欄位置",
+	"options": {
+		"left": "左側",
+		"right": "右側"
+	}
+};
+var Comfy_Sidebar_Size = {
+	"name": "側邊欄大小",
+	"options": {
+		"normal": "一般",
+		"small": "小"
+	}
+};
+var Comfy_Sidebar_Style = {
+	"name": "側邊欄樣式",
+	"options": {
+		"connected": "連接式",
+		"floating": "浮動式"
+	}
+};
+var Comfy_Sidebar_UnifiedWidth = { "name": "統一側邊欄寬度" };
+var Comfy_SnapToGrid_GridSize = {
+	"name": "對齊至格線大小",
+	"tooltip": "當按住 Shift 拖曳或調整節點大小時，節點會對齊到格線，此設定可調整格線的大小。"
+};
+var Comfy_TextareaWidget_FontSize = { "name": "文字區塊元件字型大小" };
+var Comfy_TextareaWidget_Spellcheck = { "name": "文字方塊小工具拼字檢查" };
+var Comfy_TreeExplorer_ItemPadding = { "name": "樹狀瀏覽器項目間距" };
+var Comfy_UI_TabBarLayout = {
+	"name": "分頁列佈局",
+	"options": {
+		"Default": "預設",
+		"Legacy": "傳統"
+	},
+	"tooltip": "控制分頁列的佈局。「整合」會將說明和使用者控制項移至分頁列區域。"
+};
+var Comfy_UseNewMenu = {
+	"name": "使用新選單",
+	"options": {
+		"Disabled": "停用",
+		"Top": "上方"
+	},
+	"tooltip": "選單列位置。在行動裝置上，選單永遠顯示在頂部。"
+};
+var Comfy_Validation_Workflows = { "name": "驗證工作流程" };
+var Comfy_VueNodes_Enabled = {
+	"name": "現代節點設計 (Nodes 2.0)",
+	"tooltip": "現代：基於 DOM 的渲染，具備增強的互動性、原生瀏覽器功能和更新的視覺設計。經典：傳統畫布渲染。"
+};
+var Comfy_WidgetControlMode = {
+	"name": "元件控制模式",
+	"options": {
+		"after": "佇列後",
+		"before": "佇列前"
+	},
+	"tooltip": "控制元件數值何時更新（隨機、遞增、遞減），可選在提示加入佇列前或後進行。"
+};
+var Comfy_Window_UnloadConfirmation = { "name": "關閉視窗時顯示確認提示" };
+var Comfy_Workflow_AutoSave = {
+	"name": "自動儲存",
+	"options": {
+		"after delay": "延遲後",
+		"off": "關閉"
+	}
+};
+var Comfy_Workflow_AutoSaveDelay = {
+	"name": "自動儲存延遲（毫秒）",
+	"tooltip": "僅在自動儲存設為「延遲後」時適用。"
+};
+var Comfy_Workflow_ConfirmDelete = { "name": "刪除工作流程時顯示確認視窗" };
+var Comfy_Workflow_NamedValuesRestore = { "name": "依名稱還原元件數值" };
+var Comfy_Workflow_Persist = { "name": "保留工作流程狀態並於頁面重新載入時還原" };
+var Comfy_Workflow_ShowMissingMediaWarning = {
+	"name": "在問題分頁中顯示缺少的媒體",
+	"tooltip": "停用時，找不到的輸入影像、影片和音訊不會列在問題分頁中，其節點也不會醒目顯示。"
+};
+var Comfy_Workflow_ShowMissingNodesWarning = {
+	"name": "在問題分頁中顯示缺少的節點",
+	"tooltip": "停用時，缺少的節點套件不會列在問題分頁中，其節點也不會醒目顯示。在安裝前，工作流程仍無法執行。"
+};
+var Comfy_Workflow_SortNodeIdOnSave = { "name": "儲存工作流程時排序節點 ID" };
+var Comfy_Workflow_WarnBlueprintOverwrite = { "name": "覆蓋現有子圖藍圖前需要確認" };
+var Comfy_Workflow_WorkflowTabsPosition = {
+	"name": "已開啟工作流程的位置",
+	"options": {
+		"Sidebar": "側邊欄",
+		"Topbar": "頂部欄"
+	}
+};
+var LiteGraph_Canvas_MaximumFps = {
+	"name": "最大FPS",
+	"tooltip": "畫布允許渲染的最大每秒幀數。限制GPU使用率，但可能影響流暢度。若設為0，則使用螢幕的更新率。預設值：0"
+};
+var LiteGraph_Canvas_MinFontSizeForLOD = {
+	"name": "縮放節點細節層級 - 字型大小閾值",
+	"tooltip": "控制節點何時切換至低品質 LOD 渲染。使用像素字型大小來決定何時切換。設為 0 可停用。數值 1-24 設定 LOD 的最小字型大小閾值 - 較高的數值（24px）= 縮小時更早切換節點為簡化渲染，較低的數值（1px）= 較長時間維持完整節點品質。"
+};
+var LiteGraph_ContextMenu_Scaling = { "name": "放大時縮放節點組合小工具選單（清單）" };
+var LiteGraph_Group_SelectChildrenOnClick = {
+	"name": "點擊時選取群組內的子項目",
+	"tooltip": "啟用後，點擊群組會選取群組內的所有節點與項目"
+};
+var LiteGraph_Node_DefaultPadding = {
+	"name": "新增節點時自動縮小",
+	"tooltip": "建立節點時自動調整為最小尺寸。若停用，新增的節點會略為加寬以顯示元件數值。"
+};
+var LiteGraph_Node_TooltipDelay = { "name": "提示延遲" };
+var LiteGraph_Reroute_SplineOffset = {
+	"name": "重導樣條偏移",
+	"tooltip": "貝茲控制點相對於重導中心點的偏移量"
+};
+var pysssss_SnapToGrid = {
+	"name": "總是對齊格線",
+	"tooltip": "啟用後，移動或調整節點大小時會自動對齊網格。"
+};
+var settings_default = {
+	"Comfy-Desktop_AutoUpdate": { "name": "自動檢查更新" },
+	"Comfy-Desktop_SendStatistics": { "name": "傳送匿名使用統計資料" },
+	"Comfy-Desktop_UV_PypiInstallMirror": {
+		"name": "PyPI 安裝鏡像站",
+		"tooltip": "預設 pip 安裝鏡像站"
+	},
+	"Comfy-Desktop_UV_PythonInstallMirror": {
+		"name": "Python 安裝鏡像站",
+		"tooltip": "受管理的 Python 安裝檔會從 Astral 的 python-build-standalone 專案下載。這個變數可以設定為鏡像站的 URL，以便從不同來源下載 Python 安裝檔。所提供的 URL 會取代 https://github.com/astral-sh/python-build-standalone/releases/download，例如：https://github.com/astral-sh/python-build-standalone/releases/download/20240713/cpython-3.12.4%2B20240713-aarch64-apple-darwin-install_only.tar.gz。若要從本機目錄讀取發行版本，請使用 file:// URL 格式。"
+	},
+	"Comfy-Desktop_UV_TorchInstallMirror": {
+		"name": "Torch 安裝鏡像站",
+		"tooltip": "PyTorch 的 pip 安裝鏡像站"
+	},
+	"Comfy-Desktop_WindowStyle": {
+		"name": "視窗樣式",
+		"options": {
+			"custom": "自訂",
+			"default": "預設"
+		},
+		"tooltip": "自訂：以 ComfyUI 的頂部選單取代系統標題列"
+	},
+	Comfy_Appearance_DisableAnimations,
+	Comfy_Canvas_BackgroundImage,
+	Comfy_Canvas_LeftMouseClickBehavior,
+	Comfy_Canvas_MouseWheelScroll,
+	Comfy_Canvas_NavigationMode,
+	Comfy_Canvas_SelectionToolbox,
+	Comfy_ConfirmClear,
+	Comfy_DOMClippingEnabled,
+	Comfy_DevMode,
+	Comfy_DisableFloatRounding,
+	Comfy_DisableSliders,
+	Comfy_EditAttention_Delta,
+	Comfy_EnableTooltips,
+	Comfy_EnableWorkflowViewRestore,
+	Comfy_ErrorSystem_ShowMissingModels,
+	Comfy_Execution_PreviewMethod,
+	Comfy_FloatRoundingPrecision,
+	Comfy_Graph_AutoPanSpeed,
+	Comfy_Graph_CanvasInfo,
+	Comfy_Graph_CanvasMenu,
+	Comfy_Graph_CtrlShiftZoom,
+	Comfy_Graph_DeduplicateSubgraphNodeIds,
+	Comfy_Graph_LinkMarkers,
+	Comfy_Graph_LiveSelection,
+	Comfy_Graph_ZoomSpeed,
+	Comfy_GroupSelectedNodes_Padding,
+	Comfy_Group_DoubleClickTitleToEdit,
+	Comfy_LinkRelease_Action,
+	Comfy_LinkRelease_ActionShift,
+	Comfy_LinkRenderMode,
+	Comfy_Load3D_3DViewerEnable,
+	Comfy_Load3D_BackgroundColor,
+	Comfy_Load3D_CameraType,
+	Comfy_Load3D_LightAdjustmentIncrement,
+	Comfy_Load3D_LightIntensity,
+	Comfy_Load3D_LightIntensityMaximum,
+	Comfy_Load3D_LightIntensityMinimum,
+	Comfy_Load3D_PLYEngine,
+	Comfy_Load3D_ShowGrid,
+	Comfy_Locale,
+	Comfy_MaskEditor_BrushAdjustmentSpeed,
+	Comfy_MaskEditor_UseDominantAxis,
+	Comfy_ModelLibrary_AutoLoadAll,
+	Comfy_ModelLibrary_NameFormat,
+	Comfy_NodeBadge_NodeIdBadgeMode,
+	Comfy_NodeBadge_NodeLifeCycleBadgeMode,
+	Comfy_NodeBadge_NodeSourceBadgeMode,
+	Comfy_NodeBadge_ShowApiPricing,
+	Comfy_NodeLibrary_NewDesign,
+	Comfy_NodeReplacement_Enabled,
+	Comfy_NodeSearchBoxImpl,
+	Comfy_NodeSearchBoxImpl_FollowCursor,
+	Comfy_NodeSearchBoxImpl_NodePreview,
+	Comfy_NodeSearchBoxImpl_ShowCategory,
+	Comfy_NodeSearchBoxImpl_ShowIdName,
+	Comfy_NodeSearchBoxImpl_ShowNodeFrequency,
+	Comfy_NodeSuggestions_number,
+	Comfy_Node_AllowImageSizeDraw,
+	Comfy_Node_AlwaysShowAdvancedWidgets,
+	Comfy_Node_AutoSnapLinkToSlot,
+	Comfy_Node_BypassAllLinksOnDelete,
+	Comfy_Node_DoubleClickTitleToEdit,
+	Comfy_Node_MiddleClickRerouteNode,
+	Comfy_Node_Opacity,
+	Comfy_Node_ShowDeprecated,
+	Comfy_Node_ShowExperimental,
+	Comfy_Node_SnapHighlightsNode,
+	Comfy_Notification_ShowVersionUpdates,
+	Comfy_Pointer_ClickDrift,
+	Comfy_Pointer_DoubleClickTime,
+	Comfy_PreviewFormat,
+	Comfy_PromptFilename,
+	Comfy_QueueButton_BatchCountLimit,
+	Comfy_Queue_MaxHistoryItems,
+	Comfy_Queue_QPOV2,
+	Comfy_RightSidePanel_ShowErrorsTab,
+	Comfy_Sidebar_Location,
+	Comfy_Sidebar_Size,
+	Comfy_Sidebar_Style,
+	Comfy_Sidebar_UnifiedWidth,
+	Comfy_SnapToGrid_GridSize,
+	Comfy_TextareaWidget_FontSize,
+	Comfy_TextareaWidget_Spellcheck,
+	Comfy_TreeExplorer_ItemPadding,
+	Comfy_UI_TabBarLayout,
+	Comfy_UseNewMenu,
+	Comfy_Validation_Workflows,
+	Comfy_VueNodes_Enabled,
+	Comfy_WidgetControlMode,
+	Comfy_Window_UnloadConfirmation,
+	Comfy_Workflow_AutoSave,
+	Comfy_Workflow_AutoSaveDelay,
+	Comfy_Workflow_ConfirmDelete,
+	Comfy_Workflow_NamedValuesRestore,
+	Comfy_Workflow_Persist,
+	Comfy_Workflow_ShowMissingMediaWarning,
+	Comfy_Workflow_ShowMissingNodesWarning,
+	Comfy_Workflow_SortNodeIdOnSave,
+	Comfy_Workflow_WarnBlueprintOverwrite,
+	Comfy_Workflow_WorkflowTabsPosition,
+	LiteGraph_Canvas_MaximumFps,
+	LiteGraph_Canvas_MinFontSizeForLOD,
+	LiteGraph_ContextMenu_Scaling,
+	LiteGraph_Group_SelectChildrenOnClick,
+	LiteGraph_Node_DefaultPadding,
+	LiteGraph_Node_TooltipDelay,
+	LiteGraph_Reroute_SplineOffset,
+	pysssss_SnapToGrid
+};
+//#endregion
+export { Comfy_Appearance_DisableAnimations, Comfy_Canvas_BackgroundImage, Comfy_Canvas_LeftMouseClickBehavior, Comfy_Canvas_MouseWheelScroll, Comfy_Canvas_NavigationMode, Comfy_Canvas_SelectionToolbox, Comfy_ConfirmClear, Comfy_DOMClippingEnabled, Comfy_DevMode, Comfy_DisableFloatRounding, Comfy_DisableSliders, Comfy_EditAttention_Delta, Comfy_EnableTooltips, Comfy_EnableWorkflowViewRestore, Comfy_ErrorSystem_ShowMissingModels, Comfy_Execution_PreviewMethod, Comfy_FloatRoundingPrecision, Comfy_Graph_AutoPanSpeed, Comfy_Graph_CanvasInfo, Comfy_Graph_CanvasMenu, Comfy_Graph_CtrlShiftZoom, Comfy_Graph_DeduplicateSubgraphNodeIds, Comfy_Graph_LinkMarkers, Comfy_Graph_LiveSelection, Comfy_Graph_ZoomSpeed, Comfy_GroupSelectedNodes_Padding, Comfy_Group_DoubleClickTitleToEdit, Comfy_LinkRelease_Action, Comfy_LinkRelease_ActionShift, Comfy_LinkRenderMode, Comfy_Load3D_3DViewerEnable, Comfy_Load3D_BackgroundColor, Comfy_Load3D_CameraType, Comfy_Load3D_LightAdjustmentIncrement, Comfy_Load3D_LightIntensity, Comfy_Load3D_LightIntensityMaximum, Comfy_Load3D_LightIntensityMinimum, Comfy_Load3D_PLYEngine, Comfy_Load3D_ShowGrid, Comfy_Locale, Comfy_MaskEditor_BrushAdjustmentSpeed, Comfy_MaskEditor_UseDominantAxis, Comfy_ModelLibrary_AutoLoadAll, Comfy_ModelLibrary_NameFormat, Comfy_NodeBadge_NodeIdBadgeMode, Comfy_NodeBadge_NodeLifeCycleBadgeMode, Comfy_NodeBadge_NodeSourceBadgeMode, Comfy_NodeBadge_ShowApiPricing, Comfy_NodeLibrary_NewDesign, Comfy_NodeReplacement_Enabled, Comfy_NodeSearchBoxImpl, Comfy_NodeSearchBoxImpl_FollowCursor, Comfy_NodeSearchBoxImpl_NodePreview, Comfy_NodeSearchBoxImpl_ShowCategory, Comfy_NodeSearchBoxImpl_ShowIdName, Comfy_NodeSearchBoxImpl_ShowNodeFrequency, Comfy_NodeSuggestions_number, Comfy_Node_AllowImageSizeDraw, Comfy_Node_AlwaysShowAdvancedWidgets, Comfy_Node_AutoSnapLinkToSlot, Comfy_Node_BypassAllLinksOnDelete, Comfy_Node_DoubleClickTitleToEdit, Comfy_Node_MiddleClickRerouteNode, Comfy_Node_Opacity, Comfy_Node_ShowDeprecated, Comfy_Node_ShowExperimental, Comfy_Node_SnapHighlightsNode, Comfy_Notification_ShowVersionUpdates, Comfy_Pointer_ClickDrift, Comfy_Pointer_DoubleClickTime, Comfy_PreviewFormat, Comfy_PromptFilename, Comfy_QueueButton_BatchCountLimit, Comfy_Queue_MaxHistoryItems, Comfy_Queue_QPOV2, Comfy_RightSidePanel_ShowErrorsTab, Comfy_Sidebar_Location, Comfy_Sidebar_Size, Comfy_Sidebar_Style, Comfy_Sidebar_UnifiedWidth, Comfy_SnapToGrid_GridSize, Comfy_TextareaWidget_FontSize, Comfy_TextareaWidget_Spellcheck, Comfy_TreeExplorer_ItemPadding, Comfy_UI_TabBarLayout, Comfy_UseNewMenu, Comfy_Validation_Workflows, Comfy_VueNodes_Enabled, Comfy_WidgetControlMode, Comfy_Window_UnloadConfirmation, Comfy_Workflow_AutoSave, Comfy_Workflow_AutoSaveDelay, Comfy_Workflow_ConfirmDelete, Comfy_Workflow_NamedValuesRestore, Comfy_Workflow_Persist, Comfy_Workflow_ShowMissingMediaWarning, Comfy_Workflow_ShowMissingNodesWarning, Comfy_Workflow_SortNodeIdOnSave, Comfy_Workflow_WarnBlueprintOverwrite, Comfy_Workflow_WorkflowTabsPosition, LiteGraph_Canvas_MaximumFps, LiteGraph_Canvas_MinFontSizeForLOD, LiteGraph_ContextMenu_Scaling, LiteGraph_Group_SelectChildrenOnClick, LiteGraph_Node_DefaultPadding, LiteGraph_Node_TooltipDelay, LiteGraph_Reroute_SplineOffset, settings_default as default, pysssss_SnapToGrid };
