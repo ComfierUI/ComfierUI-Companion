@@ -1,0 +1,300 @@
+import "./rolldown-runtime-xtsTai4I.js";
+import { Co as $el, S as deserialiseAndCreate, nt as useDialogService, o as app, wo as ComfyDialog } from "./layoutStore-CZsuzg91.js";
+import { i as api } from "./api-Bt-fGt5a.js";
+import { n as reportError } from "./reportError-LG-zfbNw.js";
+import { t as useToastStore } from "./toastStore-CTfykAzG.js";
+import { d as t } from "./i18n-C3J-ToPr.js";
+import { t as downloadBlob } from "./downloadUtil-Bysc7OZ_.js";
+//#region src/extensions/core/nodeTemplates.ts
+var id = "Comfy.NodeTemplates";
+var file = "comfy.templates.json";
+var ManageTemplates = class extends ComfyDialog {
+	templates = [];
+	draggedEl;
+	saveVisualCue;
+	emptyImg;
+	importInput;
+	constructor() {
+		super();
+		this.load().then((v) => {
+			this.templates = v;
+		});
+		this.element.classList.add("comfy-manage-templates");
+		this.element.dataset.testid = "manage-node-templates-dialog";
+		this.draggedEl = null;
+		this.saveVisualCue = null;
+		this.emptyImg = new Image();
+		this.emptyImg.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
+		this.importInput = $el("input", {
+			type: "file",
+			accept: ".json",
+			multiple: true,
+			style: { display: "none" },
+			parent: document.body,
+			onchange: () => this.importAll()
+		});
+	}
+	createButtons() {
+		const btns = super.createButtons();
+		btns[0].textContent = "Close";
+		btns[0].onclick = () => {
+			if (this.saveVisualCue) clearTimeout(this.saveVisualCue);
+			this.close();
+		};
+		btns.unshift($el("button", {
+			type: "button",
+			textContent: "Export",
+			onclick: () => this.exportAll()
+		}));
+		btns.unshift($el("button", {
+			type: "button",
+			textContent: "Import",
+			onclick: () => {
+				this.importInput.click();
+			}
+		}));
+		return btns;
+	}
+	async load() {
+		let templates = [];
+		const res = await api.getUserData(file);
+		if (res.status === 200) try {
+			templates = await res.json();
+		} catch (error) {
+			reportError(error, {
+				surface: "graph",
+				errorType: "failure_loading_node_templates",
+				tags: {
+					failure_kind: "caught_unexpected",
+					feature_area: "extensions",
+					operation: "load",
+					outcome: "recovered"
+				},
+				level: "error"
+			});
+		}
+		else if (res.status !== 404) console.error(res.status + " " + res.statusText);
+		return templates ?? [];
+	}
+	async store() {
+		const templates = JSON.stringify(this.templates, void 0, 4);
+		try {
+			await api.storeUserData(file, templates, { stringify: false });
+		} catch (error) {
+			console.error(error);
+			useToastStore().addAlert(error instanceof Error ? error.message : String(error));
+		}
+	}
+	async importAll() {
+		for (const file of this.importInput.files ?? []) if (file.type === "application/json" || file.name.endsWith(".json")) {
+			const reader = new FileReader();
+			reader.onload = async () => {
+				const importFile = JSON.parse(reader.result);
+				if (importFile?.templates) {
+					for (const template of importFile.templates) if (template?.name && template?.data) this.templates.push(template);
+					await this.store();
+				}
+			};
+			await reader.readAsText(file);
+		}
+		this.importInput.value = "";
+		this.close();
+	}
+	exportAll() {
+		if (this.templates.length == 0) {
+			useToastStore().addAlert(t("toastMessages.noTemplatesToExport"));
+			return;
+		}
+		const json = JSON.stringify({ templates: this.templates }, null, 2);
+		const blob = new Blob([json], { type: "application/json" });
+		downloadBlob("node_templates.json", blob);
+	}
+	show() {
+		super.show($el("div", {}, this.templates.flatMap((t, i) => {
+			let nameInput;
+			return [$el("div", {
+				dataset: { id: i.toString() },
+				className: "templateManagerRow",
+				style: {
+					display: "grid",
+					gridTemplateColumns: "1fr auto",
+					border: "1px dashed transparent",
+					gap: "5px",
+					backgroundColor: "var(--comfy-menu-bg)"
+				},
+				ondragstart: (e) => {
+					const row = e.currentTarget;
+					if (!(row instanceof HTMLElement) || !e.dataTransfer) return;
+					this.draggedEl = row;
+					row.style.opacity = "0.6";
+					row.style.border = "1px dashed yellow";
+					e.dataTransfer.effectAllowed = "move";
+					e.dataTransfer.setDragImage(this.emptyImg, 0, 0);
+				},
+				ondragend: (e) => {
+					const row = e.currentTarget;
+					if (!(row instanceof HTMLElement)) return;
+					row.style.opacity = "1";
+					row.style.border = "1px dashed transparent";
+					row.removeAttribute("draggable");
+					this.element.querySelectorAll(".templateManagerRow").forEach((el, i) => {
+						const prev_i = Number.parseInt(el.dataset.id ?? "");
+						if (el == this.draggedEl && prev_i != i) this.templates.splice(i, 0, this.templates.splice(prev_i, 1)[0]);
+						el.dataset.id = i.toString();
+					});
+					this.store();
+				},
+				ondragover: (e) => {
+					e.preventDefault();
+					const row = e.currentTarget;
+					const draggedEl = this.draggedEl;
+					if (!(row instanceof HTMLElement) || !row.parentNode || !draggedEl) return;
+					if (row == this.draggedEl) return;
+					const rect = row.getBoundingClientRect();
+					if (e.clientY > rect.top + rect.height / 2) row.parentNode.insertBefore(draggedEl, row.nextSibling);
+					else row.parentNode.insertBefore(draggedEl, row);
+				}
+			}, [$el("label", {
+				textContent: "Name: ",
+				style: { cursor: "grab" },
+				onmousedown: (e) => {
+					const label = e.currentTarget;
+					if (e.target instanceof HTMLLabelElement && label instanceof HTMLLabelElement && label.parentElement) label.parentElement.draggable = true;
+				}
+			}, [$el("input", {
+				value: t.name,
+				dataset: { name: t.name },
+				style: {
+					transitionProperty: "background-color",
+					transitionDuration: "0s"
+				},
+				onchange: (e) => {
+					const el = e.target;
+					if (!(el instanceof HTMLInputElement)) return;
+					if (this.saveVisualCue) clearTimeout(this.saveVisualCue);
+					const row = el.closest(".templateManagerRow");
+					if (!row) return;
+					this.templates[Number(row.dataset.id)].name = el.value.trim() || "untitled";
+					this.store();
+					el.style.backgroundColor = "rgb(40, 95, 40)";
+					el.style.transitionDuration = "0s";
+					this.saveVisualCue = setTimeout(function() {
+						el.style.transitionDuration = ".7s";
+						el.style.backgroundColor = "var(--comfy-input-bg)";
+					}, 15);
+				},
+				onkeypress: (e) => {
+					const el = e.target;
+					if (!(el instanceof HTMLInputElement)) return;
+					if (this.saveVisualCue) clearTimeout(this.saveVisualCue);
+					el.style.transitionDuration = "0s";
+					el.style.backgroundColor = "var(--comfy-input-bg)";
+				},
+				$: (el) => {
+					if (el instanceof HTMLInputElement) nameInput = el;
+				}
+			})]), $el("div", {}, [$el("button", {
+				textContent: "Export",
+				style: {
+					fontSize: "12px",
+					fontWeight: "normal"
+				},
+				onclick: () => {
+					const json = JSON.stringify({ templates: [t] }, null, 2);
+					const blob = new Blob([json], { type: "application/json" });
+					const name = (nameInput.value || t.name) + ".json";
+					downloadBlob(name, blob);
+				}
+			}), $el("button", {
+				textContent: "Delete",
+				style: {
+					fontSize: "12px",
+					color: "red",
+					fontWeight: "normal"
+				},
+				onclick: (e) => {
+					const target = e.target;
+					if (!(target instanceof HTMLElement)) return;
+					const item = target.closest(".templateManagerRow");
+					if (!item) return;
+					item.remove();
+					this.templates.splice(Number(item.dataset.id), 1);
+					this.store();
+					setTimeout(() => {
+						this.element.querySelectorAll(".templateManagerRow").forEach((el, i) => {
+							el.dataset.id = i.toString();
+						});
+					}, 0);
+				}
+			})])])];
+		})));
+	}
+};
+var manage = new ManageTemplates();
+var clipboardAction = async (cb) => {
+	const old = localStorage.getItem("litegrapheditor_clipboard");
+	await cb();
+	if (old === null) localStorage.removeItem("litegrapheditor_clipboard");
+	else localStorage.setItem("litegrapheditor_clipboard", old);
+};
+var ext = {
+	name: id,
+	getCanvasMenuItems(_canvas) {
+		const items = [];
+		items.push(null);
+		items.push({
+			content: `Save Selected as Template`,
+			disabled: !Object.keys(app.canvas.selected_nodes).length,
+			callback: async () => {
+				const name = await useDialogService().prompt({
+					title: t("nodeTemplates.saveAsTemplate"),
+					message: t("nodeTemplates.enterName"),
+					defaultValue: ""
+				});
+				if (!name?.trim()) return;
+				await clipboardAction(async () => {
+					app.canvas.copyToClipboard();
+					const data = localStorage.getItem("litegrapheditor_clipboard");
+					manage.templates.push({
+						name,
+						data: data || "{}"
+					});
+					await manage.store();
+				});
+			}
+		});
+		const subItems = manage.templates.map((template) => {
+			return {
+				content: template.name,
+				callback: async () => {
+					await clipboardAction(() => {
+						let data;
+						try {
+							data = JSON.parse(template.data);
+						} catch (error) {
+							console.error("Failed to parse node template data", error);
+							useToastStore().addAlert(t("toastMessages.invalidTemplateData"));
+							return;
+						}
+						if (!data.reroutes) deserialiseAndCreate(template.data, app.canvas);
+						else {
+							localStorage.setItem("litegrapheditor_clipboard", template.data);
+							app.canvas.pasteFromClipboard();
+						}
+					});
+				}
+			};
+		});
+		subItems.push(null, {
+			content: "Manage",
+			callback: () => manage.show()
+		});
+		items.push({
+			content: "Node Templates",
+			submenu: { options: subItems }
+		});
+		return items;
+	}
+};
+app.registerExtension(ext);
+//#endregion
