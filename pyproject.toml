@@ -1,6 +1,6 @@
 [project]
 name = "comfierui-companion"
-version = "0.9.2"
+version = "0.10.1"
 description = "Required self-hosted ComfyUI extension for ComfierUI remote clients."
 readme = "README.md"
 license = { file = "LICENSE.md" }
@@ -14,5 +14,5 @@ Issues = "https://github.com/ComfierUI/ComfierUI-Companion/issues"
 
 [tool.comfy]
 PublisherId = "comfierui"
-DisplayName = "ComfierUI Companion Frontend TEST14"
+DisplayName = "ComfierUI Companion"
 Icon = "https://raw.githubusercontent.com/ComfierUI/ComfierUI-Companion/main/assets/comfierui-logo.png"

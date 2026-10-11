@@ -155,13 +155,7 @@ function addFilter(ctx, values, options = {}) {
 				selectedItem?.style.setProperty("background-color", "#ccc", "important");
 				selectedItem?.style.setProperty("color", "#000", "important");
 			}
-			const positionList = () => {
-				if (ctx.root.getBoundingClientRect().top < 0) {
-					const scale = 1 - ctx.root.getBoundingClientRect().height / ctx.root.clientHeight;
-					const shift = ctx.root.clientHeight * scale / 2;
-					ctx.root.style.top = -shift + "px";
-				}
-			};
+			const positionList = () => ctx.fitComboViewport?.();
 			filter.addEventListener("keydown", (event) => {
 				switch (event.key) {
 					case "ArrowUp":
@@ -217,6 +211,7 @@ function addFilter(ctx, values, options = {}) {
 			});
 		});
 	}
+	ctx.fitComboViewport?.();
 	return ctx;
 }
 app.registerExtension({

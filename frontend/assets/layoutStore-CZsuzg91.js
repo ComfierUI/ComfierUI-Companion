@@ -1,3 +1,5 @@
+import { createGenerationPreview } from "./comfierGenerationPreview.js";
+import { createCloudTemplateFilter } from "./comfierCloudTemplates.js";
 const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./useSessionCookie-B1w4dEt1.js","./useSessionCookie-brPafxdw.js","./rolldown-runtime-xtsTai4I.js","./api-Bt-fGt5a.js","./vendor-datadog-DudeEV66.js","./vendor-other-BPEcPQTD.js","./vendor-three-DQpYrwAh.js","./vendor-vue-core-C1utdb0s.js","./vendor-zod-TMj9Wsdv.js","./vendor-tiptap-BT_4t92m.js","./requestAuth-YeU5GIXc.js","./vendor-vueuse-BxKIIsKg.js","./telemetry-IkzvF0TI.js","./zod.gen-C09SPgBJ.js","./vendor-axios-QnwcNXlY.js","./vendor-sentry-zSXGkMPN.js","./reportError-LG-zfbNw.js","./hostTelemetryEnabled-BZ3GL1Cu.js","./remoteConfig-DwMQrLli.js","./vendor-firebase-B37L--zT.js","./toastStore-CTfykAzG.js","./useFeatureFlags-DAoj_aDd.js","./vendor-other-DODGPXtn.css","./LayerEditorContent-BTa25w_f.js","./vendor-i18n-BZvE7WBQ.js","./vendor-reka-ui-tdehH9A1.js","./src-DI1bBfrb.js","./Button-j0oCzR82.js","./useModalLiftedZIndex-BuehUvPe.js","./vendor-primevue-C3d0HJ53.js","./Input-Cx8jjgHK.js","./SelectValue-BYMnIcxq.js","./ColorPicker-D34wwQO7.js","./colorUtil-BzdMMd-Y.js","./Popover-CvXi6yxa.js","./PopoverContent-0k_uVDfE.js","./ToggleGroupItem-Da4A26JJ.js","./useCompositorLayers-DOjMhGtA.js","./useLayerEditorSession-K0QHcdu3.js","./downloadUtil-Bysc7OZ_.js","./i18n-C3J-ToPr.js","./formatUtil-DuxXRy1z.js","./commands-BcZ6fU3-.js","./main-BfqkkuXX.js","./nodeDefs-CFOSmIZi.js","./settings-B3DInspu.js","./TopBarHeader-UnV3yuBN.js","./DialogClose-B8cFZwt-.js","./useTerminalTabs-BIwPvHzh.js","./_plugin-vue_export-helper-DEKQMRQ4.js","./envUtil-2Z8ainL3.js","./Spinner-B79hMIoc.js","./vendor-xterm-tvYwlZkL.js","./vendor-xterm-BKlWQB97.css","./useTerminalTabs-CwR8y0SL.css","./core-C-rxLv4a.js","./dialogStore-B0GYyals.js","./systemStatsStore-3gc4cifl.js","./NumberFieldInput-CILJZ6M6.js","./useExternalLink-CXT6uu6Z.js","./nodeTypes-CU2vW7lJ.js","./WidgetTextPreview-Dd8GpNOT.js","./markdownRendererUtil-6g3t5X63.js","./vendor-markdown-CtxqRwKg.js","./Textarea-r-a2mhot.js","./layout-BZWBHixI.js","./audioService-CB9cyIF6.js","./ApiNodesSignInContent-CI9U70qu.js","./AccessibleTooltip-BrSxwyaK.js","./SignInContent-CQxTCTAo.js","./desktopHostSession-IrokPizE.js","./comfyApi-CYSC9hA6.js","./SignUpForm-D4VB-c6J.js","./FieldLabel-4kD4Yi7G.js","./FieldDescription-B1neEBHX.js","./signInSchema-COhVh-MP.js","./PasswordFields-ZEHNFiy2.js","./PasswordInput-B9my8iEe.js","./InputGroupInput-BndLl3Nb.js","./useSocialSignIn-4ach6N_x.js","./Message-NRJmn_pf.js","./Skeleton-gXY6B2Cf.js","./UpdatePasswordContent-BLaN5U7R.js","./ComfyOrgHeader-DEHSobcB.js","./comfy-logo-single-BCSzfwR_.js","./CloudNotificationContent-CdFPpVPj.js","./cloud-subscription-Bm9_w48j.js","./ComfyHubPublishDialog-D1hn2SU8.js","./ComfyHubPublishDialog-Eg5J-OAB.js","./widgetTypes-CisWqKm9.js","./toggle-group-B0brfUuj.js","./workflowShareService-D2WyTi0Z.js","./useImageQuiet-Ded8W_Zd.js","./DeleteWorkspaceDialogContent-D9DnoQkF.js","./CreateWorkspaceDialogContent-DujgE0Ff.js","./TeamWorkspacesDialogContent-hkAf66tR.js","./WorkspaceProfilePic-C1aA3F8q.js","./useWorkspaceSwitch-BOUfRKSR.js","./useWorkspaceTierLabel-DjgGD1WF.js","./LeaveWorkspaceDialogContent-CArLTbCq.js","./EditWorkspaceDialogContent-COKckCUM.js","./RemoveMemberDialogContent-Bn8BTASV.js","./ChangeMemberRoleDialogContent-CXzMrk8W.js","./SetMemberCreditLimitDialogContent-BF2snlYs.js","./InviteMemberDialogContent-Dm-ygALg.js","./InviteMembersForm-C3A0-ikF.js","./inviteLinks-C2Ae4GP6.js","./InviteMemberUpsellDialogContent-B8kzuMZw.js","./InviteLinkInvalidDialogContent-Cx9n5gbE.js","./InviteWrongAccountDialogContent-Df-pnQe0.js","./RevokeInviteDialogContent-BxQim8zS.js","./CancelSubscriptionDialogContent-CRHuFTrW.js","./subscriptionCancellationTelemetry-DPU1P5zB.js","./dateTimeUtil-Dbo04jgD.js","./launchCancellationFlow-PTLnBbhW.js","./loadExternalScript-BQM11osQ.js","./useDowngradeToPersonal-DdJwBFPl.js","./DowngradeRemoveMembersDialogContent-Cy4iRdR8.js","./creditsUtil-BWj6bywK.js","./missingModelMetadata-GstrqCEv.js","./missingModelMetadata-BkeVgXPg.js"])))=>i.map(i=>d[i]);
 import { a as __toESM, r as __name } from "./rolldown-runtime-xtsTai4I.js";
 import { a as __vitePreload } from "./vendor-datadog-DudeEV66.js";
@@ -4855,7 +4857,6 @@ var useComfierPanelStore = defineStore("comfierPanels", () => {
 		}
 		if (lanes.value[side]) remove(lanes.value[side].id);
 		if (onClose) closeHandlers.set(id, onClose);
-		window.__comfierPerformance?.panelStart(id);
 		lanes.value[side] = {
 			id,
 			order: ++order
@@ -6815,6 +6816,7 @@ var useWidgetValueStore = defineStore("widgetValue", () => {
 		const state = getWidget(widgetId);
 		if (!state) return false;
 		state.value = value;
+		useCanvasStore().canvas?.setDirty(true, true);
 		return true;
 	}
 	function setLabel(widgetId, label) {
@@ -7916,8 +7918,7 @@ var resolveColor = (node, id) => {
 	return valid$1(value) ? value : window.__comfierThemeStudio?.getAssignedColor?.(id) || null;
 };
 function color(node, id) {
-	const p = window.__comfierPerformance;
-	return p?.active && p.graphDetailed ? p.run("appearance:resolve-color", resolveColor, void 0, [node, id]) : resolveColor(node, id);
+	return resolveColor(node, id);
 }
 var dialog = null;
 function close() {
@@ -8067,6 +8068,71 @@ function sanitizeMenuHTML(html) {
 /**
 * ContextMenu from LiteGUI
 */
+function centerSingleLineEditor(dialog) {
+	const events = new AbortController();
+	const originalClose = dialog.close.bind(dialog);
+	const initialHeight = window.innerHeight;
+	const viewport = window.visualViewport;
+	const touchKeyboard = !!window.ComfierApp;
+	let releaseBack;
+	let closed = false;
+	let revealed = !touchKeyboard;
+	let settleTimer;
+	let fallbackTimer;
+	const keyboardOpen = () => initialHeight - (viewport?.height ?? window.innerHeight) > 80 || window.innerHeight - (viewport?.height ?? window.innerHeight) > 80;
+	const fit = () => {
+		const width = viewport?.width ?? window.innerWidth;
+		const height = viewport?.height ?? window.innerHeight;
+		const x = viewport?.offsetLeft ?? 0;
+		const y = viewport?.offsetTop ?? 0;
+		const docked = touchKeyboard && keyboardOpen();
+		dialog.style.position = "fixed";
+		dialog.style.left = `${x + width / 2}px`;
+		dialog.style.top = `${y + (docked ? height - 4 : height / 2)}px`;
+		dialog.style.transform = docked ? "translate(-50%, -100%)" : "translate(-50%, -50%)";
+		dialog.style.width = `${Math.max(1, Math.min(520, width - 8))}px`;
+		dialog.style.maxHeight = `${Math.max(1, height - 8)}px`;
+	};
+	const reveal = () => {
+		if (closed) return;
+		clearTimeout(settleTimer);
+		clearTimeout(fallbackTimer);
+		fit();
+		revealed = true;
+		dialog.style.opacity = "1";
+		dialog.style.pointerEvents = "";
+	};
+	const resized = () => {
+		fit();
+		if (!revealed && keyboardOpen()) {
+			clearTimeout(settleTimer);
+			settleTimer = setTimeout(reveal, 120);
+		}
+	};
+	dialog.classList.add("comfier-centered-single-line");
+	if (!revealed) {
+		// Opacity keeps the input focusable while the keyboard opens.
+		dialog.style.opacity = "0";
+		dialog.style.pointerEvents = "none";
+		// Bounded fallback for hardware keyboards or browsers without IME resize events.
+		fallbackTimer = setTimeout(reveal, 1000);
+	}
+	dialog.close = () => {
+		if (closed) return;
+		closed = true;
+		clearTimeout(settleTimer);
+		clearTimeout(fallbackTimer);
+		events.abort();
+		releaseBack?.();
+		originalClose();
+	};
+	fit();
+	window.addEventListener("resize", resized, { signal: events.signal });
+	viewport?.addEventListener("resize", resized, { signal: events.signal });
+	viewport?.addEventListener("scroll", resized, { signal: events.signal });
+	releaseBack = registerBackDismiss(() => dialog.close());
+}
+
 var ContextMenu = class ContextMenu {
 	options;
 	parentMenu;
@@ -8164,6 +8230,13 @@ var ContextMenu = class ContextMenu {
 		root.style.left = `${left}px`;
 		root.style.top = `${top}px`;
 		if (LiteGraph.context_menu_scaling && options.scale) root.style.transform = `scale(${Math.round(options.scale * 4) * .25})`;
+		if (options.className === "dark" && !this.parentMenu) {
+			window.__comfierDropdownOpened?.(options.event);
+			this.fitComboViewport();
+			window.addEventListener("resize", () => this.fitComboViewport(), { signal });
+			window.visualViewport?.addEventListener("resize", () => this.fitComboViewport(), { signal });
+			window.visualViewport?.addEventListener("scroll", () => this.fitComboViewport(), { signal });
+		}
 	}
 	/**
 	* Checks if {@link node} is inside this context menu or any of its submenus
@@ -8171,6 +8244,29 @@ var ContextMenu = class ContextMenu {
 	* @param visited A set of visited menus to avoid circular references
 	* @returns `true` if {@link node} is inside this context menu or any of its submenus
 	*/
+	fitComboViewport() {
+		if (this.options.className !== "dark" || this.parentMenu || !this.root.isConnected) return;
+		const viewport = window.visualViewport;
+		const width = viewport?.width ?? window.innerWidth;
+		const height = viewport?.height ?? window.innerHeight;
+		const x = viewport?.offsetLeft ?? 0;
+		const y = viewport?.offsetTop ?? 0;
+		const root = this.root;
+		// Native combo controls remain readable at screen scale, independent of graph zoom.
+		root.style.transform = "none";
+		root.style.position = "fixed";
+		root.style.boxSizing = "border-box";
+		root.style.width = "max-content";
+		root.style.maxWidth = `${Math.max(1, width - 8)}px`;
+		root.style.minWidth = "0";
+		root.style.maxHeight = `${Math.max(1, height - 8)}px`;
+		root.style.overflowX = "hidden";
+		root.style.overflowY = "auto";
+		const rect = root.getBoundingClientRect();
+		root.style.left = `${x + Math.max(4, (width - rect.width) / 2)}px`;
+		const requestedTop = this.options.event?.clientY - 10;
+		root.style.top = `${Math.max(y + 4, Math.min(Number.isFinite(requestedTop) ? requestedTop : y + 4, y + height - rect.height - 4))}px`;
+	}
 	containsNode(node, visited = /* @__PURE__ */ new Set()) {
 		if (visited.has(this)) return false;
 		visited.add(this);
@@ -8199,6 +8295,7 @@ var ContextMenu = class ContextMenu {
 				}
 				if (value.className) element.className += ` ${value.className}`;
 			}
+			if (this.root.classList.contains("dark")) element.title = element.textContent || "";
 			element.value = value;
 			element.setAttribute("role", "menuitem");
 			if (typeof value === "function") {
@@ -10232,6 +10329,7 @@ var BaseWidget = class BaseWidget {
 		this.callback?.(this.value, canvas, node, pos, e);
 		node.onWidgetChanged?.(extensionValue(this.name) ?? "", v, oldValue, this);
 		if (node.graph) node.graph.incrementVersion();
+		canvas.setDirty(true, true);
 	}
 	/**
 	* Clones the widget.
@@ -10670,6 +10768,7 @@ var ComboWidget = class extends BaseSteppedWidget {
 				const label = String(value);
 				menu.addItem(label, toContextMenuValue(value, label), menuOptions);
 			}
+			menu.fitComboViewport?.();
 			return;
 		}
 		const text_values = values != values_list ? Object.values(values) : values;
@@ -27082,7 +27181,7 @@ var LGraphCanvas = class LGraphCanvas {
 		input.focus();
 		let dialogCloseTimer;
 		dialog.addEventListener("mouseleave", function() {
-			if (LiteGraph.dialog_close_on_mouse_leave) {
+			if (multiline && LiteGraph.dialog_close_on_mouse_leave) {
 				if (!dialog.is_modified) dialogCloseTimer = setTimeout(dialog.close, LiteGraph.dialog_close_on_mouse_leave_delay);
 			}
 		});
@@ -30334,8 +30433,8 @@ var LGraphCanvas = class LGraphCanvas {
 		const dialog = Object.assign(div, customProperties);
 		const { canvas } = this;
 		if (!canvas.parentNode) throw new TypeError("canvas element parentNode was null when opening a prompt.");
-		canvas.parentNode.append(dialog);
-		if (this.ds.scale > 1) dialog.style.transform = `scale(${this.ds.scale})`;
+		if (!multiline) { centerSingleLineEditor(dialog); document.body.append(dialog); }
+		else { canvas.parentNode.append(dialog); if (this.ds.scale > 1) dialog.style.transform = `scale(${this.ds.scale})`; }
 		let dialogCloseTimer;
 		let prevent_timeout = 0;
 		LiteGraph.pointerListenerAdd(dialog, "leave", function() {
@@ -30391,9 +30490,12 @@ var LGraphCanvas = class LGraphCanvas {
 		let offsety = -20;
 		offsetx -= rect.left;
 		offsety -= rect.top;
+		if (multiline) {
 		dialog.style.left = `${event.clientX + offsetx}px`;
 		dialog.style.top = `${event.clientY + offsety}px`;
+		}
 		setTimeout(function() {
+			if (!dialog.isConnected) return;
 			input.focus();
 			const clickTime = Date.now();
 			function handleOutsideClick(e) {
@@ -30403,6 +30505,13 @@ var LGraphCanvas = class LGraphCanvas {
 					canvas.parentElement?.removeEventListener("touchend", handleOutsideClick);
 				}
 			}
+			const close = dialog.close;
+			dialog.close = () => {
+				canvas.parentElement?.removeEventListener("click", handleOutsideClick);
+				canvas.parentElement?.removeEventListener("touchend", handleOutsideClick);
+				clearTimeout(dialogCloseTimer);
+				close();
+			};
 			canvas.parentElement?.addEventListener("click", handleOutsideClick);
 			canvas.parentElement?.addEventListener("touchend", handleOutsideClick);
 		}, 10);
@@ -30807,7 +30916,8 @@ var LGraphCanvas = class LGraphCanvas {
 		dialog.style.left = `${offsetx}px`;
 		dialog.style.top = `${offsety}px`;
 		if (!this.canvas.parentNode) throw new TypeError("Canvas parent element was null.");
-		this.canvas.parentNode.append(dialog);
+		if (dialog.querySelector("input[type=text]")) { centerSingleLineEditor(dialog); document.body.append(dialog); }
+		else this.canvas.parentNode.append(dialog);
 		if (options.checkForInput) {
 			const aI = dialog.querySelectorAll("input");
 			for (const iX of aI) {
@@ -30825,7 +30935,7 @@ var LGraphCanvas = class LGraphCanvas {
 		let prevent_timeout = 0;
 		dialog.addEventListener("mouseleave", function() {
 			if (prevent_timeout) return;
-			if (!dialog.is_modified && LiteGraph.dialog_close_on_mouse_leave) dialogCloseTimer = setTimeout(dialog.close, LiteGraph.dialog_close_on_mouse_leave_delay);
+			if (!dialog.classList.contains("comfier-centered-single-line") && !dialog.is_modified && LiteGraph.dialog_close_on_mouse_leave) dialogCloseTimer = setTimeout(dialog.close, LiteGraph.dialog_close_on_mouse_leave_delay);
 		});
 		dialog.addEventListener("mouseenter", function() {
 			if (options.closeOnLeave || LiteGraph.dialog_close_on_mouse_leave) {
@@ -40189,6 +40299,7 @@ function createWorkflowApps(host) {
 	let requestId = 0;
 	let dialogClose = null;
 	let previewUrl = null;
+	let lastPreviewBlob = null;
 	let apiBound = null;
 	const listeners = [];
 	const getApp = () => host.app;
@@ -40688,7 +40799,8 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		for (const observer of active?.promptObservers || []) observer.disconnect();
 		if (active) active.promptObservers = [];
 	}
-	function clearMedia() {
+	function clearMedia(notify = true) {
+		if (notify) { lastPreviewBlob = null; host.onPreview?.("clear"); }
 		if (previewUrl) {
 			URL.revokeObjectURL(previewUrl);
 			previewUrl = null;
@@ -41179,7 +41291,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		});
 		return (getApi()?.apiURL?.("/view") || "/view") + "?" + q;
 	}
-	function showOutput(state, result) {
+	function showOutput(state, result, notifyPreview = true) {
 		if (active !== state || !state.output) return;
 		for (const [category, files] of Object.entries(result || {})) {
 			if (!Array.isArray(files)) continue;
@@ -41210,6 +41322,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 				if (view) {
 					view.src = url;
 					state.output.append(view);
+					if (notifyPreview && (view.tagName === "IMG" || view.tagName === "VIDEO")) host.onPreview?.("frame", {url, kind: view.tagName === "VIDEO" ? "video" : "image", jobId: state.runningPrompt});
 				}
 				const link = el("a", file.filename);
 				link.href = url;
@@ -41224,7 +41337,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		for (const key of state.plan.outputs) {
 			const node = state.outputBindings.get(key);
 			const out = getApp()?.nodeOutputs?.[node?.id];
-			if (out) showOutput(state, out);
+			if (out) showOutput(state, out, false);
 		}
 	}
 	function bindApi() {
@@ -41241,7 +41354,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 				fn
 			]);
 		};
-		bind("execution_start", () => {
+		bind("execution_start", (e) => {
 			if (active?.output) {
 				active.media = [];
 				active.output.replaceChildren();
@@ -41249,6 +41362,8 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 				active.preview.hidden = true;
 				active.previewGroup.hidden = true;
 				clearMedia();
+				active.runningPrompt = e.detail?.prompt_id || null;
+				host.onPreview?.("start", {jobId: active.runningPrompt});
 				active.progress.textContent = "Generating…";
 				refreshSeeds(active, active.form);
 			}
@@ -41257,30 +41372,50 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 			if (active?.progress) {
 				const d = e.detail || {};
 				active.progress.textContent = d.max ? "Generating " + Math.round(d.value / d.max * 100) + "%" : "Generating…";
+				host.onPreview?.("status", {status: active.progress.textContent});
 			}
 		});
-		bind("b_preview", (e) => {
-			if (active?.preview && e.detail instanceof Blob) {
-				clearMedia();
-				previewUrl = URL.createObjectURL(e.detail);
-				active.preview.src = previewUrl;
-				active.preview.hidden = false;
-				active.previewGroup.hidden = false;
-			}
-		});
+		function updatePreview(blob, jobId) {
+      if (!active?.preview || !(blob instanceof Blob) || blob === lastPreviewBlob) return;
+      if (jobId && active.runningPrompt && jobId !== active.runningPrompt) { lastPreviewBlob = blob; return; }
+      clearMedia(false);
+      lastPreviewBlob = blob;
+      previewUrl = URL.createObjectURL(blob);
+      active.preview.src = previewUrl;
+      active.preview.hidden = false;
+      active.previewGroup.hidden = false;
+      host.onPreview?.("frame", {url: previewUrl, kind: "image", jobId: jobId || active.runningPrompt});
+    }
+    bind("b_preview_with_metadata", (e) => updatePreview(e.detail?.blob, e.detail?.jobId));
+    bind("b_preview", (e) => updatePreview(e.detail));
 		bind("executed", (e) => {
 			if (!active) return;
 			const d = e.detail || {};
+			if (d.prompt_id && active.runningPrompt && d.prompt_id !== active.runningPrompt) return;
 			if (!d.node || [...active.outputBindings.values()].some((n) => String(n.id) === String(d.node) || String(d.node).endsWith(":" + n.id))) showOutput(active, d.output);
 		});
 		bind("executing", (e) => {
 			if (active?.progress && e.detail === null) {
 				active.progress.textContent = "Finished";
+				host.onPreview?.("status", {status: "Finished"});
 				refreshSeeds(active, active.form);
 			}
 		});
 		bind("execution_error", (e) => {
-			if (active?.progress) active.progress.textContent = e.detail?.exception_message || "Generation failed";
+			if (active?.progress) {
+				active.progress.textContent = e.detail?.exception_message || "Generation failed";
+				host.onPreview?.("status", {status: active.progress.textContent});
+			}
+		});
+		bind("execution_success", (e) => {
+			if (!active?.progress || (e.detail?.prompt_id && active.runningPrompt && e.detail.prompt_id !== active.runningPrompt)) return;
+			active.progress.textContent = "Finished";
+			host.onPreview?.("status", {status: "Finished"});
+		});
+		bind("execution_interrupted", (e) => {
+			if (!active?.progress || (e.detail?.prompt_id && active.runningPrompt && e.detail.prompt_id !== active.runningPrompt)) return;
+			active.progress.textContent = "Canceled";
+			host.onPreview?.("status", {status: "Canceled"});
 		});
 	}
 	bindApi();
@@ -41310,6 +41445,14 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 //#endregion
 //#region src/comfier/appModeStore.ts
 var useComfierAppModeStore = defineStore("comfierAppMode", () => {
+  const generationPreview = shallowRef({});
+  const previewController = createGenerationPreview({
+    readPreference: () => localStorage.getItem("comfier.apps.previewPopup.v1"),
+    writePreference: value => localStorage.setItem("comfier.apps.previewPopup.v1", value),
+    isAppsOpen: () => useComfierPanelStore().isOpen("comfier-apps"),
+    onChange: state => { generationPreview.value = state; }
+  });
+  generationPreview.value = previewController.snapshot();
 	const graphVisible = ref(true);
 	const renderer = shallowRef(null);
 	const preference = ref("ask");
@@ -41317,6 +41460,7 @@ var useComfierAppModeStore = defineStore("comfierAppMode", () => {
 	function start() {
 		if (controller) return;
 		controller = createWorkflowApps({
+			onPreview: (type, data) => previewController.event(type, data),
 			app,
 			api,
 			registerBack: (name, priority, dismiss) => registerBackHandler(dismiss, priority, name),
@@ -41361,6 +41505,9 @@ var useComfierAppModeStore = defineStore("comfierAppMode", () => {
 		controller = void 0;
 	}
 	return {
+		generationPreview,
+		setPreviewPopupEnabled: value => previewController.setEnabled(value),
+		dismissPreview: () => previewController.dismiss(),
 		graphVisible,
 		renderer,
 		preference,
@@ -81225,8 +81372,14 @@ var zTemplateInput = objectType({
 });
 //#endregion
 //#region src/platform/workflow/templates/repositories/workflowTemplatesStore.ts
-var isCloud = location.pathname.startsWith("/__comfier_cloud__/");
+var isCloud = window.__COMFIER_CLOUD_MODE === true || location.pathname.startsWith("/__comfier_cloud__/");
 var useWorkflowTemplatesStore = defineStore("workflowTemplates", () => {
+	const filterCloudTemplates = createCloudTemplateFilter();
+	let templatesPromise = null;
+	let cloudUnchecked = 0;
+	let cloudCheckGeneration = 0;
+	const cloudTemplateChecking = ref(false);
+	const cloudTemplateProgress = shallowRef({checked: 0, total: 0});
 	const activeTemplateLoad = shallowRef(null);
 	const loadingTemplateId = computed(() => activeTemplateLoad.value?.id ?? null);
 	function startTemplateLoad(id) {
@@ -81259,6 +81412,7 @@ var useWorkflowTemplatesStore = defineStore("workflowTemplates", () => {
 		activeTemplateLoad.value = null;
 	}
 	const customTemplates = shallowRef({});
+	let rawCustomTemplates = {};
 	const coreTemplates = shallowRef([]);
 	const englishTemplates = shallowRef([]);
 	const logoIndex = shallowRef({});
@@ -81473,32 +81627,61 @@ var useWorkflowTemplatesStore = defineStore("workflowTemplates", () => {
 		return items;
 	});
 	async function fetchCoreTemplates() {
-		const locale = i18n.global.locale.value;
-		const [coreResult, englishResult, logoIndexResult] = await Promise.all([
-			api.getCoreWorkflowTemplates(locale),
-			isCloud && locale !== "en" ? api.getCoreWorkflowTemplates("en") : Promise.resolve([]),
-			fetchLogoIndex()
-		]);
-		coreTemplates.value = coreResult;
-		englishTemplates.value = englishResult;
-		logoIndex.value = logoIndexResult;
-		const coreNames = coreTemplates.value.flatMap((category) => category.templates.map((template) => template.name));
-		const customNames = Object.values(customTemplates.value).flat();
-		knownTemplateNames.value = /* @__PURE__ */ new Set([...coreNames, ...customNames]);
-	}
-	async function loadWorkflowTemplates() {
+    const generation = ++cloudCheckGeneration;
+    const locale = i18n.global.locale.value;
+    if (isCloud) cloudTemplateChecking.value = true;
+    try {
+      const [coreResult, englishResult, logoIndexResult] = await Promise.all([
+        api.getCoreWorkflowTemplates(locale),
+        isCloud && locale !== "en" ? api.getCoreWorkflowTemplates("en") : Promise.resolve([]),
+        fetchLogoIndex()
+      ]);
+      if (generation !== cloudCheckGeneration) return false;
+      logoIndex.value = logoIndexResult;
+      function publish(filtered) {
+        if (generation !== cloudCheckGeneration) return;
+        coreTemplates.value = filtered.categories;
+        customTemplates.value = filtered.custom;
+        cloudUnchecked = filtered.unchecked;
+        cloudTemplateProgress.value = {checked: filtered.checked, total: filtered.total};
+        englishTemplates.value = englishResult.map(category => ({...category, templates: category.templates.filter(template => filtered.categories.some(c => c.moduleName === category.moduleName && c.templates.some(t => t.name === template.name)))}));
+        knownTemplateNames.value = new Set([...coreTemplates.value.flatMap(category => category.templates.map(template => template.name)), ...Object.values(customTemplates.value).flat()]);
+        if (knownTemplateNames.value.size) isLoaded.value = true;
+      }
+      if (isCloud) {
+        const filtered = await filterCloudTemplates(coreResult, rawCustomTemplates, api, LiteGraph.namedValuesRestore, config => fetchData(config, new AbortController()), publish);
+        if (generation !== cloudCheckGeneration) return false;
+        publish(filtered);
+        if (cloudUnchecked) useToastStore().add({severity: "warn", summary: "Cloud templates", detail: "Some templates could not be checked and are hidden. Reopen templates to retry.", life: 6000});
+      } else {
+        coreTemplates.value = coreResult;
+        englishTemplates.value = englishResult;
+        knownTemplateNames.value = new Set([...coreTemplates.value.flatMap(category => category.templates.map(template => template.name)), ...Object.values(customTemplates.value).flat()]);
+      }
+      return true;
+    } finally {
+      if (generation === cloudCheckGeneration) cloudTemplateChecking.value = false;
+    }
+  }
+	function loadWorkflowTemplates() {
+    if (!templatesPromise) templatesPromise = loadWorkflowTemplatesOnce().finally(() => { templatesPromise = null; });
+    return templatesPromise;
+  }
+  async function loadWorkflowTemplatesOnce() {
 		try {
-			if (!isLoaded.value) {
+			if (!isLoaded.value || (isCloud && cloudUnchecked > 0)) {
 				try {
-					customTemplates.value = await api.getWorkflowTemplates();
+					rawCustomTemplates = await api.getWorkflowTemplates();
+					if (!isCloud) customTemplates.value = rawCustomTemplates;
 				} catch {
+					rawCustomTemplates = {};
 					customTemplates.value = {};
 				}
-				await fetchCoreTemplates();
-				isLoaded.value = true;
+				if (await fetchCoreTemplates()) isLoaded.value = true;
 			}
 		} catch (error) {
 			console.error("Error fetching workflow templates:", error);
+			if (isCloud) useToastStore().add({severity: "warn", summary: "Cloud templates", detail: "Could not check Cloud model availability. Reopen templates to retry.", life: 6000});
 		}
 	}
 	watch(() => i18n.global.locale.value, async () => {
@@ -81543,6 +81726,9 @@ var useWorkflowTemplatesStore = defineStore("workflowTemplates", () => {
 	return {
 		groupedTemplates,
 		navGroupedTemplates,
+		cloudTemplateChecking,
+		cloudTemplateProgress,
+		needsCloudTemplateRetry: computed(() => isCloud && cloudUnchecked > 0),
 		enhancedTemplates,
 		filterTemplatesByCategory,
 		isLoaded,
@@ -86075,6 +86261,7 @@ var ComfyApp = class ComfyApp {
 			nodeOutputStore.setNodeOutputsByExecutionId(executionId, detail.output, { merge: detail.merge });
 			const node = getNodeByExecutionId(this.rootGraph, executionId);
 			if (node && node.onExecuted) node.onExecuted(detail.output);
+			window.__comfierGenerationDownloads?.capture(detail);
 		});
 		api.addEventListener("execution_start", () => {
 			triggerCallbackOnAllNodes(this.rootGraph, "onExecutionStart");
@@ -87102,6 +87289,7 @@ var ComfyApp = class ComfyApp {
 		await useExtensionService().invokeExtensionsAsync("refreshComboInNodes", defs);
 		syncPromotedComboHostOptions(this.rootGraph);
 		if (this.vueAppReady) this.updateVueAppNodeDefs(defs);
+		this.canvas?.setDirty(true, true);
 	}
 	/**
 	* Refresh combo list on whole nodes
@@ -87801,10 +87989,6 @@ function createNativeRuntime() {
 	const runtime = {
 		count(name, amount = 1) {
 			counters.set(name, (counters.get(name) || 0) + amount);
-			window.__comfierPerformance?.count(name, amount);
-		},
-		setProfiler(value) {
-			value?.bindCanvas(window.app?.canvas);
 		},
 		setClasses(element, present, ...names) {
 			for (const name of names) element.classList.toggle(name, present);
@@ -87858,8 +88042,7 @@ function createNativeRuntime() {
 			};
 			function run(key, fn) {
 				if (disposed) return;
-				const p = window.__comfierPerformance;
-				return p?.active ? p.run(owner + ":" + key, fn, void 0, []) : fn();
+				return fn();
 			}
 			scopes.set(owner, scope);
 			return scope;
@@ -87871,9 +88054,7 @@ function createNativeRuntime() {
 				let rectangle;
 				const geometry = () => rectangle || (rectangle = window.app?.canvas?.canvas.getBoundingClientRect());
 				for (const [name, fn] of overlays) {
-					const p = window.__comfierPerformance;
-					if (p?.active) p.run("overlay:" + name, fn, void 0, [geometry]);
-					else fn(geometry);
+					fn(geometry);
 				}
 			});
 		},
@@ -88288,8 +88469,8 @@ function installThemeManifest() {
 		const value = `var(${roles.find((r) => r.id === role).variable},${fallback})`;
 		return binding(role, property, role === "buttonBg" ? `var(--comfier-control-background,${value})` : value);
 	};
-	add("active-counter-background", [".sidebar-icon-badge", ".comfier-active-counter"], [paint("uiText", "background-color")], "Job History and Downloads badges");
-	add("active-counter-text", [".sidebar-icon-badge", ".comfier-active-counter"], [paint("icons"), paint("icons", "-webkit-text-fill-color")], "Job History and Downloads badge numbers");
+	add("active-counter-background", [".sidebar-icon-badge", ".comfier-active-counter", ".comfier-download-count"], [paint("containerFrame", "background-color")], "Job History and Downloads badges");
+	add("active-counter-text", [".sidebar-icon-badge", ".comfier-active-counter", ".comfier-download-count"], [paint("icons"), paint("icons", "-webkit-text-fill-color")], "Job History and Downloads badge numbers");
 	add("canvas-background", ["#graph-canvas-container"], [paint("canvasBg", "background-color")], "LiteGraph clear_background_color; canvas host");
 	const nativeAlpha = (role, base) => `rgb(from ${base} var(--comfier-${role === "panelBg" ? "panel" : "container"}-bg-rgb) / calc(alpha * var(--comfier-${role}-opacity,1)))`;
 	const surface = (id, selectors, family, base, source) => add(id, selectors, [
@@ -90482,24 +90663,7 @@ function createLayoutEditor(host) {
 	const controls = /* @__PURE__ */ new Map();
 	const managed = /* @__PURE__ */ new Map();
 	const shells = /* @__PURE__ */ new Map();
-	const cloudDiag = (m) => {
-		if (window.__COMFIER_CLOUD_MODE) try {
-			window.ComfierApp?.cloudDiagnostic?.("layout " + m);
-		} catch (_) {}
-	};
-	let cloudLastIdSummary = "";
-	let cloudLastGeometrySummary = "";
-	if (window.__COMFIER_CLOUD_MODE && !window.__comfierLayoutErrorHooks) {
-		window.__comfierLayoutErrorHooks = true;
-		window.addEventListener("error", (e) => {
-			const msg = String(e?.error?.stack || e?.message || "window error").replace(/\s+/g, " ").slice(0, 1800);
-			cloudDiag("WINDOW ERROR " + msg);
-		});
-		window.addEventListener("unhandledrejection", (e) => {
-			const msg = String(e?.reason?.stack || e?.reason || "unhandled rejection").replace(/\s+/g, " ").slice(0, 1800);
-			cloudDiag("PROMISE ERROR " + msg);
-		});
-	}
+
 	let discoveryDirty = true;
 	let discoveryPasses = 0;
 	let renderPasses = 0;
@@ -90704,7 +90868,6 @@ function createLayoutEditor(host) {
 	} catch (e) {
 		console.error("Saved layout could not load; original data retained", e);
 	}
-	cloudDiag("init savedViews=" + Object.keys(saved || {}).length + " bundledViews=" + Object.keys(bundled || {}).length + " mode=" + detectMode());
 	function persistLayout(views) {
 		const raw = JSON.stringify({
 			schemaVersion: 1,
@@ -90893,15 +91056,6 @@ function createLayoutEditor(host) {
 			}
 			extras.splice(extras.indexOf(nextId), 1);
 			changed++;
-			cloudDiag("reconcile " + oldId + " -> " + nextId);
-		}
-		const afterAssigned = new Set(groups.flatMap((g) => g.items || []));
-		const afterMissing = [...afterAssigned].filter((id) => !live.has(id));
-		const afterExtras = [...live].filter((id) => !afterAssigned.has(id));
-		const idSummary = "layout ids live=" + live.size + " assigned=" + afterAssigned.size + " missing=" + afterMissing.length + " extras=" + afterExtras.length + " remapped=" + changed + (afterMissing.length ? " missingSample=" + afterMissing.slice(0, 6).join(",") : "") + (afterExtras.length ? " extraSample=" + afterExtras.slice(0, 6).join(",") : "");
-		if (idSummary !== cloudLastIdSummary) {
-			cloudLastIdSummary = idSummary;
-			cloudDiag(idSummary);
 		}
 		return changed;
 	}
@@ -91478,30 +91632,7 @@ function createLayoutEditor(host) {
 		if (!p) return null;
 		return p;
 	}
-	function cloudGeometrySnapshot(reason) {
-		if (!window.__COMFIER_CLOUD_MODE) return;
-		try {
-			const ws = workspace();
-			const groups = layouts()?.[mode()] || [];
-			const summary = "geometry " + reason + " viewport=" + innerWidth + "x" + innerHeight + " workspace=" + [
-				Math.round(ws.left),
-				Math.round(ws.top),
-				Math.round(ws.right),
-				Math.round(ws.bottom)
-			].join(",") + " groups=" + groups.map((g) => g.id + ":" + g.edge + "/" + g.align + "/t" + (g.track || 1) + "/o" + (g.offset == null ? "auto" : Number(g.offset).toFixed(2)) + "/items" + (g.items?.length || 0)).join("|") + " boxes=" + boxes.map((b) => b.id + "@" + [
-				b.left,
-				b.top,
-				b.right,
-				b.bottom
-			].map(Math.round).join(",")).join("|");
-			if (summary !== cloudLastGeometrySummary) {
-				cloudLastGeometrySummary = summary;
-				cloudDiag(summary);
-			}
-		} catch (e) {
-			cloudDiag("geometry " + reason + " error=" + e);
-		}
-	}
+
 	function render() {
 		if (stopped) return;
 		const key = JSON.stringify([
@@ -91531,8 +91662,6 @@ function createLayoutEditor(host) {
 		try {
 			renderPass();
 		} catch (e) {
-			const stack = String(e?.stack || e || "unknown render error").replace(/\s+/g, " ").slice(0, 1800);
-			cloudDiag("RENDER ERROR pass=" + renderPasses + " " + stack);
 			try {
 				console.error("[Comfier layout render]", e);
 			} catch (_) {}
@@ -91639,7 +91768,6 @@ function createLayoutEditor(host) {
 		}
 		boxes = placed;
 		if (press?.moving) movePreview(press.lastX, press.lastY);
-		if (window.__COMFIER_CLOUD_MODE && editing) jobs.later("cloud-geometry-render", () => cloudGeometrySnapshot("render"), 80);
 		if (report) report.textContent = placed.some((b) => b.blocked) ? "This arrangement does not fit. Move or resize a highlighted container." : "Long press any container to move it. Select buttons to move them. Back keeps live edits.";
 		const signature = JSON.stringify([
 			mode(),
@@ -91805,7 +91933,6 @@ function createLayoutEditor(host) {
 	function importLayout(value) {
 		const next = valid(value);
 		preserveAppearance(next);
-		cloudDiag("import layout mode=" + mode() + " incomingGroups=" + (next[mode()]?.length || 0) + " editing=" + editing);
 		if (editing) {
 			draft = {
 				...draft,
@@ -92284,7 +92411,6 @@ function createLayoutEditor(host) {
 	}
 	function open() {
 		discoveryDirty = true;
-		cloudDiag("open requested controls=" + controls.size + " mode=" + mode() + " groups=" + (layouts()?.[mode()]?.length || 0));
 		if (editing) {
 			if (selectedGroups.size) paintInspector();
 			return;
@@ -92292,7 +92418,6 @@ function createLayoutEditor(host) {
 		window.__comfierActionbarOwner?.updateMeters?.();
 		discover();
 		if (!controls.size) {
-			cloudDiag("open blocked: controls not ready");
 			alert("Canvas controls are not ready yet.");
 			return;
 		}
@@ -92314,8 +92439,6 @@ function createLayoutEditor(host) {
 		history = [];
 		redoHistory = [];
 		editing = true;
-		cloudDiag("editing active controls=" + controls.size + " draftGroups=" + (draft?.[mode()]?.length || 0));
-		jobs.later("cloud-geometry-open", () => cloudGeometrySnapshot("editor-open"), 120);
 		clearSelection();
 		blocker = document.createElement("div");
 		blocker.className = "ufu-editor-blocker";
@@ -93062,7 +93185,6 @@ function createLayoutEditor(host) {
 	}
 	function editorPress(e, group) {
 		if (!editing || e.button > 0 || e.isPrimary === false || press) return;
-		cloudDiag("editorPress group=" + group + " x=" + Math.round(e.clientX) + " y=" + Math.round(e.clientY) + " target=" + (e.target?.className || e.target?.tagName || "?"));
 		e.preventDefault();
 		e.stopImmediatePropagation();
 		const id = group === "topbar" ? null : hitButton(e.clientX, e.clientY, group);
@@ -93536,17 +93658,13 @@ function createLayoutEditor(host) {
 				const controlId = (under?.closest?.("[data-ufu-control]"))?.dataset?.ufuControl;
 				if (controlId) {
 					const g = (draft?.[mode()] || []).find((g) => g.items.includes(controlId));
-					cloudDiag("peek blocker under=" + (under?.className || under?.tagName || "?") + " control=" + controlId + " group=" + (g?.id || "none"));
 					if (g) b = boxes.find((x) => x.id === g.id) || { id: g.id };
-				} else cloudDiag("peek blocker under=" + (under?.className || under?.tagName || "?") + " control=none");
+				}
 			}
 			if (b && !press) {
-				cloudDiag("fallback hit group=" + b.id + " x=" + Math.round(e.clientX) + " y=" + Math.round(e.clientY));
 				editorPress(e, b.id);
 				return;
 			}
-			cloudGeometrySnapshot("blocked-tap");
-			cloudDiag("blocked tap no-group x=" + Math.round(e.clientX) + " y=" + Math.round(e.clientY) + " target=" + (e.target?.className || e.target?.tagName || "?"));
 			e.preventDefault();
 			e.stopImmediatePropagation();
 		}
@@ -93790,7 +93908,6 @@ html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme
 		1800,
 		3e3
 	]);
-	if (window.__COMFIER_CLOUD_MODE) setTimeout(() => cloudDiag("startup snapshot controls=" + controls.size + " groups=" + (layouts()?.[mode()]?.length || 0) + " managed=" + managed.size + " boxes=" + boxes.length + " viewport=" + innerWidth + "x" + innerHeight), 1600);
 	return window.__comfierLayoutEditor;
 }
 //#endregion

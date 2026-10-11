@@ -3861,7 +3861,6 @@ var skillPacks = {
 };
 var comfierTest = {
 	"diagnosticMode": "Diagnostic Mode",
-	"performanceMonitor": "Performance monitor",
 	"multiLabel": "MULTI",
 	"nodeSearch": "Node search",
 	"appSettings": "ComfierUI settings",
@@ -3869,8 +3868,6 @@ var comfierTest = {
 	"androidOnly": "Android connection controls are available in the ComfierUI app.",
 	"autoReconnect": "Reconnect automatically",
 	"generationNotifications": "Generation notifications",
-	"cloudDiagnostics": "Cloud diagnostics",
-	"copyDiagnostics": "Copy diagnostics",
 	"hardRefresh": "Hard refresh",
 	"disconnect": "Disconnect",
 	"connections": "Connections",

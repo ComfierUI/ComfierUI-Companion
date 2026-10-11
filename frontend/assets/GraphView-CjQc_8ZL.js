@@ -17803,7 +17803,7 @@ function useTemplateWorkflows() {
 	* Loads all template workflows from the API
 	*/
 	const loadTemplates = async () => {
-		if (!workflowTemplatesStore.isLoaded) await workflowTemplatesStore.loadWorkflowTemplates();
+		if (!workflowTemplatesStore.isLoaded || workflowTemplatesStore.needsCloudTemplateRetry) await workflowTemplatesStore.loadWorkflowTemplates();
 		return workflowTemplatesStore.isLoaded;
 	};
 	/**
@@ -18186,7 +18186,7 @@ var WorkflowTemplateSelectorDialog_default = /* @__PURE__ */ defineComponent({
 			if (template.tutorialUrl) window.open(template.tutorialUrl, "_blank");
 		};
 		const navItems = computed(() => {
-			if (isLoading.value) return [
+			if (isInitialLoading.value) return [
 				{
 					id: "skeleton-all",
 					label: "All Templates",
@@ -18417,7 +18417,7 @@ var WorkflowTemplateSelectorDialog_default = /* @__PURE__ */ defineComponent({
 			if (shouldUsePagination.value && hasMoreTemplates.value && !isLoadingMore.value) loadNextPage();
 		});
 		watch([
-			filteredTemplates,
+			searchQuery,
 			selectedNavItem,
 			selectedType,
 			sortSelection,
@@ -18430,6 +18430,16 @@ var WorkflowTemplateSelectorDialog_default = /* @__PURE__ */ defineComponent({
 			activeDetail.value = null;
 			resetPagination();
 			templateListKey.value++;
+		});
+		watch(filteredTemplates, (next, previous) => {
+			// Compatible catalog additions preserve card instances, scroll and pages.
+			const names = new Set(next.map((template) => template.name));
+			if (previous?.some((template) => !names.has(template.name))) {
+				activeDetail.value?.modelSetup.rowDownloads.dispose();
+				invalidateDetailWork();
+				activeDetail.value = null;
+				resetPagination();
+			}
 		});
 		function releasePreparedDetail() {
 			const owned = preparedInFlight ?? activeDetail.value?.prepared ?? null;
@@ -18640,6 +18650,7 @@ var WorkflowTemplateSelectorDialog_default = /* @__PURE__ */ defineComponent({
 			await Promise.all([loadTemplates(), workflowTemplatesStore.loadWorkflowTemplates()]);
 			return true;
 		}, false, { immediate: true });
+		const isInitialLoading = computed(() => isLoading.value && !workflowTemplatesStore.isLoaded);
 		onBeforeUnmount(() => {
 			activeDetail.value?.modelSetup.rowDownloads.dispose();
 			invalidateDetailWork();
@@ -18752,16 +18763,17 @@ var WorkflowTemplateSelectorDialog_default = /* @__PURE__ */ defineComponent({
 					}, 8, ["onClick"])])) : createCommentVNode("", true)
 				], 2), [[vShow, !activeDetail.value]])]),
 				content: withCtx(() => [
-					!activeDetail.value && !unref(isLoading) && unref(filteredTemplates).length === 0 ? (openBlock(), createElementBlock("div", _hoisted_12$19, [
+					unref(workflowTemplatesStore).cloudTemplateChecking ? (openBlock(), createElementBlock("p", {key: "cloud-template-check-status", class: "px-6 py-2 text-sm", role: "status"}, "Checking remaining Cloud templates…")) : createCommentVNode("", true),
+					!activeDetail.value && !unref(isInitialLoading) && unref(filteredTemplates).length === 0 && !unref(workflowTemplatesStore).cloudTemplateChecking ? (openBlock(), createElementBlock("div", _hoisted_12$19, [
 						_cache[8] || (_cache[8] = createBaseVNode("i", { class: "mb-4 icon-[lucide--search] size-12 opacity-50" }, null, -1)),
 						createBaseVNode("p", _hoisted_13$19, toDisplayString(_ctx.$t("templateWorkflows.noResults", "No templates found")), 1),
 						createBaseVNode("p", _hoisted_14$18, toDisplayString(_ctx.$t("templateWorkflows.noResultsHint", "Try adjusting your search or filters")), 1)
-					])) : withDirectives((openBlock(), createElementBlock("div", _hoisted_15$14, [unref(isLoading) ? (openBlock(), createElementBlock("span", _hoisted_16$12)) : createCommentVNode("", true), (openBlock(), createElementBlock("div", {
+					])) : withDirectives((openBlock(), createElementBlock("div", _hoisted_15$14, [unref(isInitialLoading) ? (openBlock(), createElementBlock("span", _hoisted_16$12)) : createCommentVNode("", true), (openBlock(), createElementBlock("div", {
 						key: templateListKey.value,
 						class: "-mx-2 grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] items-stretch gap-2",
 						"data-testid": "template-workflows-content"
 					}, [
-						(openBlock(true), createElementBlock(Fragment, null, renderList(unref(isLoading) ? 12 : 0, (n) => {
+						(openBlock(true), createElementBlock(Fragment, null, renderList(unref(isInitialLoading) ? 12 : 0, (n) => {
 							return openBlock(), createBlock(CardContainer_default, {
 								key: `initial-skeleton-${n}`,
 								size: "compact",
@@ -18780,7 +18792,7 @@ var WorkflowTemplateSelectorDialog_default = /* @__PURE__ */ defineComponent({
 								_: 1
 							});
 						}), 128)),
-						(openBlock(true), createElementBlock(Fragment, null, renderList(unref(isLoading) ? [] : displayTemplates.value, ({ template, tags }) => {
+						(openBlock(true), createElementBlock(Fragment, null, renderList(unref(isInitialLoading) ? [] : displayTemplates.value, ({ template, tags }) => {
 							return openBlock(), createBlock(CardContainer_default, {
 								key: template.name,
 								ref_for: true,
@@ -18892,13 +18904,13 @@ var WorkflowTemplateSelectorDialog_default = /* @__PURE__ */ defineComponent({
 							});
 						}), 128))
 					]))], 512)), [[vShow, !activeDetail.value]]),
-					!unref(isLoading) && unref(hasMoreTemplates) ? withDirectives((openBlock(), createElementBlock("div", {
+					!unref(isInitialLoading) && unref(hasMoreTemplates) ? withDirectives((openBlock(), createElementBlock("div", {
 						key: 2,
 						ref_key: "loadTrigger",
 						ref: loadTrigger,
 						class: "mt-4 flex h-4 w-full items-center justify-center px-6"
 					}, [unref(isLoadingMore) ? (openBlock(), createElementBlock("div", _hoisted_22$3, toDisplayString(_ctx.$t("templateWorkflows.loadingMore", "Loading more...")), 1)) : createCommentVNode("", true)], 512)), [[vShow, !activeDetail.value]]) : createCommentVNode("", true),
-					!unref(isLoading) ? withDirectives((openBlock(), createElementBlock("div", {
+					!unref(isInitialLoading) ? withDirectives((openBlock(), createElementBlock("div", {
 						key: 3,
 						class: "mt-6 px-6 pb-10 text-sm text-muted"
 					}, toDisplayString(_ctx.$t("templateWorkflows.resultsCount", {
@@ -20163,6 +20175,37 @@ var _hoisted_1$151 = {
 var _hoisted_2$116 = { class: "relative flex h-9 shrink-0 items-center" };
 var _hoisted_3$92 = { id: "comfier-apps-label" };
 //#endregion
+//#region src/comfier/GenerationPreviewDialog
+var ComfierGenerationPreviewDialog = defineComponent({
+  __name: "ComfierGenerationPreviewDialog",
+  setup() {
+    const mode = useComfierAppModeStore();
+    let releaseBack;
+    watch(() => mode.generationPreview.visible, visible => {
+      releaseBack?.();
+      releaseBack = visible ? registerBackDismiss(() => mode.dismissPreview()) : undefined;
+    }, {immediate: true});
+    onBeforeUnmount(() => { releaseBack?.(); mode.dismissPreview(); });
+    return () => createVNode(script$1, {
+      visible: mode.generationPreview.visible,
+      "onUpdate:visible": visible => { if (!visible) mode.dismissPreview(); },
+      header: "Generation preview", class: "comfier-generation-preview", modal: true,
+      draggable: false, closable: true, closeOnEscape: true, dismissableMask: true,
+      appendTo: "body", position: "center",
+      style: {width: "min(720px,calc(100vw - 16px))", maxHeight: "calc(100dvh - 16px)"},
+      contentStyle: {overflow: "auto", padding: "12px"}
+    }, {default: withCtx(() => [
+      mode.generationPreview.url ? createVNode(mode.generationPreview.kind === "video" ? "video" : "img", {
+        key: mode.generationPreview.kind, src: mode.generationPreview.url,
+        alt: mode.generationPreview.kind === "image" ? "Generation preview" : undefined,
+        controls: mode.generationPreview.kind === "video" ? true : undefined,
+        playsinline: mode.generationPreview.kind === "video" ? true : undefined
+      }) : null,
+      createVNode("p", {role: "status", class: "comfier-generation-preview-status"}, mode.generationPreview.status)
+    ])});
+  }
+});
+//#endregion
 //#region src/comfier/AppModePanel.vue
 var AppModePanel_default = /* @__PURE__ */ defineComponent({
 	__name: "AppModePanel",
@@ -20183,7 +20226,7 @@ var AppModePanel_default = /* @__PURE__ */ defineComponent({
 				ref_key: "content",
 				ref: content,
 				class: "min-h-0 flex-1 overflow-hidden"
-			}, null, 512)]);
+			}, null, 512), createVNode(ComfierGenerationPreviewDialog)]);
 		};
 	}
 });
@@ -20558,7 +20601,7 @@ function createCompanionSettings() {
 		portControls(root);
 		browserSettings(root);
 	}
-	repositorySettings(root);
+	if (!window.__COMFIER_CLOUD_MODE) repositorySettings(root);
 	for (const control of root.querySelectorAll("input,select,button")) control.className = controlClass;
 	const comfyVersion = document.createElement("div");
 	comfyVersion.className = "ui-comfy-version";
@@ -20674,7 +20717,12 @@ var AppSettingsPanel_default = /* @__PURE__ */ defineComponent({
 					createBaseVNode("option", _hoisted_8$28, toDisplayString(unref(t)("comfierTest.appMode")), 1),
 					createBaseVNode("option", _hoisted_9$26, toDisplayString(unref(t)("comfierTest.fullCanvas")), 1)
 				], 42, _hoisted_6$43)]),
-				createVNode(OwnedSurface_default, { element: unref(deviceSettings)?.element }, null, 8, ["element"])
+				createBaseVNode("label", {class: "comfier-preview-popup-row flex min-h-10 items-center justify-between gap-3"}, [
+          createBaseVNode("span", null, "Generation preview popup"),
+          createBaseVNode("input", {type: "checkbox", "aria-label": "Generation preview popup", checked: unref(appMode).generationPreview.enabled,
+            onChange: event => unref(appMode).setPreviewPopupEnabled(event.target.checked)}, null, 40, ["checked"])
+        ]),
+        createVNode(OwnedSurface_default, { element: unref(deviceSettings)?.element }, null, 8, ["element"])
 			]);
 		};
 	}
@@ -20725,6 +20773,20 @@ function createDownloads(host, managerStore) {
 	let wakeUntil = 0;
 	let lastPayload = "";
 	let items = [];
+	const refreshedModelTasks = new Set();
+	let modelRefreshChain = Promise.resolve();
+	function refreshCompletedModels(next) {
+		for (const item of next) {
+			if (item.status !== "completed" || ["custom_nodes", "workflows"].includes(item.kind) || !item.task_id || refreshedModelTasks.has(item.task_id)) continue;
+			refreshedModelTasks.add(item.task_id);
+			modelRefreshChain = modelRefreshChain.then(async () => {
+				if (stopped) return;
+				await window.app.reloadNodeDefs();
+				if (stopped) return;
+				await useModelStore().refresh();
+			}).catch((error) => { refreshedModelTasks.delete(item.task_id); console.warn("Completed model refresh failed", error); });
+		}
+	}
 	let panel = null;
 	let list = null;
 	let title = null;
@@ -20733,6 +20795,7 @@ function createDownloads(host, managerStore) {
 	let restartButton = null;
 	let hardRefreshButton = null;
 	let panelWantedOpen = false;
+	let openGeneration = 0;
 	const rows = /* @__PURE__ */ new Map();
 	let managerActive = false;
 	let managerStatus = "";
@@ -20812,14 +20875,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		clearButton.type = "button";
 		clearButton.textContent = "Clear";
 		clearButton.addEventListener("click", clearCompleted);
-		const addButton = document.createElement("button");
-		addButton.type = "button";
-		addButton.className = "comfier-downloads-add-url";
-		addButton.textContent = "Add";
-		addButton.title = "Download from URL";
-		addButton.setAttribute("aria-label", "Download from URL");
-		addButton.addEventListener("click", () => openUrlPanel(addButton));
-		header.append(title, statusText, restartButton, hardRefreshButton, clearButton, addButton);
+		header.append(title, statusText, restartButton, hardRefreshButton, clearButton);
 		list = document.createElement("div");
 		list.className = "comfier-downloads-list";
 		rows.clear();
@@ -21221,8 +21277,9 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		}
 	}
 	async function openDownloads(trigger) {
+		const generation = ++openGeneration;
 		await openUrlPanel(trigger);
-		if (stopped) return;
+		if (stopped || generation !== openGeneration) return;
 		setOpen(true);
 		wake();
 	}
@@ -21348,12 +21405,14 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 	function setOpen(open) {
 		if (stopped) return;
 		installPanel();
+		const changed = panelWantedOpen !== !!open;
 		panelWantedOpen = !!open;
 		panel.classList.toggle("open", panelWantedOpen);
-		host.showMonitor(panelWantedOpen);
+		if (changed) host.showMonitor(panelWantedOpen);
 		syncLauncher();
 	}
 	function closeIfOpen() {
+		openGeneration++;
 		if (stopped) return false;
 		if (!panelWantedOpen && !panel?.classList.contains("open")) return false;
 		setOpen(false);
@@ -21550,8 +21609,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		syncManagerUi();
 		renderRows();
 		try {
-			if (!window.app || typeof window.app.reloadNodeDefs !== "function") throw new Error("Comfy model refresh is unavailable");
-			await window.app.reloadNodeDefs();
+			await modelRefreshChain;
 			if (stopped) return;
 			await request("DELETE", "/comfierui/model-downloads/completed");
 			wake();
@@ -21589,7 +21647,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		restartButton.disabled = restartBusy || clearBusy || blocked;
 		const titleCount = items.length + managerTasks().length;
 		title.textContent = titleCount ? `Downloads (${titleCount})` : "Downloads";
-		statusText.textContent = managerStatus || (running ? `${running} active` : "");
+		statusText.textContent = managerStatus || "";
 		restartButton?.classList.toggle("visible", restartNeeded && !blocked);
 		hardRefreshButton?.classList.toggle("visible", hardRefreshNeeded);
 		if (clearButton) {
@@ -21758,6 +21816,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			if (!response.ok) throw new Error(`HTTP ${response.status}`);
 			const data = JSON.parse(payload);
 			const next = Array.isArray(data.downloads) ? data.downloads : [];
+			refreshCompletedModels(next);
 			active = next.some(taskActive);
 			failures = 0;
 			if (payload !== lastPayload) {
@@ -21930,7 +21989,11 @@ var useDownloadsStore = defineStore("comfierDownloads", () => {
 	watch(() => bottom.bottomPanelVisible, (visible) => {
 		if (visible) controller?.closeIfOpen();
 	});
+	watch(() => panels.isOpen("comfier-downloads"), (visible) => {
+		if (!visible) controller?.closeIfOpen();
+	}, { flush: "sync" });
 	function launch(event) {
+		if (panels.isOpen("comfier-downloads")) { close(); return; }
 		controller?.openDownloads(event.currentTarget);
 	}
 	function close() {
@@ -24124,12 +24187,42 @@ var _hoisted_5$49 = {
 	class: "window-actions-spacer app-drag min-w-[min(75px,env(titlebar-area-width,0)*9999)] flex-auto shrink-0"
 };
 //#endregion
+//#region src/comfier/CloudTopbarTools
+var ComfierCloudTopbarTools = defineComponent({
+  __name: "ComfierCloudTopbarTools",
+  setup() {
+    const toast = useToastStore();
+    function placeholder(label) {
+      toast.add({severity: "info", summary: label,
+        detail: "This feature is not available with API-key sign-in yet. Comfy account integration is pending OAuth whitelisting.", life: 6000});
+    }
+    const items = [
+      ["Account and workspace", "icon-[lucide--user]"],
+      ["Account settings", "icon-[lucide--settings]"],
+      ["Manage API keys", "icon-[lucide--key-round]"],
+      ["Plans and pricing", "icon-[lucide--credit-card]"],
+      ["Share Feedback", "icon-[lucide--megaphone]"]
+    ].map(([label, icon]) => ({key: label, label, icon, command: () => placeholder(label)}));
+    return () => createVNode("div", {class: "comfier-cloud-topbar-tools flex shrink-0 items-center gap-1", role: "group", "aria-label": "Comfy Cloud tools"}, [
+      createVNode(Menu_default, {items, "max-height": "viewport"}, {
+        trigger: withCtx(() => [createVNode(Button_default, {variant: "muted-textonly", size: "sm", class: "shrink-0 gap-1 rounded-lg",
+          "aria-label": "Comfy Cloud account", title: "Comfy Cloud account", "aria-haspopup": "menu"}, {
+            default: withCtx(() => [createBaseVNode("i", {class: "icon-[lucide--user] size-4", "aria-hidden": "true"}),
+              createBaseVNode("i", {class: "pi pi-chevron-down text-xs", "aria-hidden": "true"})])
+          })])
+      }),
+      createVNode(AgentEntryButton_default, {active: false, inviting: false, title: "Comfy Agent", "aria-label": "Comfy Agent", onClick: () => placeholder("Comfy Agent")})
+    ]);
+  }
+});
+//#endregion
 //#region src/components/topbar/WorkflowTabs.vue
 var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 	__name: "WorkflowTabs",
 	props: { class: {} },
 	setup(__props) {
 		const props = __props;
+		const comfierCloud = window.__COMFIER_CLOUD_MODE === true || location.pathname.startsWith("/__comfier_cloud__/");
 		const settingStore = useSettingStore();
 		const workspaceStore = useWorkspaceStore();
 		const workflowStore = useWorkflowStore();
@@ -24189,11 +24282,6 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 			scrollElement.scroll({ left: scrollElement.scrollLeft + scrollAmount });
 		};
 		const scrollContent = ref(null);
-		const scroll = (direction) => {
-			const el = scrollContent.value;
-			if (!el) return;
-			el.scrollBy({ left: direction * 20 });
-		};
 		const ensureActiveTabVisible = async (options = {}) => {
 			if (!workflowStore.activeWorkflow) return;
 			if (options.waitForDom !== false) await nextTick();
@@ -24217,17 +24305,6 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 				inline: "nearest"
 			});
 		});
-		const scrollState = useScroll(scrollContent);
-		const leftArrowEnabled = computed(() => !scrollState.arrivedState.left);
-		const rightArrowEnabled = computed(() => !scrollState.arrivedState.right);
-		const { isOverflowing: showOverflowArrows, checkOverflow } = useOverflowObserver(scrollContent, { useMutationObserver: false });
-		whenever(showOverflowArrows, () => {
-			nextTick(() => {
-				scrollState.measure();
-				ensureActiveTabVisible({ waitForDom: false });
-			});
-		});
-		onUpdated(checkOverflow);
 		return (_ctx, _cache) => {
 			const _directive_tooltip = resolveDirective("tooltip");
 			return openBlock(), createElementBlock("div", {
@@ -24235,18 +24312,7 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 				ref: containerRef,
 				class: normalizeClass(unref(cn)("workflow-tabs-container flex h-full flex-auto flex-row gap-1 overflow-hidden bg-comfy-menu-bg px-1", unref(false) ? "max-w-[env(titlebar-area-width,100vw)]" : "max-w-full"))
 			}, [
-				unref(showOverflowArrows) ? (openBlock(), createBlock(Button_default, {
-					key: 0,
-					variant: "muted-textonly",
-					size: "icon",
-					class: "shrink-0 self-center rounded-lg p-2 disabled:opacity-25",
-					"aria-label": _ctx.$t("g.scrollLeft"),
-					disabled: !leftArrowEnabled.value,
-					onMousedown: _cache[0] || (_cache[0] = ($event) => unref(whileMouseDown)($event, () => scroll(-1)))
-				}, {
-					default: withCtx(() => [..._cache[3] || (_cache[3] = [createBaseVNode("i", { class: "icon-[lucide--chevron-left] size-full" }, null, -1)])]),
-					_: 1
-				}, 8, ["aria-label", "disabled"])) : createCommentVNode("", true),
+
 				createBaseVNode("div", _hoisted_1$140, [createBaseVNode("div", {
 					ref_key: "scrollContent",
 					ref: scrollContent,
@@ -24283,23 +24349,8 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 					}, 8, ["class"])]),
 					_: 1
 				}, 8, ["model-value"])], 544)]),
-				unref(showOverflowArrows) ? (openBlock(), createBlock(Button_default, {
-					key: 1,
-					variant: "muted-textonly",
-					size: "icon",
-					class: "shrink-0 self-center rounded-lg p-2 disabled:opacity-25",
-					"aria-label": _ctx.$t("g.scrollRight"),
-					disabled: !rightArrowEnabled.value,
-					onMousedown: _cache[1] || (_cache[1] = ($event) => unref(whileMouseDown)($event, () => scroll(1)))
-				}, {
-					default: withCtx(() => [..._cache[4] || (_cache[4] = [createBaseVNode("i", { class: "icon-[lucide--chevron-right] size-full" }, null, -1)])]),
-					_: 1
-				}, 8, ["aria-label", "disabled"])) : createCommentVNode("", true),
-				unref(showOverflowArrows) ? (openBlock(), createBlock(WorkflowOverflowMenu_default, {
-					key: 2,
-					workflows: unref(workflowStore).openWorkflows,
-					"active-workflow": unref(workflowStore).activeWorkflow
-				}, null, 8, ["workflows", "active-workflow"])) : createCommentVNode("", true),
+
+
 				withDirectives((openBlock(), createBlock(Button_default, {
 					class: "new-blank-workflow-button no-drag shrink-0 self-center rounded-lg",
 					variant: "muted-textonly",
@@ -24318,8 +24369,8 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 					"data-testid": "integrated-tab-bar-actions",
 					"data-agent-gate-settled": unref(agentPanelStore).gateSettled || void 0,
 					"data-agent-flags-settled": unref(agentPanelStore).flagsSettled || void 0,
-					class: "ml-auto flex shrink-0 items-center gap-2 px-2"
-				}, [
+					class: "ml-auto flex shrink-0 items-center gap-1 px-0"
+				}, comfierCloud ? [createVNode(ComfierCloudTopbarTools)] : [
 					createVNode(TopbarBadges_default),
 					createVNode(TopbarSubscribeButton_default),
 					unref(topbarBadgeStore).badges.length ? (openBlock(), createElementBlock("div", _hoisted_3$85)) : createCommentVNode("", true),
@@ -24353,7 +24404,7 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 						inviting: !unref(agentPanelStore).hasEverOpened,
 						onClick: onAgentEntryClick
 					}, null, 8, ["active", "inviting"])], 64)) : createCommentVNode("", true)
-				], 8, _hoisted_2$109)) : (openBlock(), createElementBlock("div", _hoisted_4$69, [createVNode(TopbarBadges_default), createVNode(TopbarSubscribeButton_default)])),
+				], 8, _hoisted_2$109)) : (openBlock(), createElementBlock("div", _hoisted_4$69, comfierCloud ? [createVNode(ComfierCloudTopbarTools)] : [createVNode(TopbarBadges_default), createVNode(TopbarSubscribeButton_default)])),
 				unref(false) ? (openBlock(), createElementBlock("div", _hoisted_5$49)) : createCommentVNode("", true)
 			], 2);
 		};
@@ -25803,96 +25854,12 @@ var JobAssetsList_default = /* @__PURE__ */ defineComponent({
 function useQueueFeatureFlags() {
 	const settingStore = useSettingStore();
 	return {
-		isQueuePanelV2Enabled: computed(() => settingStore.get("Comfy.Queue.QPOV2")),
+		isQueuePanelV2Enabled: computed(() => true),
 		isRunProgressBarEnabled: computed(() => settingStore.get("Comfy.Queue.ShowRunProgressBar"))
 	};
 }
 //#endregion
-//#region src/components/queue/JobHistoryActionsMenu.vue
-var JobHistoryActionsMenu_default = /* @__PURE__ */ defineComponent({
-	__name: "JobHistoryActionsMenu",
-	emits: ["clearHistory"],
-	setup(__props, { emit: __emit }) {
-		const emit = __emit;
-		const { t } = useI18n();
-		const settingStore = useSettingStore();
-		const sidebarTabStore = useSidebarTabStore();
-		const { trackFeatureUsed } = useSurveyFeatureTracking("queue-progress-overlay");
-		const moreTooltipConfig = computed(() => buildTooltipConfig(t("g.more")));
-		const { isQueuePanelV2Enabled, isRunProgressBarEnabled } = useQueueFeatureFlags();
-		const open = ref(false);
-		const items = computed(() => [
-			{
-				label: t("sideToolbar.queueProgressOverlay.dockedJobHistory"),
-				icon: "icon-[lucide--panel-left-close]",
-				checked: isQueuePanelV2Enabled.value,
-				command: onToggleDockedJobHistory
-			},
-			{
-				label: t("sideToolbar.queueProgressOverlay.showRunProgressBar"),
-				icon: "icon-[lucide--hourglass]",
-				checked: isRunProgressBarEnabled.value,
-				command: onToggleRunProgressBar
-			},
-			{
-				separator: true,
-				visible: true
-			},
-			{
-				label: t("sideToolbar.queueProgressOverlay.clearHistory"),
-				description: t("sideToolbar.queueProgressOverlay.clearHistoryMenuAssetsNote"),
-				icon: "icon-[lucide--trash-2]",
-				variant: "destructive",
-				visible: true,
-				command: () => emit("clearHistory")
-			}
-		]);
-		async function onToggleDockedJobHistory() {
-			trackFeatureUsed();
-			open.value = false;
-			try {
-				if (isQueuePanelV2Enabled.value) {
-					await settingStore.setMany({
-						"Comfy.Queue.QPOV2": false,
-						"Comfy.Queue.History.Expanded": true
-					});
-					return;
-				}
-				sidebarTabStore.activeSidebarTabId = "job-history";
-				await settingStore.set("Comfy.Queue.QPOV2", true);
-			} catch {
-				return;
-			}
-		}
-		async function onToggleRunProgressBar() {
-			trackFeatureUsed();
-			await settingStore.set("Comfy.Queue.ShowRunProgressBar", !isRunProgressBarEnabled.value);
-		}
-		return (_ctx, _cache) => {
-			const _directive_tooltip = resolveDirective("tooltip");
-			return openBlock(), createBlock(Menu_default, {
-				open: open.value,
-				"onUpdate:open": _cache[0] || (_cache[0] = ($event) => open.value = $event),
-				items: items.value,
-				align: "end"
-			}, {
-				trigger: withCtx(() => [withDirectives(createVNode(Button_default, {
-					variant: "muted-textonly",
-					size: "icon",
-					"aria-label": unref(t)("sideToolbar.queueProgressOverlay.moreOptions"),
-					icon: "icon-[lucide--more-horizontal]"
-				}, null, 8, ["aria-label"]), [[
-					_directive_tooltip,
-					moreTooltipConfig.value,
-					void 0,
-					{ top: true }
-				]])]),
-				_: 1
-			}, 8, ["open", "items"]);
-		};
-	}
-});
-//#endregion
+
 //#region src/composables/queue/useJobMenu.ts
 /**
 * Provides job context menu entries and actions.
@@ -26301,7 +26268,7 @@ var _hoisted_1$134 = ["aria-label"];
 var _hoisted_2$104 = { class: "comfy-vue-side-bar-header flex flex-col" };
 var _hoisted_3$81 = {
 	key: 0,
-	class: "flex min-h-10 items-center justify-between gap-2 px-2"
+	class: "comfier-sidebar-title-row flex min-h-10 items-center justify-between gap-2 px-2"
 };
 var _hoisted_4$65 = { class: "comfy-vue-side-bar-body scrollbar-custom h-0 grow overflow-x-hidden" };
 //#endregion
@@ -26319,7 +26286,7 @@ var SidebarTabTemplate_default = /* @__PURE__ */ defineComponent({
 				"aria-label": __props.title,
 				class: normalizeClass(unref(cn)("comfy-vue-side-bar-container group/sidebar-tab flex size-full flex-col", __props.class))
 			}, [
-				createBaseVNode("div", _hoisted_2$104, [_ctx.$slots["alt-title"] || _ctx.$slots["tool-buttons"] ? (openBlock(), createElementBlock("div", _hoisted_3$81, [renderSlot(_ctx.$slots, "alt-title"), renderSlot(_ctx.$slots, "tool-buttons")])) : createCommentVNode("", true), renderSlot(_ctx.$slots, "header")]),
+				createBaseVNode("div", _hoisted_2$104, [__props.title || _ctx.$slots["alt-title"] || _ctx.$slots["tool-buttons"] ? (openBlock(), createElementBlock("div", _hoisted_3$81, [createBaseVNode("h2", { class: "comfier-sidebar-title" }, toDisplayString(__props.title), 1), renderSlot(_ctx.$slots, "alt-title"), createBaseVNode("div", { class: "comfier-sidebar-actions" }, [renderSlot(_ctx.$slots, "tool-buttons"), !window.ComfierApp ? createBaseVNode("button", { type: "button", class: "comfier-sidebar-close", onClick: (event) => { const side = event.currentTarget.closest("[data-testid^=comfier-panel-]")?.getAttribute("data-testid")?.replace("comfier-panel-", ""); const panels = useComfierPanelStore(); if (side && panels.lanes[side]) panels.remove(panels.lanes[side].id); } }, _ctx.$t("comfierTest.close"), 1) : createCommentVNode("", true)])])) : createCommentVNode("", true), renderSlot(_ctx.$slots, "header")]),
 				createBaseVNode("div", _hoisted_4$65, [renderSlot(_ctx.$slots, "body")]),
 				renderSlot(_ctx.$slots, "footer")
 			], 10, _hoisted_1$134);
@@ -26708,7 +26675,7 @@ var JobHistorySidebarTab_default = /* @__PURE__ */ defineComponent({
 				"data-testid": "job-history-sidebar",
 				title: _ctx.$t("queue.jobHistory")
 			}, {
-				"tool-buttons": withCtx(() => [createVNode(JobHistoryActionsMenu_default, { onClearHistory })]),
+				"tool-buttons": withCtx(() => [createBaseVNode("button", { type: "button", class: "comfier-history-clear", "aria-label": "Clear job history", onClick: onClearHistory }, "Clear job history")]),
 				header: withCtx(() => [
 					createBaseVNode("div", _hoisted_1$128, [createVNode(TabList_default, {
 						"aria-label": _ctx.$t("queue.jobHistory"),
@@ -27097,7 +27064,7 @@ function installDiagnosticSuite() {
 	document.head.appendChild(style);
 	var root = document.createElement("div");
 	root.id = "comfier-diagnostics-root";
-	root.innerHTML = "<button id='comfier-diagnostics-launch'>Diag</button><section id='comfier-diagnostics-menu'><div class='comfier-diagnostics-title'>Diagnostic Suite</div><div id='comfier-diagnostics-grid'><button data-tool='element'>Element</button><button data-tool='hit'>Hit Stack</button><button data-tool='events'>Event Trace</button><button data-tool='viewport'>Viewport</button><button data-tool='canvas'>Canvas</button><button data-tool='overlays'>Overlays</button><button data-tool='performance'>Performance</button><button data-tool='console'>Console</button><button data-tool='network'>Network</button><button data-tool='storage'>Storage</button><button data-tool='state'>App State</button><button data-tool='all'>Export All</button></div><button id='comfier-diagnostics-disable' data-tool='disable'>Close Diagnostic Mode</button></section><section id='comfier-diagnostics-report-panel'><div id='comfier-diagnostics-report-title' class='comfier-diagnostics-title'>Report</div><textarea id='comfier-diagnostics-script' spellcheck='false' autocapitalize='off' autocomplete='off' placeholder='Enter JavaScript. Use return to display a value; await is supported.'></textarea><textarea id='comfier-diagnostics-report' readonly></textarea><textarea id='comfier-diagnostics-children' aria-label='Direct children and highlighted child details' readonly></textarea><div id='comfier-diagnostics-backups'></div><div id='comfier-diagnostics-actions'><button data-act='parent'>Parent</button><button data-act='child'>Return Child</button><button data-act='prev-child'>Prev Child</button><button data-act='next-child'>Next Child</button><button data-act='select-child'>Select Child</button><button data-act='copy-child'>Copy Child</button><button data-act='pick'>Pick</button><button data-act='refresh'>Refresh</button><button data-act='mode'>Inject</button><button data-act='inject-return'>Inject</button><button data-act='run'>Run</button><button data-act='save'>Save</button><button data-act='backups'>Backups</button><button data-act='clear-script'>Clear Script</button><button data-act='clear-console'>Clear Console</button><button data-act='copy-script'>Copy Script</button><button data-act='copy'>Copy Console</button><button data-act='menu'>Menu</button><button data-act='close'>Close</button></div></section>";
+	root.innerHTML = "<button id='comfier-diagnostics-launch'>Diag</button><section id='comfier-diagnostics-menu'><div class='comfier-diagnostics-title'>Diagnostic Suite</div><div id='comfier-diagnostics-grid'><button data-tool='element'>Element</button><button data-tool='hit'>Hit Stack</button><button data-tool='events'>Event Trace</button><button data-tool='viewport'>Viewport</button><button data-tool='canvas'>Canvas</button><button data-tool='overlays'>Overlays</button><button data-tool='console'>Console</button><button data-tool='network'>Network</button><button data-tool='storage'>Storage</button><button data-tool='state'>App State</button><button data-tool='all'>Export All</button></div><button id='comfier-diagnostics-disable' data-tool='disable'>Close Diagnostic Mode</button></section><section id='comfier-diagnostics-report-panel'><div id='comfier-diagnostics-report-title' class='comfier-diagnostics-title'>Report</div><textarea id='comfier-diagnostics-script' spellcheck='false' autocapitalize='off' autocomplete='off' placeholder='Enter JavaScript. Use return to display a value; await is supported.'></textarea><textarea id='comfier-diagnostics-report' readonly></textarea><textarea id='comfier-diagnostics-children' aria-label='Direct children and highlighted child details' readonly></textarea><div id='comfier-diagnostics-backups'></div><div id='comfier-diagnostics-actions'><button data-act='parent'>Parent</button><button data-act='child'>Return Child</button><button data-act='prev-child'>Prev Child</button><button data-act='next-child'>Next Child</button><button data-act='select-child'>Select Child</button><button data-act='copy-child'>Copy Child</button><button data-act='pick'>Pick</button><button data-act='refresh'>Refresh</button><button data-act='mode'>Inject</button><button data-act='inject-return'>Inject</button><button data-act='run'>Run</button><button data-act='save'>Save</button><button data-act='backups'>Backups</button><button data-act='clear-script'>Clear Script</button><button data-act='clear-console'>Clear Console</button><button data-act='copy-script'>Copy Script</button><button data-act='copy'>Copy Console</button><button data-act='menu'>Menu</button><button data-act='close'>Close</button></div></section>";
 	document.body.appendChild(root);
 	var highlight = document.createElement("div");
 	highlight.id = "comfier-diagnostics-highlight";
@@ -27388,7 +27355,6 @@ function installDiagnosticSuite() {
 		root.classList.toggle("enabled", state.enabled);
 		refreshSettingsToggles();
 		if (!state.enabled) {
-			window.__comfierPerformance?.close();
 			state.eventTrace = false;
 			closeAll();
 			setConsoleInjection(false);
@@ -27625,9 +27591,7 @@ function installDiagnosticSuite() {
 		});
 		return lines.join("\n");
 	}
-	function performanceReport() {
-		return window.__comfierPerformance?.exportReport() || "Performance collector is unavailable.";
-	}
+
 	function storageReport() {
 		function keys(store) {
 			var out = [];
@@ -27735,7 +27699,7 @@ function installDiagnosticSuite() {
 		});
 	}
 	function allReport() {
-		return "COMFIERUI DIAGNOSTIC EXPORT\n" + viewportReport() + section("APP STATE", appStateReport()) + section("SELECTED ELEMENT", elementReport(state.selected)) + section("CANVAS", canvasReport()) + section("OVERLAYS", overlaysReport()) + section("PERFORMANCE", performanceReport()) + section("STORAGE", storageReport()) + section("INPUT EVENTS", logReport("EVENTS", state.events)) + section("CONSOLE", logReport("CONSOLE", state.console)) + section("ERRORS", logReport("ERRORS", state.errors)) + section("NETWORK", logReport("NETWORK", state.network));
+		return "COMFIERUI DIAGNOSTIC EXPORT\n" + viewportReport() + section("APP STATE", appStateReport()) + section("SELECTED ELEMENT", elementReport(state.selected)) + section("CANVAS", canvasReport()) + section("OVERLAYS", overlaysReport()) + section("STORAGE", storageReport()) + section("INPUT EVENTS", logReport("EVENTS", state.events)) + section("CONSOLE", logReport("CONSOLE", state.console)) + section("ERRORS", logReport("ERRORS", state.errors)) + section("NETWORK", logReport("NETWORK", state.network));
 	}
 	function arm(mode) {
 		if (!state.enabled) return;
@@ -27777,10 +27741,7 @@ function installDiagnosticSuite() {
 			} else if (t === "viewport") showReport("Viewport / Keyboard", viewportReport(), "viewport", viewportReport);
 			else if (t === "canvas") showReport("Canvas Inventory", canvasReport(), "canvas", canvasReport);
 			else if (t === "overlays") showReport("Overlay Inventory", overlaysReport(), "overlays", overlaysReport);
-			else if (t === "performance") {
-				closeAll();
-				window.__comfierPerformance?.open();
-			} else if (t === "console") {
+			else if (t === "console") {
 				setConsoleInjection(false);
 				showReport("Console / Errors", consoleReport(), "console", consoleReport);
 			} else if (t === "network") {
@@ -28029,858 +27990,10 @@ function installDiagnosticSuite() {
 	};
 }
 //#endregion
-//#region src/comfier/performance.js
-function installPerformance() {
-	"use strict";
-	if (window.__comfierPerformance) return;
-	const LIMIT = 12e4;
-	const MAX_NAMES = 192;
-	const MAX_EVENTS = 32;
-	let active = false;
-	let started = 0;
-	let ended = 0;
-	let epoch = 0;
-	let raf = 0;
-	let timer = 0;
-	let lastFrame = 0;
-	let stopReason = "Not started";
-	let detailed = false;
-	let graphDetailed = true;
-	let total;
-	let buckets = [];
-	let stack = [];
-	let events = [];
-	let worst = [];
-	let panelEvents = [];
-	let resourceEvents = [];
-	let panels = /* @__PURE__ */ new Map();
-	let observers = [];
-	let restores = [];
-	let canvasRestores = [];
-	let bound = null;
-	let lastInput = null;
-	let lastCanvasInput = null;
-	let root = null;
-	let reportBox = null;
-	let hud = null;
-	let open = false;
-	let uiTimer = 0;
-	let nodeRestores = [];
-	let seenNodes = /* @__PURE__ */ new WeakSet();
-	let nodeCount = 0;
-	let nodeSkipped = 0;
-	let graphContext = null;
-	const graphCanvases = /* @__PURE__ */ new Set();
-	const MAX_NODES = 256;
-	const supported = Object.create(null);
-	const clock = () => performance.now();
-	const app = () => window.app || window.comfyAPI?.app?.app;
-	const own = (node) => !!(node?.nodeType === 1 ? node : node?.parentElement)?.closest?.("#comfier-diagnostics-root,#comfier-diagnostics-highlight,#comfier-performance-monitor");
-	const fresh = () => ({
-		work: /* @__PURE__ */ new Map(),
-		counts: /* @__PURE__ */ new Map(),
-		mutations: /* @__PURE__ */ new Map(),
-		frameGaps: [],
-		frameIndex: 0,
-		longTasks: 0,
-		longTaskMs: 0,
-		longFrames: 0,
-		inputEvents: 0,
-		inputDelay: 0,
-		inputProcessing: 0
-	});
-	const bounded = (map, key, make) => {
-		key = String(key).slice(0, 150);
-		if (!map.has(key) && map.size >= MAX_NAMES) key = "(other; name limit)";
-		let row = map.get(key);
-		if (!row) map.set(key, row = make());
-		return row;
-	};
-	const row = () => ({
-		calls: 0,
-		selfMs: 0,
-		totalMs: 0,
-		maxMs: 0
-	});
-	function bucket(at = clock()) {
-		const second = Math.floor(at / 1e3);
-		let b = buckets.at(-1);
-		if (!b || b.second !== second) {
-			b = {
-				second,
-				data: fresh()
-			};
-			buckets.push(b);
-		}
-		while (buckets.length && buckets[0].second < second - 4) buckets.shift();
-		return b.data;
-	}
-	function pair(fn, at) {
-		fn(total);
-		fn(bucket(at));
-	}
-	function addWork(name, duration, self, at) {
-		pair((b) => {
-			const r = bounded(b.work, name, row);
-			r.calls++;
-			r.totalMs += duration;
-			r.selfMs += Math.max(0, self);
-			r.maxMs = Math.max(r.maxMs, duration);
-		}, at);
-	}
-	function count(name, n = 1) {
-		if (!active) return;
-		pair((b) => {
-			const r = bounded(b.counts, name, () => ({ count: 0 }));
-			r.count += n;
-		});
-	}
-	function event(kind, data) {
-		const entry = {
-			at: Math.round(clock() - started),
-			kind,
-			...data
-		};
-		if (kind === "panel positioned") {
-			panelEvents.push(entry);
-			if (panelEvents.length > 16) panelEvents.shift();
-		}
-		events.push(entry);
-		if (events.length > MAX_EVENTS) events.shift();
-		worst.push(entry);
-		const score = (e) => e.ms || e.durationMs || e.clickToPositionMs || e.openToPositionMs || 0;
-		worst.sort((a, b) => score(b) - score(a));
-		if (worst.length > 12) worst.pop();
-	}
-	function begin(name) {
-		if (!active) return null;
-		const token = {
-			start: clock(),
-			child: 0,
-			epoch,
-			name
-		};
-		stack.push(token);
-		return token;
-	}
-	function end(token) {
-		if (!token || !active || token.epoch !== epoch || stack.at(-1) !== token) return;
-		const at = clock();
-		const duration = at - token.start;
-		stack.pop();
-		if (stack.length) stack.at(-1).child += duration;
-		addWork(token.name, duration, duration - token.child, at);
-		if (duration >= 32) event("slow callback", {
-			name: token.name,
-			ms: +duration.toFixed(2)
-		});
-	}
-	function run(name, fn, self, args) {
-		if (!active) return fn.apply(self, args || []);
-		const token = begin(name);
-		try {
-			return fn.apply(self, args || []);
-		} finally {
-			end(token);
-		}
-	}
-	function patch(object, key, name, list, before, guard) {
-		const original = object?.[key];
-		if (typeof original !== "function") return;
-		const descriptor = Object.getOwnPropertyDescriptor(object, key);
-		function wrapped() {
-			if (guard && !guard(this)) return original.apply(this, arguments);
-			if (before) before(arguments);
-			return run(name + (name.startsWith("DOM:") && stack.length ? " ← " + stack.at(-1).name : ""), original, this, arguments);
-		}
-		try {
-			object[key] = wrapped;
-			if (object[key] !== wrapped) return;
-			list.push(() => {
-				if (object[key] === wrapped) {
-					if (descriptor) Object.defineProperty(object, key, descriptor);
-					else delete object[key];
-				}
-			});
-		} catch (_) {}
-	}
-	function bindNode(args) {
-		const node = args[0];
-		if (!node || seenNodes.has(node)) return;
-		seenNodes.add(node);
-		if (nodeCount >= MAX_NODES) {
-			nodeSkipped++;
-			return;
-		}
-		nodeCount++;
-		run("monitor:bind-node", () => {
-			for (const method of [
-				"drawSlots",
-				"drawCollapsedSlots",
-				"drawWidgets",
-				"arrange",
-				"drawBadges"
-			]) patch(node, method, "node:" + method, nodeRestores);
-			const type = String(node.type || node.constructor?.type || "unknown").slice(0, 64);
-			for (const method of ["onDrawForeground", "onDrawBackground"]) patch(node, method, "node-hook:" + type + ":" + method, nodeRestores);
-		});
-	}
-	function dirtyFlag(canvas, key, part) {
-		const descriptor = Object.getOwnPropertyDescriptor(canvas, key);
-		if (descriptor && (!("value" in descriptor) || !descriptor.configurable || !descriptor.writable)) return;
-		let value = canvas[key];
-		let written = false;
-		const get = () => value;
-		const set = (next) => {
-			if (active && next) {
-				const owner = stack.at(-1)?.name || "(unattributed)";
-				const near = lastCanvasInput && clock() - lastCanvasInput.at < 16 ? " near " + lastCanvasInput.type : "";
-				count("dirty." + part + ".write ← " + owner + (owner === "(unattributed)" ? near : ""));
-				if (!value) count("dirty." + part + ".clean-to-dirty");
-			}
-			value = next;
-			written = true;
-		};
-		try {
-			Object.defineProperty(canvas, key, {
-				configurable: true,
-				enumerable: descriptor?.enumerable ?? true,
-				get,
-				set
-			});
-			canvasRestores.push(() => {
-				const current = Object.getOwnPropertyDescriptor(canvas, key);
-				if (current?.get !== get || current?.set !== set) return;
-				if (descriptor) Object.defineProperty(canvas, key, {
-					...descriptor,
-					value
-				});
-				else {
-					delete canvas[key];
-					if (written) canvas[key] = value;
-				}
-			});
-		} catch (_) {}
-	}
-	function bindCanvas(canvas) {
-		if (!active || canvas === bound) return;
-		nodeRestores.splice(0).reverse().forEach((f) => f());
-		canvasRestores.splice(0).reverse().forEach((f) => f());
-		bound = canvas;
-		seenNodes = /* @__PURE__ */ new WeakSet();
-		nodeCount = nodeSkipped = 0;
-		graphCanvases.clear();
-		for (const element of [
-			canvas?.canvas,
-			canvas?.bgcanvas,
-			canvas?.overlayCanvas
-		]) if (element) graphCanvases.add(element);
-		for (const method of ["drawFrontCanvas", "drawBackCanvas"]) patch(canvas, method, "canvas:" + method, canvasRestores);
-		if (!graphDetailed) return;
-		for (const method of [
-			"computeVisibleNodes",
-			"drawNode",
-			"drawNodeShape",
-			"drawNodeWidgets",
-			"drawConnections",
-			"drawGroups",
-			"drawLinkTooltip",
-			"onRender",
-			"onRenderBackground",
-			"onDrawForeground",
-			"onDrawBackground",
-			"onDrawOverlay"
-		]) patch(canvas, method, "canvas:" + method, canvasRestores, method === "drawNode" ? bindNode : null);
-		for (const method of ["setDirty", "_dirty"]) patch(canvas, method, "canvas:invalidate:" + method, canvasRestores);
-		if (canvas) {
-			dirtyFlag(canvas, "dirty_canvas", "foreground");
-			dirtyFlag(canvas, "dirty_bgcanvas", "background");
-		}
-	}
-	function graphHooks() {
-		if (!graphDetailed || typeof CanvasRenderingContext2D === "undefined") return;
-		for (const method of [
-			"measureText",
-			"fillText",
-			"strokeText",
-			"drawImage"
-		]) patch(CanvasRenderingContext2D.prototype, method, "paint:" + method, restores, null, (context) => graphCanvases.has(context.canvas));
-	}
-	function sampleGraph() {
-		const c = bound;
-		const g = c?.graph;
-		const element = c?.canvas;
-		graphContext = c ? {
-			pixelWidth: element?.width || 0,
-			pixelHeight: element?.height || 0,
-			dpr: c.dpr || window.devicePixelRatio || 1,
-			zoom: c.ds?.scale ?? null,
-			nodes: g?._nodes?.length ?? null,
-			visibleNodes: c.visible_nodes?.length ?? null,
-			sharedBackground: c.bgcanvas === element,
-			dirtyForeground: !!c.dirty_canvas,
-			dirtyBackground: !!c.dirty_bgcanvas,
-			instrumentedNodes: nodeCount,
-			skippedNodes: nodeSkipped,
-			nodeLimit: MAX_NODES
-		} : null;
-	}
-	function label(target) {
-		if (!target || target.nodeType !== 1) return "(text/document)";
-		const tag = target.tagName?.toLowerCase() || "element";
-		return (target.id ? tag + "#" + target.id : tag + (typeof target.className === "string" ? "." + target.className.trim().split(/\s+/).slice(0, 2).join(".") : "")).slice(0, 120);
-	}
-	function mutationBatch(records) {
-		if (!active) return;
-		let count = 0;
-		const byTarget = /* @__PURE__ */ new Map();
-		for (const record of records) {
-			if (own(record.target)) continue;
-			count++;
-			const key = label(record.target) + " [" + record.type + "]";
-			bounded(byTarget, key, () => ({ count: 0 })).count++;
-		}
-		pair((b) => {
-			for (const [key, v] of byTarget) {
-				const r = bounded(b.mutations, key, () => ({ count: 0 }));
-				r.count += v.count;
-			}
-		});
-		api.count("DOM mutation records", count);
-	}
-	function observe(type, options, receive) {
-		supported[type] = false;
-		try {
-			if (!window.PerformanceObserver || !PerformanceObserver.supportedEntryTypes?.includes(type)) return;
-			const observer = new PerformanceObserver((list) => {
-				if (active) run("monitor:browser entries", receive, null, [list.getEntries().filter((e) => e.startTime >= started)]);
-			});
-			observer.observe({
-				type,
-				buffered: false,
-				...options
-			});
-			observers.push(observer);
-			supported[type] = true;
-		} catch (_) {}
-	}
-	function sourceName(source) {
-		try {
-			return new URL(source, location.href).pathname.split("/").slice(-2).join("/");
-		} catch (_) {
-			return String(source || "unknown").slice(0, 160);
-		}
-	}
-	function collectBrowser() {
-		observe("longtask", {}, (entries) => {
-			for (const e of entries) {
-				pair((b) => {
-					b.longTasks++;
-					b.longTaskMs += e.duration;
-				});
-				event("long task", { ms: +e.duration.toFixed(2) });
-			}
-		});
-		observe("long-animation-frame", {}, (entries) => {
-			for (const e of entries) {
-				pair((b) => b.longFrames++);
-				event("long animation frame", {
-					ms: +e.duration.toFixed(2),
-					blockingMs: +e.blockingDuration.toFixed(2),
-					scripts: [...e.scripts || []].sort((a, b) => b.duration - a.duration).slice(0, 3).map((s) => ({
-						source: sourceName(s.sourceURL),
-						function: String(s.sourceFunctionName || s.invoker || "").slice(0, 160),
-						ms: +s.duration.toFixed(2),
-						forcedLayoutMs: +(s.forcedStyleAndLayoutDuration || 0).toFixed(2)
-					}))
-				});
-			}
-		});
-		observe("resource", {}, (entries) => {
-			for (const e of entries) {
-				if (e.duration < 100) continue;
-				resourceEvents.push({
-					at: Math.round(clock() - started),
-					resource: sourceName(e.name),
-					elapsedMs: +e.duration.toFixed(2),
-					transferBytes: e.transferSize || 0
-				});
-				if (resourceEvents.length > 12) resourceEvents.shift();
-			}
-		});
-		observe("event", { durationThreshold: 16 }, (entries) => {
-			for (const e of entries) {
-				if (own(e.target)) continue;
-				const delay = Math.max(0, e.processingStart - e.startTime);
-				const processing = Math.max(0, e.processingEnd - e.processingStart);
-				pair((b) => {
-					b.inputEvents++;
-					b.inputDelay += delay;
-					b.inputProcessing += processing;
-				});
-				event("slow input", {
-					name: e.name,
-					target: label(e.target),
-					delayMs: +delay.toFixed(2),
-					handlerMs: +processing.toFixed(2),
-					durationMs: +e.duration.toFixed(2)
-				});
-			}
-		});
-		const observer = new MutationObserver((records) => run("monitor:mutation count", mutationBatch, null, [records]));
-		observer.observe(document.documentElement, {
-			subtree: true,
-			childList: true,
-			attributes: true
-		});
-		observers.push(observer);
-	}
-	function input(e) {
-		if (own(e.target)) return;
-		const control = e.target?.closest?.("[data-comfier-panel-launcher],[data-testid$=\"-tab-button\"]");
-		const target = control?.getAttribute("data-comfier-panel-launcher") || "sidebar:" + control?.getAttribute("data-testid")?.replace(/-tab-button$/, "");
-		if (e.type === "click") lastInput = {
-			at: clock(),
-			panel: control ? target : null
-		};
-		const c = app()?.canvas;
-		const el = e.target;
-		const group = el === c?.canvas || el === c?.overlayCanvas || el?.closest?.(".dom-widget,[data-node-id],#cm-move,#comfier-node-resize-handles") ? "canvas" : "ui";
-		if (group === "canvas") lastCanvasInput = {
-			at: clock(),
-			type: e.type
-		};
-		count("input." + group + "." + e.type);
-	}
-	function panelStart(id) {
-		if (!active) return;
-		panels.set(id, {
-			at: clock(),
-			click: lastInput?.panel === id && clock() - lastInput.at < 2e3 ? lastInput.at : null
-		});
-		if (panels.size > 32) panels.delete(panels.keys().next().value);
-	}
-	function panelReady(id) {
-		if (!active) return;
-		const p = panels.get(id);
-		if (!p) return;
-		panels.delete(id);
-		event("panel positioned", {
-			panel: id,
-			openToPositionMs: +(clock() - p.at).toFixed(2),
-			clickToPositionMs: p.click === null ? null : +(clock() - p.click).toFixed(2)
-		});
-		count("panel.positioned");
-	}
-	function frame(at) {
-		if (!active) return;
-		if (lastFrame) {
-			const gap = at - lastFrame;
-			pair((b) => {
-				if (b.frameGaps.length < 16384) b.frameGaps.push(gap);
-				else b.frameGaps[b.frameIndex++ % 16384] = gap;
-			});
-		}
-		lastFrame = at;
-		raf = requestAnimationFrame(frame);
-	}
-	function detailHooks() {
-		if (!detailed) return;
-		patch(Element.prototype, "getBoundingClientRect", "DOM:getBoundingClientRect", restores);
-		patch(window, "getComputedStyle", "DOM:getComputedStyle", restores);
-		for (const type of [Element, Document]) for (const key of ["querySelector", "querySelectorAll"]) patch(type.prototype, key, "DOM:" + key, restores);
-	}
-	function resetData() {
-		epoch++;
-		started = clock();
-		ended = started;
-		total = fresh();
-		buckets = [];
-		stack = [];
-		events = [];
-		worst = [];
-		panelEvents = [];
-		resourceEvents = [];
-		panels.clear();
-		lastFrame = 0;
-		lastInput = lastCanvasInput = null;
-		graphContext = null;
-	}
-	function start() {
-		if (active) return;
-		resetData();
-		active = true;
-		stopReason = "Recording";
-		window.__comfierRuntime?.setProfiler(api);
-		bindCanvas(app()?.canvas);
-		collectBrowser();
-		detailHooks();
-		graphHooks();
-		sampleGraph();
-		for (const type of [
-			"pointerdown",
-			"pointermove",
-			"pointerup",
-			"click",
-			"wheel"
-		]) window.addEventListener(type, input, {
-			capture: true,
-			passive: true
-		});
-		raf = requestAnimationFrame(frame);
-		timer = setTimeout(() => stop("Stopped at 120-second limit"), LIMIT);
-		render();
-		scheduleUi();
-	}
-	function stop(reason = "Paused") {
-		if (!active) return;
-		sampleGraph();
-		ended = clock();
-		active = false;
-		epoch++;
-		stack = [];
-		stopReason = reason;
-		window.__comfierRuntime?.setProfiler(null);
-		cancelAnimationFrame(raf);
-		clearTimeout(timer);
-		raf = timer = 0;
-		for (const observer of observers) observer.disconnect();
-		observers = [];
-		nodeRestores.splice(0).reverse().forEach((f) => f());
-		canvasRestores.splice(0).reverse().forEach((f) => f());
-		bound = null;
-		graphCanvases.clear();
-		seenNodes = /* @__PURE__ */ new WeakSet();
-		restores.splice(0).reverse().forEach((f) => f());
-		for (const type of [
-			"pointerdown",
-			"pointermove",
-			"pointerup",
-			"click",
-			"wheel"
-		]) window.removeEventListener(type, input, true);
-		panels.clear();
-		clearTimeout(uiTimer);
-		uiTimer = 0;
-		render();
-	}
-	function reset() {
-		const resume = active;
-		stop();
-		resetData();
-		stopReason = "Reset";
-		if (resume) start();
-		else render();
-	}
-	function merge(list) {
-		const result = fresh();
-		for (const b of list) {
-			for (const [name, v] of b.work) {
-				const r = bounded(result.work, name, row);
-				r.calls += v.calls;
-				r.selfMs += v.selfMs;
-				r.totalMs += v.totalMs;
-				r.maxMs = Math.max(r.maxMs, v.maxMs);
-			}
-			for (const name of ["counts", "mutations"]) for (const [key, v] of b[name]) {
-				const r = bounded(result[name], key, () => ({ count: 0 }));
-				r.count += v.count;
-			}
-			result.frameGaps.push(...b.frameGaps);
-			for (const key of [
-				"longTasks",
-				"longTaskMs",
-				"longFrames",
-				"inputEvents",
-				"inputDelay",
-				"inputProcessing"
-			]) result[key] += b[key];
-		}
-		return result;
-	}
-	function summarize(b, seconds) {
-		const gaps = b.frameGaps.slice().sort((a, b) => a - b);
-		const sum = gaps.reduce((n, v) => n + v, 0);
-		return {
-			seconds,
-			work: [...b.work].map(([name, v]) => ({
-				name,
-				...v,
-				callsPerSecond: v.calls / seconds,
-				meanMs: v.totalMs / v.calls
-			})).sort((a, b) => b.selfMs - a.selfMs),
-			counts: [...b.counts].map(([name, v]) => ({
-				name,
-				count: v.count,
-				perSecond: v.count / seconds
-			})).sort((a, b) => b.count - a.count),
-			mutations: [...b.mutations].map(([target, v]) => ({
-				target,
-				count: v.count
-			})).sort((a, b) => b.count - a.count),
-			frames: {
-				samples: gaps.length,
-				cadenceHz: sum ? gaps.length * 1e3 / sum : 0,
-				p95GapMs: gaps[Math.max(0, Math.ceil(gaps.length * .95) - 1)] || 0,
-				maxGapMs: gaps.at(-1) || 0,
-				over50ms: gaps.filter((n) => n > 50).length
-			},
-			longTasks: b.longTasks,
-			longTaskMs: b.longTaskMs,
-			longFrames: b.longFrames,
-			inputEvents: b.inputEvents,
-			inputDelayMs: b.inputDelay,
-			inputProcessingMs: b.inputProcessing
-		};
-	}
-	function snapshot(includeCapture = true) {
-		const end = active ? clock() : ended || clock();
-		const elapsed = started ? Math.max(.001, (end - started) / 1e3) : .001;
-		const second = Math.floor(end / 1e3);
-		const recent = buckets.filter((b) => b.second >= second - 4);
-		const windowSeconds = Math.max(.001, Math.min(elapsed, (end - Math.max(started, (second - 4) * 1e3)) / 1e3));
-		return {
-			active,
-			status: stopReason,
-			detailed,
-			graphDetailed,
-			graph: graphContext ? { ...graphContext } : null,
-			elapsedSeconds: elapsed,
-			window: summarize(merge(recent.map((b) => b.data)), windowSeconds),
-			capture: includeCapture ? summarize(total || fresh(), elapsed) : null,
-			resources: resourceEvents.slice(),
-			panelEvents: panelEvents.slice(),
-			pendingPanels: [...panels].map(([id, p]) => ({
-				id,
-				waitingMs: clock() - p.at
-			})),
-			events: events.slice(),
-			worst: worst.slice(),
-			supported: { ...supported },
-			limits: {
-				seconds: 120,
-				names: MAX_NAMES,
-				events: MAX_EVENTS,
-				nodes: MAX_NODES
-			},
-			coverage: "Synchronous instrumented work. Graph detail adds bounded node/slot/widget/link/hook and text/image timings, with measurement overhead. Dirty writes name the current measured owner; near-input labels are context, not proven writers. Native pre-bound input handlers, GPU/compositor presentation and uninstrumented third-party JS remain partly unattributed. Async waits are not callback CPU time."
-		};
-	}
-	const n = (v) => Number(v || 0).toFixed(1);
-	function report(snapshotValue = snapshot()) {
-		const s = snapshotValue;
-		const w = s.window;
-		const lines = [
-			"COMFIERUI LIVE PERFORMANCE",
-			s.status + " · " + n(s.elapsedSeconds) + "s · " + (s.detailed ? "Detailed DOM reads ON" : "Standard DOM timing") + " · Graph detail " + (s.graphDetailed ? "ON" : "OFF"),
-			"Window: " + n(w.seconds) + "s (five one-second buckets); capture capped at 120s",
-			"rAF cadence " + n(w.frames.cadenceHz) + "Hz | p95 gap " + n(w.frames.p95GapMs) + "ms | worst " + n(w.frames.maxGapMs) + "ms | gaps >50ms " + w.frames.over50ms,
-			"Cadence is frame-callback timing, not presented graph FPS."
-		];
-		for (const name of [
-			"canvas:draw",
-			"canvas:drawFrontCanvas",
-			"canvas:drawBackCanvas"
-		]) {
-			const v = w.work.find((v) => v.name === name);
-			lines.push(name + ": " + (v ? n(v.callsPerSecond) + "/s · mean " + n(v.meanMs) + "ms · max " + n(v.maxMs) + "ms" : "0 measured calls"));
-		}
-		if (s.active && s.elapsedSeconds < 1) lines.push("Warming up: allow one second before comparing rates.");
-		lines.push("Long tasks " + w.longTasks + " / " + n(w.longTaskMs) + "ms | long animation frames " + w.longFrames, "Slow input entries " + w.inputEvents + " | queued " + n(w.inputDelayMs) + "ms | handler time " + n(w.inputProcessingMs) + "ms", "Browser support: " + Object.entries(s.supported).map(([k, v]) => k + "=" + v).join(", "));
-		for (const [title, data] of [["RECENT WORK — ranked by self time", w], ["CAPTURE TOTAL — ranked by self time", s.capture]]) {
-			lines.push("\n" + title, "self ms | total ms | calls/s | max ms | owner");
-			for (const v of data.work.slice(0, 15)) lines.push([
-				n(v.selfMs),
-				n(v.totalMs),
-				n(v.callsPerSecond),
-				n(v.maxMs),
-				v.name
-			].join(" | "));
-			if (!data.work.length) lines.push("(No measured callbacks yet)");
-		}
-		if (s.graph) lines.push("\nGRAPH CONTEXT — sampled without geometry/style reads", JSON.stringify(s.graph));
-		if (s.graphDetailed) for (const [title, data] of [["RECENT GRAPH WORK", w], ["CAPTURE GRAPH WORK", s.capture]]) {
-			lines.push("\n" + title + " — self ms | total ms | calls/s | max ms | owner");
-			data.work.filter((v) => /^(canvas:|node:|node-hook:|paint:|appearance:|touch:)/.test(v.name)).slice(0, 18).forEach((v) => lines.push([
-				n(v.selfMs),
-				n(v.totalMs),
-				n(v.callsPerSecond),
-				n(v.maxMs),
-				v.name
-			].join(" | ")));
-			lines.push("DIRTY WRITES — counts; near-input context does not identify the writer");
-			data.counts.filter((v) => v.name.startsWith("dirty.")).slice(0, 10).forEach((v) => lines.push(n(v.perSecond) + "/s | " + v.count + " | " + v.name));
-		}
-		lines.push("\nRECENT ACTIVITY — counts, not execution time");
-		w.counts.slice(0, 12).forEach((v) => lines.push(n(v.perSecond) + "/s | " + v.count + " | " + v.name));
-		lines.push("\nRECENT MUTATION TARGETS — target does not identify the writer");
-		w.mutations.slice(0, 6).forEach((v) => lines.push(v.count + " | " + v.target));
-		if (s.pendingPanels.length) lines.push("Pending panel positioning: " + JSON.stringify(s.pendingPanels));
-		lines.push("\nRESOURCES DURING CAPTURE — elapsed time, not CPU");
-		for (const e of s.resources) lines.push(JSON.stringify(e));
-		lines.push("\nPANEL LATENCY — last 16 openings");
-		for (const e of s.panelEvents) lines.push(JSON.stringify(e));
-		lines.push("\nWORST CAPTURE SPIKES");
-		for (const e of s.worst.slice(0, 8)) lines.push(JSON.stringify(e));
-		lines.push("\nRECENT SPIKES / PANEL LATENCY");
-		for (const e of s.events.slice(-16)) lines.push(JSON.stringify(e));
-		lines.push("\nSelf time subtracts nested measured calls. Total time includes children; do not sum both. Panel timing ends after positioning, before confirmed screen presentation.", "monitor:* rows expose measured diagnostic callback cost. Detailed reads add instrumentation overhead.", s.coverage);
-		return lines.join("\n");
-	}
-	function exportReport() {
-		const lines = [report(), "\nDOCUMENT / RESOURCE CONTEXT — load elapsed time, not CPU cost"];
-		const resources = performance.getEntriesByType?.("resource") || [];
-		const nav = performance.getEntriesByType?.("navigation")?.[0];
-		const mem = performance.memory;
-		lines.push("DOM ELEMENTS: " + document.getElementsByTagName("*").length, "RESOURCE ENTRIES: " + resources.length);
-		if (nav) lines.push("NAVIGATION: domInteractive=" + n(nav.domInteractive) + "ms load=" + n(nav.loadEventEnd) + "ms");
-		if (mem) lines.push("JS HEAP: used=" + mem.usedJSHeapSize + " total=" + mem.totalJSHeapSize + " limit=" + mem.jsHeapSizeLimit);
-		if (window.__comfierRuntime) lines.push("UI RUNTIME (lifetime counters): " + JSON.stringify(window.__comfierRuntime.snapshot()));
-		resources.slice().sort((a, b) => b.duration - a.duration).slice(0, 8).forEach((e) => lines.push(n(e.duration) + "ms " + sourceName(e.name)));
-		return lines.join("\n");
-	}
-	function render() {
-		if (root) run("monitor:report", renderBody);
-	}
-	function renderBody() {
-		if (active) run("monitor:graph-context", sampleGraph);
-		const s = snapshot(open);
-		if (open) {
-			const text = report(s);
-			if (reportBox.value !== text) reportBox.value = text;
-		}
-		const top = s.window.work.find((v) => !v.name.startsWith("monitor:"));
-		const text = (active ? "REC " : "PAUSED ") + n(s.window.frames.cadenceHz) + "Hz · " + (top ? top.name + " " + n(top.selfMs) + "ms" : "no measured work");
-		if (hud.textContent !== text) hud.textContent = text;
-		root.querySelector("[data-perf=start]").textContent = active ? "Pause" : "Start";
-		root.querySelector("[data-perf=detail]").disabled = active;
-		root.querySelector("[data-perf=graph]").disabled = active;
-	}
-	function scheduleUi() {
-		clearTimeout(uiTimer);
-		uiTimer = 0;
-		if (active && root && !root.hidden && !document.hidden) uiTimer = setTimeout(() => {
-			render();
-			scheduleUi();
-		}, 1e3);
-	}
-	function buildUi() {
-		if (root) return;
-		root = document.createElement("div");
-		root.id = "comfier-performance-monitor";
-		root.innerHTML = "<style>#comfier-performance-monitor{position:fixed;inset:0;z-index:var(--comfier-z-diagnostics,1001);pointer-events:none;font:500 14px system-ui,sans-serif;color:#111}#comfier-performance-monitor[hidden]{display:none}#comfier-performance-monitor button{font:500 14px system-ui,sans-serif;min-height:40px;padding:8px;border-radius:6px;border:1px solid #aaa;background:#fff;color:#111;cursor:pointer;pointer-events:auto}#comfier-performance-monitor section{position:absolute;left:6px;right:6px;bottom:6px;max-height:74vh;padding:8px;display:flex;flex-direction:column;gap:8px;border:1px solid #aaa;border-radius:6px;background:#fff;pointer-events:auto}#comfier-performance-monitor section[hidden],#comfier-performance-monitor [data-perf=hud][hidden]{display:none}#comfier-performance-monitor strong{font-size:18px;font-weight:600}#comfier-performance-monitor textarea{width:100%;height:44vh;min-height:100px;box-sizing:border-box;resize:none;font:12px/1.4 monospace;white-space:pre;overflow:auto;color:#111;background:#fff;border:1px solid #aaa;border-radius:6px}#comfier-performance-monitor nav{display:flex;gap:6px;flex-wrap:wrap}#comfier-performance-monitor [data-perf=hud]{position:absolute;right:6px;top:6px;max-width:calc(100vw - 12px);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(max-height:520px){#comfier-performance-monitor section{top:4px;bottom:4px;max-height:none}#comfier-performance-monitor textarea{flex:1;min-height:60px}}</style><button data-perf=\"hud\" hidden aria-label=\"Expand performance monitor\"></button><section><strong>Performance Monitor</strong><textarea readonly aria-label=\"Live performance report\"></textarea><nav><button data-perf=\"start\">Start</button><button data-perf=\"reset\">Reset</button><button data-perf=\"detail\" aria-pressed=\"false\">Detailed reads: Off</button><button data-perf=\"graph\" aria-pressed=\"true\">Graph detail: On</button><button data-perf=\"copy\">Copy</button><button data-perf=\"minimize\">Minimize</button><button data-perf=\"close\">Close</button></nav></section>";
-		document.body.appendChild(root);
-		reportBox = root.querySelector("textarea");
-		hud = root.querySelector("[data-perf=hud]");
-		root.addEventListener("click", (e) => {
-			const button = e.target.closest("[data-perf]");
-			if (!button) return;
-			e.stopPropagation();
-			const action = button.dataset.perf;
-			if (action === "start") {
-				if (active) stop();
-				else start();
-			} else if (action === "reset") reset();
-			else if (action === "detail") {
-				detailed = !detailed;
-				button.textContent = "Detailed reads: " + (detailed ? "On" : "Off");
-				button.setAttribute("aria-pressed", String(detailed));
-				render();
-			} else if (action === "graph") {
-				graphDetailed = !graphDetailed;
-				button.textContent = "Graph detail: " + (graphDetailed ? "On" : "Off");
-				button.setAttribute("aria-pressed", String(graphDetailed));
-				render();
-			} else if (action === "minimize") {
-				open = false;
-				root.querySelector("section").hidden = true;
-				hud.hidden = false;
-				render();
-			} else if (action === "hud") show(false);
-			else if (action === "close") hide();
-			else if (action === "copy") {
-				if (active) stop("Paused for copy");
-				reportBox.value = exportReport();
-				reportBox.focus();
-				reportBox.select();
-				let ok = false;
-				try {
-					ok = document.execCommand("copy");
-				} catch (_) {}
-				button.textContent = ok ? "Copied" : "Select / copy text";
-			}
-		});
-		window.__comfierBack?.register?.("performance-monitor", 9, () => {
-			if (root.hidden || !open) return false;
-			open = false;
-			root.querySelector("section").hidden = true;
-			hud.hidden = false;
-			render();
-			return true;
-		});
-	}
-	function show(begin = true) {
-		buildUi();
-		root.hidden = false;
-		open = true;
-		root.querySelector("section").hidden = false;
-		hud.hidden = true;
-		if (begin && !active && stopReason === "Not started") start();
-		render();
-		scheduleUi();
-	}
-	function hide() {
-		stop("Closed");
-		if (root) root.hidden = true;
-		open = false;
-		clearTimeout(uiTimer);
-		uiTimer = 0;
-	}
-	document.addEventListener("visibilitychange", () => {
-		if (document.hidden) stop("Paused while hidden");
-	});
-	window.addEventListener("pagehide", () => stop("Page left"));
-	const api = {
-		get active() {
-			return active;
-		},
-		get graphDetailed() {
-			return graphDetailed;
-		},
-		begin,
-		end,
-		run,
-		count,
-		bindCanvas,
-		panelStart,
-		panelReady,
-		start,
-		stop,
-		reset,
-		snapshot,
-		report,
-		exportReport,
-		open: show,
-		close: hide,
-		setDetailed(value) {
-			if (active) throw Error("Pause before changing detailed reads");
-			detailed = !!value;
-		},
-		setGraphDetailed(value) {
-			if (active) throw Error("Pause before changing graph detail");
-			graphDetailed = !!value;
-		},
-		isOpen: () => !!root && !root.hidden
-	};
-	resetData();
-	window.__comfierPerformance = Object.freeze(api);
-}
-//#endregion
 //#region src/comfier/diagnostics.js
 var ready;
 function startDiagnostics(registerBack) {
 	let mounted = true;
-	installPerformance();
 	ready ||= installDiagnosticHostBridge();
 	ready.then(() => {
 		if (!mounted) return;
@@ -28891,7 +28004,6 @@ function startDiagnostics(registerBack) {
 	return () => {
 		mounted = false;
 		window.__comfierDiagnosticSuite?.disable();
-		window.__comfierPerformance?.close();
 		release();
 	};
 }
@@ -28927,7 +28039,7 @@ var _hoisted_15$11 = ["aria-label"];
 var _hoisted_16$9 = ["aria-label", "aria-pressed"];
 var _hoisted_17$7 = {
 	key: 0,
-	class: "absolute -top-1 -right-1 rounded-full bg-primary-background px-1 text-[10px]"
+	class: "comfier-download-count absolute top-1 right-1 rounded-full bg-primary-background px-1 text-[10px]"
 };
 var _hoisted_18$5 = ["aria-label", "aria-pressed"];
 var _hoisted_19$3 = ["aria-label", "onClick"];
@@ -29157,7 +28269,6 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 		let drag = null;
 		watch(portrait, (value) => panels.setSingleLane(value), { immediate: true });
 		watch(() => [panels.lanes.left?.id, panels.lanes.right?.id], (ids) => {
-			for (const id of ids) if (id) window.__comfierPerformance?.panelReady(id);
 		}, { flush: "post" });
 		function title(tab) {
 			return te(tab.title) ? t(tab.title) : tab.title;
@@ -29225,6 +28336,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 			if (id) panels.remove(id);
 		}
 		function openLora(side) {
+			if (cloud) return;
 			panels.toggle("comfier-lora", side);
 		}
 		async function run(id) {
@@ -29388,7 +28500,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 					ref_key: "topbar",
 					ref: topbar,
 					"data-testid": "comfier-topbar",
-					class: "pointer-events-auto absolute inset-x-1 top-1 isolate z-100 flex h-10 items-center gap-1 rounded-md border border-interface-stroke bg-comfy-menu-bg px-2"
+					class: "pointer-events-auto absolute inset-x-1 top-1 isolate z-100 flex h-10 items-center gap-1 rounded-md border border-interface-stroke bg-comfy-menu-bg px-0"
 				}, [createBaseVNode("div", _hoisted_2$99, [createVNode(WorkflowTabs_default)])])), [[unref(vLayoutControl), "topbar:workspace"]]),
 				createBaseVNode("nav", {
 					"aria-label": unref(t)("comfierTest.left"),
@@ -29472,7 +28584,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 							onClick: _cache[3] || (_cache[3] = ($event) => unref(downloads).launch($event))
 						}, [createBaseVNode("i", { class: normalizeClass(unref(cn)(item.icon, "size-5")) }, null, 2), unref(downloads).count ? (openBlock(), createElementBlock("span", _hoisted_17$7, toDisplayString(unref(downloads).count), 1)) : createCommentVNode("", true)], 10, _hoisted_16$9)), [[unref(vLayoutControl), "action:" + (item.id === "comfier-downloads" ? "Downloads" : "Manage_extensions")]]);
 					}), 128)),
-					withDirectives((openBlock(), createElementBlock("button", {
+					!unref(cloud) ? withDirectives((openBlock(), createElementBlock("button", {
 						class: normalizeClass(unref(buttonClass)),
 						"aria-label": unref(t)("comfierTest.lora"),
 						"aria-pressed": unref(panels).isOpen("comfier-lora"),
@@ -29485,7 +28597,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 					}, [createBaseVNode("path", {
 						"fill-rule": "evenodd",
 						d: "M1 1h14v14H1V1zm4 3h2.5v5.5H12V12H5V4z"
-					})], -1)])], 10, _hoisted_18$5)), [[unref(vLayoutControl), "action:Launch_LoRA_Manager"]]),
+					})], -1)])], 10, _hoisted_18$5)), [[unref(vLayoutControl), "action:Launch_LoRA_Manager"]]) : createCommentVNode("", true),
 					(openBlock(true), createElementBlock(Fragment, null, renderList(unref(canvasActions).filter((item) => !item.hostOnly || !unref(cloud)), (item) => {
 						return withDirectives((openBlock(), createElementBlock("button", {
 							key: item.command,
@@ -29539,7 +28651,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 						"data-comfier-side-panel": "",
 						"aria-label": panelTitle(side),
 						onPointerdown: ($event) => unref(panels).focus(unref(panels).lanes[side].id)
-					}, [![
+					}, [!panelTab(side) && ![
 						"comfier-apps",
 						"comfier-ltx",
 						"comfier-settings",
@@ -29602,7 +28714,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 						extension: panelTab(side)
 					}, null, 8, ["extension"])) : createCommentVNode("", true)], 2)], 46, _hoisted_25$1), [[vShow, unref(panels).lanes[side] && unref(panels).lanes[side]?.id !== "comfier-lora"]]);
 				}), 64)),
-				loraLoaded.value ? withDirectives((openBlock(), createElementBlock("section", {
+				!unref(cloud) && loraLoaded.value ? withDirectives((openBlock(), createElementBlock("section", {
 					key: 0,
 					id: "comfier-lora-manager-panel",
 					style: normalizeStyle(panelStyle(loraSide.value)),
@@ -36401,9 +35513,9 @@ var CORE_SETTINGS = [
 			"Layout"
 		],
 		name: "Docked job history/queue panel",
-		type: "boolean",
+		type: "hidden",
 		tooltip: "Replaces the floating job queue panel with an equivalent job queue embedded in the job history side panel. You can disable this to return to the floating panel layout.",
-		defaultValue: false,
+		defaultValue: true,
 		experimental: true
 	},
 	{
@@ -47457,7 +46569,7 @@ var useAssetsSidebarTab = () => {
 		component: markRaw(AssetsSidebarTab_default),
 		type: "vue",
 		iconBadge: () => {
-			if (!useSettingStore().get("Comfy.Queue.QPOV2")) return null;
+			if (!true) return null;
 			const count = useAssetsSidebarBadgeStore().unseenAddedAssetsCount;
 			return count > 0 ? count.toString() : null;
 		}
@@ -51208,7 +50320,7 @@ function useCoreCommands() {
 	const { getSelectedNodes, toggleSelectedNodesMode } = useSelectedLiteGraphItems();
 	const getTracker = () => workflowStore.activeWorkflow?.changeTracker;
 	function isQueuePanelV2Enabled() {
-		return settingStore.get("Comfy.Queue.QPOV2");
+		return true;
 	}
 	async function toggleQueuePanelV2() {
 		await settingStore.set("Comfy.Queue.QPOV2", !isQueuePanelV2Enabled());
@@ -59034,7 +58146,21 @@ var GraphView_default = /*#__PURE__*/ _plugin_vue_export_helper_default(/* @__PU
 			await queueStore.update();
 			await assetsStore.outputAssets.loadNew();
 		};
-		const onExecutionSuccess = async () => {
+		const onExecutionSuccess = async ({ detail }) => {
+			if (window.__comfierGenerationDownloads && detail?.prompt_id) {
+				void window.__comfierGenerationDownloads.complete(detail.prompt_id, async (captured) => {
+					const job = await api.getJobDetail(detail.prompt_id);
+					let stored = job?.outputs;
+					if (!stored && !window.__COMFIER_CLOUD_MODE) {
+						try {
+							const response = await api.fetchApi(`/history/${encodeURIComponent(detail.prompt_id)}`);
+							if (response.ok) stored = (await response.json())?.[detail.prompt_id]?.outputs;
+						} catch (error) { console.warn("Generation history unavailable", error); }
+					}
+					const outputs = [...captured, ...Object.values(stored || {})];
+					return outputs.flatMap((output) => parseNodeOutput("", output)).map((item) => ({ ...item, downloadUrl: resultItemUrl(item) }));
+				});
+			}
 			await queueStore.update();
 			await assetsStore.outputAssets.loadNew();
 		};

@@ -1,18 +1,14 @@
-# 0.9.2 update
+# ComfierUI Companion 0.10.1
 
-Shared focused-control outlines now follow Button Frames; their width and spacing are unchanged.
+Companion-only desktop editor update, compatible with ComfierUI 0.95.1-Dev. Single-line editors appear immediately centered for browser users, including touch-capable desktops with physical keyboards. Keyboard docking applies only through the Android app bridge. No app update required.
 
-# 0.9.2 update
+Full Companion baseline for ComfierUI 0.95.1-Dev. Consolidates the accepted app-delivered frontend upgrades: restored panel headers, download completion model refresh, model dropdown guards and spacing, Apps field theming, centered single-line editors, progressive Cloud template filtering and the optional generation-preview popup. Compatible template additions preserve the card grid and loaded pages during sync.
 
-Zoom dropdown labels, shortcuts, percentage input and plus/minus controls use UI Font. The normal zoom button and Jobs History counter use Icons. Applies in all four modes and Hosted/Cloud; panel geometry is unchanged.
+The top bar uses 4px end padding and touch/mouse scrolling for overflowing workflow tabs. Overflow arrows and the workflow overflow menu are removed. Direct Cloud keeps Agent and account controls visible, with Share Feedback in the account dropdown; these account actions remain placeholders pending OAuth whitelisting.
 
-# ComfierUI Companion 0.9.2
+Install into the existing Companion custom_nodes directory and restart ComfyUI. Preserve user themes/settings, diagnostics/scripts/backups, gateway_port.json and browser_start.json. Remove obsolete packaged files when updating. Connect the app or a desktop browser to http://HOST-IP:8147 (or your configured gateway port); ComfyUI normally remains on8188. Self-hosted connections require Companion; direct Comfy Cloud does not require a local host.
 
-Full Companion baseline for ComfierUI 0.94.2-Dev. Includes the confirmed four-view panel layouts and Apps theme updates from 0.93.3–0.93.5. Category frames, labels and input-field outlines follow Button Frames; entered text follows UI Font. The Companion Diag performance monitor remains included.
-
-Install into the existing Companion custom_nodes directory and restart ComfyUI. Preserve user themes/settings, diagnostics/scripts/backups, gateway_port.json and browser_start.json. Remove obsolete packaged files when updating. Connect the app or a desktop browser to http://HOST-IP:8147 (or your configured gateway port); ComfyUI normally remains on8188. The app requires Companion for self-hosted connections; direct Comfy Cloud does not require a local host.
-
-The 0.94.2 app contains no upgrade payload ZIPs. This full package includes the updates directly; no app transfer is needed for this baseline. The module upgrade system remains available for future app-delivered updates. Built-in core/frontend modules31 supersede the earlier26/28 upgrades.
+The app no longer bundles upgrade payload ZIPs because this package includes the changes directly. The module upgrade system remains available. Built-in core/frontend41 supersede earlier installed upgrades without deleting user configuration. The Companion diagnostic suite and its performance monitor remain included.
 
 ## Python requirements
 
