@@ -246,7 +246,7 @@ html:root body :is(.comfier-download-url-body,.comfier-repository-choice,#comfie
 .comfier-owned-run-icon{flex:none;width:20px;height:20px}
 #comfier-owned-monitors .crystools-label{position:relative;text-align:center;font-size:11px;padding-inline:0;box-sizing:border-box;color:var(--comfier-ui-font,#fff);width:100%}
 #comfier-owned-monitors .crystools-content{display:block;position:relative;isolation:isolate;width:60px;height:30px;overflow:hidden}
-#comfier-owned-monitors .crystools-text{position:absolute;left:3px;bottom:2px;z-index:1;font-size:10px}
+html:root body #comfier-owned-monitors#comfier-owned-monitors .crystools-content>.crystools-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;font-size:10px;line-height:1;margin:0;padding:0;text-align:center;pointer-events:none;color:var(--comfier-monitor-text,#ffffff)!important;-webkit-text-fill-color:var(--comfier-monitor-text,#ffffff)!important}
 #comfier-lora-manager-panel>header>button{width:28px;height:28px;min-width:28px;min-height:28px;padding:4px}
 
 /* 0.92.24 header layout, rendered directly by SidebarTabTemplate. */

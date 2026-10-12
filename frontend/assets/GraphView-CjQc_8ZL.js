@@ -20150,7 +20150,8 @@ var ResourceFills_default = /* @__PURE__ */ defineComponent({
 					"aria-valuenow": meter.value ?? void 0,
 					style: normalizeStyle({
 						width: meterWidth.value + "px",
-						height: meterHeight.value + "px"
+						height: meterHeight.value + "px",
+						"--comfier-monitor-text": appearance.value.monitorTextColor || "#ffffff"
 					}),
 					class: "crystools-content relative overflow-hidden rounded-sm border border-[#aaa] bg-black/30"
 				}, [createBaseVNode("div", {

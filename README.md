@@ -1,6 +1,6 @@
-# ComfierUI Companion 0.10.8
+# ComfierUI Companion 0.10.9
 
-Full Companion update correcting only two displayed UI Editor Help instructions. Select the container before its button; long press includes holding the left mouse button on PC. Preserve settings/themes and restart ComfyUI.
+Full Companion update limited to resource monitor values: text is centered in each bar and has an independent Value text color in the monitor Colors panel, with white default and Reset. App0.95.8-Dev is unchanged. Preserve settings/themes and restart ComfyUI.
 
 Full Companion baseline for ComfierUI 0.95.8-Dev. Consolidates the accepted app-delivered frontend upgrades: restored panel headers, download completion model refresh, model dropdown guards and spacing, Apps field theming, centered single-line editors, progressive Cloud template filtering and the optional generation-preview popup. Compatible template additions preserve the card grid and loaded pages during sync.
 

@@ -88173,7 +88173,8 @@ function installEditorModel() {
 	const colors = [
 		"frameColor",
 		"background",
-		"iconColor"
+		"iconColor",
+		"monitorTextColor"
 	];
 	const monitorKeys = [
 		"cpu",
@@ -92893,6 +92894,18 @@ function createLayoutEditor(host) {
 		});
 		button(colors, "Set All monitor palettes", () => property("monitorPalettes", Object.fromEntries(model.monitorKeys.map((key) => [key, [...palette]]))));
 		button(colors, "Reset monitor palettes", () => property("monitorPalettes", void 0));
+		const textRow = document.createElement("div");
+		textRow.className = "ufu-buttons";
+		const textSwatch = document.createElement("span");
+		textSwatch.textContent = settings.monitorTextColor || "#ffffff";
+		textSwatch.style.borderLeft = "12px solid " + (settings.monitorTextColor || "#ffffff");
+		textRow.appendChild(textSwatch);
+		const textApply = button(textRow, "Value text", () => property("monitorTextColor", picker.value()));
+		textApply.disabled = !picker;
+		textApply.setAttribute("aria-label", "Apply resource monitor value text color");
+		button(textRow, "Reset", () => property("monitorTextColor", void 0));
+		colors.appendChild(textRow);
+
 	}
 	let inspectorTab = "colors";
 	let tabFrame = null;
