@@ -40136,7 +40136,7 @@ function _useNewUserService() {
 			pendingCallbacks.value = [];
 			return;
 		}
-		await settingStore.set("Comfy.InstalledVersion", void 0);
+		await settingStore.set("Comfy.InstalledVersion", null);
 		for (const callback of pendingCallbacks.value) try {
 			await callback();
 		} catch (error) {
@@ -88889,6 +88889,18 @@ ${fixed} :is(.picker-hex,.theme-hex){width:calc(6ch + 24px)!important;min-width:
 }
 //#endregion
 //#region src/comfier/theme_studio.js
+function compactComfierHexFields(root) {
+	if (!root) return;
+	for (const input of root.querySelectorAll(".picker-hex,.theme-hex")) {
+		if (input.dataset.comfierCompactHex || !input.isConnected || !input.offsetWidth) continue;
+		const width = input.offsetWidth - 32;
+		const height = input.offsetHeight - 20;
+		input.dataset.comfierCompactHex = "true";
+		for (const [key, value] of Object.entries({width: width + "px", minWidth: width + "px", maxWidth: width + "px", height: height + "px", minHeight: height + "px", maxHeight: height + "px", flex: "0 0 " + width + "px", boxSizing: "border-box", padding: "0px 4px", lineHeight: "1"})) {
+			input.style.setProperty(key.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase()), value, "important");
+		}
+	}
+}
 function installThemeStudio() {
 	"use strict";
 	if (window.__comfierThemeStudio) {
@@ -90265,6 +90277,7 @@ function installThemeStudio() {
 		el.className = "comfier-theme-studio";
 		el.hidden = true;
 		el.innerHTML = `<header><button type="button" class="theme-back" aria-label="Back to UI Editor">‹</button><strong>Appearance</strong></header><div class="theme-picker"><canvas class="theme-wheel" aria-label="Color wheel"></canvas><label>Brightness <input class="theme-value" type="range" min="0" max="100" value="100"></label><label>Transparency <input class="theme-transparency" aria-label="Transparency" type="range" min="0" max="100" value="0"><output class="theme-transparency-value">0%</output></label><div class="theme-exact"><span class="theme-previous" title="Previous color"></span><span class="theme-current" title="Current color"></span><label>#<input class="theme-hex" type="text" inputmode="text" maxlength="6" pattern="[0-9a-fA-F]{6}" aria-label="Selected color hex"></label></div></div><h3>Recent colors</h3><div class="theme-recents"></div><h3>Apply selected color</h3><p class="theme-note">Tap a group to assign the selected color.</p><div class="theme-roles"></div>`;
+		requestAnimationFrame(() => compactComfierHexFields(el));
 		el.querySelector(".theme-wheel").after(activePalette((color) => {
 			setSelected(color.slice(0, 7));
 			selectTransparency(color.length === 9 ? Math.round((1 - parseInt(color.slice(7), 16) / 255) * 100) : 0);
@@ -91692,7 +91705,7 @@ function createLayoutEditor(host) {
 				document.querySelectorAll("dialog.ufu-confirm").forEach((d) => d.remove());
 				selectedGroups.clear();
 				picked.clear();
-				if (inspector) inspector.hidden = true;
+				if (inspector) hideInspector();
 				updateStatus();
 			}
 			jobs.burst("mode-settle", refresh, [
@@ -91917,6 +91930,7 @@ function createLayoutEditor(host) {
 		d.showModal();
 	}
 	function detachInspector() {
+		clearTabFrame();
 		inspector?.remove();
 		inspector = null;
 		report = null;
@@ -91992,8 +92006,7 @@ function createLayoutEditor(host) {
 		})) + 8 : 34;
 	}
 	function dragShift(c, g) {
-		if (!press?.moving || press.destination !== g.id || press.ids.includes(c.id)) return "none";
-		return g.items.filter((id) => !press.ids.includes(id) && !g.hidden?.includes(id)).indexOf(c.id) >= press.index ? `translate${g.flow === "vertical" ? "Y" : "X"}(100px)` : "none";
+		return "none";
 	}
 	function shellStyle(el, key, value) {
 		let cached = shellStyles.get(el);
@@ -92130,7 +92143,7 @@ function createLayoutEditor(host) {
 			source: copy(g)
 		};
 		e.currentTarget.setPointerCapture?.(e.pointerId);
-		if (inspector) inspector.hidden = true;
+		if (inspector) hideInspector();
 	}
 	function resizeMove(e) {
 		const p = resizeGesture;
@@ -92400,12 +92413,13 @@ function createLayoutEditor(host) {
 		statusBar.querySelector("[data-properties]").disabled = !selectedGroups.size;
 	}
 	function clearSelection() {
+		clearTabFrame();
 		selectedGroups.clear();
 		picked.clear();
 		selectionKind = "container";
 		multiContainers = multiButtons = false;
 		acrossViews = false;
-		if (inspector) inspector.hidden = true;
+		if (inspector) hideInspector();
 		updateStatus();
 		refresh();
 	}
@@ -92448,7 +92462,7 @@ function createLayoutEditor(host) {
 		statusBar.className = "ufu-editor-status";
 		const global = button(statusBar, "Appearance", () => {
 			closeToolbarMenu();
-			if (inspector) inspector.hidden = true;
+			if (inspector) hideInspector();
 			window.__comfierThemeStudio?.open();
 		});
 		global.dataset.globalAppearance = "";
@@ -92456,7 +92470,7 @@ function createLayoutEditor(host) {
 			closeToolbarMenu();
 			if (!selectedGroups.size) return;
 			if (inspector.hidden) paintInspector();
-			else inspector.hidden = true;
+			else hideInspector();
 		});
 		properties.dataset.properties = "";
 		const toggle = button(statusBar, isDesktopBrowser() ? "Menu" : "Menu ▾", () => toggleToolbarMenu());
@@ -92469,6 +92483,7 @@ function createLayoutEditor(host) {
 		toolbarMenu.className = "ufu-toolbar-menu";
 		toolbarMenu.hidden = true;
 		toolbarMenu.setAttribute("aria-label", "Editor actions");
+		button(toolbarMenu, "Help", openEditorHelp);
 		button(toolbarMenu, "Top bar appearance", () => {
 			closeToolbarMenu();
 			picked.clear();
@@ -92519,13 +92534,14 @@ function createLayoutEditor(host) {
 		inspector.className = "ufu-inspector ufu-unified-inspector";
 		inspector.dataset.comfierSidePanel = "ui-editor";
 		inspector.setAttribute("aria-label", "UI Editor properties");
-		inspector.hidden = true;
+		hideInspector();
 		document.body.appendChild(inspector);
 		document.documentElement.classList.add("ufu-editor-active");
 		updateStatus();
 		refresh();
 	}
 	function finish(commit = false) {
+		clearTabFrame();
 		closeToolbarMenu();
 		toolbarMenu = null;
 		window.__comfierThemeStudio?.closeAll?.();
@@ -92615,6 +92631,27 @@ function createLayoutEditor(host) {
 		}
 		exitDialog();
 		return true;
+	}
+	function openEditorHelp() {
+		closeToolbarMenu();
+		closeEditorDialog();
+		const d = document.createElement("dialog");
+		d.className = "ufu-confirm ufu-editor-help";
+		d.setAttribute("aria-label", "UI Editor Help");
+		editorDialog = d;
+		const title = document.createElement("h2"); title.textContent = "UI Editor Help"; d.appendChild(title);
+		for (const [heading, text] of [
+			["Select and reorder buttons", "Select its container first, then tap a button to select it. Drag the selected button to the insertion line, or use Dimensions → Move Earlier / Move Later for one-position changes. Select additional buttons lets you move or style several together."],
+			["Move and resize containers", "Long press (or hold left mouse button on PC) a container to move it. Use its corner or edge handles to resize it, or enter dimensions for precise sizes. Properties selects the container; Lane chooses its edge, middle or inner lane."],
+			["Connected bars", "Enable Connected scrollable bar for a single row or column. Visible buttons sets how many fit at once; additional buttons scroll. Autofill lane uses the available lane space."],
+			["Colors and dimensions", "Colors controls fills, frames and icon colors. Choose a color, then tap the role you want to change. Dimensions controls widths, icon size, frame thickness and corners. Reset returns that value to its default."],
+			["Global appearance and four views", "Appearance edits the overall theme. Phone portrait, phone landscape, tablet portrait and tablet landscape have separate layouts. Apply appearance across all views copies styling, not button order or positions. Desktop uses tablet layouts."],
+			["Resource monitor", "Select the monitor to choose visible meters, direction, meter order and fill palettes. Its arrow controls change meter order independently of button order."],
+			["Save, undo and exit", "Menu offers Undo and Redo. Use Appearance to save and load themes. Back first closes a dialog or selection, then offers the editor exit choices. Save your theme to reuse or share its colors and layouts. Hidden controls lets you restore buttons you hid."]
+		]) { const h = document.createElement("h3"); h.textContent = heading; const p = document.createElement("p"); p.textContent = text; d.append(h, p); }
+		button(d, "Close", closeEditorDialog);
+		d.addEventListener("cancel", (e) => { e.preventDefault(); closeEditorDialog(); });
+		document.body.appendChild(d); d.showModal();
 	}
 	function confirmDialog(message, yes) {
 		if (!editing) {
@@ -92742,6 +92779,26 @@ function createLayoutEditor(host) {
 		row.appendChild(field);
 		parent.appendChild(row);
 	}
+	function reorderedButtons(g, delta) {
+		const visible = g.items.filter((id) => !g.hidden?.includes(id));
+		if (visible.length < 2) return [...g.items];
+		const start = delta < 0 ? 1 : visible.length - 2;
+		const end = delta < 0 ? visible.length : -1;
+		for (let i = start; i !== end; i -= delta) {
+			if (picked.has(visible[i]) && !picked.has(visible[i + delta])) {
+				[visible[i], visible[i + delta]] = [visible[i + delta], visible[i]];
+			}
+		}
+		let index = 0;
+		return g.items.map((id) => g.hidden?.includes(id) ? id : visible[index++]);
+	}
+	function movePickedButtons(delta) {
+		// Ordering belongs only to the active view; the appearance checkbox does not copy positions.
+		const changes = draft[mode()].map((g) => ({g, items: reorderedButtons(g, delta)})).filter(({g, items}) => items.some((id, i) => id !== g.items[i]));
+		if (!changes.length) return;
+		change(() => { for (const {g, items} of changes) g.items = items; });
+		paintInspector();
+	}
 	function monitorInspector(body, picker, colors = body) {
 		const settings = resourceAppearance();
 		const order = settings.monitorOrder || model.monitorKeys;
@@ -92775,7 +92832,7 @@ function createLayoutEditor(host) {
 		body.appendChild(heading);
 		order.forEach((key, index) => {
 			const row = document.createElement("div");
-			row.className = "ufu-buttons";
+			row.className = "ufu-monitor-order";
 			const label = document.createElement("span");
 			label.textContent = labels[key];
 			row.appendChild(label);
@@ -92838,6 +92895,27 @@ function createLayoutEditor(host) {
 		button(colors, "Reset monitor palettes", () => property("monitorPalettes", void 0));
 	}
 	let inspectorTab = "colors";
+	let tabFrame = null;
+	function hideInspector() {
+		clearTabFrame();
+		if (inspector) inspector.hidden = true;
+	}
+	function clearTabFrame() { tabFrame?.remove(); tabFrame = null; }
+	function paintTabFrame() {
+		const button = inspector?.querySelector(".ufu-editor-tabs button[aria-pressed=true]");
+		if (!editing || inspector?.hidden || !button) { clearTabFrame(); return; }
+		const r = button.getBoundingClientRect();
+		const body = inspector.querySelector(".ufu-inspector-body").getBoundingClientRect();
+		if (r.bottom <= body.top || r.top >= body.bottom) { clearTabFrame(); return; }
+		if (!tabFrame) {
+			tabFrame = document.createElement("div");
+			tabFrame.className = "ufu-tab-frame-layer";
+			tabFrame.setAttribute("aria-hidden", "true");
+			document.body.appendChild(tabFrame);
+		}
+		Object.assign(tabFrame.style, {left: r.left - 4 + "px", top: r.top - 4 + "px", width: r.width + 8 + "px", height: r.height + 8 + "px"});
+	}
+
 	function paintInspector() {
 		if (!editing || !inspector || press?.moving || !selectedGroups.size) return;
 		const groups = groupsSelected();
@@ -92847,6 +92925,7 @@ function createLayoutEditor(host) {
 		}
 		inspector.hidden = false;
 		const scroll = inspector.querySelector(".ufu-inspector-body")?.scrollTop || 0;
+		clearTabFrame();
 		inspector.replaceChildren();
 		const header = document.createElement("header");
 		const title = document.createElement("strong");
@@ -92866,13 +92945,13 @@ function createLayoutEditor(host) {
 			if (isButton) multiButtons = !multiButtons;
 			else multiContainers = !multiContainers;
 			paintInspector();
-			if (isButton ? multiButtons : multiContainers) inspector.hidden = true;
+			if (isButton ? multiButtons : multiContainers) hideInspector();
 		}).setAttribute("aria-pressed", String(isButton ? multiButtons : multiContainers));
 		boolControl(body, "Apply appearance across all views", acrossViews, (v) => {
 			acrossViews = v;
 		});
 		const tabs = document.createElement("div");
-		tabs.className = "ufu-buttons";
+		tabs.className = "ufu-buttons ufu-editor-tabs";
 		body.appendChild(tabs);
 		const colors = document.createElement("section");
 		const dimensionPane = document.createElement("section");
@@ -92887,7 +92966,10 @@ function createLayoutEditor(host) {
 			dimensionPane.hidden = tab !== "dimensions";
 			colorTab.setAttribute("aria-pressed", String(tab === "colors"));
 			dimensionTab.setAttribute("aria-pressed", String(tab === "dimensions"));
+			jobs.frame("editor-tab-frame", paintTabFrame);
+			jobs.frame("editor-hex-size", () => compactComfierHexFields(inspector));
 		}
+		for (const tab of [colorTab, dimensionTab]) tab.style.setProperty("outline", "none", "important");
 		showTab(inspectorTab);
 		const picker = window.__comfierThemeStudio?.createPicker?.(editorColor, (value) => editorColor = value);
 		if (picker) {
@@ -92939,13 +93021,6 @@ function createLayoutEditor(host) {
 			if (picked.size === 1) {
 				const id = [...picked][0];
 				const c = controls.get(id);
-				const t = targets()[0];
-				if (t && !t.get().width) {
-					const r = slotRects.get(id);
-					const row = document.createElement("p");
-					row.textContent = "Current width: " + Math.round(r?.width || c?.width || 26) + "px";
-					dimensionPane.appendChild(row);
-				}
 				numberControl(dimensionPane, "Width (px)", "width", minimumWidth(c || {
 					width: 26,
 					height: 26
@@ -92955,6 +93030,13 @@ function createLayoutEditor(host) {
 				hint.textContent = "Select one button to edit its width.";
 				dimensionPane.appendChild(hint);
 			}
+			const orderRow = document.createElement("div");
+			orderRow.className = "ufu-button-order";
+			for (const [delta, label] of [[-1, "Move Earlier"], [1, "Move Later"]]) {
+				const action = button(orderRow, label, () => movePickedButtons(delta));
+				action.disabled = !draft[mode()].some((g) => reorderedButtons(g, delta).some((id, i) => id !== g.items[i]));
+			}
+			dimensionPane.appendChild(orderRow);
 		} else if (!groups.some((g) => g.id === "topbar")) {
 			const laneRow = document.createElement("label");
 			laneRow.textContent = "Lane";
@@ -93121,7 +93203,7 @@ function createLayoutEditor(host) {
 		fitEditorBar();
 		let left = 4;
 		let right = innerWidth - 4;
-		let top = (statusBar?.getBoundingClientRect().bottom || 0) + 4;
+		let top = landscape ? 4 : (statusBar?.getBoundingClientRect().bottom || 0) + 4;
 		let bottom = innerHeight - 4;
 		const rail = railRect();
 		if (rail) {
@@ -93129,12 +93211,13 @@ function createLayoutEditor(host) {
 			else right = Math.min(right, rail.left - 4);
 		}
 		const first = boxes.find((b) => selectedGroups.has(b.id));
+		const exposeEnds = !landscape || [...selectedGroups].some((id) => boxes.some((b) => b.id === id && (b.edge === "top" || b.edge === "bottom")));
 		for (const b of boxes) {
 			if ((b.track || 1) !== 1 && !selectedGroups.has(b.id)) continue;
 			if (b.edge === "left") left = Math.max(left, b.right + 4);
 			else if (b.edge === "right") right = Math.min(right, b.left - 4);
-			else if (!landscape && b.edge === "top") top = Math.max(top, b.bottom + 4);
-			else if (!landscape && b.edge === "bottom") bottom = Math.min(bottom, b.top - 4);
+			else if (exposeEnds && b.edge === "top") top = Math.max(top, b.bottom + 4);
+			else if (exposeEnds && b.edge === "bottom") bottom = Math.min(bottom, b.top - 4);
 		}
 		const width = Math.max(1, Math.min(landscape ? 660 : innerWidth, right - left));
 		return {
@@ -93145,6 +93228,7 @@ function createLayoutEditor(host) {
 		};
 	}
 	function placeInspector() {
+		jobs.frame("editor-tab-frame", paintTabFrame);
 		if (!inspector || inspector.hidden) return;
 		const view = mode();
 		inspector.dataset.editorView = view;
@@ -93181,7 +93265,10 @@ function createLayoutEditor(host) {
 		});
 	}
 	function hitButton(x, y, group) {
-		return [...slotRects.values()].find((r) => r.container === group && model.boundary(r, x, y))?.id;
+		return [...slotRects.values()].find((r) => {
+			const el = controls.get(r.id)?.el;
+			return r.container === group && el && model.boundary(el.getBoundingClientRect(), x, y);
+		})?.id;
 	}
 	function editorPress(e, group) {
 		if (!editing || e.button > 0 || e.isPrimary === false || press) return;
@@ -93214,7 +93301,7 @@ function createLayoutEditor(host) {
 			[...selectedGroups][0];
 			picked.clear();
 			if (!selectedGroups.size) {
-				if (inspector) inspector.hidden = true;
+				if (inspector) hideInspector();
 				updateStatus();
 				refresh();
 				return;
@@ -93279,7 +93366,10 @@ function createLayoutEditor(host) {
 		ghost = document.createElement("div");
 		ghost.className = "ufu-drag-ghost ufu-container-ghost";
 		document.body.appendChild(ghost);
-		inspector.hidden = true;
+		press.indicator = document.createElement("div");
+		Object.assign(press.indicator.style, {position: "fixed", pointerEvents: "none", zIndex: "10002", background: "#20DFF3", borderRadius: "2px"});
+		document.body.appendChild(press.indicator);
+		hideInspector();
 		document.documentElement.classList.add("ufu-dragging");
 		containerPreview(press.lastX, press.lastY);
 	}
@@ -93388,7 +93478,10 @@ function createLayoutEditor(host) {
 		ghost.className = "ufu-drag-ghost";
 		ghost.textContent = press.ids.length === 1 ? controls.get(press.id)?.label || "Button" : press.ids.length + " buttons";
 		document.body.appendChild(ghost);
-		inspector.hidden = true;
+		press.indicator = document.createElement("div");
+		Object.assign(press.indicator.style, {position: "fixed", pointerEvents: "none", zIndex: "10002", background: "#20DFF3", borderRadius: "2px"});
+		document.body.appendChild(press.indicator);
+		hideInspector();
 		document.documentElement.classList.add("ufu-dragging");
 		movePreview(press.lastX, press.lastY);
 		updateStatus();
@@ -93401,82 +93494,71 @@ function createLayoutEditor(host) {
 		}
 		ghost.style.left = x + 12 + "px";
 		ghost.style.top = y + 12 + "px";
-		for (const [id, r] of slotRects) {
-			const c = controls.get(id);
-			if (c) put(c.el, "transform", "none");
-		}
-		for (const b of boxes) {
-			const el = shells.get(b.id);
-			if (el) {
-				shellStyle(el, "top", b.top + "px");
-				shellStyle(el, "left", b.left + "px");
-				shellStyle(el, "width", b.width + "px");
-				shellStyle(el, "height", b.height + "px");
-			}
-		}
-		press.destination = model.destination(boxes.filter((b) => !b.fixed).map((b) => b.id === press.previewBox?.id ? press.previewBox : b), press.destination, x, y);
-		press.previewBox = null;
+		// Use rendered viewport coordinates, including browser zoom and wrapped rows.
+		// Do not shift buttons or expand containers while deciding a drop.
+		const targets = boxes.filter((b) => !b.fixed).map((b) => {
+			const r = shells.get(b.id)?.getBoundingClientRect();
+			return r ? {id: b.id, left: r.left, right: r.right, top: r.top, bottom: r.bottom} : b;
+		});
+		press.destination = model.destination(targets, press.destination, x, y);
 		const target = draft[mode()].find((g) => g.id === press.destination);
 		for (const el of shells.values()) el.classList.remove("ufu-drop-target");
-		if (target) {
-			shells.get(target.id)?.classList.add("ufu-drop-target");
-			const available = target.items.filter((id) => !press.ids.includes(id) && !target.hidden?.includes(id));
-			const vertical = target.flow === "vertical";
-			const list = available.map((id) => slotRects.get(id)).filter(Boolean);
-			press.index = list.findIndex((r) => (vertical ? y : x) < (vertical ? (r.top + r.bottom) / 2 : (r.left + r.right) / 2));
-			if (press.index < 0) press.index = available.length;
-			const b = boxes.find((b) => b.id === target.id);
-			const ws = workspace();
-			if (!b) return;
-			const main = vertical ? b.height : b.width;
-			const limit = vertical ? ws.bottom - ws.top : ws.right - ws.left;
-			const extent = Math.min(main + 100, limit);
-			const overflow = Math.max(0, (vertical ? b.bottom : b.right) + (extent - main) - (vertical ? ws.bottom : ws.right));
-			const preview = { ...b };
-			if (vertical) {
-				preview.top -= overflow;
-				preview.height = extent;
-				preview.bottom = preview.top + extent;
-			} else {
-				preview.left -= overflow;
-				preview.width = extent;
-				preview.right = preview.left + extent;
-			}
-			press.previewBox = preview;
-			const shell = shells.get(target.id);
-			if (shell) for (const key of [
-				"left",
-				"top",
-				"width",
-				"height"
-			]) shellStyle(shell, key, preview[key] + "px");
-			for (const id of available) {
-				const c = controls.get(id);
-				const at = available.indexOf(id);
-				if (c) {
-					put(c.el, "transform", `translate${vertical ? "Y" : "X"}(${(at >= press.index ? 100 : 0) - overflow}px)`);
-					put(c.el, "clip-path", "none");
-				}
-			}
-			if (connected(target)) {
-				const point = vertical ? y : x;
-				const start = vertical ? preview.top : preview.left;
-				const end = vertical ? preview.bottom : preview.right;
-				if (point < start + 24 || point > end - 24) {
-					scrollGroup(target.id, point < start + 24 ? -8 : 8);
-					jobs.later("editor-autoscroll", () => {
-						if (press?.moving) movePreview(press.lastX, press.lastY);
-					}, 35);
-				}
+		press.indicator.hidden = !target;
+		jobs.cancel("editor-autoscroll");
+		if (!target) return;
+		shells.get(target.id)?.classList.add("ufu-drop-target");
+		const box = targets.find((b) => b.id === target.id);
+		const vertical = target.flow === "vertical";
+		const available = target.items.filter((id) => !press.ids.includes(id) && !target.hidden?.includes(id));
+		const entries = available.map((id, index) => {
+			const el = controls.get(id)?.el;
+			return el ? {index, rect: el.getBoundingClientRect()} : null;
+		}).filter((entry) => entry && entry.rect.right > box.left && entry.rect.left < box.right && entry.rect.bottom > box.top && entry.rect.top < box.bottom);
+		let closest = null, distance = Infinity;
+		for (const entry of entries) {
+			const r = entry.rect;
+			const dx = Math.max(r.left - x, 0, x - r.right);
+			const dy = Math.max(r.top - y, 0, y - r.bottom);
+			const d = dx * dx + dy * dy;
+			if (d < distance) { closest = entry; distance = d; }
+		}
+		press.index = available.length;
+		let line = vertical ? box.top + 4 : box.left + 4;
+		let crossStart = vertical ? box.left + 4 : box.top + 4;
+		let crossEnd = vertical ? box.right - 4 : box.bottom - 4;
+		if (closest) {
+			const r = closest.rect;
+			const before = (vertical ? y : x) < (vertical ? (r.top + r.bottom) / 2 : (r.left + r.right) / 2);
+			press.index = closest.index + (before ? 0 : 1);
+			line = vertical ? (before ? r.top : r.bottom) : (before ? r.left : r.right);
+			crossStart = vertical ? Math.max(box.left + 2, r.left) : Math.max(box.top + 2, r.top);
+			crossEnd = vertical ? Math.min(box.right - 2, r.right) : Math.min(box.bottom - 2, r.bottom);
+		}
+		line = Math.max((vertical ? box.top : box.left) + 2, Math.min((vertical ? box.bottom : box.right) - 2, line));
+		Object.assign(press.indicator.style, {left: (vertical ? crossStart : line - 1) + "px", top: (vertical ? line - 1 : crossStart) + "px", width: (vertical ? Math.max(2, crossEnd - crossStart) : 2) + "px", height: (vertical ? 2 : Math.max(2, crossEnd - crossStart)) + "px"});
+		if (connected(target)) {
+			const point = vertical ? y : x;
+			const start = vertical ? box.top : box.left;
+			const end = vertical ? box.bottom : box.right;
+			if (point < start + 24 || point > end - 24) {
+				// Retain the existing drag-only edge scrolling, with no DOM observers.
+				jobs.later("editor-autoscroll", () => {
+					if (press?.moving) {
+						scrollGroup(target.id, point < start + 24 ? -8 : 8);
+						movePreview(press.lastX, press.lastY);
+					}
+				}, 35);
 			}
 		}
 	}
+
 	function cancelMove() {
 		jobs.cancel("editor-hold");
 		jobs.cancel("editor-autoscroll");
 		if (press?.target) try {
 			press.target.releasePointerCapture(press.pointer);
 		} catch (_) {}
+		press?.indicator?.remove();
 		press = null;
 		lastRenderKey = null;
 		ghost?.remove();
@@ -93494,6 +93576,7 @@ function createLayoutEditor(host) {
 			commitContainerMove(x, y);
 			return;
 		}
+		movePreview(x, y);
 		const groups = draft[mode()];
 		const source = p.anchor;
 		let to = groups.find((g) => g.id === p.destination);
@@ -93819,6 +93902,8 @@ function createLayoutEditor(host) {
 .ufu-toolbar-menu{position:absolute;right:0;top:calc(100% + 4px);display:flex;flex-direction:column;gap:6px;width:min(220px,calc(100vw - 16px));max-height:calc(100dvh - 52px);overflow:auto;padding:8px;border:1px solid #fff;border-radius:6px;background:#111;box-sizing:border-box;box-shadow:0 4px 12px #0009}
 .ufu-copy-options{display:flex;flex-direction:column;gap:6px;padding-left:10px}.ufu-copy-options[hidden]{display:none!important}.ufu-toolbar-menu[hidden]{display:none!important}.ufu-toolbar-menu :is(button,select){display:block;width:100%;min-height:36px;padding:6px;font:14px system-ui;border:1px solid #fff;border-radius:4px}
 .ufu-unified-inspector{z-index:9500;display:flex;flex-direction:column;gap:8px;overflow:hidden;box-shadow:0 4px 24px #0009}.ufu-unified-inspector[hidden]{display:none!important}.ufu-unified-inspector footer{margin-top:auto}.ufu-unified-inspector footer button{flex:1}.ufu-unified-inspector input[type=number]{width:7ch}.ufu-unified-inspector .ufu-inspector-body{gap:10px}.ufu-unified-inspector fieldset{min-width:0;border:1px solid #666;display:flex;flex-direction:column;gap:8px}
+.ufu-unified-inspector .ufu-button-order{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.ufu-unified-inspector .ufu-monitor-order{display:grid;grid-template-columns:minmax(0,1fr) 40px 40px;gap:12px;align-items:center}.ufu-unified-inspector .ufu-monitor-order button{width:40px!important;min-height:40px}.ufu-unified-inspector .ufu-monitor-order span{min-width:0}
+.ufu-tab-frame-layer{position:fixed;z-index:9501;pointer-events:none;border:2px solid #20DFF3;border-radius:9px;box-sizing:border-box}.ufu-editor-help{width:min(540px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto}.ufu-editor-help h2{font:600 18px system-ui}.ufu-editor-help h3{font:600 14px system-ui}.ufu-editor-help p{line-height:1.5}
 .ufu-drop-target{outline:3px solid var(--comfier-active-color,#fff)!important}.ufu-drag-ghost{position:fixed;z-index:10001;pointer-events:none;padding:10px;background:#111e;border:2px solid var(--comfier-active-color,#fff);border-radius:6px;color:#fff;font:14px system-ui;max-width:240px}.ufu-container-ghost{box-sizing:border-box;border:3px solid #D40000;background:#D4000018;max-width:none;overflow:hidden}.ufu-container-ghost.ufu-invalid-drop{border-style:dashed}.ufu-dragging [data-ufu-control]{transition:transform 100ms ease}
 .ufu-editor-active [data-ufu-control]{pointer-events:none!important}.ufu-editor-active .ufu-shell{z-index:8995!important}
 html:root body .ufu-unified-inspector :is(label,p,strong,legend,output){color:#fff!important;-webkit-text-fill-color:#fff!important}
@@ -93891,6 +93976,7 @@ html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme
 			legacyRefresh();
 		}
 	};
+	jobs.listen(window, "scroll", () => jobs.frame("editor-tab-frame", paintTabFrame), { passive: true, capture: true });
 	jobs.listen(window, "resize", viewportRefresh, { passive: true });
 	jobs.listen(window, "orientationchange", viewportRefresh, { passive: true });
 	jobs.listen(window, "comfier-layout-side-change", invalidateDiscovery);

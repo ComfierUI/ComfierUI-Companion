@@ -788,7 +788,7 @@ img[data-v-ca0e6d87] {
   background: var(--button-hover-surface);
 }
 
-.comfier-settings-content.comfier-app-settings-native-panel{display:flex;flex-direction:column;gap:8px;padding:4px!important;width:100%;height:100%;min-width:0;overflow:auto;box-sizing:border-box}
+.comfier-settings-content.comfier-app-settings-native-panel{display:flex;flex-direction:column;gap:8px;padding:10px!important;width:100%;height:100%;min-width:0;overflow:auto;box-sizing:border-box}
 .comfier-settings-content>*{flex-shrink:0}
 .comfier-settings-content>div,.comfier-settings-content>div>div{display:contents!important}
 .comfier-settings-content .ui-zoom-panel{display:contents!important}
@@ -1121,3 +1121,10 @@ img[data-v-ca0e6d87] {
   display: flex;
   flex-direction: column;
 }
+
+/* Match UI Editor's declared 10px panel padding. Inline chooser stays in the row. */
+.comfier-settings-content .comfier-workflow-mode-row{display:flex!important;flex-direction:row!important;align-items:flex-start!important;justify-content:space-between;gap:8px;order:5}
+.comfier-settings-content .comfier-workflow-mode-row>span{padding-top:8px;min-width:0}
+.comfier-settings-content .comfier-workflow-mode-row>.comfier-workflow-choice{display:flex!important;flex-direction:column;width:calc(58% - 24px);max-width:calc(58% - 24px);flex:0 1 calc(58% - 24px);gap:4px}
+.comfier-settings-content .comfier-workflow-choice>.comfier-workflow-options{display:flex!important;flex-direction:column;gap:4px;width:100%;padding:4px;border:1px solid #aaa;border-radius:6px;background:#111;box-sizing:border-box}
+.comfier-workflow-choice button{width:100%;font:500 14px system-ui;min-height:40px;padding:8px;border:1px solid #aaa;border-radius:6px;box-sizing:border-box;background:#fff;color:#111;text-align:center}

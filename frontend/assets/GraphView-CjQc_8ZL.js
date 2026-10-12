@@ -20620,7 +20620,9 @@ function createCompanionSettings() {
 		const appVersion = document.createElement("div");
 		appVersion.className = "ui-app-version";
 		appVersion.style.order = "104";
-		appVersion.textContent = "App Version: 0.93.0-Dev";
+		let installedVersion = "Unavailable";
+		try { installedVersion = window.ComfierApp.getAppVersion?.() || installedVersion; } catch (_) {}
+		appVersion.textContent = "App Version: " + installedVersion;
 		root.append(appVersion);
 		if (!window.__COMFIER_CLOUD_MODE) {
 			const companionVersion = document.createElement("div");
@@ -20673,6 +20675,16 @@ var AppSettingsPanel_default = /* @__PURE__ */ defineComponent({
 		onBeforeUnmount(companionSettings.remove);
 		const layout = useComfierLayoutStore();
 		const appMode = useComfierAppModeStore();
+		const workflowChoiceOpen = ref(false);
+		const workflowPreference = ref(appMode.preference);
+		useOverlayBack(workflowChoiceOpen);
+		const workflowChoices = [["ask", "comfierTest.askEveryTime"], ["app", "comfierTest.appMode"], ["graph", "comfierTest.fullCanvas"]];
+		function chooseWorkflowPreference(value) {
+			appMode.setPreference(value);
+			workflowPreference.value = value;
+			workflowChoiceOpen.value = false;
+		}
+
 		function setWorkflowMode(event) {
 			if (!(event.target instanceof HTMLSelectElement)) return;
 			const value = event.target.value;
@@ -20708,15 +20720,14 @@ var AppSettingsPanel_default = /* @__PURE__ */ defineComponent({
 					onChange: toggleDiagnostics
 				}, null, 40, _hoisted_4$74)])) : createCommentVNode("", true),
 				createVNode(OwnedSurface_default, { element: unref(companionSettings).element }, null, 8, ["element"]),
-				createBaseVNode("label", _hoisted_5$54, [createBaseVNode("span", null, toDisplayString(unref(t)("comfierTest.openWorkflowsAs")), 1), createBaseVNode("select", {
-					class: normalizeClass(unref(controlClass)),
-					value: unref(appMode).preference,
-					onChange: setWorkflowMode
-				}, [
-					createBaseVNode("option", _hoisted_7$36, toDisplayString(unref(t)("comfierTest.askEveryTime")), 1),
-					createBaseVNode("option", _hoisted_8$28, toDisplayString(unref(t)("comfierTest.appMode")), 1),
-					createBaseVNode("option", _hoisted_9$26, toDisplayString(unref(t)("comfierTest.fullCanvas")), 1)
-				], 42, _hoisted_6$43)]),
+				
+				createBaseVNode("div", {class: "comfier-workflow-mode-row"}, [
+					createBaseVNode("span", null, toDisplayString(unref(t)("comfierTest.openWorkflowsAs"))),
+					createBaseVNode("div", {class: "comfier-workflow-choice", onFocusout: e => { if (!e.currentTarget.contains(e.relatedTarget)) workflowChoiceOpen.value = false; }}, [
+						createBaseVNode("button", {type: "button", class: normalizeClass(unref(controlClass)), "aria-label": "Open workflows as", "aria-haspopup": "listbox", "aria-expanded": workflowChoiceOpen.value, onClick: () => workflowChoiceOpen.value = !workflowChoiceOpen.value, onKeydown: e => { if (e.key === "Escape") { workflowChoiceOpen.value = false; e.stopPropagation(); } }}, toDisplayString(unref(t)(workflowChoices.find(c => c[0] === workflowPreference.value)?.[1] || workflowChoices[0][1])) + " ▾"),
+						workflowChoiceOpen.value ? createBaseVNode("div", {class: "comfier-workflow-options", role: "listbox", "aria-label": "Workflow opening mode"}, workflowChoices.map(([value, label]) => createBaseVNode("button", {type: "button", role: "option", "aria-selected": workflowPreference.value === value, onClick: () => chooseWorkflowPreference(value)}, toDisplayString(unref(t)(label))))) : createCommentVNode("", true)
+					])
+				]),
 				createBaseVNode("label", {class: "comfier-preview-popup-row flex min-h-10 items-center justify-between gap-3"}, [
           createBaseVNode("span", null, "Generation preview popup"),
           createBaseVNode("input", {type: "checkbox", "aria-label": "Generation preview popup", checked: unref(appMode).generationPreview.enabled,
