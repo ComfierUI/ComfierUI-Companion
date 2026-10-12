@@ -1,8 +1,8 @@
-# ComfierUI Companion 0.10.9
+# ComfierUI Companion 0.10.10
 
-Full Companion update limited to resource monitor values: text is centered in each bar and has an independent Value text color in the monitor Colors panel, with white default and Reset. App0.95.8-Dev is unchanged. Preserve settings/themes and restart ComfyUI.
+Full Companion update limited to batch count icon-color theming, one-click Apply appearance across all views, and selected button name in the appearance header. Retains0.10.10 monitor changes. Preserve settings/themes and restart ComfyUI.
 
-Full Companion baseline for ComfierUI 0.95.8-Dev. Consolidates the accepted app-delivered frontend upgrades: restored panel headers, download completion model refresh, model dropdown guards and spacing, Apps field theming, centered single-line editors, progressive Cloud template filtering and the optional generation-preview popup. Compatible template additions preserve the card grid and loaded pages during sync.
+Full Companion baseline for ComfierUI 0.95.9-Dev. Consolidates the accepted app-delivered frontend upgrades: restored panel headers, download completion model refresh, model dropdown guards and spacing, Apps field theming, centered single-line editors, progressive Cloud template filtering and the optional generation-preview popup. Compatible template additions preserve the card grid and loaded pages during sync.
 
 The top bar uses 4px end padding and touch/mouse scrolling for overflowing workflow tabs. Overflow arrows and the workflow overflow menu are removed. Direct Cloud keeps Agent and account controls visible, with Share Feedback in the account dropdown; these account actions remain placeholders pending OAuth whitelisting.
 

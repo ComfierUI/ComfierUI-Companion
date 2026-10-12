@@ -88787,6 +88787,7 @@ function installThemeManifest() {
 	const exclusion = ":not(:where(.comfier-theme-profiles,.comfier-theme-profiles *,.comfier-theme-editor,.comfier-theme-editor *,.ufu-editor-status,.ufu-editor-status *,.ufu-inspector,.ufu-inspector *,.ufu-confirm,.ufu-confirm *,.ufu-toolbar-menu,.ufu-toolbar-menu *,#comfier-ui-zoom-test,#comfier-ui-zoom-test *,.comfier-app-settings-native-panel,.comfier-app-settings-native-panel *))";
 	const optionalRoles = roles.map((r) => r.id);
 	const refinementDefaults = `
+html:root body [data-ufu-control="run:Batch_Count"][data-ufu-control],html:root body [data-ufu-control="run:Batch_Count"][data-ufu-control] :is(input,span,button,i,svg){color:var(--comfier-icon-color,#fff)!important;-webkit-text-fill-color:var(--comfier-icon-color,#fff)!important}
 html:root body #comfier-owned-canvas-zoom#comfier-owned-canvas-zoom,html:root body #comfier-owned-canvas-zoom#comfier-owned-canvas-zoom :is(div,span,input,button,svg,i){color:var(--comfier-ui-text-paint,var(--comfier-ui-font,#fff))!important;-webkit-text-fill-color:var(--comfier-ui-text-paint,var(--comfier-ui-font,#fff))!important}
 html:root body [data-ufu-control="canvas:zoom-controls-button"][data-ufu-control],html:root body [data-ufu-control="canvas:zoom-controls-button"][data-ufu-control] :is(span,i,svg),html:root body [data-ufu-control="run:queue-overlay-toggle"][data-ufu-control],html:root body [data-ufu-control="run:queue-overlay-toggle"][data-ufu-control] :is(span,i,svg){color:var(--comfier-icon-color,#fff)!important;-webkit-text-fill-color:var(--comfier-icon-color,#fff)!important}
 
@@ -92800,6 +92801,33 @@ function createLayoutEditor(host) {
 		change(() => { for (const {g, items} of changes) g.items = items; });
 		paintInspector();
 	}
+	function applyAppearanceAcrossViews() {
+		const sourceGroups = draft[mode()] || [];
+		const changes = [];
+		for (const view of MODES) {
+			if (view === mode()) continue;
+			for (const g of draft[view] || []) {
+				if (selectionKind === "button") {
+					for (const id of picked) {
+						if (!g.items.includes(id)) continue;
+						const source = sourceGroups.find((v) => v.items.includes(id));
+						if (!source) continue;
+						const appearance = paletteAppearance(resolved(source, id));
+						const value = {...appearance, ...monitorGeometry(g.buttonStyles?.[id])};
+						if (JSON.stringify(g.buttonStyles?.[id] || {}) !== JSON.stringify(value)) changes.push(() => { g.buttonStyles ||= {}; g.buttonStyles[id] = copy(value); });
+					}
+				} else if (selectedGroups.has(g.id)) {
+					const source = sourceGroups.find((v) => v.id === g.id);
+					if (!source) continue;
+					const value = copy(resolved(source));
+					if (JSON.stringify(g.containerStyle || {}) !== JSON.stringify(value)) changes.push(() => { g.containerStyle = copy(value); });
+				}
+			}
+		}
+		if (!changes.length) return;
+		change(() => { for (const apply of changes) apply(); });
+		paintInspector();
+	}
 	function monitorInspector(body, picker, colors = body) {
 		const settings = resourceAppearance();
 		const order = settings.monitorOrder || model.monitorKeys;
@@ -92944,6 +92972,13 @@ function createLayoutEditor(host) {
 		const title = document.createElement("strong");
 		title.textContent = selectionKind === "button" ? "Button appearance" : "Container appearance";
 		header.appendChild(title);
+		if (selectionKind === "button") {
+			const buttonLabel = document.createElement("small");
+			buttonLabel.textContent = picked.size === 1 ? controls.get([...picked][0])?.label || [...picked][0] : picked.size + " buttons";
+			buttonLabel.title = buttonLabel.textContent;
+			buttonLabel.style.cssText = "margin-left:auto;text-align:right;min-width:0;max-width:50%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
+			header.appendChild(buttonLabel);
+		}
 		if (selectionKind === "container") {
 			const laneLabel = document.createElement("small");
 			laneLabel.textContent = groups.length === 1 ? physicalEdge(groups[0]).replace(/^./, (c) => c.toUpperCase()) + " " + TRACK_NAMES[(groups[0].track || 1) - 1] + " lane" : "";
@@ -92960,9 +92995,7 @@ function createLayoutEditor(host) {
 			paintInspector();
 			if (isButton ? multiButtons : multiContainers) hideInspector();
 		}).setAttribute("aria-pressed", String(isButton ? multiButtons : multiContainers));
-		boolControl(body, "Apply appearance across all views", acrossViews, (v) => {
-			acrossViews = v;
-		});
+		button(body, "Apply appearance across all views", applyAppearanceAcrossViews);
 		const tabs = document.createElement("div");
 		tabs.className = "ufu-buttons ufu-editor-tabs";
 		body.appendChild(tabs);
