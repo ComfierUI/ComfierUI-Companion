@@ -1,9 +1,11 @@
 """Serve an immutable packaged frontend without consulting stock Comfy assets."""
 
 import hashlib
+import gzip
 import json
 import mimetypes
 from dataclasses import dataclass
+from typing import Optional
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -17,6 +19,7 @@ class FrontendAsset:
     body: bytes
     content_type: str
     checksum: str
+    gzip_body: Optional[bytes] = None
 
 
 class CustomFrontend:
@@ -69,7 +72,13 @@ class CustomFrontend:
             content_type = mimetypes.guess_type(name)[0] or 'application/octet-stream'
             if name.endswith(('.js', '.mjs')):
                 content_type = 'application/javascript'
-            verified[name] = FrontendAsset(body, content_type, digest)
+            # Precompress verified text once at host startup. Images/fonts stay as-is.
+            zipped = None
+            if len(body) >= 1024 and (content_type.startswith('text/') or content_type in {'application/javascript', 'application/json', 'image/svg+xml'}):
+                candidate = gzip.compress(body, compresslevel=5, mtime=0)
+                if len(candidate) < len(body):
+                    zipped = candidate
+            verified[name] = FrontendAsset(body, content_type, digest, zipped)
         self._files = verified
         self._manifest = manifest
 

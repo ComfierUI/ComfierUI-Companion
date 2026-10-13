@@ -13888,7 +13888,7 @@ var MiniMapPanel_default = /* @__PURE__ */ defineComponent({
 		}
 		return (_ctx, _cache) => {
 			return openBlock(), createElementBlock("div", {
-				class: normalizeClass(unref(cn)("minimap-panel flex flex-col gap-2 bg-comfy-menu-bg p-3 text-sm shadow-interface", __props.isMobile ? "mb-2" : "mr-2")),
+				class: normalizeClass(unref(cn)("comfier-minimap-options comfier-mini-panel minimap-panel flex flex-col gap-2 bg-comfy-menu-bg p-3 text-sm shadow-interface", __props.isMobile ? "mb-2" : "mr-2")),
 				style: normalizeStyle(__props.panelStyles)
 			}, [
 				createBaseVNode("div", _hoisted_1$181, [
@@ -13964,13 +13964,27 @@ var MiniMap_default = /*#__PURE__*/ _plugin_vue_export_helper_default(/* @__PURE
 			canvasRefMaybe: canvasRef
 		});
 		const showOptionsPanel = ref(false);
+		const settings = useSettingStore();
+		let releaseMinimapBack;
+		function closeMinimap() {
+			showOptionsPanel.value = false;
+			return settings.set("Comfy.Minimap.Visible", false);
+		}
+		function minimapBack() {
+			if (!visible.value) return false;
+			if (showOptionsPanel.value) showOptionsPanel.value = false;
+			else closeMinimap();
+			return true;
+		}
 		const toggleOptionsPanel = () => {
 			showOptionsPanel.value = !showOptionsPanel.value;
 		};
 		onMounted(() => {
+			releaseMinimapBack = registerBackHandler(minimapBack, 21, "minimap");
 			if (minimapRef.value) setMinimapRef(minimapRef.value);
 		});
 		onUnmounted(() => {
+			releaseMinimapBack?.();
 			destroy();
 		});
 		return (_ctx, _cache) => {
@@ -13978,7 +13992,7 @@ var MiniMap_default = /*#__PURE__*/ _plugin_vue_export_helper_default(/* @__PURE
 				key: 0,
 				ref_key: "minimapRef",
 				ref: minimapRef,
-				class: normalizeClass(unref(cn)("minimap-main-container absolute right-0 bottom-[54px] z-1000 flex", unref(isMobile) ? "flex-col" : "flex-row"))
+				class: normalizeClass(unref(cn)("comfier-owned-minimap minimap-main-container absolute right-0 bottom-[54px] z-1000 flex", unref(isMobile) ? "flex-col" : "flex-row"))
 			}, [showOptionsPanel.value ? (openBlock(), createBlock(MiniMapPanel_default, {
 				key: 0,
 				"panel-styles": unref(panelStyles),
@@ -14001,7 +14015,7 @@ var MiniMap_default = /*#__PURE__*/ _plugin_vue_export_helper_default(/* @__PURE
 			])) : createCommentVNode("", true), createBaseVNode("div", {
 				ref_key: "containerRef",
 				ref: containerRef,
-				class: "litegraph-minimap relative border border-interface-stroke bg-comfy-menu-bg shadow-interface",
+				class: "comfier-mini-panel comfier-minimap-view litegraph-minimap relative border border-interface-stroke bg-comfy-menu-bg shadow-interface",
 				"data-testid": "minimap-container",
 				"aria-label": `${_ctx.$t("minimap.label")}. ${_ctx.$t("minimap.highlightedNodes", { count: unref(decorationCount) })}`,
 				style: normalizeStyle(unref(containerStyles))
@@ -14022,7 +14036,7 @@ var MiniMap_default = /*#__PURE__*/ _plugin_vue_export_helper_default(/* @__PURE
 					variant: "muted-textonly",
 					"aria-label": _ctx.$t("g.close"),
 					"data-testid": "close-minimap-button",
-					onClick: _cache[0] || (_cache[0] = withModifiers(() => unref(commandStore).execute("Comfy.Canvas.ToggleMinimap"), ["stop"]))
+					onClick: _cache[0] || (_cache[0] = withModifiers(closeMinimap, ["stop"]))
 				}, {
 					default: withCtx(() => [..._cache[8] || (_cache[8] = [createBaseVNode("i", { class: "icon-[lucide--x]" }, null, -1)])]),
 					_: 1
@@ -18700,7 +18714,7 @@ var WorkflowTemplateSelectorDialog_default = /* @__PURE__ */ defineComponent({
 					autofocus: ""
 				}, null, 8, ["modelValue"])], 512), [[vShow, !activeDetail.value]])]),
 				contentFilter: withCtx(() => [withDirectives(createBaseVNode("div", {
-					class: normalizeClass(unref(cn)("@container/filters relative px-6", hasActiveFilters.value ? "pb-2" : "pb-4")),
+					class: normalizeClass(unref(cn)("comfier-template-filters @container/filters relative px-6", hasActiveFilters.value ? "pb-2" : "pb-4")),
 					"data-testid": "template-filter-bar"
 				}, [
 					createBaseVNode("div", _hoisted_5$59, [
@@ -20413,6 +20427,7 @@ var OwnedSurface_default = /* @__PURE__ */ defineComponent({
 //#region src/comfier/companionSettings.js
 function createCompanionSettings() {
 	let stopped = false;
+	const inlineChoices = [];
 	const jobs = window.__comfierRuntime.scope("companion-settings");
 	const root = document.createElement("div");
 	root.className = "flex flex-col gap-3";
@@ -20522,7 +20537,9 @@ function createCompanionSettings() {
 			select.append(option);
 		}
 		select.disabled = true;
-		row.append(text, select);
+		const choice = window.__comfierInlineSettingsChoice(select);
+		inlineChoices.push(choice);
+		row.append(text, choice.element);
 		panel.append(row);
 		async function request(options) {
 			const response = await window.app.api.fetchApi("/comfierui/gateway/browser-start", options);
@@ -20534,11 +20551,13 @@ function createCompanionSettings() {
 			saved = config.page;
 			select.value = saved;
 			select.disabled = false;
+			choice.refresh();
 		}).catch((error) => {
 			select.title = error.message;
 		});
 		select.onchange = async () => {
 			select.disabled = true;
+			choice.refresh();
 			try {
 				saved = (await request({
 					method: "POST",
@@ -20551,13 +20570,14 @@ function createCompanionSettings() {
 				window.alert(error.message);
 			} finally {
 				select.disabled = false;
+			choice.refresh();
 			}
 		};
 	}
 	function repositorySettings(panel) {
 		if (panel.querySelector(".comfier-civitai-start-row")) return;
 		const key = "comfier.repository.civitai.v1";
-		const row = document.createElement("label");
+		const row = document.createElement("div");
 		row.className = "comfier-civitai-start-row";
 		row.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:8px;order:3;width:100%";
 		const text = document.createElement("span");
@@ -20576,6 +20596,7 @@ function createCompanionSettings() {
 			option.textContent = title;
 			select.append(option);
 		}
+		let choice;
 		const update = () => {
 			try {
 				const value = localStorage.getItem(key);
@@ -20583,6 +20604,7 @@ function createCompanionSettings() {
 			} catch (_) {
 				select.value = "ask";
 			}
+			choice?.refresh();
 		};
 		update();
 		select.onchange = () => {
@@ -20595,7 +20617,9 @@ function createCompanionSettings() {
 		};
 		jobs.listen(window, "comfier-repository-preference", update);
 		jobs.listen(window, "storage", update);
-		row.append(text, select);
+		choice = window.__comfierInlineSettingsChoice(select);
+		inlineChoices.push(choice);
+		row.append(text, choice.element);
 		panel.append(row);
 	}
 	if (!window.__COMFIER_CLOUD_MODE) {
@@ -20641,6 +20665,7 @@ function createCompanionSettings() {
 		element: root,
 		remove() {
 			stopped = true;
+			inlineChoices.forEach((choice) => choice.remove());
 			jobs.dispose();
 			root.remove();
 		}
@@ -20754,6 +20779,9 @@ function createDownloads(host, managerStore) {
 	let urlInput = null;
 	let urlFolders = null;
 	let urlTarget = null;
+	let urlTargetChoice = null;
+	let urlFolderChoice = null;
+	function refreshUrlChoices() { urlTargetChoice?.refresh(); urlFolderChoice?.refresh(); }
 	let urlName = null;
 	let urlNameRow = null;
 	let urlStatus = null;
@@ -20900,6 +20928,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		if (urlStatus) urlStatus.textContent = message;
 	}
 	function closeUrlPanel() {
+		urlTargetChoice?.close(); urlFolderChoice?.close();
 		host.closeForm();
 		return true;
 	}
@@ -21010,7 +21039,9 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			else if (urlTarget.value === "workflows") workflowFolderValue = urlFolders.value;
 		});
 		urlFolders.setAttribute("aria-label", "Host model folder");
-		options.append(urlTarget, urlFolders);
+		urlTargetChoice = window.__comfierInlineSettingsChoice(urlTarget);
+		urlFolderChoice = window.__comfierInlineSettingsChoice(urlFolders);
+		options.append(urlTargetChoice.element, urlFolderChoice.element);
 		form.append(options);
 		urlNameRow = document.createElement("label");
 		urlNameRow.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px";
@@ -21125,7 +21156,8 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			option.textContent = file;
 			select.append(option);
 		}
-		dialog.append(select);
+		const choice = window.__comfierInlineSettingsChoice(select);
+		dialog.append(choice.element);
 		const row = document.createElement("div");
 		row.className = "comfier-download-url-options";
 		const unregister = window.__comfierBack?.register("workflow-import-choice", 104, () => {
@@ -21134,6 +21166,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			return true;
 		});
 		function close() {
+			choice.remove();
 			unregister?.();
 			dialog.remove();
 			if (workflowChoice === dialog) workflowChoice = null;
@@ -21203,6 +21236,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			if ([...urlFolders.options].some((o) => o.value === saved)) urlFolders.value = saved;
 			urlNameRow.firstChild.textContent = "Filename";
 		}
+		refreshUrlChoices();
 		if (lookup && urlInput.value.trim()) resolveFilename();
 	}
 	async function openUrlPanel(trigger) {
@@ -21239,6 +21273,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			modelFolderValue = urlFolders.value;
 			if (urlTarget.value !== "models") selectTarget(false, false);
 			if (urlTarget.value === "workflows") await loadWorkflowFolders();
+			refreshUrlChoices();
 			urlMessage(urlFolders.options.length ? payload.truncated ? "Showing the first 4,000 model folders." : "" : "No host model folders are available.");
 		} catch (error) {
 			if (!stopped) urlMessage(error.message);
@@ -21876,6 +21911,8 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		if (!was || !timer && !inFlight) poll(true);
 	}
 	function remove() {
+		urlTargetChoice?.remove(); urlFolderChoice?.remove();
+		urlTargetChoice = null; urlFolderChoice = null;
 		browserContext = null;
 		repositoryChoice?.remove();
 		repositoryChoice = null;
@@ -28112,6 +28149,11 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 		const canvasStore = useCanvasStore();
 		const queueStore = useQueuePendingTaskCountStore();
 		const canvasReadOnly = computed(() => canvasStore.canvas?.read_only ?? false);
+		function sidebarBadge(tab) {
+			if (tab.id === "job-history") return queueStore.count;
+			if (tab.id === "assets") return Number(tab.iconBadge?.() || 0);
+			return 0;
+		}
 		function openJobHistory() {
 			if (!sidebar.sidebarTabs.some((tab) => tab.id === "job-history")) sidebar.registerSidebarTab(useJobHistorySidebarTab());
 			panels.toggle("job-history", panels.preferredSide);
@@ -28531,7 +28573,10 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 						}, [typeof tab.icon === "string" ? (openBlock(), createElementBlock("i", {
 							key: 0,
 							class: normalizeClass(unref(cn)(tab.icon, "size-5"))
-						}, null, 2)) : (openBlock(), createElementBlock("span", _hoisted_5$44, toDisplayString(title(tab).slice(0, 3)), 1))], 10, _hoisted_4$63)), [[unref(vLayoutControl), tab.id === "apps" ? "workflow:Enter_app_mode" : "sidebar:" + tab.id]]);
+						}, null, 2)) : (openBlock(), createElementBlock("span", _hoisted_5$44, toDisplayString(title(tab).slice(0, 3)), 1)), sidebarBadge(tab) > 0 ? (openBlock(), createElementBlock("span", {
+							key: 2,
+							class: "comfier-active-counter absolute top-1 right-1 rounded-full px-1 text-[10px] pointer-events-none"
+						}, toDisplayString(sidebarBadge(tab)), 1)) : createCommentVNode("", true)], 10, _hoisted_4$63)), [[unref(vLayoutControl), tab.id === "apps" ? "workflow:Enter_app_mode" : "sidebar:" + tab.id]]);
 					}), 128)),
 					withDirectives((openBlock(), createElementBlock("button", {
 						class: normalizeClass(unref(buttonClass)),
@@ -44452,8 +44497,8 @@ var MediaAssetCard_default = /* @__PURE__ */ defineComponent({
 				])) : createCommentVNode("", true),
 				__props.asset && !__props.loading && !isDeleting.value ? (openBlock(), createElementBlock("div", {
 					key: 3,
-					class: normalizeClass(unref(cn)("absolute top-2 right-2 z-1 flex flex-wrap justify-end gap-2", "pointer-events-none opacity-0 transition-opacity", "group-hover:pointer-events-auto group-hover:opacity-100", "group-has-focus-visible:pointer-events-auto group-has-focus-visible:opacity-100", "touch:pointer-events-auto touch:opacity-100"))
-				}, [createVNode(IconGroup_default, { "background-class": "bg-white" }, {
+					class: normalizeClass(unref(cn)("comfier-media-actions absolute top-2 right-2 z-1 flex flex-wrap justify-end gap-2", "pointer-events-none opacity-0 transition-opacity", "group-hover:pointer-events-auto group-hover:opacity-100", "group-has-focus-visible:pointer-events-auto group-has-focus-visible:opacity-100", "touch:pointer-events-auto touch:opacity-100"))
+				}, [createVNode(IconGroup_default, { "background-class": "comfier-media-action-surface bg-white" }, {
 					default: withCtx(() => [createVNode(Button_default, {
 						variant: "overlay-white",
 						size: "icon",
@@ -46534,6 +46579,7 @@ var getAddedAssetCount = (task) => {
 var useAssetsSidebarBadgeStore = defineStore("assetsSidebarBadge", () => {
 	const queueStore = useQueueStore();
 	const sidebarTabStore = useSidebarTabStore();
+	const panels = useComfierPanelStore();
 	const unseenAddedAssetsCount = ref(0);
 	const countedHistoryAssetsByJobId = ref(/* @__PURE__ */ new Map());
 	const hasInitializedHistory = ref(false);
@@ -46547,7 +46593,7 @@ var useAssetsSidebarBadgeStore = defineStore("assetsSidebarBadge", () => {
 			markCurrentHistoryAsSeen();
 			return;
 		}
-		const isAssetsTabOpen = sidebarTabStore.activeSidebarTabId === "assets";
+		const isAssetsTabOpen = sidebarTabStore.activeSidebarTabId === "assets" || panels.isOpen("assets");
 		const previousCountedAssetsByJobId = countedHistoryAssetsByJobId.value;
 		const nextCountedAssetsByJobId = /* @__PURE__ */ new Map();
 		for (const task of historyTasks) {
@@ -46562,8 +46608,8 @@ var useAssetsSidebarBadgeStore = defineStore("assetsSidebarBadge", () => {
 		}
 		countedHistoryAssetsByJobId.value = nextCountedAssetsByJobId;
 	}, { immediate: true });
-	watch(() => sidebarTabStore.activeSidebarTabId, (activeSidebarTabId) => {
-		if (activeSidebarTabId !== "assets") return;
+	watch(() => [sidebarTabStore.activeSidebarTabId, panels.isOpen("assets")], ([activeSidebarTabId, assetsOpen]) => {
+		if (activeSidebarTabId !== "assets" && !assetsOpen) return;
 		unseenAddedAssetsCount.value = 0;
 		markCurrentHistoryAsSeen();
 	});
@@ -51525,6 +51571,7 @@ function useReconnectingNotification() {
 	const toast = useToast();
 	const settingStore = useSettingStore();
 	const reconnectingMessage = {
+		group: "comfier-connection-status",
 		severity: "error",
 		summary: t("g.reconnecting")
 	};
@@ -51553,6 +51600,7 @@ function useReconnectingNotification() {
 		if (reconnectingToastShown.value) {
 			toast.remove(reconnectingMessage);
 			toast.add({
+				group: "comfier-connection-status",
 				severity: "success",
 				summary: t("g.reconnected"),
 				life: 2e3

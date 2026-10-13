@@ -16,9 +16,17 @@ def control_kind(control):
     name = str(control.get('name', '')).lower()
     node_type = str(control.get('nodeType', '')).lower()
     hints = [str(v).lower() for v in control.get('targets', [])]
+    widget_name = str(control.get('widgetName') or name).lower()
+    math_expression = (re.fullmatch(r'(?:math_)?(?:expression|formula|equation)', widget_name)
+                       or (control.get('textInput') and re.search(r'math|expression|evaluate|formula', node_type)
+                           and re.fullmatch(r'text|value|code|expr|expression|formula', widget_name)))
+    if math_expression or re.fullmatch(r'delimiter|separator|join_separator', widget_name):
+        return None
     if (control.get('connected') or control.get('readOnly') or control.get('disabled')
             or re.search(r'note|markdown', node_type)):
         return None
+    if control.get('textInput') and not control.get('promptSystem') and control.get('samplerRoles'):
+        return 'prompt'
     if control.get('multiline'):
         return 'prompt'
     if re.fullmatch(r'(seed|noise_seed|random_seed)', name) or name in ('control_after_generate', 'seed_mode'):

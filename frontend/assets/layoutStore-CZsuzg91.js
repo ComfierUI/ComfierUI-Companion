@@ -7921,7 +7921,9 @@ function color(node, id) {
 	return resolveColor(node, id);
 }
 var dialog = null;
+let nodeAppearanceChoice = null;
 function close() {
+	nodeAppearanceChoice?.remove(); nodeAppearanceChoice = null;
 	if (!dialog) return false;
 	dialog.close();
 	dialog.remove();
@@ -7971,7 +7973,8 @@ function open(node) {
 		o.textContent = label;
 		select.appendChild(o);
 	}
-	d.appendChild(select);
+	nodeAppearanceChoice = createInlineSettingsChoice(select);
+	d.appendChild(nodeAppearanceChoice.element);
 	const host = document.createElement("div");
 	d.appendChild(host);
 	let picker;
@@ -40324,20 +40327,46 @@ function createWorkflowApps(host) {
 		const h = String(value).toLowerCase();
 		return /(?:textencode|text_encode|textinput|text_input)[^.]*\.(?:text|text_g|text_l|prompt|positive|negative)$/.test(h) || /\.(?:user_prompt|user_message|input_text|positive|negative|prompt)$/.test(h) || /(?:llm|ollama|anthropic|claude|gemini|qwen|llama|openai|promptenhanc)[^.]*\.(?:text|message|input)$/.test(h);
 	}
+	function mathExpression(c) {
+		const name = String(c.widgetName || c.name || "").toLowerCase();
+		return /^(?:math_)?(?:expression|formula|equation)$/.test(name) || (c.textInput && /math|expression|evaluate|formula/i.test(c.nodeType || "") && /^(?:text|value|code|expr|expression|formula)$/.test(name));
+	}
+	function promptAuxiliary(c) {
+		return /^(?:delimiter|separator|join_separator)$/i.test(String(c.widgetName || c.name || ""));
+	}
+	function comparePrompts(a, b) {
+		const rank = promptRank(a) - promptRank(b);
+		if (rank) return rank;
+		const role = promptRole(a);
+		if (role !== promptRole(b)) return 0;
+		const first = a.samplerOrders?.[role], second = b.samplerOrders?.[role];
+		return Number.isFinite(first) && Number.isFinite(second) ? first - second : 0;
+	}
 	function promptRole(c) {
+		if (c.samplerRoles?.length === 1) return c.samplerRoles[0];
 		const role = (v) => /negative|(^|[^a-z])neg([^a-z]|$)/.test(v) ? "negative" : /positive|(^|[^a-z])pos([^a-z]|$)/.test(v) ? "positive" : null;
 		const own = role([c.name, c.widgetName].filter(Boolean).join(" ").toLowerCase());
 		if (own) return own;
-		const hints = (c.targets || []).map((v) => String(v).toLowerCase());
-		if (hints.some((h) => /\.(negative|negative_prompt)$/.test(h))) return "negative";
-		if (hints.some((h) => /\.(positive|positive_prompt)$/.test(h))) return "positive";
+		const hints = (c.promptTargets || c.targets || []).map((v) => String(v).toLowerCase());
+		const negative = hints.some((h) => /\.(negative|negative_prompt)$/.test(h));
+		const positive = hints.some((h) => /\.(positive|positive_prompt)$/.test(h));
+		if (negative !== positive) return negative ? "negative" : "positive";
 		return role(String(c.sourceTitle || "").toLowerCase()) || role(String(c.title || "").toLowerCase()) || "positive";
 	}
+	function promptRank(c) {
+		if (c.promptSystem) return 4;
+		if (promptRole(c) === "negative") return 3;
+		if (c.samplerRoles?.length === 1 && c.samplerRoles[0] === "positive") return 0;
+		const hints = c.promptTargets || c.targets || [];
+		return /(?:user_prompt|user_message|input_text|positive)/i.test(c.name || "") || hints.some((h) => promptHint(h) || /\.(positive|positive_prompt)$/.test(h)) ? 1 : 2;
+	}
+
 	function kind(control) {
 		const n = String(control.name || "").toLowerCase();
 		const t = String(control.nodeType || "").toLowerCase();
 		const hints = (control.targets || []).map((v) => String(v).toLowerCase());
-		if (control.connected || control.readOnly || control.disabled || /note|markdown/.test(t)) return null;
+		if (control.connected || control.readOnly || control.disabled || mathExpression(control) || promptAuxiliary(control) || /note|markdown/.test(t)) return null;
+		if (control.textInput && !control.promptSystem && control.samplerRoles?.length) return "prompt";
 		if (control.multiline) return "prompt";
 		if (/^(seed|noise_seed|random_seed)$/.test(n) || n === "control_after_generate" || n === "seed_mode") return "seed";
 		if (/^(?:(?:image_|video_|target_|output_)?(?:width|height)|megapixels|megapixel|resolution|image_size|aspect_ratio)$/.test(n)) return "resolution";
@@ -40433,6 +40462,35 @@ function createWorkflowApps(host) {
 			for (const out of node.outputs || []) for (const id of out.links || []) destination(linkAt(g, id), g, depth);
 			return found;
 		}
+		function promptTargets(node, g, depth = 0, seen = new Set()) {
+			if (!node || depth > 32 || seen.has(node)) return [];
+			seen.add(node);
+			const found = [];
+			function destination(link, graph, level) {
+				if (!link || level > 32) return;
+				const next = graph.getNodeById?.(link.target_id);
+				const slot = next?.inputs?.[link.target_slot];
+				if (!slot) return;
+				if (next === graph.outputNode) {
+					const ctx = contexts.get(graph), output = graph.outputs?.[link.target_slot];
+					const hostOutput = ctx?.node.outputs?.find((o) => output && (o._subgraphSlot === output || o._subgraphSlot?.id === output.id)) || ctx?.node.outputs?.[link.target_slot];
+					for (const id of hostOutput?.links || []) destination(linkAt(ctx.graph, id), ctx.graph, level + 1);
+					return;
+				}
+				if (next.subgraph) {
+					const input = slot._subgraphSlot || next.subgraph.inputs?.[link.target_slot];
+					for (const id of input?.linkIds || []) destination(linkAt(next.subgraph, id), next.subgraph, level + 1);
+					return;
+				}
+				found.push(String(next.type || "") + "." + (slot.widget?.name || slot.name));
+				if (!/^(positive|negative|positive_prompt|negative_prompt)$/i.test(slot.name || "")) found.push(...promptTargets(next, graph, level + 1, seen));
+			}
+			for (const out of node.outputs || []) {
+				if (!/^(STRING|CONDITIONING)$/i.test(String(out.type || "")) && !/primitive|reroute/i.test(node.type || "")) continue;
+				for (const id of out.links || []) destination(linkAt(g, id), g, depth);
+			}
+			return [...new Set(found)].slice(0, 4096);
+		}
 		function walk(g, path, context) {
 			if (!g || visited.has(g)) return;
 			visited.add(g);
@@ -40502,6 +40560,111 @@ function createWorkflowApps(host) {
 			visited.delete(g);
 		}
 		walk(root, []);
+		for (const binding of bindings.values()) {
+			const c = binding.control;
+			c.promptTargets = promptTargets(binding.node, binding.graph);
+			const names = [c.name, c.widgetName, c.sourceTitle, c.title].join(" ");
+			const user = /\buser[_ ]?(prompt|message)\b/i.test(names);
+			c.promptSystem = !user && (/\b(system[_ ]?(prompt|message|instruction)?|instructions?)\b/i.test(names) || /^\s*you are (?:an? |the )?(?:[^.\n]{0,80})?(?:prompt (?:enhancer|engineer)|assistant)/i.test(String(binding.widget.value || "")));
+		}
+		// Anchor roles at sampling/guidance inputs, then follow only text/conditioning upstream.
+		const byNode = new Map();
+		for (const binding of bindings.values()) {
+			for (const node of new Set([binding.node, binding.sourceNode])) {
+				if (!byNode.has(node)) byNode.set(node, []);
+				byNode.get(node).push(binding.control);
+			}
+		}
+		const promptEdges = new Map();
+		function promptEdge(role, from, to) {
+			if (!from || !to || from === to) return;
+			if (!promptEdges.has(role)) promptEdges.set(role, new Map());
+			const edges = promptEdges.get(role);
+			if (!edges.has(from)) edges.set(from, new Set());
+			if (!edges.has(to)) edges.set(to, new Set());
+			edges.get(from).add(to);
+		}
+		function systemInput(name) { return /(?:^|[_ ])(?:system|instruction|instructions)(?:$|[_ ])/i.test(name || ""); }
+		function upstreamInput(graph, slot, role, seen, depth) {
+			if (!slot || slot.link == null || depth > 64) return;
+			const link = linkAt(graph, slot.link), origin = graph.getNodeById?.(link?.origin_id);
+			if (!origin) return;
+			promptEdge(role, origin, graph.getNodeById?.(link.target_id));
+			if (origin === graph.inputNode) {
+				const ctx = contexts.get(graph), input = graph.inputs?.[link.origin_slot];
+				const hostSlot = ctx?.node.inputs?.find((i) => input && (i._subgraphSlot === input || i._subgraphSlot?.id === input.id)) || ctx?.node.inputs?.[link.origin_slot];
+				if (ctx && hostSlot) {
+					promptEdge(role, ctx.node, origin);
+					if (hostSlot.link != null) upstreamInput(ctx.graph, hostSlot, role, seen, depth + 1);
+					else markPrompt(ctx.node, role, hostSlot.widget?.name || hostSlot.name);
+				}
+				return;
+			}
+			upstreamNode(graph, origin, link.origin_slot, role, seen, depth + 1);
+		}
+		function markPrompt(node, role, name) {
+			for (const c of byNode.get(node) || []) {
+				if ((!name || c.name === name || c.widgetName === name) && editable(c) && c.textInput && !c.promptSystem && !mathExpression(c) && !promptAuxiliary(c) && (c.multiline || /^(text(?:_g|_l)?|string|value|prompt|positive|negative|user_prompt|user_message|input_text)$/i.test(c.name || ""))) {
+					c.samplerRoles = [...new Set([...(c.samplerRoles || []), role])];
+				}
+			}
+		}
+		function upstreamNode(graph, node, outputIndex, role, seen, depth) {
+			if (depth > 64 || node.mode === 2 || node.mode === 4) return;
+			let slots = seen.get(node);
+			if (!slots) { slots = new Set(); seen.set(node, slots); }
+			if (slots.has(outputIndex)) return;
+			slots.add(outputIndex);
+			if (node.subgraph) {
+				const output = node.outputs?.[outputIndex]?._subgraphSlot || node.subgraph.outputs?.[outputIndex];
+				const index = node.subgraph.outputs?.findIndex((o) => o === output || o.id === output?.id);
+				promptEdge(role, node.subgraph.outputNode, node);
+				upstreamInput(node.subgraph, node.subgraph.outputNode?.inputs?.[index >= 0 ? index : outputIndex], role, seen, depth + 1);
+				return;
+			}
+			const outputType = String(node.outputs?.[outputIndex]?.type || "");
+			if (/^(?:MODEL|CLIP|IMAGE|MASK|LATENT|INT|FLOAT|BOOLEAN)$/i.test(outputType)) return;
+			markPrompt(node, role);
+			for (const input of node.inputs || []) {
+				const name = input.widget?.name || input.name;
+				if (systemInput(name)) continue;
+				const link = input.link == null ? null : linkAt(graph, input.link);
+				const origin = graph.getNodeById?.(link?.origin_id);
+				const type = String(input.type || origin?.outputs?.[link?.origin_slot]?.type || "");
+				if (/^(STRING|CONDITIONING)$/i.test(type) || (!type || type === "*") && /^(text(?:_g|_l)?|string|value|prompt|user_prompt|user_message|input_text|message|input|conditioning(?:_\d+)?|positive|negative|positive_prompt|negative_prompt)$/i.test(name || "") || /reroute/i.test(node.type || "")) upstreamInput(graph, input, role, seen, depth + 1);
+			}
+		}
+		for (const graph of new Set([root, ...contexts.keys()])) {
+			for (const node of graphNodes(graph)) {
+				if (node.mode === 2 || node.mode === 4 || !/sampl|guider/i.test(node.type || "")) continue;
+				for (const input of node.inputs || []) {
+					const name = String(input.name || "").toLowerCase();
+					if (/^(positive|negative|positive_prompt|negative_prompt)$/.test(name)) upstreamInput(graph, input, name.startsWith("negative") ? "negative" : "positive", new Map(), 0);
+				}
+			}
+		}
+		// Stable topological order: an upstream editable source precedes every downstream field.
+		for (const [role, edges] of promptEdges) {
+			const degree = new Map([...edges.keys()].map((node) => [node, 0]));
+			for (const next of edges.values()) for (const node of next) degree.set(node, degree.get(node) + 1);
+			const ready = [...degree].filter(([, count]) => count === 0).map(([node]) => node);
+			const ordered = [];
+			for (let i = 0; i < ready.length; i++) {
+				const node = ready[i];
+				ordered.push(node);
+				for (const next of edges.get(node)) {
+					degree.set(next, degree.get(next) - 1);
+					if (degree.get(next) === 0) ready.push(next);
+				}
+			}
+			// Cyclic/unresolved components retain fallback order instead of invented chain ranks.
+			for (const [index, node] of ordered.entries()) for (const c of byNode.get(node) || []) {
+				if (c.samplerRoles?.includes(role)) {
+					c.samplerOrders = c.samplerOrders || {};
+					c.samplerOrders[role] = Math.min(c.samplerOrders[role] ?? Infinity, index);
+				}
+			}
+		}
 		return {
 			root,
 			controls,
@@ -40550,6 +40713,7 @@ html:root body #comfier-apps-panel#comfier-apps-panel .comfier-lite-resolution-t
 html:root body #comfier-apps-panel#comfier-apps-panel .comfier-lite-resolution-row input{width:calc(4ch + 18px)!important;min-width:0!important;flex:0 1 calc(4ch + 18px)!important;padding-inline:8px!important;font-family:monospace!important;text-align:center!important;appearance:textfield}
 .comfier-lite-resolution-row input::-webkit-inner-spin-button,.comfier-lite-resolution-row input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .comfier-lite-form textarea{min-height:36px!important;height:auto;resize:vertical;width:100%;overflow-y:hidden;line-height:1.3!important}
+.comfier-lite-source-image[hidden]{display:none!important}
 .comfier-lite-form img,.comfier-lite-form video{width:100%;height:auto;object-fit:contain;max-height:420px}.comfier-lite-form audio{width:100%}
 .comfier-lite-form pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}.comfier-lite-form [role=status]{font-size:12px;overflow-wrap:anywhere}.comfier-lite-form .comfier-lite-output{display:flex;flex-direction:column;gap:8px}
 #comfier-workflow-choice{border:1px solid #777;border-radius:12px;padding:20px;background:var(--comfy-menu-bg,#171717);color:var(--comfier-ui-font,#fff);width:min(380px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;font:inherit}
@@ -40643,7 +40807,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		let name = String(c.name).replace(/_/g, " ");
 		if (kind(c) === "prompt" && (!c.multiline || /^(text|text_g|text_l|positive|negative|prompt|user_prompt)$/.test(c.name))) name = promptRole(c) === "negative" ? "Negative prompt" : "Prompt";
 		if (/^(seed|noise_seed|random_seed)$/.test(c.name)) name = "Seed";
-		if (c.name === "control_after_generate") name = "Seed mode";
+		if (c.name === "control_after_generate") name = "Control after generation";
 		return name + " · " + (display.title || c.nodeType);
 	}
 	function fitPrompt(input, baseline) {
@@ -40742,7 +40906,41 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 			}
 		};
 		input.addEventListener(category === "prompt" ? "input" : "change", update);
-		label.append(input);
+		if (input.tagName === "SELECT") {
+			const choice = createInlineSettingsChoice(input);
+			choice.element.classList.add("comfier-app-field-choice");
+			active.fieldChoices ||= [];
+			active.fieldChoices.push({choice, input});
+			label.append(choice.element);
+		} else label.append(input);
+		if (category === "file") {
+			const previews = ["img", "video", "audio"].map((tag) => {
+				const view = el(tag);
+				view.className = "comfier-lite-source-image";
+				view.hidden = true;
+				view.setAttribute("aria-label", "Source " + tag + " · " + friendly(binding));
+				if (tag === "img") view.alt = "Source image · " + friendly(binding);
+				else { view.controls = true; view.preload = "metadata"; }
+				view.addEventListener(tag === "img" ? "load" : "loadedmetadata", () => {
+					const file = sourceMediaFile(widget.value);
+					if (valid() && file?.kind === tag && view.getAttribute("src") === mediaUrl(file)) view.hidden = false;
+				});
+				view.addEventListener("error", () => { view.hidden = true; });
+				return view;
+			});
+			const refreshSource = () => {
+				const file = sourceMediaFile(widget.value);
+				for (const view of previews) {
+					view.hidden = true;
+					if (view.tagName !== "IMG") view.pause?.();
+					if (file && view.tagName.toLowerCase() === file.kind) view.src = mediaUrl(file);
+					else view.removeAttribute("src");
+				}
+			};
+			input.addEventListener("change", refreshSource);
+			label.append(...previews);
+			refreshSource();
+		}
 		if (category === "seed" && typeof widget.value === "number") label.append(button("New seed", () => {
 			const max = Math.min(widget.options?.max ?? Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
 			const min = Math.max(0, widget.options?.min ?? 0);
@@ -40782,7 +40980,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 						input.append(o);
 					}
 					input.value = name;
-					update(new Event("change"));
+					input.dispatchEvent(new Event("change"));
 					status.textContent = "Uploaded " + file.name;
 				} catch (e) {
 					if (valid()) status.textContent = e.message;
@@ -40796,8 +40994,13 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		if (category === "prompt") autoPrompt(input, promptRole(binding.control));
 	}
 	function clearPromptObservers() {
+		for (const entry of active?.fieldChoices || []) entry.choice.remove();
+		if (active) active.fieldChoices = [];
 		for (const observer of active?.promptObservers || []) observer.disconnect();
 		if (active) active.promptObservers = [];
+	}
+	function pauseSourcePlayers(state) {
+		for (const player of state?.form?.querySelectorAll("video.comfier-lite-source-image,audio.comfier-lite-source-image") || []) player.pause();
 	}
 	function clearMedia(notify = true) {
 		if (notify) { lastPreviewBlob = null; host.onPreview?.("clear"); }
@@ -40814,6 +41017,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		closeManager(active, false);
 		showGraph();
 		clearPromptObservers();
+		pauseSourcePlayers(active);
 		active = null;
 		clearMedia();
 		host.close();
@@ -40848,7 +41052,8 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 				clearTimeout(timeout);
 			}
 		}
-		for (const c of s.controls) if (c.multiline && editable(c) && !plan.controls.some((p) => p.key === c.key)) plan.controls.push({
+		plan.controls = plan.controls.filter((p) => !mathExpression(s.bindings.get(p.key)?.control || {}) && !promptAuxiliary(s.bindings.get(p.key)?.control || {}));
+		for (const c of s.controls) if (c.multiline && !mathExpression(c) && !promptAuxiliary(c) && editable(c) && !plan.controls.some((p) => p.key === c.key)) plan.controls.push({
 			key: c.key,
 			kind: "prompt"
 		});
@@ -40865,6 +41070,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 			promptObservers: []
 		};
 		state.groups = initialGroups(state);
+		pauseSourcePlayers(active);
 		active = state;
 		host.open((container) => render(state, container));
 		return true;
@@ -40872,7 +41078,8 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 	const GROUP_TITLES = {
 		resolution: "Resolution",
 		prompt: "Prompts",
-		file: "Input files",
+		file: "Inputs",
+		seed: "Seed",
 		other: "Additional inputs"
 	};
 	function editable(c) {
@@ -40894,7 +41101,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 				}))
 			}));
 			const known = new Set(saved.knownControls || state.controls.map((c) => c.key));
-			for (const c of state.controls) if (c.multiline && editable(c) && !known.has(c.key) && !seen.has(c.key)) {
+			for (const c of state.controls) if (c.multiline && !mathExpression(c) && !promptAuxiliary(c) && editable(c) && !known.has(c.key) && !seen.has(c.key)) {
 				let group = groups.find((g) => g.id === "prompt");
 				if (!group) {
 					group = {
@@ -40912,14 +41119,15 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 			return groups;
 		}
 		return [
-			"resolution",
 			"prompt",
 			"file",
-			"other"
+			"resolution",
+			"other",
+			"seed"
 		].map((id) => ({
 			id,
 			title: GROUP_TITLES[id],
-			controls: state.plan.controls.filter((p) => state.bindings.has(p.key) && p.kind !== "seed" && (p.kind in GROUP_TITLES ? p.kind : "other") === id).sort((a, b) => id === "prompt" ? Number(promptRole(state.bindings.get(a.key).control) === "negative") - Number(promptRole(state.bindings.get(b.key).control) === "negative") : 0)
+			controls: state.plan.controls.filter((p) => state.bindings.has(p.key) && (p.kind in GROUP_TITLES ? p.kind : "other") === id).sort((a, b) => id === "prompt" ? comparePrompts(state.bindings.get(a.key).control, state.bindings.get(b.key).control) : 0)
 		}));
 	}
 	function saveGroups(state) {
@@ -40940,6 +41148,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		if (!host) return;
 		const epoch = state.fieldEpoch = (state.fieldEpoch || 0) + 1;
 		clearPromptObservers();
+		pauseSourcePlayers(state);
 		host.replaceChildren();
 		const valid = () => active === state && state.form.isConnected && epoch === state.fieldEpoch;
 		for (const g of state.groups) {
@@ -41278,9 +41487,27 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 	function refreshSeeds(state, form) {
 		for (const control of state.groups.flatMap((g) => g.controls).filter((c) => c.kind === "seed")) {
 			const binding = state.bindings.get(control.key);
-			const input = [...form.querySelectorAll("[data-control-key]")].find((i) => i.dataset.controlKey === control.key);
+			const input = [...form.querySelectorAll("[data-control-key]"), ...(state.fieldChoices || []).map(entry => entry.input)].find((i) => i.dataset.controlKey === control.key);
 			if (binding && input) input.value = String(binding.widget.value ?? "");
 		}
+		for (const entry of state.fieldChoices || []) entry.choice.refresh();
+	}
+	function sourceImageFile(value) {
+		const file = sourceMediaFile(value);
+		if (!file || file.kind !== "img") return null;
+		const { kind, ...image } = file;
+		return image;
+	}
+	function sourceMediaFile(value) {
+		if (typeof value !== "string") return null;
+		const match = value.trim().match(/^(.*?)(?:\s+\[(input|output|temp)\])?$/);
+		const path = match?.[1]?.replace(/\\/g, "/");
+		if (!path || /^(?:[a-z]+:|\/)/i.test(path) || path.split("/").includes("..")) return null;
+		const ext = path.split(".").pop().toLowerCase();
+		const kind = /^(png|jpe?g|webp|gif|avif|bmp)$/.test(ext) ? "img" : /^(mp4|webm|mov|mkv|m4v|avi)$/.test(ext) ? "video" : /^(mp3|wav|flac|ogg|oga|m4a|aac|opus|aiff|aif)$/.test(ext) ? "audio" : null;
+		if (!kind) return null;
+		const parts = path.split("/");
+		return { filename: parts.pop(), subfolder: parts.join("/"), type: match[2] || "input", kind };
 	}
 	function mediaUrl(file) {
 		if (!file || typeof file.filename !== "string") return null;
@@ -87639,6 +87866,105 @@ function snapshotViewport() {
 		mode: (outer ? "outer" : "inner") + (height >= width ? "Portrait" : "Landscape")
 	};
 }
+function createInlineSettingsChoice(select, signal) {
+	const events = new AbortController();
+	let optionEvents = new AbortController();
+	const wrapper = document.createElement("div");
+	wrapper.className = "comfier-inline-choice";
+	const trigger = document.createElement("button");
+	trigger.type = "button";
+	trigger.setAttribute("aria-label", select.getAttribute("aria-label") || "Select option");
+	trigger.setAttribute("aria-haspopup", "listbox");
+	trigger.setAttribute("aria-expanded", "false");
+	const options = document.createElement("div");
+	options.className = "comfier-inline-options";
+	options.setAttribute("role", "listbox");
+	options.setAttribute("aria-label", select.getAttribute("aria-label") || "Options");
+	options.hidden = true;
+	wrapper.append(trigger, options);
+	let releaseBack;
+	let removed = false;
+	let outsideGesture = null;
+	const buttons = [];
+	let optionSignature = "";
+	function refresh() {
+		if (removed) return;
+		const signature = JSON.stringify(Array.from(select.options, o => [o.value, o.textContent, o.disabled]));
+		if (signature !== optionSignature) {
+			optionSignature = signature;
+			optionEvents.abort(); optionEvents = new AbortController();
+			buttons.length = 0;
+			options.replaceChildren();
+			for (const option of Array.from(select.options)) {
+				const button = document.createElement("button");
+				button.type = "button"; button.textContent = option.textContent; button.disabled = select.disabled || option.disabled;
+				button.setAttribute("role", "option");
+				button.addEventListener("click", (e) => {
+					e.preventDefault(); if (removed || select.disabled || option.disabled) return;
+					select.value = option.value;
+					select.dispatchEvent(new Event("change", {bubbles: true}));
+					refresh(); close(true);
+				}, {signal: optionEvents.signal});
+				buttons.push(button); options.appendChild(button);
+			}
+		}
+		wrapper.hidden = select.hidden;
+		trigger.setAttribute("aria-label", select.getAttribute("aria-label") || "Select option");
+		options.setAttribute("aria-label", select.getAttribute("aria-label") || "Options");
+		trigger.textContent = (Array.from(select.options).find((o) => o.value === select.value)?.textContent || "Select") + " ▾";
+		trigger.disabled = select.disabled || !select.options.length;
+		for (let i = 0; i < buttons.length; i++) buttons[i].disabled = select.disabled || select.options[i].disabled;
+		for (let i = 0; i < buttons.length; i++) buttons[i].setAttribute("aria-selected", String(select.options[i].value === select.value));
+	}
+	function close(focus = false) {
+		if (options.hidden) return false;
+		options.hidden = true;
+		outsideGesture = null;
+		trigger.setAttribute("aria-expanded", "false");
+		releaseBack?.(); releaseBack = null;
+		if (focus) trigger.focus();
+		return true;
+	}
+	function open() {
+		if (removed || trigger.disabled) return;
+		refresh(); options.hidden = false;
+		trigger.setAttribute("aria-expanded", "true");
+		releaseBack = window.__comfierBack?.register("inline-settings-choice", 250, () => close(true));
+		wrapper.scrollIntoView({block: "nearest", inline: "nearest", behavior: "smooth"});
+	}
+	trigger.addEventListener("click", (e) => { e.preventDefault(); if (!close()) open(); }, {signal: events.signal});
+	wrapper.addEventListener("keydown", (e) => {
+		if (e.key === "Escape") { if (close(true)) { e.preventDefault(); e.stopPropagation(); } return; }
+		if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) return;
+		e.preventDefault();
+		if (options.hidden) { open(); buttons.find((b) => b.getAttribute("aria-selected") === "true")?.focus(); return; }
+		const index = buttons.indexOf(document.activeElement);
+		const next = e.key === "Home" ? 0 : e.key === "End" ? buttons.length - 1 : (index + (e.key === "ArrowDown" ? 1 : -1) + buttons.length) % buttons.length;
+		buttons[next]?.focus();
+	}, {signal: events.signal});
+	wrapper.addEventListener("focusout", (e) => { if (!outsideGesture && !wrapper.contains(e.relatedTarget)) close(); }, {signal: events.signal});
+	window.addEventListener("pointerdown", (e) => {
+		if (options.hidden || wrapper.contains(e.target)) return;
+		outsideGesture = {id: e.pointerId, x: e.clientX, y: e.clientY, moved: false};
+	}, {signal: events.signal, capture: true});
+	window.addEventListener("pointermove", (e) => {
+		if (outsideGesture?.id === e.pointerId && Math.hypot(e.clientX - outsideGesture.x, e.clientY - outsideGesture.y) >= 10) outsideGesture.moved = true;
+	}, {signal: events.signal, capture: true});
+	window.addEventListener("scroll", () => { if (outsideGesture) outsideGesture.moved = true; }, {signal: events.signal, capture: true});
+	window.addEventListener("pointerup", (e) => {
+		if (outsideGesture?.id !== e.pointerId) return;
+		const tap = !outsideGesture.moved && Math.hypot(e.clientX - outsideGesture.x, e.clientY - outsideGesture.y) < 10;
+		outsideGesture = null;
+		if (tap && !wrapper.contains(e.target)) close();
+	}, {signal: events.signal, capture: true});
+	window.addEventListener("pointercancel", (e) => { if (outsideGesture?.id === e.pointerId) outsideGesture = null; }, {signal: events.signal, capture: true});
+	select.addEventListener("change", refresh, {signal: events.signal});
+	function remove() { if (removed) return; removed = true; close(); events.abort(); optionEvents.abort(); wrapper.remove(); }
+	signal?.addEventListener("abort", remove, {once: true});
+	refresh();
+	return {element: wrapper, refresh, close, remove};
+}
+window.__comfierInlineSettingsChoice = createInlineSettingsChoice;
 function installViewport() {
 	window.__comfierViewport = Object.freeze({
 		snapshot: snapshotViewport,
@@ -88173,6 +88499,7 @@ function installEditorModel() {
 	const colors = [
 		"frameColor",
 		"background",
+		"tabBackground",
 		"iconColor",
 		"monitorTextColor"
 	];
@@ -88470,8 +88797,8 @@ function installThemeManifest() {
 		const value = `var(${roles.find((r) => r.id === role).variable},${fallback})`;
 		return binding(role, property, role === "buttonBg" ? `var(--comfier-control-background,${value})` : value);
 	};
-	add("active-counter-background", [".sidebar-icon-badge", ".comfier-active-counter", ".comfier-download-count"], [paint("containerFrame", "background-color")], "Job History and Downloads badges");
-	add("active-counter-text", [".sidebar-icon-badge", ".comfier-active-counter", ".comfier-download-count"], [paint("icons"), paint("icons", "-webkit-text-fill-color")], "Job History and Downloads badge numbers");
+	add("active-counter-background", [".sidebar-icon-badge", ".comfier-active-counter", ".comfier-download-count", ".comfier-filter-count"], [paint("containerFrame", "background-color")], "Job History and Downloads badges");
+	add("active-counter-text", [".sidebar-icon-badge", ".comfier-active-counter", ".comfier-download-count", ".comfier-filter-count"], [paint("icons"), paint("icons", "-webkit-text-fill-color")], "Job History and Downloads badge numbers");
 	add("canvas-background", ["#graph-canvas-container"], [paint("canvasBg", "background-color")], "LiteGraph clear_background_color; canvas host");
 	const nativeAlpha = (role, base) => `rgb(from ${base} var(--comfier-${role === "panelBg" ? "panel" : "container"}-bg-rgb) / calc(alpha * var(--comfier-${role}-opacity,1)))`;
 	const surface = (id, selectors, family, base, source) => add(id, selectors, [
@@ -88488,6 +88815,8 @@ function installThemeManifest() {
 		".comfier-lite-form",
 		".comfier-lite-manager"
 	], "panel", "var(--comfy-menu-bg,#171717)", "comfier_workflow_apps.js");
+	surface("panel-owned-minimap", [".comfier-minimap-view", ".comfier-minimap-options"], "panel", "var(--comfy-menu-bg,#171717)", "Owned MiniMap.vue and MiniMapPanel.vue");
+	add("icons-owned-minimap", [".comfier-owned-minimap :is(i,svg)"], [paint("icons"), paint("icons", "-webkit-text-fill-color")], "Owned minimap toolbar/options icons");
 	const rootPanel = ".comfier-early-floating-panel:not(:has(.comfier-app-settings-native-panel))";
 	const canvasBar = "[role=\"toolbar\"][aria-label=\"Canvas Toolbar\"]";
 	surface("container-actionbar", ["[data-testid=\"action-bar-card\"]"], "container", "var(--color-interface-panel-surface,var(--comfy-menu-bg,#171717))", "src/components/TopMenuSection.vue");
@@ -88568,6 +88897,11 @@ function installThemeManifest() {
 		"#comfier-lora-manager-panel>header>button",
 		"#comfier-ltx-precision-panel button"
 	], [paint("buttonFrame", "border-color"), paint("buttonBg", "background-color", "var(--color-secondary-background,#242427)")], "comfier_lora_panel.js; comfier_ltx_precision_panel.js; src/components/sidebar/tabs");
+	add("buttons-template-filters", [".comfier-template-filters button"], [paint("buttonFrame", "border-color"), binding("buttonFrame", "box-shadow", "inset 0 0 0 1px var(--comfier-button-frame,#aaa)"), paint("buttonBg", "background-color", "var(--color-secondary-background,#242427)"), paint("uiText"), paint("uiText", "-webkit-text-fill-color")], "src/components/templates/WorkflowTemplateSelectorDialog.vue; TemplateFilterControls.vue");
+	add("icons-template-filters", [".comfier-template-filters button :is(i,svg)"], [paint("icons"), paint("icons", "-webkit-text-fill-color")], "Template filter buttons and dropdown arrows");
+	add("buttons-media-actions", [".comfier-media-actions button"], [paint("panelBg", "background-color", "var(--comfy-menu-bg,#171717)"), paint("icons"), paint("icons", "-webkit-text-fill-color")], "MediaAssetCard.vue overlay actions");
+	add("icons-media-actions", [".comfier-media-actions button :is(i,svg)"], [paint("icons"), paint("icons", "-webkit-text-fill-color")], "Media asset download and more-options icons");
+	add("media-action-surface", [".comfier-media-actions .comfier-media-action-surface"], [paint("panelBg", "background-color", "var(--comfy-menu-bg,#171717)"), binding("panelFrame", "box-shadow", "inset 0 0 0 1px var(--comfier-panel-frame,#aaa)")], "MediaAssetCard.vue IconGroup background");
 	add("buttons-workflow-dropdown-frame", [
 		"[data-testid=\"view-mode-toggle\"][role=\"group\"] button.bg-secondary-background",
 		"[data-testid=\"view-mode-toggle\"][role=\"group\"] button[aria-expanded=\"true\"]",
@@ -88787,6 +89121,16 @@ function installThemeManifest() {
 	const exclusion = ":not(:where(.comfier-theme-profiles,.comfier-theme-profiles *,.comfier-theme-editor,.comfier-theme-editor *,.ufu-editor-status,.ufu-editor-status *,.ufu-inspector,.ufu-inspector *,.ufu-confirm,.ufu-confirm *,.ufu-toolbar-menu,.ufu-toolbar-menu *,#comfier-ui-zoom-test,#comfier-ui-zoom-test *,.comfier-app-settings-native-panel,.comfier-app-settings-native-panel *))";
 	const optionalRoles = roles.map((r) => r.id);
 	const refinementDefaults = `
+html:root body .comfier-owned-minimap :is(.comfier-minimap-view,.comfier-minimap-options){background-color:var(--comfier-panel-bg,var(--comfy-menu-bg,#171717))!important;border-color:var(--comfier-panel-frame,var(--interface-stroke,#666))!important;border-radius:8px!important;color:var(--comfier-ui-font,var(--color-base-foreground,#fff))!important}
+html:root body .comfier-owned-minimap .comfier-minimap-view button{min-height:32px!important;height:32px!important;padding:4px!important;border:0!important;background:transparent!important;color:var(--comfier-icon-color,var(--comfier-icons-global,#fff))!important;-webkit-text-fill-color:var(--comfier-icon-color,var(--comfier-icons-global,#fff))!important}
+html:root body .comfier-owned-minimap :is(i,svg){color:var(--comfier-icon-color,var(--comfier-icons-global,#fff))!important;-webkit-text-fill-color:var(--comfier-icon-color,var(--comfier-icons-global,#fff))!important}
+html:root body .comfier-owned-minimap .comfier-minimap-options label{color:var(--comfier-ui-font,var(--color-base-foreground,#fff))!important;-webkit-text-fill-color:var(--comfier-ui-font,var(--color-base-foreground,#fff))!important}
+html:root body .comfier-owned-minimap .comfier-minimap-view hr{background-color:var(--comfier-panel-frame,var(--interface-stroke,#666))!important}
+
+
+html:root body .comfier-media-actions .comfier-media-action-surface{background-color:var(--comfier-panel-bg,var(--comfy-menu-bg,#171717))!important;background-image:none!important;border-color:var(--comfier-panel-frame,var(--interface-stroke,#3b4554))!important;box-shadow:inset 0 0 0 1px var(--comfier-panel-frame,var(--interface-stroke,#3b4554))!important}
+html:root body .comfier-media-actions .comfier-media-action-surface button{background-color:transparent!important;background-image:none!important;border:0!important;box-shadow:none!important}
+html:root body .comfier-media-actions button,html:root body .comfier-media-actions button :is(i,svg){color:var(--comfier-icon-color,var(--comfier-icons-global,var(--color-base-foreground,#fff)))!important;-webkit-text-fill-color:var(--comfier-icon-color,var(--comfier-icons-global,var(--color-base-foreground,#fff)))!important}
 html:root body [data-ufu-control="run:Batch_Count"][data-ufu-control],html:root body [data-ufu-control="run:Batch_Count"][data-ufu-control] :is(input,span,button,i,svg){color:var(--comfier-icon-color,#fff)!important;-webkit-text-fill-color:var(--comfier-icon-color,#fff)!important}
 html:root body #comfier-owned-canvas-zoom#comfier-owned-canvas-zoom,html:root body #comfier-owned-canvas-zoom#comfier-owned-canvas-zoom :is(div,span,input,button,svg,i){color:var(--comfier-ui-text-paint,var(--comfier-ui-font,#fff))!important;-webkit-text-fill-color:var(--comfier-ui-text-paint,var(--comfier-ui-font,#fff))!important}
 html:root body [data-ufu-control="canvas:zoom-controls-button"][data-ufu-control],html:root body [data-ufu-control="canvas:zoom-controls-button"][data-ufu-control] :is(span,i,svg),html:root body [data-ufu-control="run:queue-overlay-toggle"][data-ufu-control],html:root body [data-ufu-control="run:queue-overlay-toggle"][data-ufu-control] :is(span,i,svg){color:var(--comfier-icon-color,#fff)!important;-webkit-text-fill-color:var(--comfier-icon-color,#fff)!important}
@@ -88895,7 +89239,7 @@ function compactComfierHexFields(root) {
 	if (!root) return;
 	for (const input of root.querySelectorAll(".picker-hex,.theme-hex")) {
 		if (input.dataset.comfierCompactHex || !input.isConnected || !input.offsetWidth) continue;
-		const width = input.offsetWidth - 32;
+		const width = input.offsetWidth - (input.classList.contains("picker-hex") ? 20 : 32);
 		const height = input.offsetHeight - 20;
 		input.dataset.comfierCompactHex = "true";
 		for (const [key, value] of Object.entries({width: width + "px", minWidth: width + "px", maxWidth: width + "px", height: height + "px", minHeight: height + "px", maxHeight: height + "px", flex: "0 0 " + width + "px", boxSizing: "border-box", padding: "0px 4px", lineHeight: "1"})) {
@@ -90694,6 +91038,9 @@ function createLayoutEditor(host) {
 	let editing = false;
 	let picked = /* @__PURE__ */ new Set();
 	let inspector = null;
+	let inspectorChoices = [];
+	function clearInspectorChoices() { for (const choice of inspectorChoices) choice.remove(); inspectorChoices = []; }
+	function inspectorChoice(select) { const choice = createInlineSettingsChoice(select); inspectorChoices.push(choice); return choice.element; }
 	let report = null;
 	let boxes = [];
 	let lastMode = "";
@@ -90909,6 +91256,7 @@ function createLayoutEditor(host) {
 		for (const [el, props] of managed) {
 			for (const [key, [v, p, written]] of props) if (v) el.style.setProperty(key, v, p);
 			else el.style.removeProperty(key);
+			el.removeAttribute("data-ufu-tab-color");
 			el.removeAttribute("data-ufu-native");
 			el.removeAttribute("data-ufu-control");
 			el.removeAttribute("data-ufu-hidden");
@@ -91810,6 +92158,8 @@ function createLayoutEditor(host) {
 			fixed: true
 		};
 		neutralize(c);
+		c.el.toggleAttribute("data-ufu-tab-color", Boolean(a.tabBackground));
+		put(c.el, "--ufu-tab-background", a.tabBackground || "initial");
 		for (const [key, value] of Object.entries({
 			"background": a.background || "var(--comfier-container-paint,var(--comfier-container-bg,var(--comfy-menu-bg,#171717)))",
 			"border-color": a.frameColor || "var(--comfier-container-frame,var(--interface-stroke,#666))",
@@ -92854,7 +93204,7 @@ function createLayoutEditor(host) {
 		}
 		flow.value = settings.monitorFlow || "";
 		flow.onchange = () => property("monitorFlow", flow.value || void 0);
-		flowRow.appendChild(flow);
+		flowRow.appendChild(inspectorChoice(flow));
 		body.appendChild(flowRow);
 		const heading = document.createElement("p");
 		heading.textContent = "Monitor order";
@@ -92891,7 +93241,7 @@ function createLayoutEditor(host) {
 			monitorPaletteKey = metric.value;
 			paintInspector();
 		};
-		paletteRow.appendChild(metric);
+		paletteRow.appendChild(inspectorChoice(metric));
 		colors.appendChild(paletteRow);
 		const palette = model.monitorPalette(settings, monitorPaletteKey);
 		const hint = document.createElement("p");
@@ -92938,6 +93288,7 @@ function createLayoutEditor(host) {
 	let inspectorTab = "colors";
 	let tabFrame = null;
 	function hideInspector() {
+		clearInspectorChoices();
 		clearTabFrame();
 		if (inspector) inspector.hidden = true;
 	}
@@ -92967,6 +93318,7 @@ function createLayoutEditor(host) {
 		inspector.hidden = false;
 		const scroll = inspector.querySelector(".ufu-inspector-body")?.scrollTop || 0;
 		clearTabFrame();
+		clearInspectorChoices();
 		inspector.replaceChildren();
 		const header = document.createElement("header");
 		const title = document.createElement("strong");
@@ -93023,16 +93375,27 @@ function createLayoutEditor(host) {
 			const row = document.createElement("div");
 			row.className = "ufu-buttons ufu-color-actions";
 			(mode() === "outerLandscape" ? picker.element : colors).appendChild(row);
+			const topbarColors = !isButton && groups.every(g => g.id === "topbar");
+			const resets = [];
+			if (topbarColors) {
+				row.classList.add("ufu-topbar-color-actions");
+				for (const [key, value] of Object.entries({display: "grid", "grid-template-columns": "repeat(3,minmax(0,1fr))", "grid-template-rows": "repeat(2,40px)", gap: "6px", width: "100%"})) row.style.setProperty(key, value, "important");
+			}
 			for (const [name, key] of [
 				["Frame", "frameColor"],
 				["Background", "background"],
-				...isButton ? [["Icon", "iconColor"]] : []
+				...topbarColors ? [["Tab color", "tabBackground"]] : isButton ? [["Icon", "iconColor"]] : []
 			]) {
-				const pair = document.createElement("span");
+				const pair = topbarColors ? row : document.createElement("span");
 				button(pair, name, () => property(key, picker.value()));
-				button(pair, "Reset", () => property(key, void 0)).setAttribute("aria-label", "Reset " + name + " color");
-				row.appendChild(pair);
+				if (topbarColors) resets.push([name, key]);
+				else {
+					button(pair, "Reset", () => property(key, void 0)).setAttribute("aria-label", "Reset " + name + " color");
+					row.appendChild(pair);
+				}
 			}
+			for (const [name, key] of resets) button(row, "Reset", () => property(key, void 0)).setAttribute("aria-label", "Reset " + name + " color");
+			if (topbarColors) for (const action of row.children) for (const [key, value] of Object.entries({width: "100%", height: "40px", "min-height": "40px", "max-height": "40px", "min-width": "0", "box-sizing": "border-box"})) action.style.setProperty(key, value, "important");
 		}
 		numberControl(dimensionPane, "Frame thickness (px)", "frame", 1, 6);
 		numberControl(dimensionPane, "Corner curve (px)", "curve", 0, 8);
@@ -93112,7 +93475,7 @@ function createLayoutEditor(host) {
 				});
 				paintInspector();
 			};
-			laneRow.appendChild(lane);
+			laneRow.appendChild(inspectorChoice(lane));
 			dimensionPane.appendChild(laneRow);
 			const name = document.createElement("input");
 			name.value = groups.length === 1 ? groups[0].name : "";
@@ -93938,6 +94301,8 @@ function createLayoutEditor(host) {
 .ufu-inspector,.ufu-confirm{font:14px system-ui;color:#fff!important;background:#090909!important;border:1px solid #fff;border-radius:10px;box-sizing:border-box;padding:10px;z-index:10000}
 [data-ufu-control]:is([aria-pressed="true"],[aria-selected="true"],[aria-expanded="true"],[data-state="active"],[data-state="checked"]){--ufu-state-frame:var(--comfier-active-color,var(--comfier-button-frame,#fff));--comfier-control-background:color-mix(in srgb,var(--comfier-active-color,#fff) 33%,transparent)}
 [data-ufu-control]:focus-visible{--ufu-focus-outline:2px solid var(--comfier-icon-color,#fff)}
+#topbar-workflow-tabs[data-ufu-tab-color] [data-testid="workflow-tab"] [role="tab"]{background-color:var(--ufu-tab-background)!important}
+html:root body .ufu-inspector .ufu-topbar-color-actions{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;width:100%}.ufu-inspector .ufu-topbar-color-actions>button{width:100%!important;min-width:0;box-sizing:border-box}
 .ufu-inspector header,.ufu-inspector footer,.ufu-buttons,.ufu-options{display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between}.ufu-inspector header{align-items:center;flex-shrink:0;flex-wrap:wrap}.ufu-inspector footer{flex-shrink:0;flex-wrap:wrap}.ufu-inspector strong{font-size:13px}.ufu-inspector-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;display:flex;flex-direction:column;gap:10px}.ufu-inspector-body>*{flex-shrink:0}.ufu-inspector [data-inspector-tab]:not([hidden]){display:flex;flex-direction:column;gap:10px}.ufu-inspector label{display:flex;align-items:center;justify-content:space-between;gap:6px}.ufu-options{flex-wrap:wrap}.ufu-options label{flex-direction:column}
 .ufu-inspector button,.ufu-inspector select,.ufu-inspector input,.ufu-confirm button{background:#fff!important;color:#000!important;-webkit-text-fill-color:#000!important;font:inherit;border:1px solid white;border-radius:5px;padding:6px;min-width:0;max-width:100%}.ufu-inspector button{cursor:pointer}.ufu-items{height:clamp(224px,36dvh,360px);min-height:224px;max-height:360px;flex:0 0 auto;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;border:1px solid #666;padding:6px;box-sizing:border-box}.ufu-appearance{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 6px;padding:8px;border:1px solid #666;min-width:0}.ufu-appearance label{flex-direction:column;align-items:stretch;justify-content:flex-start;font-size:12px}.ufu-appearance select{width:100%}.ufu-items label{justify-content:flex-start;padding:6px 4px;min-height:40px;box-sizing:border-box}.ufu-items span{overflow-wrap:anywhere}.ufu-items input{width:20px;height:20px;flex-shrink:0;accent-color:#fff}.ufu-report{font-size:12px;margin:0;flex-shrink:0}.ufu-hidden-list{width:min(360px,calc(100vw - 24px));max-height:75dvh}.ufu-hidden-items{max-height:50dvh;overflow:auto;overscroll-behavior:contain;margin:10px 0}.ufu-hidden-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 0}.ufu-hidden-row span{overflow-wrap:anywhere}.ufu-hidden-row button{flex-shrink:0}.ufu-confirm::backdrop{background:#0009}.ufu-confirm button{margin:4px}
 

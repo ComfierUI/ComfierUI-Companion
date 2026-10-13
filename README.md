@@ -1,14 +1,14 @@
-# ComfierUI Companion 0.10.10
+# ComfierUI Companion 0.11.16
 
-Full Companion update limited to batch count icon-color theming, one-click Apply appearance across all views, and selected button name in the appearance header. Retains0.10.10 monitor changes. Preserve settings/themes and restart ComfyUI.
+Full Companion update: faster frontend transfer with gzip prepared once at host startup and body-free ETag responses for unchanged cached assets. Updated assets are revalidated before reuse. Frontend controls, rendering and saved layouts are unchanged. Preserve settings/themes and restart ComfyUI.
 
-Full Companion baseline for ComfierUI 0.95.9-Dev. Consolidates the accepted app-delivered frontend upgrades: restored panel headers, download completion model refresh, model dropdown guards and spacing, Apps field theming, centered single-line editors, progressive Cloud template filtering and the optional generation-preview popup. Compatible template additions preserve the card grid and loaded pages during sync.
+Full Companion baseline for ComfierUI 0.96.20-Dev. Consolidates the accepted app-delivered frontend upgrades: restored panel headers, download completion model refresh, model dropdown guards and spacing, Apps field theming, centered single-line editors, progressive Cloud template filtering and the optional generation-preview popup. Compatible template additions preserve the card grid and loaded pages during sync.
 
 The top bar uses 4px end padding and touch/mouse scrolling for overflowing workflow tabs. Overflow arrows and the workflow overflow menu are removed. Direct Cloud keeps Agent and account controls visible, with Share Feedback in the account dropdown; these account actions remain placeholders pending OAuth whitelisting.
 
 Install into the existing Companion custom_nodes directory and restart ComfyUI. Preserve user themes/settings, diagnostics/scripts/backups, gateway_port.json and browser_start.json. Remove obsolete packaged files when updating. Connect the app or a desktop browser to http://HOST-IP:8147 (or your configured gateway port); ComfyUI normally remains on8188. Self-hosted connections require Companion; direct Comfy Cloud does not require a local host.
 
-The app no longer bundles upgrade payload ZIPs because this package includes the changes directly. The module upgrade system remains available. Built-in core/frontend42 supersede earlier installed upgrades without deleting user configuration. The Companion diagnostic suite and its performance monitor remain included.
+The app no longer bundles upgrade payload ZIPs because this package includes the changes directly. The module upgrade system remains available. Built-in core/frontend67 supersede earlier installed upgrades without deleting user configuration. The Companion diagnostic suite and its performance monitor remain included.
 
 ## Python requirements
 

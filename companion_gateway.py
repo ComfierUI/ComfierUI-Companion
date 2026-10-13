@@ -26,7 +26,7 @@ LOG = logging.getLogger("ComfierUI-Companion")
 GATEWAY_HOST = "0.0.0.0"
 GATEWAY_PORT = 8147
 BACKEND = "http://127.0.0.1:8188"
-DISPLAY_TEST_VERSION = "0.10.10"
+DISPLAY_TEST_VERSION = "0.11.16"
 _registered = False
 _runner = None
 _site = None
@@ -41,6 +41,37 @@ def _browser_page():
         return value if value in {"companion", "comfy"} else "companion"
     except (OSError, ValueError, AttributeError):
         return "companion"
+
+def _accepts_gzip(header):
+    values = {}
+    for item in header.lower().split(','):
+        parts = item.strip().split(';')
+        quality = 1.0
+        for parameter in parts[1:]:
+            key, _, raw = parameter.strip().partition('=')
+            if key == 'q':
+                try:
+                    quality = float(raw)
+                except ValueError:
+                    quality = 0.0
+        values[parts[0].strip()] = quality
+    return values.get('gzip', values.get('*', 0.0)) > 0
+
+
+def _packaged_asset_response(request, asset, build_id):
+    zipped = asset.gzip_body is not None and _accepts_gzip(request.headers.get('Accept-Encoding', ''))
+    # Encoding is part of the validator so compressed and raw bodies cannot collide.
+    tag = '"' + asset.checksum + ('-gzip' if zipped else '') + '"'
+    headers = {'Cache-Control': 'no-cache', 'ETag': tag,
+               'Vary': 'Accept-Encoding', 'X-ComfierUI-Custom-Frontend': build_id}
+    validators = request.headers.get('If-None-Match', '').split(',')
+    if any(value.strip() == '*' or value.strip().removeprefix('W/') == tag for value in validators):
+        return web.Response(status=304, headers=headers)
+    if zipped:
+        headers['Content-Encoding'] = 'gzip'
+    return web.Response(body=asset.gzip_body if zipped else asset.body,
+                        content_type=asset.content_type, headers=headers)
+
 
 async def _browser_start(request):
     if request.method == "POST":
@@ -493,9 +524,7 @@ async def _relay_http(request: web.Request) -> web.StreamResponse:
             return web.Response(status=503, text=_frontend_error, headers={'Cache-Control':'no-store'})
         asset = _frontend.asset(request.path) if not _frontend_error else None
         if asset is not None:
-            return web.Response(body=asset.body, content_type=asset.content_type, headers={
-                'Cache-Control':'no-cache', 'ETag':'"'+asset.checksum+'"',
-                'X-ComfierUI-Custom-Frontend':_frontend.build_id})
+            return _packaged_asset_response(request, asset, _frontend.build_id)
     if decoded_path.startswith(('/assets/', '/scripts/')) or decoded_path in {'/assets', '/scripts', '/index.html', '/user.css'}:
         raise web.HTTPNotFound(text='Asset is not in the custom frontend bundle')
     if request.path == "/comfierui/data-cache/status":

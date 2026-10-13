@@ -1128,3 +1128,20 @@ img[data-v-ca0e6d87] {
 .comfier-settings-content .comfier-workflow-mode-row>.comfier-workflow-choice{display:flex!important;flex-direction:column;width:calc(58% - 24px);max-width:calc(58% - 24px);flex:0 1 calc(58% - 24px);gap:4px}
 .comfier-settings-content .comfier-workflow-choice>.comfier-workflow-options{display:flex!important;flex-direction:column;gap:4px;width:100%;padding:4px;border:1px solid #aaa;border-radius:6px;background:#111;box-sizing:border-box}
 .comfier-workflow-choice button{width:100%;font:500 14px system-ui;min-height:40px;padding:8px;border:1px solid #aaa;border-radius:6px;box-sizing:border-box;background:#fff;color:#111;text-align:center}
+
+/* Inline Civitai/destination choices: match the workflow chooser controls. */
+html:root body .comfier-settings-content .comfier-inline-choice{display:flex!important;flex-direction:column;flex:0 1 auto;min-width:100px;max-width:58%;margin-left:auto;gap:4px}
+html:root body .comfier-settings-content .comfier-generation-download-row>.comfier-inline-choice{max-width:45%}
+html:root body .comfier-settings-content .comfier-inline-choice>.comfier-inline-options{display:flex!important;flex-direction:column;gap:4px;width:100%;padding:4px;border:1px solid #aaa;border-radius:6px;background:#111;box-sizing:border-box}
+html:root body .comfier-settings-content .comfier-inline-choice>.comfier-inline-options[hidden]{display:none!important}
+.comfier-inline-choice button{width:100%;font:500 14px system-ui;min-height:40px;padding:8px;border:1px solid #aaa;border-radius:6px;box-sizing:border-box;background:#fff;color:#111;text-align:center}
+
+/* Owned inline choices: stay in their panel instead of opening Android selects. */
+.comfier-inline-choice{display:flex;flex-direction:column;gap:4px;min-width:0;max-width:100%}
+.comfier-inline-choice>.comfier-inline-options{display:flex;flex-direction:column;gap:4px;max-height:240px;overflow:auto;overscroll-behavior:contain;width:100%;padding:4px;border:1px solid var(--comfier-button-frame,#aaa);border-radius:6px;background:var(--comfier-panel-bg,var(--comfy-menu-bg,#171717));box-sizing:border-box}
+.comfier-inline-choice[hidden],.comfier-inline-options[hidden]{display:none!important}
+.comfier-inline-choice button{font-family:system-ui,sans-serif;font-size:14px;font-weight:500;min-height:40px;padding:8px;border:1px solid var(--comfier-button-frame,#aaa);border-radius:6px;background:var(--comfier-button-bg,#fff);color:var(--comfier-ui-font,#111);white-space:normal;overflow-wrap:anywhere}
+.comfier-inline-options button[aria-selected=true]{outline:2px solid var(--comfier-active-color,#20DFF3);outline-offset:-2px}
+.comfier-app-field-choice{width:100%}
+.ufu-inspector label>.comfier-inline-choice{flex:0 1 58%;width:58%}
+.comfier-node-appearance>.comfier-inline-choice{width:100%;margin-bottom:16px}

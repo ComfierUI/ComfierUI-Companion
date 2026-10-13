@@ -72,6 +72,12 @@ var GlobalToast_default = /* @__PURE__ */ defineComponent({
 					class: "graph-toast top-[calc(anchor(--graph-canvas-panel_top,1rem)+0.25rem)] left-[calc(anchor(--graph-canvas-panel_right,anchor(--docked-agent-panel_left,calc(100vw-var(--workspace-inset-right,0px)-0.75rem)))-25.5rem)] z-10000 h-fit w-100 [&_.p-toast-close-button]:size-7 [&_.p-toast-close-icon]:size-4 [&_.p-toast-close-icon]:text-base [&_.p-toast-detail]:text-sm [&_.p-toast-message]:mb-4 [&_.p-toast-message]:min-h-[73px] [&_.p-toast-message-content]:gap-2 [&_.p-toast-message-content]:p-3 [&_.p-toast-message-icon]:size-4.5 [&_.p-toast-message-icon]:text-lg [&_.p-toast-message-text]:gap-2 [&_.p-toast-summary]:text-base"
 				}),
 				createVNode(unref(script), {
+					group: "comfier-connection-status",
+					position: "bottom-right",
+					style: {left: "50%", right: "auto", transform: "translateX(-50%)", width: "min(calc(25rem - 36px),calc(100vw - 16px))"},
+					class: "graph-toast comfier-connection-toast top-[calc(anchor(--graph-canvas-panel_top,1rem)+0.25rem)] left-[calc(anchor(--graph-canvas-panel_right,anchor(--docked-agent-panel_left,calc(100vw-var(--workspace-inset-right,0px)-0.75rem)))-25.5rem)] z-10000 h-fit w-100 [&_.p-toast-close-button]:size-7 [&_.p-toast-close-icon]:size-4 [&_.p-toast-close-icon]:text-base [&_.p-toast-detail]:text-sm [&_.p-toast-message]:mb-4 [&_.p-toast-message]:min-h-[73px] [&_.p-toast-message-content]:gap-2 [&_.p-toast-message-content]:p-3 [&_.p-toast-message-icon]:size-4.5 [&_.p-toast-message-icon]:text-lg [&_.p-toast-message-text]:gap-2 [&_.p-toast-summary]:text-base"
+				}),
+				createVNode(unref(script), {
 					group: "billing-operation",
 					position: "top-right"
 				}, {
