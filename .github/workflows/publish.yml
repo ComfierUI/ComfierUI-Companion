@@ -1,0 +1,56 @@
+name: Publish ComfierUI Companion to Comfy Registry
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - pyproject.toml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: comfy-registry-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'ComfierUI/ComfierUI-Companion'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Validate registry metadata and files
+        shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib, tomllib
+          config = tomllib.loads(pathlib.Path('pyproject.toml').read_text(encoding='utf-8'))
+          project = config['project']
+          assert project['name'] == 'comfierui-companion'
+          assert project['version'].strip(), 'Missing version'
+          assert config['tool']['comfy']['PublisherId'] == 'comfierui'
+          for key in ('readme',):
+              if key in project:
+                  assert pathlib.Path(project[key]).is_file(), f'Missing {key}: {project[key]}'
+          license_value = project.get('license')
+          if isinstance(license_value, dict) and 'file' in license_value:
+              assert pathlib.Path(license_value['file']).is_file(), f"Missing license: {license_value['file']}"
+          print('Metadata valid; publishing version', project['version'])
+          PY
+
+      - name: Ensure Registry token exists
+        env:
+          REGISTRY_TOKEN: ${{ secrets.REGISTRY_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$REGISTRY_TOKEN" ]; then
+            echo '::error::Missing REGISTRY_ACCESS_TOKEN repository secret'
+            exit 1
+          fi
+
+      - name: Publish to Comfy Registry
+        uses: Comfy-Org/publish-node-action@v1
+        with:
+          personal_access_token: ${{ secrets.REGISTRY_ACCESS_TOKEN }}
