@@ -8233,8 +8233,8 @@ var ContextMenu = class ContextMenu {
 		root.style.left = `${left}px`;
 		root.style.top = `${top}px`;
 		if (LiteGraph.context_menu_scaling && options.scale) root.style.transform = `scale(${Math.round(options.scale * 4) * .25})`;
+		window.__comfierDropdownOpened?.(options.event);
 		if (options.className === "dark" && !this.parentMenu) {
-			window.__comfierDropdownOpened?.(options.event);
 			this.fitComboViewport();
 			window.addEventListener("resize", () => this.fitComboViewport(), { signal });
 			window.visualViewport?.addEventListener("resize", () => this.fitComboViewport(), { signal });
@@ -27695,7 +27695,7 @@ var LGraphCanvas = class LGraphCanvas {
 		const y = e.clientY;
 		this.ds.viewport = this.viewport;
 		if (!(!this.viewport || isInRect(x, y, this.viewport))) return;
-		let node = graph.getNodeOnPos(e.canvasX, e.canvasY, this.visible_nodes) ?? void 0;
+		let node = window.__comfierDeviceInput?.vuePointerNode?.(this, e) ?? graph.getNodeOnPos(e.canvasX, e.canvasY, this.visible_nodes) ?? void 0;
 		if (!node && LiteGraph.vueNodesMode) {
 			const slotLayout = getSlotLayoutAtPoint(graph, {
 				x: e.canvasX,
@@ -27921,6 +27921,9 @@ var LGraphCanvas = class LGraphCanvas {
 		dragRect[2] = 1;
 		dragRect[3] = 1;
 		pointer.onClick = (eUp) => this.processSelect(clickTarget, eUp);
+		if (clickTarget instanceof SubgraphNode && window.__comfierDeviceInput?.allowSubgraphEntry?.()) {
+			pointer.onDoubleClick = () => this.openSubgraph(clickTarget.subgraph, clickTarget);
+		}
 		pointer.onDragStart = () => this.dragging_rectangle = dragRect;
 		if (this.liveSelection) {
 			const initialSelection = new Set(this.selectedItems);
@@ -27936,7 +27939,18 @@ var LGraphCanvas = class LGraphCanvas {
 	* @param node The node to process a click event for
 	*/
 	_processNodeClick(e, ctrlOrMeta, node) {
-		if (LiteGraph.vueNodesMode) return;
+		if (LiteGraph.vueNodesMode) {
+			if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) {
+				this.pointer.onClick = (upEvent) => {
+					if (window.__comfierDeviceInput.ownsSelection(upEvent)) return;
+					if (!window.__comfierDeviceInput.selectVueNode?.(this, node, upEvent, false)) this.processSelect(node, upEvent);
+				};
+				this.pointer.onDragStart = () => this.dragging_canvas = true;
+				this.pointer.finally = () => this.dragging_canvas = false;
+				if (node instanceof SubgraphNode && window.__comfierDeviceInput.allowSubgraphEntry?.()) this.pointer.onDoubleClick = () => this.openSubgraph(node.subgraph, node);
+			}
+			return;
+		}
 		const { pointer, graph, linkConnector } = this;
 		if (!graph) throw new NullGraphError();
 		const x = e.canvasX;
@@ -29521,7 +29535,7 @@ var LGraphCanvas = class LGraphCanvas {
 			ctx.save();
 			this.ds.toCanvasContext(ctx);
 			if (this.ds.scale < 1.5 && !bg_already_painted && this.clear_background_color) {
-				ctx.fillStyle = nodeAppearance.color(null, "canvasBg") || this.clear_background_color;
+				ctx.fillStyle = this.clear_background_color === "transparent" ? "transparent" : nodeAppearance.color(null, "canvasBg") || this.clear_background_color;
 				ctx.fillRect(this.visible_area[0], this.visible_area[1], this.visible_area[2], this.visible_area[3]);
 			}
 			if (this.background_image && this.ds.scale > .5 && !bg_already_painted) {
@@ -73616,7 +73630,7 @@ var useColorPaletteService = () => {
 	const loadLiteGraphColorPalette = (palette) => {
 		app.canvas.node_title_color = palette.NODE_TITLE_COLOR;
 		app.canvas.default_link_color = palette.LINK_COLOR;
-		if (settingStore.get("Comfy.Canvas.BackgroundImage")) app.canvas.clear_background_color = "transparent";
+		if (settingStore.get("Comfy.Canvas.BackgroundImage")) { app.canvas.clear_background_color = "transparent"; app.canvas.background_image = null; }
 		else {
 			app.canvas.background_image = palette.BACKGROUND_IMAGE;
 			app.canvas.clear_background_color = palette.CLEAR_BACKGROUND_COLOR;
@@ -73657,8 +73671,10 @@ var useColorPaletteService = () => {
 		for (const [key, value] of Object.entries(comfyColorPalette)) rootStyle.setProperty("--" + key, value);
 		for (const optionalKey of optionalComfyBaseKeys) if (!(optionalKey in comfyColorPalette)) rootStyle.setProperty("--" + optionalKey, `var(--palette-${optionalKey})`);
 		const backgroundImage = settingStore.get("Comfy.Canvas.BackgroundImage");
+		document.documentElement.toggleAttribute("data-comfier-canvas-image",!!backgroundImage);
 		if (backgroundImage) rootStyle.setProperty("--bg-img", `url('${backgroundImage}')`);
 		else rootStyle.removeProperty("--bg-img");
+		window.__comfierCanvasImage?.sync?.(backgroundImage);
 		try {
 			const splashBg = isLightTheme ? "#FFFFFF" : comfyColorPalette["bg-color"];
 			localStorage.setItem("comfy-splash-bg", splashBg);
@@ -86489,6 +86505,7 @@ var ComfyApp = class ComfyApp {
 			const node = getNodeByExecutionId(this.rootGraph, executionId);
 			if (node && node.onExecuted) node.onExecuted(detail.output);
 			window.__comfierGenerationDownloads?.capture(detail);
+			window.__comfierCanvasPreview?.capture(detail);
 		});
 		api.addEventListener("execution_start", () => {
 			triggerCallbackOnAllNodes(this.rootGraph, "onExecutionStart");
@@ -86606,6 +86623,7 @@ var ComfyApp = class ComfyApp {
 	}
 	resizeCanvas(canvas) {
 		applyViewport(measureViewportFromElement(canvas), canvas, this.canvas.bgcanvas, this.canvas);
+		window.__comfierCanvasImage?.refresh?.(false);
 		useCanvasScheduler().flush();
 		this.canvas.draw(true, true);
 	}
@@ -89509,6 +89527,7 @@ function installThemeStudio() {
 		return edit(doReset);
 	}
 	function doReset() {
+		themePng.apply(null)?.catch(e=>console.warn("Canvas reset failed",e));
 		roles.forEach(({ id }) => {
 			state[id] = defaults[id];
 			transparency[id] = profileTransparency[id] || 0;
@@ -89536,6 +89555,260 @@ function installThemeStudio() {
 		renderRoles();
 		return true;
 	}
+// PNG theme metadata is separate from ComfyUI's workflow and prompt chunks.
+const themePng = (() => {
+ const KEY='comfier.theme', MAX=4*1024*1024, STORE='comfier.theme.background.v1';
+ const enc=new TextEncoder(),dec=new TextDecoder('utf-8',{fatal:true});
+ const sig=[137,80,78,71,13,10,26,10];
+ function crc(bytes){let c=0xffffffff;for(const b of bytes){c^=b;for(let n=0;n<8;n++)c=(c>>>1)^((c&1)?0xedb88320:0)}return(c^0xffffffff)>>>0}
+ function chunks(bytes){if(bytes.length<20||!sig.every((b,i)=>bytes[i]===b))throw Error('Invalid PNG image.');const out=[];let p=8;while(p<bytes.length){if(p+12>bytes.length)throw Error('Truncated PNG.');const n=new DataView(bytes.buffer,bytes.byteOffset+p,4).getUint32(0);if(n>bytes.length-p-12)throw Error('Truncated PNG chunk.');const type=String.fromCharCode(...bytes.subarray(p+4,p+8));if(crc(bytes.subarray(p+4,p+8+n))!==new DataView(bytes.buffer,bytes.byteOffset+p+8+n,4).getUint32(0))throw Error('Invalid PNG checksum.');out.push({type,data:bytes.subarray(p+8,p+8+n),raw:bytes.subarray(p,p+12+n)});p+=12+n;if(type==='IEND'){if(p!==bytes.length)throw Error('Unexpected PNG trailing data.');return out}}throw Error('PNG has no end chunk.')}
+ function ours(c){return c.type==='iTXt'&&c.data.length>=KEY.length+5&&KEY.split('').every((s,i)=>c.data[i]===s.charCodeAt(0))&&c.data[KEY.length]===0}
+ function readMetadata(bytes){for(const c of chunks(bytes))if(ours(c)){const d=c.data,k=KEY.length;if(d[k+1]!==0||d[k+2]!==0)throw Error('Unsupported compressed theme metadata.');let p=k+3;for(let n=0;n<2;n++){while(p<d.length&&d[p]!==0)p++;if(p===d.length)throw Error('Invalid theme metadata.');p++}if(d.length-p>262144)throw Error('Theme metadata exceeds 256 KB.');return JSON.parse(dec.decode(d.subarray(p)))}return null}
+ function strip(bytes){return new Blob([bytes.subarray(0,8),...chunks(bytes).filter(c=>!ours(c)).map(c=>c.raw)],{type:'image/png'})}
+ function embed(bytes,profile){const body=enc.encode(JSON.stringify(profile));if(body.length>262144)throw Error('Theme metadata exceeds 256 KB.');const data=new Uint8Array(KEY.length+5+body.length);data.set(enc.encode(KEY));data.set(body,KEY.length+5);const chunk=new Uint8Array(data.length+12),v=new DataView(chunk.buffer);v.setUint32(0,data.length);chunk.set(enc.encode('iTXt'),4);chunk.set(data,8);v.setUint32(data.length+8,crc(chunk.subarray(4,data.length+8)));const list=chunks(bytes);return new Blob([bytes.subarray(0,8),...list.filter(c=>!ours(c)).flatMap(c=>c.type==='IEND'?[chunk,c.raw]:[c.raw])],{type:'image/png'})}
+ async function dataUrl(blob){return await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(Error('Unable to read PNG.'));r.readAsDataURL(blob)})}
+ function validate(value){if(value!==null&&value!==undefined&&(typeof value!=='string'||!/^data:image\/png;base64,[A-Za-z0-9+/]+=*$/.test(value)||value.length>Math.ceil(MAX*4/3)+32))throw Error('Invalid canvas PNG (maximum 4 MiB).');return value||null}
+ let source=null,activePath=null;
+ const settings=useSettingStore(), SETTING='Comfy.Canvas.BackgroundImage';
+ async function prepare(value){
+  value=validate(value);if(!value)return '';
+  const blob=await (await fetch(value)).blob();
+  const file=new File([blob], 'comfier-theme-'+(crypto.randomUUID?.()||Date.now())+'.png',{type:'image/png'});
+  const body=new FormData();body.append('image',file);body.append('subfolder','backgrounds');
+  const response=await api.fetchApi('/upload/image',{method:'POST',body});
+  if(response.status!==200)throw Error('Canvas upload failed: '+response.status);
+  const data=await response.json();
+  if(typeof data.name!=='string'||!data.name||typeof data.subfolder!=='string')throw Error('Canvas upload returned an invalid path.');
+  const params=new URLSearchParams({filename:data.name,type:'input',subfolder:data.subfolder});
+  appendCloudResParam(params,file.name);
+  return api.apiURL('/view?'+params.toString());
+ }
+ async function apply(value,path){
+  value=validate(value);
+  // Use the same uploaded-file URL as native Appearance settings.
+  let url=path===undefined ? (value ? settings.get(SETTING)||'' : '') : path;
+  if(value && (!url || url.startsWith('data:')))url=await prepare(value);
+  if(window.ComfierApp?.setCanvasThemeImage){window.ComfierApp.setCanvasThemeImage(value||'');localStorage.removeItem(STORE);}
+  else if(value)localStorage.setItem(STORE,value);else localStorage.removeItem(STORE);
+  source=value;
+  activePath=url;
+  const displaySource=url;
+  document.documentElement.toggleAttribute('data-comfier-canvas-image',!!url);
+  if(url)document.documentElement.style.setProperty('--bg-img',`url('${displaySource}')`);
+  else document.documentElement.style.removeProperty('--bg-img');
+  if(app.canvas && url){app.canvas.clear_background_color='transparent';app.canvas.background_image=null;}
+  return settings.set(SETTING,url).then(async()=>{
+    // Decode the actual picture before requesting its visible frame.
+    let decoded=null;
+    if(displaySource)decoded=await new Promise((resolve,reject)=>{
+      const image=new Image();
+      image.onload=()=>resolve(image);image.onerror=()=>reject(Error('Canvas image could not be decoded.'));
+      image.src=displaySource;
+    });
+    if(source!==value || activePath!==url)return;
+    document.documentElement.toggleAttribute('data-comfier-canvas-image',!!url);
+    if(url)document.documentElement.style.setProperty('--bg-img',`url('${displaySource}')`);
+    else document.documentElement.style.removeProperty('--bg-img');
+    if(app.canvas && url){app.canvas.clear_background_color='transparent';app.canvas.background_image=null;}
+    window.__comfierCanvasImage?.setImage?.(url,decoded?.naturalWidth,decoded?.naturalHeight,false);
+    app.canvas?.setDirty(true,true);
+    app.canvas?.draw(true,true);
+    window.ComfierApp?.repaintWorkspace?.();
+  });
+ }
+ const read=()=>window.ComfierApp?.getCanvasThemeImage ? window.ComfierApp.getCanvasThemeImage() || localStorage.getItem(STORE) : localStorage.getItem(STORE);
+ try{const saved=read();if(saved)apply(saved,settings.get(SETTING)||undefined)?.catch(e=>console.warn('Canvas theme could not restore',e));}catch(e){console.warn('Canvas theme image could not load',e)}
+ return {MAX,read:readMetadata,strip,embed,dataUrl,validate,prepare,apply,get:()=>source,url:()=>settings.get(SETTING)||''};
+})();
+window.__comfierThemePng=themePng;
+// Per-view canvas image framing. Direct editor owners and viewport/image callbacks only.
+window.__comfierCanvasImage = (() => {
+ const KEY='comfier.canvas-image-frames.v1';
+ const MODES=['outerPortrait','outerLandscape','innerPortrait','innerLandscape'];
+ const NAMES={outerPortrait:'Phone Portrait',outerLandscape:'Phone Landscape',innerPortrait:'Tablet Portrait',innerLandscape:'Tablet Landscape / Desktop'};
+ const copy=value=>JSON.parse(JSON.stringify(value));
+ const view=()=>{const value=window.__comfierViewport?.mode?.();return MODES.includes(value)?value:'innerLandscape';};
+ function validate(value){
+  if(value==null)return {};
+  if(typeof value!=='object'||Array.isArray(value))throw Error('Invalid canvas framing.');
+  const result={};
+  for(const [mode,frame]of Object.entries(value)){
+   if(!MODES.includes(mode)||!frame||typeof frame!=='object'||Array.isArray(frame))throw Error('Invalid canvas view.');
+   const {x,y,zoom}=frame;
+   if(!Number.isFinite(x)||x<0||x>100||!Number.isFinite(y)||y<0||y>100||!Number.isFinite(zoom)||zoom<1||zoom>4)throw Error('Invalid canvas crop.');
+   result[mode]={x,y,zoom};
+  }
+  return result;
+ }
+ let frames={};try{frames=validate(JSON.parse(localStorage.getItem(KEY)||'{}'));}catch(_){}
+ let activeUrl='',width=0,height=0,imageRequest=0,session=null;
+ const host=()=>document.querySelector?.('#graph-canvas-container');
+ const current=()=>copy((session?.frames||frames)[view()]||{x:50,y:50,zoom:1});
+ function geometry(w,h,frame=current()){
+  const scale=width&&height?Math.max(w/width,h/height)*frame.zoom:1;
+  return {width:Math.round(width*scale*1000)/1000,height:Math.round(height*scale*1000)/1000,x:frame.x,y:frame.y};
+ }
+ function paint(redraw=true){
+  const root=document.documentElement.style,box=host()?.getBoundingClientRect();
+  const url=session?.url||activeUrl;
+  if(url)root.setProperty('--bg-img',`url(${JSON.stringify(url)})`);else root.removeProperty('--bg-img');
+  document.documentElement.toggleAttribute('data-comfier-canvas-image',!!url);
+  if(url&&app.canvas){app.canvas.clear_background_color='transparent';app.canvas.background_image=null;}
+  const frame=current();
+  root.setProperty('--comfier-canvas-image-position',`${frame.x}% ${frame.y}%`);
+  const size=box&&box.width>0&&box.height>0&&width&&height?geometry(box.width,box.height,frame):null;
+  root.setProperty('--comfier-canvas-image-size',size?`${size.width}px ${size.height}px`:'cover');
+  session?.update?.();
+  if(redraw){app.canvas?.setDirty(true,true);app.canvas?.draw(true,true);}
+ }
+ function setImage(url,w,h,redraw=true){imageRequest++;activeUrl=url||'';width=w||0;height=h||0;paint(redraw);}
+ function sync(url){
+  if(session)return paint();
+  if(url===activeUrl&&width&&height)return paint();
+  activeUrl=url||'';width=height=0;const request=++imageRequest;paint();
+  if(!url)return;
+  const image=new Image();image.onload=()=>{if(request===imageRequest&&!session)setImage(url,image.naturalWidth,image.naturalHeight);};image.src=url;
+ }
+ function importFrames(value){frames=validate(value);localStorage.setItem(KEY,JSON.stringify(frames));paint();}
+ function cancel(){
+  if(!session)return;
+  const previous=session;session=null;imageRequest++;
+  if(app.canvas){app.canvas.clear_background_color=previous.previousClear;app.canvas.background_image=previous.previousBackground;}
+  sync(previous.previousUrl);previous.cancel?.();previous.close?.();
+ }
+ async function portable(url){
+  const existing=themePng.get();if(existing&&url===themePng.url())return existing;
+  const response=await fetch(url);if(!response.ok)throw Error('Could not read the canvas image.');
+  let blob=await response.blob();
+  const bytes=new Uint8Array(await blob.arrayBuffer());
+  if(bytes[0]===137&&bytes[1]===80&&bytes[2]===78&&bytes[3]===71)blob=themePng.strip(bytes);
+  else {
+   const image=new Image();const objectUrl=URL.createObjectURL(blob);
+   try{await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(Error('Image could not be decoded.'));image.src=objectUrl;});
+    const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;
+    canvas.getContext('2d').drawImage(image,0,0);
+    blob=await new Promise((resolve,reject)=>canvas.toBlob(value=>value?resolve(value):reject(Error('Could not save canvas image.')),'image/png'));
+   }finally{URL.revokeObjectURL(objectUrl);}
+  }
+  if(blob.size>themePng.MAX)throw Error('Reusable canvas images support up to 4 MiB.');
+  return themePng.dataUrl(blob);
+ }
+ function mount(panel,options={}){
+  cancel();
+  const url=options.url||themePng.url();
+  panel.replaceChildren();panel.setAttribute('data-canvas-image-editor','true');panel.hidden=false;
+  const header=document.createElement('header'),title=document.createElement('strong');title.textContent='Canvas Image';header.append(title);panel.append(header);
+  const body=document.createElement('div');body.className='ufu-inspector-body';panel.append(body);
+  const status=document.createElement('p');status.setAttribute('role','status');body.append(status);
+  const close=document.createElement('button');close.type='button';close.textContent='Close';close.onclick=()=>{cancel();options.close?.();};header.append(close);
+  if(window.__comfierCanvasPreview?.enabled){status.textContent='Turn off Canvas Live Gallery in ComfierUI Settings to edit the current image.';return;}
+  if(!url){status.textContent='Upload a PNG through Global Theme > Themes > Profiles to add a canvas image.';return;}
+  const previousUrl=themePng.url();
+  const draft={previousClear:app.canvas?.clear_background_color,previousBackground:app.canvas?.background_image,frames:validate(options.frames===undefined?frames:options.frames),url,previousUrl,cancel:options.cancel,close:options.close,source:options.source||null,ready:false};session=draft;
+  status.textContent='Loading image…';
+  const label=document.createElement('p');body.append(label);
+  const preview=document.createElement('div');preview.className='comfier-canvas-crop-preview';preview.setAttribute('aria-label','Drag to position the canvas image; pinch or scroll to zoom.');body.append(preview);
+  const fields={};
+  for(const [key,name,min,max,step]of [['x','Horizontal position',0,100,.1],['y','Vertical position',0,100,.1],['zoom','Zoom',1,4,.01]]){
+   const row=document.createElement('label'),text=document.createElement('span'),input=document.createElement('input'),output=document.createElement('output');text.textContent=name;
+   input.type='range';input.min=min;input.max=max;input.step=step;input.setAttribute('aria-label',name);
+   row.append(text,input,output);body.append(row);fields[key]={input,output};
+   input.oninput=()=>{if(session!==draft)return;draft.frames[view()]={...current(),[key]:Number(input.value)};paint();};
+  }
+  const buttons=document.createElement('footer');panel.append(buttons);
+  const action=(name,fn)=>{const button=document.createElement('button');button.type='button';button.textContent=name;button.onclick=fn;buttons.append(button);return button;};
+  action('Center',()=>{draft.frames[view()]={...current(),x:50,y:50};paint();});
+  action('Reset view',()=>{draft.frames[view()]={x:50,y:50,zoom:1};paint();});
+  action('Cancel',()=>{cancel();options.close?.();});
+  const apply=action('Apply to this view',async()=>{
+   if(session!==draft||!draft.ready)return;
+   apply.disabled=true;status.textContent='Applying…';
+   try{
+    const source=draft.source||await portable(url);
+    if(session!==draft)return;
+    const result=copy(draft.frames);session=null;
+    if(options.commit)options.commit(result,source);
+    else {
+     const commit=()=>{importFrames(result);return themePng.apply(source,url);};
+     await (window.__comfierLayoutEditor?.changeGlobal?window.__comfierLayoutEditor.changeGlobal(commit):commit());
+    }
+    options.close?.();
+   }catch(error){status.textContent=error.message;apply.disabled=false;}
+  });apply.disabled=true;
+  draft.update=()=>{
+   label.textContent=NAMES[view()]+' — drag the preview or use the controls. Other views keep their own framing.';
+   for(const [key,field]of Object.entries(fields)){const value=current()[key];field.input.value=value;field.output.textContent=key==='zoom'?value.toFixed(2)+'×':Math.round(value)+'%';}
+   const box=host()?.getBoundingClientRect()||{width:240,height:240};
+   const available=preview.parentElement?.getBoundingClientRect().width||240;
+   const portalHeight=Math.min(200,available*box.height/Math.max(1,box.width));
+   preview.style.width=portalHeight*box.width/Math.max(1,box.height)+'px';preview.style.height=portalHeight+'px';
+   const bounds=preview.getBoundingClientRect();const size=geometry(bounds.width||240,bounds.height||240);
+   preview.style.backgroundImage=`url(${JSON.stringify(url)})`;preview.style.backgroundSize=`${size.width}px ${size.height}px`;preview.style.backgroundPosition=`${size.x}% ${size.y}%`;
+  };
+  const pointers=new Map();let gesture=null;
+  function startGesture(){
+   if(!pointers.size){gesture=null;return;}
+   const list=[...pointers.values()],bounds=preview.getBoundingClientRect();
+   gesture={frame:current(),view:view(),size:geometry(bounds.width,bounds.height),bounds,x:list.reduce((n,p)=>n+p.x,0)/list.length,y:list.reduce((n,p)=>n+p.y,0)/list.length,distance:list.length>1?Math.hypot(list[0].x-list[1].x,list[0].y-list[1].y):0};
+  }
+  preview.onpointerdown=e=>{if(session!==draft||!draft.ready)return;e.preventDefault();pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});preview.setPointerCapture?.(e.pointerId);startGesture();};
+  preview.onpointermove=e=>{
+   if(!pointers.has(e.pointerId)||!gesture||session!==draft)return;
+   if(gesture.view!==view()){pointers.clear();gesture=null;return;}
+   pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});const list=[...pointers.values()];
+   const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));const x=list.reduce((n,p)=>n+p.x,0)/list.length,y=list.reduce((n,p)=>n+p.y,0)/list.length;
+   const zoom=gesture.distance&&list.length>1?clamp(gesture.frame.zoom*Math.hypot(list[0].x-list[1].x,list[0].y-list[1].y)/gesture.distance,1,4):gesture.frame.zoom;
+   draft.frames[view()]={zoom,x:clamp(gesture.frame.x-(gesture.size.width>gesture.bounds.width?(x-gesture.x)*100/(gesture.size.width-gesture.bounds.width):0),0,100),y:clamp(gesture.frame.y-(gesture.size.height>gesture.bounds.height?(y-gesture.y)*100/(gesture.size.height-gesture.bounds.height):0),0,100)};paint();
+  };
+  const release=e=>{pointers.delete(e.pointerId);startGesture();};
+  preview.onpointerup=preview.onpointercancel=preview.onlostpointercapture=release;
+  preview.onwheel=e=>{if(session!==draft||!draft.ready)return;e.preventDefault();draft.frames[view()]={...current(),zoom:Math.max(1,Math.min(4,current().zoom*(e.deltaY>0?.9:1.1)))};paint();};
+  const image=new Image();image.onload=()=>{
+   if(session!==draft)return;width=image.naturalWidth;height=image.naturalHeight;draft.ready=true;apply.disabled=false;status.textContent='Preview only until Apply. The full original image is preserved.';paint();
+  };image.onerror=()=>{if(session===draft)status.textContent='The canvas image could not load.';};image.src=url;
+ }
+ window.addEventListener?.('resize',paint,{passive:true});
+ window.addEventListener?.('comfier-native-view-mode',paint);
+ return {validate,export:()=>copy(frames),import:importFrames,current,geometry,refresh:paint,sync,setImage,mount,cancel};
+})();
+
+// Canvas Live Gallery follows completed images through the native background setting.
+window.__comfierCanvasPreview = (() => {
+ const KEY='comfier.canvas-preview.v1';
+ let enabled=localStorage.getItem(KEY)==='true', generation=0, sequence=0, latestImage=0;
+ const pending=new Map(), completed=new Set();
+ function setEnabled(value){enabled=!!value;generation++;pending.clear();if(enabled)window.__comfierCanvasImage?.cancel?.();localStorage.setItem(KEY,String(enabled));}
+ function capture(detail){
+  if(!enabled || !detail?.prompt_id || !detail.output)return;
+  const id=detail.prompt_id;
+  if(!pending.has(id))pending.set(id,[]);
+  pending.get(id).push(detail.output);
+  if(pending.size>100)pending.delete(pending.keys().next().value);
+ }
+ function take(id){const outputs=pending.get(id)||[];pending.delete(id);return outputs;}
+ async function complete(id,readOutputs){
+  if(!enabled || !id || completed.has(id))return;
+  completed.add(id);if(completed.size>512)completed.delete(completed.values().next().value);
+  const request=++sequence, epoch=generation;
+  try{
+   const outputs=await readOutputs();
+   if(!enabled || epoch!==generation)return;
+   const images=outputs.filter(item=>item.filename && (!item.type || item.type==='output') &&
+    ['images','image'].includes(item.mediaType) && !/\.(mp4|webm|mov|mkv|mp3|wav|ogg|flac)(?:$|\?)/i.test(item.filename));
+   const latest=images.at(-1);if(!latest?.downloadUrl)return;
+   const url=new URL(latest.downloadUrl,location.href);
+   if(!['http:','https:'].includes(url.protocol)||url.username||url.password)return;
+   if(request<latestImage)return;latestImage=request;
+   // Keep the current background until the next completed image has loaded.
+   await new Promise((resolve,reject)=>{const image=new Image();image.onload=resolve;image.onerror=()=>reject(Error('Canvas preview image unavailable.'));image.src=url.href;});
+   if(!enabled || epoch!==generation || request!==latestImage)return;
+   await themePng.apply(null,url.href);
+  }catch(error){completed.delete(id);console.warn('Canvas preview could not update',error);}
+ }
+ return {get enabled(){return enabled},setEnabled,capture,take,complete};
+})();
+
+
 	const PROFILE_STORE = "comfier.theme.profiles.v1";
 	let profileDialog = null;
 	let profileSelection = null;
@@ -89602,7 +89875,7 @@ function installThemeStudio() {
 	function persistLibrary() {
 		const raw = JSON.stringify(library);
 		if (raw !== persistedLibrary) {
-			if (new Blob([raw]).size > 8388608 || library.profiles.length > 256) throw Error("Theme library storage limit reached.");
+			if (new Blob([raw]).size > 67108864 || library.profiles.length > 256) throw Error("Theme library storage limit reached.");
 			if (nativeLibrary) window.ComfierApp.setThemeLibrary(raw);
 		}
 		const profiles = JSON.stringify(library.profiles);
@@ -89866,6 +90139,8 @@ function installThemeStudio() {
 	function exportProfile(name) {
 		return {
 			schemaVersion: 1,
+			canvasImage: themePng.get(),
+			canvasFrames: window.__comfierCanvasImage?.export?.()||{},
 			name,
 			colors: Object.fromEntries([...assigned].map((id) => [id, state[id]])),
 			transparency: Object.fromEntries([...assigned].map((id) => [id, transparency[id]])),
@@ -89876,21 +90151,33 @@ function installThemeStudio() {
 			...window.__comfierUiEditorModel ? { dimensions: window.__comfierUiEditorModel.getGlobal() } : {}
 		};
 	}
-	function loadProfile(profile, kind = "colors") {
-		return edit(() => doLoadProfile(profile, kind));
-	}
-	function doLoadProfile(profile, kind = "colors") {
-		if (![
-			"colors",
-			"layout",
-			"both"
-		].includes(kind)) throw Error("Invalid profile parts.");
-		const colors = profileColors(profile);
-		if (kind !== "colors" && profile.layout) window.__comfierLayoutEditor?.validate(profile.layout);
-		if (kind !== "layout" && profile.appearance) window.__comfierLayoutEditor?.validateAppearance(profile.appearance);
-		if (kind !== "layout" && profile.dimensions) window.__comfierUiEditorModel?.dimensions(profile.dimensions);
-		if (kind !== "colors" && profile.layout) window.__comfierLayoutEditor?.importLayout(profile.layout);
-		if (kind !== "layout") {
+    const PROFILE_PARTS = {
+        colors: [true,false,false], layout: [false,true,false], canvas: [false,false,true],
+        "colors-layout": [true,true,false], "colors-canvas": [true,false,true], "layout-canvas": [false,true,true],
+        all: [true,true,true], both: [true,true,false]
+    };
+    async function loadProfile(profile, kind = "colors", crop = false) {
+        const parts=PROFILE_PARTS[kind];if(!parts)throw Error("Invalid profile parts.");
+        // Complete the upload before making any theme/layout changes.
+        const initiatingDialog=profileDialog;
+        const path=parts[2] ? await themePng.prepare(profile.canvasImage) : undefined;
+        if(initiatingDialog && profileDialog!==initiatingDialog)throw Error("Theme load canceled.");
+        if(crop && parts[2] && profile.canvasImage && window.__comfierLayoutEditor?.openCanvasImage){
+          const framed=await window.__comfierLayoutEditor.openCanvasImage({source:profile.canvasImage,url:path,frames:profile.canvasFrames||{}});
+          profile.canvasFrames=framed.frames;
+        }
+        return await edit(() => doLoadProfile(profile,kind,path));
+    }
+    function doLoadProfile(profile, kind = "colors", path) {
+        const parts=PROFILE_PARTS[kind];if(!parts)throw Error("Invalid profile parts.");
+        const [withColors,withLayout,withCanvas]=parts;
+        const colors=profileColors(profile);
+        if(withCanvas)themePng.validate(profile.canvasImage);
+        if(withLayout && profile.layout)window.__comfierLayoutEditor?.validate(profile.layout);
+        if(withColors && profile.appearance)window.__comfierLayoutEditor?.validateAppearance(profile.appearance);
+        if(withColors && profile.dimensions)window.__comfierUiEditorModel?.dimensions(profile.dimensions);
+        if(withLayout && profile.layout)window.__comfierLayoutEditor?.importLayout(profile.layout);
+        if(withColors) {
 			if (profile.appearance) window.__comfierLayoutEditor?.importAppearance(profile.appearance);
 			if (profile.dimensions) window.__comfierUiEditorModel?.setGlobal(profile.dimensions);
 			roles.forEach(({ id }) => {
@@ -89907,10 +90194,12 @@ function installThemeStudio() {
 			paintRoles();
 			renderRoles();
 		}
-		if (profile.id) localStorage.setItem("comfier.theme.active.v1", profile.id);
-		else localStorage.removeItem("comfier.theme.active.v1");
-		return true;
-	}
+        if(withCanvas)window.__comfierCanvasImage?.import?.(profile.canvasFrames||{});
+        const canvasResult=withCanvas ? themePng.apply(profile.canvasImage,path) : null;
+        if(profile.id)localStorage.setItem("comfier.theme.active.v1",profile.id);
+        else localStorage.removeItem("comfier.theme.active.v1");
+        return canvasResult ? canvasResult.then(()=>true) : true;
+    }
 	function dismissProfiles() {
 		if (!profileDialog) return false;
 		profileRequest++;
@@ -90061,17 +90350,20 @@ function installThemeStudio() {
 		});
 		input.focus();
 	}
-	const MAX_THEME_BYTES = 262144;
-	function importProfile(text, fallback = "Imported theme", kind = "colors") {
-		if (new Blob([text]).size > MAX_THEME_BYTES) throw Error("Theme file is too large (maximum 256 KB).");
+	const MAX_THEME_BYTES = 6 * 1024 * 1024;
+	async function importProfile(text, fallback = "Imported theme", kind = "colors", crop = false) {
+		if (new Blob([text]).size > MAX_THEME_BYTES) throw Error("Theme file is too large (maximum 6 MiB).");
 		const value = JSON.parse(text);
 		const colors = profileColors(value);
-		if (kind !== "colors" && value.layout) window.__comfierLayoutEditor?.validate(value.layout);
+		themePng.validate(value.canvasImage);
+		if (PROFILE_PARTS[kind]?.[1] && value.layout) window.__comfierLayoutEditor?.validate(value.layout);
 		const name = (typeof value.name === "string" && value.name.trim() ? value.name.trim() : fallback).slice(0, 80);
 		const profile = {
 			schemaVersion: 1,
 			name,
 			colors,
+			canvasImage: value.canvasImage || null,
+			canvasFrames: window.__comfierCanvasImage?.validate?.(value.canvasFrames)||{},
 			transparency: Object.fromEntries(Object.keys(colors).map((id) => [id, value.transparency?.[id] || 0])),
 			id: globalThis.crypto?.randomUUID?.() || Date.now() + "-" + Math.random().toString(36).slice(2),
 			savedAt: (/* @__PURE__ */ new Date()).toISOString()
@@ -90088,34 +90380,29 @@ function installThemeStudio() {
 			window.__comfierLayoutEditor.validate(value.layout);
 			profile.layout = value.layout;
 		}
+		await loadProfile(profile, kind, crop);
 		writeProfiles([...list, profile]);
-		loadProfile(profile, kind);
 		return profile;
 	}
-	function chooseProfileParts(profile, apply) {
-		if (!profile.layout || !window.__comfierLayoutEditor) {
-			apply("colors");
-			return;
-		}
-		const d = profileShell("Apply theme");
-		d.querySelector(".theme-profile-body").textContent = "Choose which parts to apply.";
-		for (const [title, kind] of [
-			["Colors only", "colors"],
-			["Layout only", "layout"],
-			["Both", "both"]
-		]) action(d.querySelector("footer"), title, () => {
-			try {
-				apply(kind);
-				dismissProfiles();
-			} catch (e) {
-				d.querySelector(".theme-profile-status").textContent = e.message;
-			}
-		});
-	}
+    function chooseProfileParts(profile, apply) {
+        const d=profileShell("Apply theme");
+        d.querySelector(".theme-profile-body").textContent="Choose which parts to apply.";
+        const footer=d.querySelector("footer");footer.classList.add("theme-profile-parts");
+        for(const [title,kind] of [
+            ["Colors Only","colors"],["Layout Only","layout"],["Canvas Only","canvas"],
+            ["Co & L","colors-layout"],["Co & Ca","colors-canvas"],["L & Ca","layout-canvas"],
+            ["Load All","all"]
+        ]) action(footer,title,async()=>{
+            const buttons=footer.querySelectorAll("button");buttons.forEach(b=>b.disabled=true);
+            d.querySelector(".theme-profile-status").textContent="Loading…";
+            try {await apply(kind);if(profileDialog===d)dismissProfiles();}
+            catch(e){if(profileDialog===d){d.querySelector(".theme-profile-status").textContent=e.message;buttons.forEach(b=>b.disabled=false);}}
+        });
+    }
 	function uploadProfile(d) {
 		const input = document.createElement("input");
 		input.type = "file";
-		input.accept = ".json,application/json";
+		input.accept = ".json,.png,application/json,image/png";
 		input.hidden = true;
 		d.appendChild(input);
 		input.addEventListener("cancel", () => input.remove(), { once: true });
@@ -90123,15 +90410,21 @@ function installThemeStudio() {
 			try {
 				const file = input.files?.[0];
 				if (!file) return;
-				if (file.size > MAX_THEME_BYTES) throw Error("Theme file is too large (maximum 256 KB).");
-				const text = await file.text();
+				if (file.size > MAX_THEME_BYTES) throw Error("Theme file is too large (maximum 6 MiB).");
+				let text;
+                if (/\.png$/i.test(file.name) || file.type === "image/png") {
+                    if (file.size > themePng.MAX + 262200) throw Error("PNG exceeds 4 MiB plus theme metadata.");
+                    const bytes = new Uint8Array(await file.arrayBuffer());
+                    const value = themePng.read(bytes) || exportProfile(file.name.replace(/\.png$/i,""));
+                    const image = themePng.strip(bytes);
+                    if (image.size > themePng.MAX) throw Error("PNG image exceeds 4 MiB.");
+                    value.canvasImage = await themePng.dataUrl(image);
+                    text = JSON.stringify(value);
+                } else text = await file.text();
 				if (profileDialog !== d) return;
 				const value = JSON.parse(text);
 				profileColors(value);
-				chooseProfileParts(value, (kind) => {
-					importProfile(text, file.name.replace(/\.json$/i, ""), kind);
-					dismissProfiles();
-				});
+				chooseProfileParts(value, (kind) => importProfile(text, file.name.replace(/\.(json|png)$/i, ""), kind, !!value.canvasImage));
 			} catch (e) {
 				if (profileDialog === d) d.querySelector(".theme-profile-status").textContent = e.message;
 			} finally {
@@ -90140,9 +90433,22 @@ function installThemeStudio() {
 		}, { once: true });
 		input.click();
 	}
-	function shareProfile(name, d) {
+	function releaseThemeExport(url) { setTimeout(() => URL.revokeObjectURL(url), 6e4); }
+	async function shareProfile(name, d) {
 		try {
 			const profile = exportProfile(name.trim() || "ComfierUI Theme");
+            if (profile.canvasImage) {
+                const bytes = new Uint8Array(await (await fetch(profile.canvasImage)).arrayBuffer());
+                delete profile.canvasImage;
+                const blob = themePng.embed(bytes,profile);
+                const filename = profile.name.replace(/[\\/:*?"<>|\x00-\x1f]/g,"_").slice(0,80)+".png";
+                const url=URL.createObjectURL(blob);
+                try {
+                    if (window.ComfyRemoteDownloads?.saveBlobDownload) window.ComfyRemoteDownloads.saveBlobDownload(url,filename,"image/png");
+                    else { const a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove(); }
+                } finally { releaseThemeExport(url); }
+                return;
+            }
 			const json = JSON.stringify(profile, null, 2);
 			const filename = profile.name.replace(/[\\/:*?"<>|\x00-\x1f]/g, "_").slice(0, 80) + ".json";
 			if (window.ComfyRemoteDownloads?.saveThemeJson) {
@@ -90156,7 +90462,7 @@ function installThemeStudio() {
 			document.body.appendChild(a);
 			a.click();
 			a.remove();
-			setTimeout(() => URL.revokeObjectURL(url), 6e4);
+			releaseThemeExport(url);
 		} catch (e) {
 			d.querySelector(".theme-profile-status").textContent = e.message;
 		}
@@ -90171,10 +90477,7 @@ function installThemeStudio() {
 			try {
 				if (profileSelection) {
 					const profile = profileSelection.profile;
-					chooseProfileParts(profile, (kind) => {
-						loadProfile(profile, kind);
-						dismissProfiles();
-					});
+					chooseProfileParts(profile, (kind) => loadProfile(profile, kind));
 				}
 			} catch (e) {
 				status.textContent = e.message;
@@ -90622,7 +90925,7 @@ function installThemeStudio() {
 		const el = document.createElement("section");
 		el.className = "comfier-theme-studio";
 		el.hidden = true;
-		el.innerHTML = `<header><button type="button" class="theme-back" aria-label="Back to UI Editor">‹</button><strong>Appearance</strong></header><div class="theme-picker"><canvas class="theme-wheel" aria-label="Color wheel"></canvas><label>Brightness <input class="theme-value" type="range" min="0" max="100" value="100"></label><label>Transparency <input class="theme-transparency" aria-label="Transparency" type="range" min="0" max="100" value="0"><output class="theme-transparency-value">0%</output></label><div class="theme-exact"><span class="theme-previous" title="Previous color"></span><span class="theme-current" title="Current color"></span><label>#<input class="theme-hex" type="text" inputmode="text" maxlength="6" pattern="[0-9a-fA-F]{6}" aria-label="Selected color hex"></label></div></div><h3>Recent colors</h3><div class="theme-recents"></div><h3>Apply selected color</h3><p class="theme-note">Tap a group to assign the selected color.</p><div class="theme-roles"></div>`;
+		el.innerHTML = `<header><button type="button" class="theme-back" aria-label="Back to UI Editor">‹</button><strong>Global Theme</strong></header><div class="theme-picker"><canvas class="theme-wheel" aria-label="Color wheel"></canvas><label>Brightness <input class="theme-value" type="range" min="0" max="100" value="100"></label><label>Transparency <input class="theme-transparency" aria-label="Transparency" type="range" min="0" max="100" value="0"><output class="theme-transparency-value">0%</output></label><div class="theme-exact"><span class="theme-previous" title="Previous color"></span><span class="theme-current" title="Current color"></span><label>#<input class="theme-hex" type="text" inputmode="text" maxlength="6" pattern="[0-9a-fA-F]{6}" aria-label="Selected color hex"></label></div></div><h3>Recent colors</h3><div class="theme-recents"></div><h3>Apply selected color</h3><p class="theme-note">Tap a group to assign the selected color.</p><div class="theme-roles"></div>`;
 		requestAnimationFrame(() => compactComfierHexFields(el));
 		el.querySelector(".theme-wheel").after(activePalette((color) => {
 			setSelected(color.slice(0, 7));
@@ -90671,7 +90974,7 @@ function installThemeStudio() {
 		dimensions.hidden = true;
 		const tabs = document.createElement("div");
 		tabs.className = "theme-tabs";
-		const colorsButton = action(tabs, "Colors", () => switchTab(false));
+		const colorsButton = action(tabs, "Themes", () => switchTab(false));
 		const dimensionsButton = action(tabs, "Dimensions", () => switchTab(true));
 		function switchTab(value) {
 			colors.hidden = value;
@@ -90693,10 +90996,15 @@ function installThemeStudio() {
 			colors: Object.fromEntries(roles.filter((r) => assigned.has(r.id)).map(({ id }) => [id, state[id]])),
 			transparency: Object.fromEntries(roles.filter((r) => assigned.has(r.id)).map(({ id }) => [id, transparency[id]])),
 			dimensions: window.__comfierUiEditorModel?.getGlobal(),
+			canvasImage: themePng.get(),
+			canvasFrames: window.__comfierCanvasImage?.export?.()||{},
+			canvasBackgroundUrl: themePng.url(),
 			active: localStorage.getItem("comfier.theme.active.v1")
 		};
 	}
 	function restore(value) {
+		window.__comfierCanvasImage?.import?.(value.canvasFrames||{});
+		themePng.apply(value.canvasImage,value.canvasBackgroundUrl)?.catch(e=>console.warn("Canvas restore failed",e));
 		assigned.clear();
 		roles.forEach(({ id }) => {
 			state[id] = value.colors[id] || defaults[id];
@@ -90775,7 +91083,7 @@ function installThemeStudio() {
 		if (!editorHost) {
 			editorHost = document.createElement("dialog");
 			editorHost.className = "comfier-theme-editor";
-			editorHost.setAttribute("aria-label", "Appearance");
+			editorHost.setAttribute("aria-label", "Global Theme");
 			editorHost.addEventListener("cancel", (e) => {
 				e.preventDefault();
 				close();
@@ -90819,6 +91127,10 @@ html:root body dialog:is(.comfier-theme-profiles,.comfier-theme-editor){--comfie
 .comfier-theme-profiles .theme-profile-body{overflow:auto;min-height:0;overscroll-behavior:contain;display:flex;flex-direction:column;gap:8px}
 .comfier-theme-profiles footer{display:flex;gap:8px;flex-shrink:0}
 .comfier-theme-profiles footer button{flex:1}
+.comfier-theme-profiles footer.theme-profile-parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%}
+.comfier-theme-profiles footer.theme-profile-parts button{width:100%;min-height:40px;padding:8px;white-space:normal}
+.comfier-theme-profiles footer.theme-profile-parts button:last-child{grid-column:1/-1}
+html:root[data-comfier-canvas-image] #graph-canvas-container{background-color:transparent!important;background-image:var(--bg-img)!important;background-position:var(--comfier-canvas-image-position,center)!important;background-size:var(--comfier-canvas-image-size,cover)!important;background-repeat:no-repeat!important}
 .comfier-theme-profiles .theme-profile-extra{display:flex;justify-content:center;gap:8px;flex-shrink:0}
 .comfier-theme-profiles .theme-profile-extra button{flex:0 1 calc((100% - 16px)/3)}
 html:root body dialog:is(.comfier-theme-profiles,.comfier-theme-editor) :is(button:not(.theme-recent),input){background:var(--comfier-button-bg,#fff)!important;color:var(--comfier-ui-text-paint,#000)!important;-webkit-text-fill-color:var(--comfier-ui-text-paint,#000)!important;border:1px solid #fff!important;border-radius:6px;padding:8px;min-width:0;font:inherit}
@@ -92184,6 +92496,7 @@ function createLayoutEditor(host) {
 		refresh();
 	}
 	function viewportRefresh() {
+		window.__comfierCanvasImage?.refresh?.();
 		invalidateDiscovery();
 		jobs.burst("viewport-settle", refresh, [
 			60,
@@ -92282,6 +92595,7 @@ function createLayoutEditor(host) {
 		d.showModal();
 	}
 	function detachInspector() {
+		window.__comfierCanvasImage?.cancel?.();
 		clearTabFrame();
 		inspector?.remove();
 		inspector = null;
@@ -92762,7 +93076,7 @@ function createLayoutEditor(host) {
 		fitEditorBar();
 		statusBar.querySelector("[data-undo]").disabled = !history.length;
 		statusBar.querySelector("[data-redo]").disabled = !redoHistory.length;
-		statusBar.querySelector("[data-properties]").disabled = !selectedGroups.size;
+		statusBar.querySelector("[data-properties]").disabled = false;
 	}
 	function clearSelection() {
 		clearTabFrame();
@@ -92812,7 +93126,7 @@ function createLayoutEditor(host) {
 		document.body.appendChild(blocker);
 		statusBar = document.createElement("div");
 		statusBar.className = "ufu-editor-status";
-		const global = button(statusBar, "Appearance", () => {
+		const global = button(statusBar, "Global Theme", () => {
 			closeToolbarMenu();
 			if (inspector) hideInspector();
 			window.__comfierThemeStudio?.open();
@@ -92820,7 +93134,6 @@ function createLayoutEditor(host) {
 		global.dataset.globalAppearance = "";
 		const properties = button(statusBar, "Properties", () => {
 			closeToolbarMenu();
-			if (!selectedGroups.size) return;
 			if (inspector.hidden) paintInspector();
 			else hideInspector();
 		});
@@ -92893,6 +93206,7 @@ function createLayoutEditor(host) {
 		refresh();
 	}
 	function finish(commit = false) {
+		window.__comfierCanvasImage?.cancel?.();
 		clearTabFrame();
 		closeToolbarMenu();
 		toolbarMenu = null;
@@ -92940,8 +93254,8 @@ function createLayoutEditor(host) {
 			if (inspector) {
 				inspector.hidden = false;
 				paintInspector();
-				report.hidden = false;
-				report.textContent = "Could not save: " + e.message;
+				if(report){report.hidden=false;report.textContent="Could not save: "+e.message;}
+				else {const status=inspector.querySelector('[role="status"]');if(status)status.textContent="Could not save: "+e.message;}
 			}
 		}
 	}
@@ -92973,6 +93287,7 @@ function createLayoutEditor(host) {
 			cancelMove();
 			return true;
 		}
+		if(inspector && !inspector.hidden && !selectedGroups.size){hideInspector();return true;}
 		if (selectedGroups.size || picked.size) {
 			clearSelection();
 			return true;
@@ -92994,18 +93309,19 @@ function createLayoutEditor(host) {
 		const title = document.createElement("h2"); title.textContent = "UI Editor Help"; d.appendChild(title);
 		for (const [heading, text] of [
 			["Select and reorder buttons", "Select its container first, then tap a button to select it. Drag the selected button to the insertion line, or use Dimensions → Move Earlier / Move Later for one-position changes. Select additional buttons lets you move or style several together."],
-			["Move and resize containers", "Long press (or hold left mouse button on PC) a container to move it. Use its corner or edge handles to resize it, or enter dimensions for precise sizes. Properties selects the container; Lane chooses its edge, middle or inner lane."],
+			["Move and resize containers", "Long press (or hold left mouse button on PC) a container to move it. Select additional containers to select several; holding a selected container moves them together. Properties replaces that selection button with Merge containers when several are selected. Yes merges their buttons into the first selected container; No keeps them separate. Undo restores the merge. Use corner or edge handles to resize, or enter precise dimensions. Lane chooses its edge, middle or inner lane."],
 			["Connected bars", "Enable Connected scrollable bar for a single row or column. Visible buttons sets how many fit at once; additional buttons scroll. Autofill lane uses the available lane space."],
-			["Colors and dimensions", "Colors controls fills, frames and icon colors. Choose a color, then tap the role you want to change. Dimensions controls widths, icon size, frame thickness and corners. Reset returns that value to its default."],
-			["Global appearance and four views", "Appearance edits the overall theme. Phone portrait, phone landscape, tablet portrait and tablet landscape have separate layouts. Apply appearance across all views copies styling, not button order or positions. Desktop uses tablet layouts."],
+			["Themes and dimensions", "Themes controls fills, frames and icon colors. Choose a color, then tap the role you want to change. Dimensions controls widths, icon size, frame thickness and corners. Reset returns that value to its default."],
+			["Global appearance and four views", "Global Theme edits the overall theme. Phone portrait, phone landscape, tablet portrait and tablet landscape have separate layouts and canvas image framing. Apply appearance across all views copies styling, not button order or positions. Desktop uses tablet layouts."],
+			["PNG themes and canvas images", "In Global Theme → Themes → Profiles, upload a theme PNG or JSON. Choose Colors Only, Layout Only, Canvas Only, Co & L, Co & Ca, L & Ca or Load All. PNG imports that include Canvas open a crop preview before applying. Save a profile to reuse it; sharing a PNG preserves the full image and carries the theme metadata."], ["Frame the current canvas", "With nothing selected, open Properties → Canvas Image. Drag to position, pinch or scroll to zoom, or use the sliders. Apply to this view saves framing for the current view; Cancel restores the previous image. UI Editor Save retains changes and Discard restores the baseline."], ["Canvas Live Gallery", "Enable Canvas Live Gallery under Generation preview popup in ComfierUI Settings to show the newest successfully generated image as the canvas. It works on desktop and with automatic downloads disabled. Turn it off to keep and edit the last image using Properties → Canvas Image."],
 			["Resource monitor", "Select the monitor to choose visible meters, direction, meter order and fill palettes. Its arrow controls change meter order independently of button order."],
-			["Save, undo and exit", "Menu offers Undo and Redo. Use Appearance to save and load themes. Back first closes a dialog or selection, then offers the editor exit choices. Save your theme to reuse or share its colors and layouts. Hidden controls lets you restore buttons you hid."]
+			["Save, undo and exit", "Menu offers Undo and Redo. Use Global Theme to save and load themes. Back first closes a dialog or selection, then offers the editor exit choices. Save your theme to reuse or share its colors and layouts. Hidden controls lets you restore buttons you hid."]
 		]) { const h = document.createElement("h3"); h.textContent = heading; const p = document.createElement("p"); p.textContent = text; d.append(h, p); }
 		button(d, "Close", closeEditorDialog);
 		d.addEventListener("cancel", (e) => { e.preventDefault(); closeEditorDialog(); });
 		document.body.appendChild(d); d.showModal();
 	}
-	function confirmDialog(message, yes) {
+	function confirmDialog(message, yes, labels = ["Confirm", "Cancel"]) {
 		if (!editing) {
 			legacyConfirmDialog(message, yes);
 			return;
@@ -93017,11 +93333,11 @@ function createLayoutEditor(host) {
 		const p = document.createElement("p");
 		p.textContent = message;
 		d.appendChild(p);
-		button(d, "Confirm", () => {
+		button(d, labels[0], () => {
 			closeEditorDialog();
 			yes();
 		});
-		button(d, "Cancel", closeEditorDialog);
+		button(d, labels[1], closeEditorDialog);
 		d.addEventListener("cancel", (e) => {
 			e.preventDefault();
 			closeEditorDialog();
@@ -93046,6 +93362,30 @@ function createLayoutEditor(host) {
 		});
 		document.body.appendChild(d);
 		d.showModal();
+	}
+	function mergeSelectedContainers() {
+		const view = mode();
+		const ids = [...selectedGroups].filter(id => id !== "topbar" && draft[mode()].some(g => g.id === id));
+		if(ids.length < 2) return;
+		confirmDialog("Merge the selected containers? Are you sure?", () => {
+			if(!editing || mode() !== view || ids.some(id => !selectedGroups.has(id))) return;
+			change(() => {
+				const groups = ids.map(id => draft[mode()].find(g => g.id === id)).filter(Boolean);
+				if(groups.length !== ids.length) return;
+				const target = groups[0];
+				const items = [], hidden = [], styles = {};
+				for(const group of groups) for(const id of group.items) {
+					if(items.includes(id)) continue;
+					items.push(id);
+					if(group.hidden?.includes(id)) hidden.push(id);
+					styles[id] = {...copy(model.resolve("button", group, group.buttonStyles?.[id] || {})), ...copy(group.buttonStyles?.[id] || {})};
+				}
+				target.items = items; target.hidden = hidden; target.buttonStyles = styles;
+				draft[mode()] = draft[mode()].filter(g => !ids.includes(g.id) || g === target);
+				selectedGroups = new Set([target.id]); picked.clear(); multiContainers = false;
+			});
+			paintInspector();
+		}, ["Yes", "No"]);
 	}
 	function groupsSelected() {
 		return (draft[mode()] || []).filter((g) => selectedGroups.has(g.id));
@@ -93288,6 +93628,8 @@ function createLayoutEditor(host) {
 	let inspectorTab = "colors";
 	let tabFrame = null;
 	function hideInspector() {
+		window.__comfierCanvasImage?.cancel?.();
+		inspector?.removeAttribute('data-canvas-image-editor');
 		clearInspectorChoices();
 		clearTabFrame();
 		if (inspector) inspector.hidden = true;
@@ -93308,8 +93650,25 @@ function createLayoutEditor(host) {
 		Object.assign(tabFrame.style, {left: r.left - 4 + "px", top: r.top - 4 + "px", width: r.width + 8 + "px", height: r.height + 8 + "px"});
 	}
 
+	function paintCanvasInspector(options={}) {
+		if(!editing||!inspector)return;
+		clearTabFrame();clearInspectorChoices();
+		window.__comfierCanvasImage?.mount(inspector,{...options,close:hideInspector});
+		placeInspector();
+	}
+	async function openCanvasImage(options) {
+		if(window.__comfierCanvasPreview?.enabled)throw Error("Turn off Canvas Live Gallery before cropping a profile image.");
+		if(!editing)open();
+		if(!editing||!inspector)throw Error("UI Editor is not ready.");
+		clearSelection();window.__comfierThemeStudio?.closeAll?.();
+		return new Promise((resolve,reject)=>paintCanvasInspector({...options,
+		 commit:(frames,source)=>resolve({frames,source}),cancel:()=>reject(Error("Canvas image edit canceled."))}));
+	}
 	function paintInspector() {
-		if (!editing || !inspector || press?.moving || !selectedGroups.size) return;
+		if (!editing || !inspector || press?.moving) return;
+		if(!selectedGroups.size){paintCanvasInspector();return;}
+		window.__comfierCanvasImage?.cancel?.();
+		inspector.removeAttribute('data-canvas-image-editor');
 		const groups = groupsSelected();
 		if (!groups.length) {
 			clearSelection();
@@ -93341,7 +93700,9 @@ function createLayoutEditor(host) {
 		body.className = "ufu-inspector-body";
 		inspector.appendChild(body);
 		const isButton = selectionKind === "button";
-		button(body, isButton ? "Select additional buttons" : "Select additional containers", () => {
+		if(!isButton && !selectedGroups.has("topbar") && groups.length > 1)
+			button(body, "Merge containers", mergeSelectedContainers);
+		else button(body, isButton ? "Select additional buttons" : "Select additional containers", () => {
 			if (isButton) multiButtons = !multiButtons;
 			else multiContainers = !multiContainers;
 			paintInspector();
@@ -93356,7 +93717,7 @@ function createLayoutEditor(host) {
 		colors.dataset.inspectorTab = "colors";
 		dimensionPane.dataset.inspectorTab = "dimensions";
 		body.append(colors, dimensionPane);
-		const colorTab = button(tabs, "Colors", () => showTab("colors"));
+		const colorTab = button(tabs, "Themes", () => showTab("colors"));
 		const dimensionTab = button(tabs, "Dimensions", () => showTab("dimensions"));
 		function showTab(tab) {
 			inspectorTab = tab;
@@ -93764,8 +94125,9 @@ function createLayoutEditor(host) {
 		if (!press || press.group === "topbar") return;
 		const anchor = draft[mode()].find((g) => g.id === press.group);
 		if (!anchor) return;
-		selectedGroups = /* @__PURE__ */ new Set([anchor.id]);
-		anchor.id;
+		if(selectionKind !== "container" || !selectedGroups.has(anchor.id)) selectedGroups = new Set([anchor.id]);
+		selectedGroups.delete("topbar");
+		press.anchors = groupsSelected().map(copy);
 		selectionKind = "container";
 		picked.clear();
 		press.kind = "container";
@@ -93782,8 +94144,8 @@ function createLayoutEditor(host) {
 		document.documentElement.classList.add("ufu-dragging");
 		containerPreview(press.lastX, press.lastY);
 	}
-	function previewBox(candidate) {
-		const groups = (draft[mode()] || []).map((g) => g.id === candidate.id ? candidate : g);
+	function previewBox(candidate, candidates = [candidate]) {
+		const groups = (draft[mode()] || []).map((g) => candidates.find(next => next.id === g.id) || g);
 		if (!groups.some((g) => g.id === candidate.id)) groups.push(candidate);
 		const ws = workspace();
 		const widths = measureTracks(groups, ws);
@@ -93824,6 +94186,14 @@ function createLayoutEditor(host) {
 		ghost.style.top = clamp(press.lastY + 12, ws.top, Math.max(ws.top, ws.bottom - 44)) + "px";
 		ghost.setAttribute("aria-label", message);
 	}
+	function containerCandidates(p, drop) {
+		const anchors = p.anchors || [p.anchor];
+		const delta = clamp(drop.offset - p.anchor.offset,
+			-Math.min(...anchors.map(g => g.offset || 0)), 1-Math.max(...anchors.map(g => g.offset || 0)));
+		const trackDelta = clamp(drop.track-(p.anchor.track||1),
+			1-Math.min(...anchors.map(g => g.track||1)), 3-Math.max(...anchors.map(g => g.track||1)));
+		return anchors.map(anchor => ({...anchor,...drop,offset:(anchor.offset||0)+delta,track:(anchor.track||1)+trackDelta}));
+	}
 	function containerPreview(x, y) {
 		const p = press;
 		if (!p?.moving || p.kind !== "container") return;
@@ -93838,7 +94208,12 @@ function createLayoutEditor(host) {
 			...p.drop,
 			placedAt: changed ? nextPlacement() : p.anchor.placedAt
 		};
-		showDropBox(previewBox(g), "Move " + g.name + " to " + p.drop.edge + ", " + TRACK_NAMES[p.drop.track - 1] + " lane, position " + (p.drop.zone + 1) + " of 11");
+		const candidates = containerCandidates(p,p.drop);
+		const boxes = candidates.map(next => previewBox(next,candidates));
+		p.validDrop = boxes.every(box => box && !box.blocked);
+		const box = p.validDrop ? {left:Math.min(...boxes.map(b=>b.left)),top:Math.min(...boxes.map(b=>b.top)),width:0,height:0} : null;
+		if(box) {box.width=Math.max(...boxes.map(b=>b.left+b.width))-box.left;box.height=Math.max(...boxes.map(b=>b.top+b.height))-box.top;}
+		showDropBox(box, "Move " + (candidates.length > 1 ? candidates.length + " containers" : g.name) + " to " + p.drop.edge + ", " + TRACK_NAMES[p.drop.track - 1] + " lane, position " + (p.drop.zone + 1) + " of 11");
 		ghost.dataset.edge = p.drop.edge;
 		ghost.dataset.zone = String(p.drop.zone);
 		ghost.dataset.track = String(p.drop.track);
@@ -93855,17 +94230,19 @@ function createLayoutEditor(host) {
 			cancelMove();
 			return;
 		}
-		if (g.edge !== drop.edge || g.offset !== drop.offset || g.flow !== drop.flow || (g.track || 1) !== drop.track) {
+		const anchors = p.anchors || [p.anchor];
+		const moved = containerCandidates(p,drop);
+		if(moved.some(next => {const box=previewBox(next,moved);return !box || box.blocked;})) {cancelMove();return;}
+		if(moved.some(next => { const old=draft[mode()].find(g => g.id===next.id); return old && (old.edge!==next.edge || old.offset!==next.offset || old.flow!==next.flow || (old.track||1)!==next.track); })) {
 			checkpoint();
-			g.placedAt = nextPlacement();
-			g.track = drop.track;
-			g.edge = drop.edge;
-			g.offset = drop.offset;
-			g.flow = drop.flow;
-			scrollOffsets.set(g.id, 0);
+			for(const next of moved) {
+				const group = draft[mode()].find(g => g.id===next.id);
+				if(!group) continue;
+				Object.assign(group,{edge:next.edge,offset:next.offset,flow:next.flow,track:next.track,placedAt:nextPlacement()});
+				scrollOffsets.set(group.id,0);
+			}
 		}
-		selectedGroups = /* @__PURE__ */ new Set([g.id]);
-		g.id;
+		selectedGroups = new Set(anchors.map(g => g.id));
 		selectionKind = "container";
 		picked.clear();
 		cancelMove();
@@ -94317,6 +94694,9 @@ html:root body .ufu-inspector .ufu-topbar-color-actions{display:grid!important;g
 .ufu-tab-frame-layer{position:fixed;z-index:9501;pointer-events:none;border:2px solid #20DFF3;border-radius:9px;box-sizing:border-box}.ufu-editor-help{width:min(540px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto}.ufu-editor-help h2{font:600 18px system-ui}.ufu-editor-help h3{font:600 14px system-ui}.ufu-editor-help p{line-height:1.5}
 .ufu-drop-target{outline:3px solid var(--comfier-active-color,#fff)!important}.ufu-drag-ghost{position:fixed;z-index:10001;pointer-events:none;padding:10px;background:#111e;border:2px solid var(--comfier-active-color,#fff);border-radius:6px;color:#fff;font:14px system-ui;max-width:240px}.ufu-container-ghost{box-sizing:border-box;border:3px solid #D40000;background:#D4000018;max-width:none;overflow:hidden}.ufu-container-ghost.ufu-invalid-drop{border-style:dashed}.ufu-dragging [data-ufu-control]{transition:transform 100ms ease}
 .ufu-editor-active [data-ufu-control]{pointer-events:none!important}.ufu-editor-active .ufu-shell{z-index:8995!important}
+.comfier-canvas-crop-preview{max-width:100%;min-height:0;max-height:200px;background-color:#222!important;background-repeat:no-repeat;border:1px solid #fff;touch-action:none;cursor:grab;flex:0 0 auto}
+.ufu-unified-inspector[data-canvas-image-editor] label:has(input[type=range]){flex-wrap:wrap}
+.ufu-unified-inspector[data-canvas-image-editor] input[type=range]{flex:1;min-width:100px}
 html:root body .ufu-unified-inspector :is(label,p,strong,legend,output){color:#fff!important;-webkit-text-fill-color:#fff!important}
 html:root body .ufu-unified-inspector button{width:auto!important;height:auto!important;min-height:32px;white-space:normal}.ufu-unified-inspector .ufu-buttons span{display:flex;gap:3px}
 html:root body .ufu-unified-inspector :is(button,input,select){background:#fff!important;color:#000!important;-webkit-text-fill-color:#000!important}
@@ -94335,6 +94715,7 @@ html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme
 	window.__comfierLayoutEditor = {
 		invalidateDiscovery,
 		changeGlobal,
+		openCanvasImage,
 		resourceVisibility,
 		resourceAppearance,
 		open,

@@ -1145,3 +1145,28 @@ html:root body .comfier-settings-content .comfier-inline-choice>.comfier-inline-
 .comfier-app-field-choice{width:100%}
 .ufu-inspector label>.comfier-inline-choice{flex:0 1 58%;width:58%}
 .comfier-node-appearance>.comfier-inline-choice{width:100%;margin-bottom:16px}
+
+/* Settings Help stays inside the existing panel bounds in all four views. */
+.comfier-settings-content .comfier-settings-header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 0;order:0;width:100%;box-sizing:border-box;flex-shrink:0}
+.comfier-settings-content .comfier-settings-header>.comfier-app-settings-heading{width:auto!important;min-width:0;flex:1;margin:0!important;padding:0!important;text-align:left!important;font-size:18px!important;font-weight:600!important;line-height:1.3!important}
+.comfier-settings-content .comfier-help-control{font:500 14px/1.3 system-ui,sans-serif;min-height:40px;min-width:0;padding:8px;border:1px solid #aaa;border-radius:6px;background:#fff;color:#111;text-align:center;cursor:pointer;box-sizing:border-box;touch-action:manipulation}
+.comfier-settings-header>.comfier-help-control{flex:0 0 auto;white-space:nowrap;margin:0 4px}
+.comfier-settings-content.comfier-settings-help-open{overflow:hidden!important;min-height:0}
+.comfier-settings-content>.comfier-usage-guide,.comfier-settings-content .comfier-usage-guide{display:flex!important;flex:1 1 0!important;flex-direction:column;gap:8px;min-height:0;min-width:0;width:100%;overflow:hidden;box-sizing:border-box;order:1}
+.comfier-usage-guide>.comfier-usage-scroll{display:block;flex:1 1 0;min-height:0;overflow:auto;overscroll-behavior:contain;scroll-behavior:auto;padding:4px;box-sizing:border-box;font:400 14px/1.6 system-ui,sans-serif;color:#fff;-webkit-text-fill-color:#fff}
+.comfier-usage-scroll p{margin:0 0 14px;overflow-wrap:anywhere}
+.comfier-usage-scroll h3{font:600 18px/1.35 system-ui,sans-serif;margin:24px 0 12px}
+.comfier-usage-scroll .comfier-usage-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0 20px}
+.comfier-usage-links>.comfier-help-control{width:100%;height:100%;overflow-wrap:break-word}
+.comfier-usage-guide>.comfier-usage-footer{flex:0 0 auto;display:flex;padding:4px;box-sizing:border-box}
+.comfier-usage-footer>.comfier-help-control{width:100%}
+
+.comfier-usage-links>.comfier-help-editor-link{grid-column:1 / -1;padding:12px;min-height:48px}
+
+.comfier-usage-scroll h4{font:600 14px/1.35 system-ui,sans-serif;margin:18px 0 8px}
+
+/* Canvas Preview and settings organization use their existing row owners. */
+html:root body .comfier-settings-content .comfier-generation-download-row{order:5!important}
+html:root body .comfier-settings-content .comfier-workflow-mode-row{order:6!important}
+html:root body .comfier-settings-content .comfier-canvas-preview-row{order:0}
+html:root body .comfier-settings-content .comfier-workflow-mode-row>.comfier-workflow-choice{width:auto!important;min-width:100px;max-width:45%!important;flex:0 1 auto!important;margin-left:auto}

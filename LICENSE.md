@@ -2,9 +2,9 @@
 
 ComfierUI Companion contains original ComfierUI code and a modified frontend derived from ComfyUI_frontend. Different components retain their applicable licenses. The MIT terms below do not replace or override the licenses of the bundled frontend or other third-party components.
 
-## Original Companion code — MIT
+## Original ComfierUI Companion code — MIT
 
-Original ComfierUI-authored Companion code, where not derived from or otherwise covered by another component's license, is licensed under the MIT License reproduced below. This includes independently authored host services and supporting code to the extent ComfierUI holds the rights to license them under MIT.
+Original ComfierUI-authored ComfierUI Companion code, where not derived from or otherwise covered by another component's license, is licensed under the MIT License reproduced below. This includes independently authored host services and supporting code to the extent ComfierUI holds the rights to license them under MIT.
 
 MIT License
 
@@ -30,7 +30,7 @@ SOFTWARE.
 
 ## Modified ComfyUI frontend — GNU GPL version 3
 
-The ComfyUI-derived frontend, including ComfierUI modifications to that frontend, is distributed under the GNU General Public License, version 3, subject to the applicable upstream notices. These terms apply to the frontend's corresponding source and its generated JavaScript, CSS, HTML, and other covered build output. The original Companion MIT grant does not relicense this material.
+The ComfyUI-derived frontend, including ComfierUI modifications to that frontend, is distributed under the GNU General Public License, version 3, subject to the applicable upstream notices. These terms apply to the frontend's corresponding source and its generated JavaScript, CSS, HTML, and other covered build output. The original ComfierUI Companion MIT grant does not relicense this material.
 
 - Upstream project: [ComfyUI_frontend](https://github.com/Comfy-Org/ComfyUI_frontend)
 - Upstream license: [GNU GPL version 3](https://github.com/Comfy-Org/ComfyUI_frontend/blob/main/LICENSE)
@@ -38,7 +38,7 @@ The ComfyUI-derived frontend, including ComfierUI modifications to that frontend
 - Upstream copyright: retained by the original ComfyUI_frontend authors and contributors; preserve their notices in the distributed files.
 - ComfierUI-authored frontend modifications: Copyright (c) 2026 ComfierUI.
 
-ComfierUI modifies the frontend's layouts, panel behavior, UI editor, themes, controls, and Companion integration. It is a modified distribution, not an official Comfy Org frontend release. Descriptions and dates of changes belong in the relevant source notices and release history.
+ComfierUI modifies the frontend's layouts, panel behavior, UI editor, themes, controls, and ComfierUI Companion integration. It is a modified distribution, not an official Comfy Org frontend release. Descriptions and dates of changes belong in the relevant source notices and release history.
 
 The complete GNU GPL version 3 text is reproduced below.
 

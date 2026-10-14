@@ -205,6 +205,7 @@ var WidgetSelectDefault_default = /* @__PURE__ */ defineComponent({
 		}
 		function handleOpenChange(open) {
 			isOpen.value = open;
+			if (open) window.__comfierDropdownOpened?.();
 			if (open) refreshOptions();
 			else searchQuery.value = "";
 		}

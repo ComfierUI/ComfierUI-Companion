@@ -20654,7 +20654,7 @@ function createCompanionSettings() {
 			companionVersion.className = "ui-companion-version";
 			companionVersion.style.order = "105";
 			const update = () => {
-				companionVersion.textContent = "Companion Version: " + (window.__comfierCompanionVersion || "Unavailable");
+				companionVersion.textContent = "ComfierUI Companion Version: " + (window.__comfierCompanionVersion || "Unavailable");
 			};
 			update();
 			jobs.listen(window, "comfier-companion-status", update);
@@ -20671,6 +20671,130 @@ function createCompanionSettings() {
 		}
 	};
 }
+//#endregion
+//#region src/comfier/usageGuide.js
+// Constructed only when Settings > Help is opened. Uses one owned scroll surface.
+function createUsageGuide(cloud) {
+  const sections = [
+    { id: 'links', title: 'Tap to Link', paragraphs: [
+      'Tap a visible input or output socket to arm it. Compatible sockets pulse in their type color. Tap a compatible socket to complete the link; an incompatible target briefly flashes red.',
+      'Tap the armed socket again or press Android Back to cancel. Traditional drag-to-link controls remain available.',
+      'Select a node to reveal its normally hidden widget-backed sockets. You can link them in the same way as the regular colored sockets.',
+      'After arming a socket, tap empty canvas to open the filtered node search. Choose a compatible node to place it at that location and continue the connection.',
+      'Tap either endpoint of an existing single connection to reconnect it while keeping the other endpoint fixed. The original link remains until a compatible replacement succeeds. Tap the same endpoint again, press Back or tap empty canvas to cancel reconnection.'
+    ] },
+    { id: 'selection', title: 'Multi-Select', paragraphs: [
+      'Tap the MULTI checkbox or double-tap a node to enable Multi-Select. Double-tap empty canvas to turn it off without clearing your selection. The checkbox shows the current mode.',
+      'While Multi-Select is on, tap an unselected node to add it or a selected node to remove it. Drag on empty canvas to draw the selection box. Empty-canvas taps, two-finger navigation and long-press context menus preserve the selection.',
+      'Long-press the canvas or a selected node for actions such as Add Group for Selected Nodes or Convert to Subgraph. Turn Multi-Select off before dragging selected nodes as a group.',
+      'Android Back clears the selection when no open menu, pending link or panel needs to close first.'
+    ] },
+    { id: 'node-handles', title: 'Node Handles and Canvas Locking', paragraphs: [
+      'In the Android app’s Full Canvas view, select an expanded node to show its corner resize handles. Drag a corner handle to change the node’s width and height. Each selected node has its own handles, so resizing affects the node whose handle you drag.',
+      'The four-direction move handle appears above the selected node’s title. Drag it to move the node. With several nodes selected, dragging any selected node’s move handle moves the whole selection together while preserving their spacing. Moving a selected group with its handle also moves the nodes inside it.',
+      'The canvas-mode button switches between the pointer icon for normal editing and the hand icon for canvas locking. In locked mode, dragging on the canvas or a node’s body pans the view instead of accidentally moving or editing the node. Tap the button again to return to normal editing.',
+      'The app’s explicit move and resize handles remain usable for selected nodes while the canvas is locked. Select the nodes before locking, then use their handles for intentional adjustments while keeping ordinary canvas drags safe.'
+    ] },
+    { id: 'workflows', title: 'Workflows and App Mode', paragraphs: [
+      'Open a template, saved workflow or imported workflow, then choose App Mode or Full Canvas. Remember my choice skips future prompts. Change this under ComfierUI Settings > Open workflows as.',
+      'App Mode keeps the full workflow intact while exposing its main controls. Completed output stays at the top. The initial controls follow Prompts, Inputs, Resolution and Seed, above the nested preview. Inputs can include image, video and audio previews; available controls depend on the workflow.',
+      'New seed chooses a seed, and Control after generation selects how it changes between runs. Generate runs the workflow. Full Canvas returns to the same graph with your edits.',
+      'Manage Selected Nodes at the bottom of App Mode lets you add, hide and reorder exposed fields, including fields inside subgraphs. These choices are saved with the workflow. A read-only field cannot be edited from App Mode.',
+      'Generation preview popup in ComfierUI Settings controls the optional generation preview. Your workflow’s normal output remains available when this popup is disabled. Canvas Live Gallery uses the last image from each successful generation as the canvas background, independently of auto-download. Turning it off keeps the current background.',
+      'On Android, workflow import and export use the system file picker. Cloud generation uses the models and nodes available to your Comfy Cloud account; self hosted workflows use your own server.'
+    ] },
+    { id: 'downloads', title: 'Downloads', paragraphs: [
+      'Open Downloads using its down-arrow button to browse for models, extensions and workflows and download them directly to your host through ComfierUI Companion. This host-download panel is available with a self hosted connection; Comfy Cloud does not expose a host folder destination.',
+      'Browse: choose Civitai, GitHub or Hugging Face in the Downloads panel. Civitai uses Blue or Red according to your selection or saved preference. Navigate to the file you want and use its Download link. The embedded browser minimizes and fills the Downloads form so you can review the filename and destination before starting the host transfer. You can also paste a supported URL directly or use Paste from clipboard.',
+      'Browsers keep their page, scroll position and history when minimized. Reopen the same provider to continue browsing. Browser Back follows that session’s history; Exit ends the session. On a GitHub extension repository page, Copy URL returns its address to the form and selects custom_nodes.',
+      'Rename the file: edit Filename before tapping Download, keeping the correct extension such as .safetensors, .gguf, .json or .zip. The form fills a suggested name when it can resolve one. For extension repositories, this field becomes Folder name and changes the installation directory’s name.',
+      'Choose the host folder: select models, custom_nodes or workflows, then choose the destination from the adjacent folder dropdown. Models lists the host’s configured model folders and available subfolders, such as checkpoints or loras. Workflows lists the host workflow folder and its available subfolders. Extensions install under custom_nodes. Confirm the destination before tapping Download; these files go to the host, not your phone.',
+      'Active downloads: the monitor shows each transfer’s filename, progress and status. Cancel stops an active transfer; a canceled item offers Resume, and a failed item offers Retry. Reopen Downloads from its button if the panel is minimized. Clear removes completed or canceled entries and discards canceled model partial files, so resume a transfer before clearing it if you still want the file.',
+      'Model completion: each completed model download automatically refreshes ComfyUI’s model list and node definitions. Newly downloaded models become available in the relevant selectors without using Clear or restarting the backend. For supported missing models in a workflow, Workflow Overview > Errors also offers Download and Download All.',
+      'Extension installation: choose custom_nodes and a supported public GitHub, GitLab, Codeberg or Bitbucket repository URL. ComfierUI Companion clones the repository and installs its requirements.txt with ComfyUI’s Python when present. The monitor shows cloning and dependency-installation progress. Retry after a requirements failure reuses the clone.',
+      'Restart after installing an extension: when installation completes, use Restart in the Downloads header to restart the ComfyUI backend and load the new nodes. This is a backend restart, not just a page refresh. Wait for reconnection before continuing. The action requires ComfyUI-Manager restart support; if unavailable, restart ComfyUI on the host. Use Hard Refresh if it is subsequently requested.',
+      'Downloading workflows: select workflows, choose the host folder, and provide a supported workflow JSON or ZIP URL. You can edit the filename before starting. Only valid workflow JSON files are retained from an archive; bundled media and unrelated files are skipped. Numbered names protect existing files. When the download finishes, tap Load; an archive containing several workflows opens a chooser. Your App Mode or Full Canvas preference still applies.'
+    ] },
+    { id: 'ltx-precision', title: 'LTX Director Precision Mode', paragraphs: [
+      'LTX Director Precision Mode is a frame-accurate timeline editor for the LTX Director node. In Full Canvas, tap the Precision button on the node itself to open the timeline editor.',
+      'Select a timeline item, choose its Start or End edge, then use the frame controls to adjust that edge in 1, 5, 10 or 20-frame increments. The Start and End frame fields let you set exact frame positions, and timeline zoom helps you inspect and refine the timing.'
+    ] },
+    { id: 'themes', title: 'UI Editor Help', paragraphs: [], entries: [["Select and reorder buttons", "Select its container first, then tap a button to select it. Drag the selected button to the insertion line, or use Dimensions → Move Earlier / Move Later for one-position changes. Select additional buttons lets you move or style several together."], ["Move and resize containers", "Long press (or hold left mouse button on PC) a container to move it. Select additional containers to select several; holding a selected container moves them together. Properties replaces that selection button with Merge containers when several are selected. Yes merges their buttons into the first selected container; No keeps them separate. Undo restores the merge. Use corner or edge handles to resize, or enter precise dimensions. Lane chooses its edge, middle or inner lane."], ["Connected bars", "Enable Connected scrollable bar for a single row or column. Visible buttons sets how many fit at once; additional buttons scroll. Autofill lane uses the available lane space."], ["Themes and dimensions", "Themes controls fills, frames and icon colors. Choose a color, then tap the role you want to change. Dimensions controls widths, icon size, frame thickness and corners. Reset returns that value to its default."], ["Global appearance and four views", "Global Theme edits the overall theme. Phone portrait, phone landscape, tablet portrait and tablet landscape have separate layouts and canvas image framing. Apply appearance across all views copies styling, not button order or positions. Desktop uses tablet layouts."], ["PNG themes and canvas images", "In Global Theme → Themes → Profiles, upload a theme PNG or JSON. Choose Colors Only, Layout Only, Canvas Only, Co & L, Co & Ca, L & Ca or Load All. PNG imports that include Canvas open a crop preview before applying. Save a profile to reuse it; sharing a PNG preserves the full image and carries the theme metadata."], ["Frame the current canvas", "With nothing selected, open Properties → Canvas Image. Drag to position, pinch or scroll to zoom, or use the sliders. Apply to this view saves framing for the current view; Cancel restores the previous image. UI Editor Save retains changes and Discard restores the baseline."], ["Canvas Live Gallery", "Enable Canvas Live Gallery under Generation preview popup in ComfierUI Settings to show the newest successfully generated image as the canvas. It works on desktop and with automatic downloads disabled. Turn it off to keep and edit the last image using Properties → Canvas Image."], ["Resource monitor", "Select the monitor to choose visible meters, direction, meter order and fill palettes. Its arrow controls change meter order independently of button order."], ["Save, undo and exit", "Menu offers Undo and Redo. Use Global Theme to save and load themes. Back first closes a dialog or selection, then offers the editor exit choices. Save your theme to reuse or share its colors and layouts. Hidden controls lets you restore buttons you hid."]]
+    }
+  ];
+  const root = document.createElement('article');
+  root.className = 'comfier-usage-guide';
+  const scroll = document.createElement('section');
+  scroll.className = 'comfier-usage-scroll';
+  scroll.tabIndex = 0;
+  scroll.setAttribute('aria-label', 'ComfierUI usage guide');
+  const quickLinks = document.createElement('nav');
+  quickLinks.className = 'comfier-usage-links';
+  quickLinks.setAttribute('aria-label', 'Help sections');
+  scroll.append(quickLinks);
+  function button(label) {
+    const element = document.createElement('button');
+    element.type = 'button';
+    element.className = 'comfier-help-control';
+    element.textContent = label;
+    return element;
+  }
+  for (const { id, title, paragraphs, entries = [] } of sections) {
+    const section = document.createElement('section');
+    section.id = 'comfier-guide-' + id;
+    const heading = document.createElement('h3');
+    heading.textContent = title;
+    heading.tabIndex = -1;
+    section.append(heading);
+    for (const text of paragraphs) {
+      const p = document.createElement('p');
+      p.textContent = text;
+      section.append(p);
+    }
+    for (const [heading, text] of entries) {
+      const h = document.createElement('h4');
+      h.textContent = heading;
+      const p = document.createElement('p');
+      p.textContent = text;
+      section.append(h, p);
+    }
+    const jump = button(title);
+    jump.setAttribute('aria-controls', section.id);
+    jump.onclick = () => {
+      const top = section.getBoundingClientRect().top - scroll.getBoundingClientRect().top + scroll.scrollTop;
+      scroll.scrollTo({ top, behavior: 'auto' });
+      heading.focus({ preventScroll: true });
+    };
+    if (id === 'themes') jump.classList.add('comfier-help-editor-link');
+    quickLinks.append(jump);
+    scroll.append(section);
+  }
+  const footer = document.createElement('footer');
+  footer.className = 'comfier-usage-footer';
+  const top = button('Back to Top');
+  // Reserve the footer's height so visibility cannot resize the scroll viewport.
+  function updateTop() {
+    const scrolled = scroll.scrollTop > 0;
+    top.style.visibility = scrolled ? 'visible' : 'hidden';
+    top.tabIndex = scrolled ? 0 : -1;
+    top.setAttribute('aria-hidden', String(!scrolled));
+  }
+  scroll.addEventListener('scroll', updateTop, { passive: true });
+  top.onclick = () => {
+    scroll.scrollTo({ top: 0, behavior: 'auto' });
+    updateTop();
+    quickLinks.firstElementChild?.focus({ preventScroll: true });
+  };
+  footer.append(top);
+  root.append(scroll, footer);
+  updateTop();
+  return {
+    element: root,
+    reset() { scroll.scrollTop = 0; updateTop(); scroll.focus({ preventScroll: true }); },
+    remove() { scroll.removeEventListener('scroll', updateTop); root.remove(); }
+  };
+}
+
 //#endregion
 //#region src/comfier/AppSettingsPanel.vue?vue&type=script&setup=true&lang.ts
 var _hoisted_1$150 = {
@@ -20701,6 +20825,7 @@ var AppSettingsPanel_default = /* @__PURE__ */ defineComponent({
 		onBeforeUnmount(companionSettings.remove);
 		const layout = useComfierLayoutStore();
 		const appMode = useComfierAppModeStore();
+		const canvasPreviewEnabled = ref(window.__comfierCanvasPreview?.enabled || false);
 		const workflowChoiceOpen = ref(false);
 		const workflowPreference = ref(appMode.preference);
 		useOverlayBack(workflowChoiceOpen);
@@ -20720,6 +20845,31 @@ var AppSettingsPanel_default = /* @__PURE__ */ defineComponent({
 		const deviceSettings = window.__comfierDevice?.createSettings();
 		onBeforeUnmount(() => deviceSettings?.remove());
 		const cloud = location.pathname.startsWith("/__comfier_cloud__/");
+        const settingsRoot = ref(null);
+        const helpOpen = ref(false);
+        let usageGuide;
+        let settingsScroll = 0;
+        function closeHelp() {
+            helpOpen.value = false;
+            nextTick(() => {
+                if (!settingsRoot.value) return;
+                settingsRoot.value.scrollTop = settingsScroll;
+                settingsRoot.value.querySelector('[data-comfier-settings-help]')?.focus({ preventScroll: true });
+            });
+        }
+        function openHelp() {
+            workflowChoiceOpen.value = false;
+            settingsScroll = settingsRoot.value?.scrollTop || 0;
+            usageGuide ||= createUsageGuide(cloud);
+            helpOpen.value = true;
+            nextTick(() => {
+                if (!helpOpen.value) return;
+                if (settingsRoot.value) settingsRoot.value.scrollTop = 0;
+                usageGuide.reset();
+            });
+        }
+        useOverlayBack(helpOpen, closeHelp);
+        onBeforeUnmount(() => usageGuide?.remove());
 		const diagnosticsEnabled = ref(window.__comfierDiagnosticSuite?.isEnabled() ?? false);
 		const diagnosticsReady = ref(Boolean(window.__comfierDiagnosticSuite));
 		useEventListener(window, "comfier-diagnostic-mode-change", () => {
@@ -20732,8 +20882,25 @@ var AppSettingsPanel_default = /* @__PURE__ */ defineComponent({
 			else window.__comfierDiagnosticSuite?.disable();
 		}
 		return (_ctx, _cache) => {
-			return openBlock(), createElementBlock("div", _hoisted_1$150, [
-				createBaseVNode("h2", _hoisted_2$115, toDisplayString(unref(t)("comfierTest.appSettings")), 1),
+            const header = createBaseVNode("header", { class: "comfier-settings-header" }, [
+                createBaseVNode("h2", _hoisted_2$115, helpOpen.value ? "ComfierUI Help" : toDisplayString(unref(t)("comfierTest.appSettings"))),
+                createBaseVNode("button", { type: "button", class: "comfier-help-control", "data-comfier-settings-help": "",
+                    onClick: helpOpen.value ? closeHelp : openHelp,
+                    "aria-label": helpOpen.value ? "Back to ComfierUI Settings" : "ComfierUI Help"
+                }, helpOpen.value ? "Back" : "Help")
+            ]);
+            const rootProps = { ..._hoisted_1$150, ref: settingsRoot,
+                class: [_hoisted_1$150.class, { "comfier-settings-help-open": helpOpen.value }],
+                onKeydown: event => {
+                    if (helpOpen.value && event.key === "Escape") {
+                        event.preventDefault(); event.stopPropagation(); closeHelp();
+                    }
+                }
+            };
+            if (helpOpen.value) return openBlock(), createElementBlock("div", rootProps, [header,
+                createVNode(OwnedSurface_default, { key: "usage-guide", element: usageGuide.element })
+            ]);
+            return openBlock(), createElementBlock("div", rootProps, [header,
 				createBaseVNode("button", {
 					class: normalizeClass(["ufu-launch", unref(controlClass)]),
 					onClick: _cache[0] || (_cache[0] = ($event) => unref(layout).open())
@@ -20758,6 +20925,11 @@ var AppSettingsPanel_default = /* @__PURE__ */ defineComponent({
           createBaseVNode("span", null, "Generation preview popup"),
           createBaseVNode("input", {type: "checkbox", "aria-label": "Generation preview popup", checked: unref(appMode).generationPreview.enabled,
             onChange: event => unref(appMode).setPreviewPopupEnabled(event.target.checked)}, null, 40, ["checked"])
+        ]),
+        createBaseVNode("label", {class: "comfier-canvas-preview-row flex min-h-10 items-center justify-between gap-3"}, [
+          createBaseVNode("span", null, "Canvas Live Gallery"),
+          createBaseVNode("input", {type: "checkbox", "aria-label": "Canvas Live Gallery", checked: canvasPreviewEnabled.value,
+            onChange: event => { window.__comfierCanvasPreview?.setEnabled(event.target.checked); canvasPreviewEnabled.value = event.target.checked; }}, null, 40, ["checked"])
         ]),
         createVNode(OwnedSurface_default, { element: unref(deviceSettings)?.element }, null, 8, ["element"])
 			]);
@@ -39062,9 +39234,11 @@ function useNodePointerInteractions(nodeStateRef) {
 	function selectNode(activePress, sticky = false) {
 		const { canvas } = canvasStore;
 		const node = canvasStore.currentGraph?.getNodeById(activePress.nodeId);
-		if (node) canvas?.processSelect(node, activePress.event, sticky);
+		if (activePress.graph !== canvasStore.currentGraph) return;
+		if (node && !window.__comfierDeviceInput?.selectVueNode?.(canvas, node, activePress.event, sticky)) canvas?.processSelect(node, activePress.event, sticky);
 	}
 	function startNodeDrag(activePress, event) {
+		if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) return;
 		selectNode(activePress, true);
 		if (!canDrag()) return;
 		layoutStore.isDraggingVueNodes.value = true;
@@ -39112,8 +39286,16 @@ function useNodePointerInteractions(nodeStateRef) {
 		nextTick(() => bringNodeToFront(cloneId));
 		return cloneId;
 	}
+	function forwardNodeBodyToCanvas(event) {
+		const node = canvasStore.currentGraph?.getNodeById(toValue(nodeStateRef).id);
+		if (!window.__comfierDeviceInput?.forwardVueBody?.(event, node, forwardEventToCanvas)) forwardEventToCanvas(event);
+	}
 	function onPointerdown(event) {
 		if (forwardMiddlePointerIfNeeded(event, isMiddlePointerInput)) return;
+		if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) {
+			forwardNodeBodyToCanvas(event);
+			return;
+		}
 		if (!shouldHandleNodePointerEvents.value) {
 			forwardEventToCanvas(event);
 			return;
@@ -39127,6 +39309,7 @@ function useNodePointerInteractions(nodeStateRef) {
 		const captureTarget = event.target instanceof Element ? event.target : void 0;
 		press = {
 			nodeId,
+			graph: canvasStore.currentGraph,
 			event,
 			movingNode: false,
 			releaseCapture: canDrag() && captureTarget ? captureGesture(captureTarget, event.pointerId, cancelPress) : void 0
@@ -39156,6 +39339,10 @@ function useNodePointerInteractions(nodeStateRef) {
 	}
 	function onPointermove(event) {
 		if (forwardMiddlePointerIfNeeded(event, isMiddleButtonHeld)) return;
+		if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) {
+			forwardNodeBodyToCanvas(event);
+			return;
+		}
 		if (!isPressPointer(event)) return;
 		if (!(event.buttons & 1)) {
 			dispatchUp(event);
@@ -39171,6 +39358,10 @@ function useNodePointerInteractions(nodeStateRef) {
 	}
 	function onPointerup(event) {
 		if (forwardMiddlePointerIfNeeded(event, isMiddleButtonEvent)) return;
+		if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) {
+			forwardNodeBodyToCanvas(event);
+			return;
+		}
 		if (!shouldHandleNodePointerEvents.value) {
 			forwardEventToCanvas(event);
 			if (!isPressPointer(event)) return;
@@ -39182,6 +39373,7 @@ function useNodePointerInteractions(nodeStateRef) {
 		dispatchUp(event);
 	}
 	function onPointercancel(event) {
+		if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) forwardNodeBodyToCanvas(event);
 		if (isPressPointer(event)) cancelPress();
 	}
 	function onContextmenu(event) {
@@ -39753,7 +39945,10 @@ function useNodeResize(resizeCallback) {
 	const resizeCorner = ref("SE");
 	const { shouldSnap, applySnapToPosition, applySnapToSize } = useNodeSnap();
 	const { trackShiftKey } = useShiftKeySync();
+	let finishResize = null;
+	onScopeDispose(() => finishResize?.());
 	const startResize = (event, corner = "SE") => {
+		finishResize?.();
 		event.stopPropagation();
 		const target = event.currentTarget;
 		if (!(target instanceof HTMLElement)) return;
@@ -39784,6 +39979,7 @@ function useNodeResize(resizeCallback) {
 			x: 0,
 			y: 0
 		};
+		const pointerId = event.pointerId;
 		const stopShiftSync = trackShiftKey(event.shiftKey);
 		target.setPointerCapture(event.pointerId);
 		layoutStore.isResizingVueNodes.value = true;
@@ -39796,6 +39992,8 @@ function useNodeResize(resizeCallback) {
 		resizeStartPosition.value = startPosition;
 		resizeCorner.value = corner;
 		const handlePointerMove = (moveEvent) => {
+			if (moveEvent.pointerId !== pointerId) return;
+			if (moveEvent.buttons === 0) { cleanup(); return; }
 			if (!isResizing.value || !resizeStartPointer.value || !resizeStartSize.value || !resizeStartPosition.value) return;
 			const scale = transformState.camera.z;
 			const deltaX = (moveEvent.clientX - resizeStartPointer.value.x) / (scale || 1);
@@ -39880,18 +40078,19 @@ function useNodeResize(resizeCallback) {
 			stopMoveListen();
 			stopUpListen();
 			stopCancelListen();
+			stopLostListen();
+			finishResize = null;
+			try { if (target.hasPointerCapture(pointerId)) target.releasePointerCapture(pointerId); } catch {}
 		};
-		const handlePointerUp = (upEvent) => {
-			if (isResizing.value) {
-				try {
-					target.releasePointerCapture(upEvent.pointerId);
-				} catch {}
-				cleanup();
-			}
+		const handlePointerEnd = (endEvent) => {
+			if (endEvent.pointerId === pointerId) cleanup();
 		};
-		const stopMoveListen = useEventListener("pointermove", handlePointerMove);
-		const stopUpListen = useEventListener("pointerup", handlePointerUp);
-		const stopCancelListen = useEventListener("pointercancel", cleanup);
+		// Capture sees release before node/canvas navigation can stop bubbling.
+		const stopMoveListen = useEventListener(window, "pointermove", handlePointerMove, { capture: true });
+		const stopUpListen = useEventListener(window, "pointerup", handlePointerEnd, { capture: true });
+		const stopCancelListen = useEventListener(window, "pointercancel", handlePointerEnd, { capture: true });
+		const stopLostListen = useEventListener(target, "lostpointercapture", handlePointerEnd);
+		finishResize = cleanup;
 	};
 	return {
 		startResize,
@@ -40955,7 +41154,7 @@ var LGraphNode_default = /* @__PURE__ */ defineComponent({
 		});
 		const handleResizePointerDown = (event, corner) => {
 			if (event.button !== 0) return;
-			if (!shouldHandleNodePointerEvents.value) return;
+			if (!shouldHandleNodePointerEvents.value && !(isSelected.value && window.__comfierDeviceInput?.allowVueResize?.())) return;
 			if (__props.nodeData.flags?.pinned) return;
 			if (__props.nodeData.resizable === false) return;
 			startResize(event, corner);
@@ -41054,6 +41253,27 @@ var LGraphNode_default = /* @__PURE__ */ defineComponent({
 			return getNodeByLocatorId(app.rootGraph, locatorId);
 		}
 		const lgraphNode = computed(resolveLGraphNode);
+		// The owner supplies renderer APIs; app-only controls remain in the device service.
+		const deviceMoveSurface = shallowRef(null);
+		const deviceHandleTransform = useTransformState();
+		const deviceMutations = useLayoutMutations(LayoutSource.Vue);
+		function bindDeviceMoveSurface() {
+			deviceMoveSurface.value?.remove();
+			deviceMoveSurface.value = window.__comfierDeviceInput?.createVueMoveHandle?.({
+				read: () => ({ canvas: canvasStore.canvas, graph: canvasStore.currentGraph, rootGraphId: canvasStore.rootGraphId, node: resolveLGraphNode(), selected: isSelected.value }),
+				position: (state, item) => isLGraphNode(item) ? layoutStore.getNodeLayout(state.rootGraphId, item.id)?.position : { x: item.pos[0], y: item.pos[1] },
+				move: (state, rows) => {
+					deviceMutations.batchMoveNodes(state.rootGraphId, rows.filter(row => isLGraphNode(row.item)).map(row => ({ nodeId: row.item.id, position: { x: row.x, y: row.y } })));
+					for (const row of rows) if (!isLGraphNode(row.item)) row.item.move(row.x - row.item.pos[0], row.y - row.item.pos[1], true);
+				},
+				setDragging: value => layoutStore.isDraggingVueNodes.value = value
+			}) ?? null;
+		}
+		onMounted(bindDeviceMoveSurface);
+		useEventListener(window, "comfier-device-ready", bindDeviceMoveSurface);
+		onScopeDispose(() => deviceMoveSurface.value?.remove());
+		watch(isSelected, () => deviceMoveSurface.value?.sync());
+
 		const { promotedPreviews } = usePromotedPreviews(lgraphNode);
 		const { hideExecutedOutput } = useGLSLPreview(lgraphNode);
 		const widgetValueStore = useWidgetValueStore();
@@ -41149,6 +41369,7 @@ var LGraphNode_default = /* @__PURE__ */ defineComponent({
 				onDragleave: handleDragLeave,
 				onDrop: handleDrop
 			}), [
+				isSelected.value && deviceMoveSurface.value ? createVNode(OwnedSurface_default, { element: deviceMoveSurface.value.element, class: "cm-vue-move-surface" }) : createCommentVNode("", true),
 				lgraphNode.value?.constructor?.nodeData?.output_node && unref(isSelectOutputsMode) && __props.nodeData.mode === unref(LGraphEventMode).ALWAYS && !hasAnyError.value ? (openBlock(), createBlock(AppOutput_default, {
 					key: 0,
 					id: nodeId.value
@@ -41260,13 +41481,19 @@ var LGraphNode_default = /* @__PURE__ */ defineComponent({
 					"header-color",
 					"shape"
 				])) : createCommentVNode("", true),
-				!isCollapsed.value && !isRerouteNode.value && __props.nodeData.resizable !== false && !unref(isSelectMode) ? (openBlock(true), createElementBlock(Fragment, { key: 3 }, renderList(unref(RESIZE_HANDLES), (handle) => {
+				!isCollapsed.value && !isRerouteNode.value && __props.nodeData.resizable !== false && !unref(isSelectMode) && (!window.__comfierDeviceInput?.vueResizeAttributes || isSelected.value && !__props.nodeData.flags?.pinned) ? (openBlock(true), createElementBlock(Fragment, { key: 3 }, renderList(unref(RESIZE_HANDLES), (handle) => {
+					const deviceAttributes = window.__comfierDeviceInput?.vueResizeAttributes?.(handle.corner.toLowerCase(), deviceHandleTransform.camera.z);
+					if (deviceAttributes) return createBaseVNode("div", mergeProps(deviceAttributes, {
+						key: handle.corner, role: "button", "data-corner": handle.corner,
+						"aria-label": unref(t)(handle.i18nKey),
+						onPointerdown: withModifiers(($event) => handleResizePointerDown($event, handle.corner), ["stop"])
+					}), null, 16);
 					return openBlock(), createElementBlock("div", {
 						key: handle.corner,
 						role: "button",
 						"data-corner": handle.corner,
 						"aria-label": unref(t)(handle.i18nKey),
-						class: normalizeClass(unref(cn)(baseResizeHandleClasses, handle.positionClasses, handle.cursorClass, "group-hover/node:opacity-100")),
+						class: normalizeClass(unref(cn)(baseResizeHandleClasses, handle.positionClasses, handle.cursorClass, isSelected.value && window.__comfierDeviceInput ? "opacity-100" : "group-hover/node:opacity-100")),
 						onPointerdown: withModifiers(($event) => handleResizePointerDown($event, handle.corner), ["stop"])
 					}, [(openBlock(), createElementBlock("svg", {
 						xmlns: "http://www.w3.org/2000/svg",
@@ -58207,8 +58434,11 @@ var GraphView_default = /*#__PURE__*/ _plugin_vue_export_helper_default(/* @__PU
 			await assetsStore.outputAssets.loadNew();
 		};
 		const onExecutionSuccess = async ({ detail }) => {
-			if (window.__comfierGenerationDownloads && detail?.prompt_id) {
-				void window.__comfierGenerationDownloads.complete(detail.prompt_id, async (captured) => {
+			const preview=window.__comfierCanvasPreview;
+			if ((window.__comfierGenerationDownloads || preview?.enabled) && detail?.prompt_id) {
+				const capturedPreview=preview?.take(detail.prompt_id)||[];
+				let resolvedOutputs;
+				const readOutputs=(captured=capturedPreview)=>resolvedOutputs ||= (async()=>{
 					const job = await api.getJobDetail(detail.prompt_id);
 					let stored = job?.outputs;
 					if (!stored && !window.__COMFIER_CLOUD_MODE) {
@@ -58219,7 +58449,9 @@ var GraphView_default = /*#__PURE__*/ _plugin_vue_export_helper_default(/* @__PU
 					}
 					const outputs = [...captured, ...Object.values(stored || {})];
 					return outputs.flatMap((output) => parseNodeOutput("", output)).map((item) => ({ ...item, downloadUrl: resultItemUrl(item) }));
-				});
+				})();
+				void window.__comfierGenerationDownloads?.complete(detail.prompt_id,readOutputs);
+				void preview?.complete(detail.prompt_id,()=>readOutputs());
 			}
 			await queueStore.update();
 			await assetsStore.outputAssets.loadNew();

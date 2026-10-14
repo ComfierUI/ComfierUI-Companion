@@ -13,8 +13,8 @@ from aiohttp import web
 from server import PromptServer
 
 ROOT = Path(os.environ.get('COMFIER_EXTENSION_ROOT', Path(__file__).resolve().parent)) / 'themes'
-MAX_BYTES = 256 * 1024
-MAX_TOTAL_BYTES = 4 * 1024 * 1024
+MAX_BYTES = 6 * 1024 * 1024
+MAX_TOTAL_BYTES = 64 * 1024 * 1024
 _registered = False
 
 
@@ -34,7 +34,7 @@ def list_profiles(include_ids=False):
             with path.open('rb') as stream:
                 raw = stream.read(MAX_BYTES + 1)
             if len(raw) > MAX_BYTES:
-                raise ValueError('maximum theme size is 256 KB')
+                raise ValueError('maximum theme size is 6 MiB')
             data = json.loads(raw.decode('utf-8-sig'))
             if not isinstance(data, dict) or type(data.get('schemaVersion')) is not int or data['schemaVersion'] != 1:
                 raise ValueError('unsupported schemaVersion')
@@ -54,6 +54,10 @@ def list_profiles(include_ids=False):
             profile = {'schemaVersion': 1, 'name': name[:80], 'colors': colors, 'transparency': alpha}
             if isinstance(data.get('layout'), dict):
                 profile['layout'] = data['layout']
+            if 'canvasImage' in data:
+                profile['canvasImage'] = validate_canvas_image(data['canvasImage'])
+            if 'canvasFrames' in data:
+                profile['canvasFrames'] = validate_canvas_frames(data['canvasFrames'])
             for field in ('appearance', 'dimensions'):
                 if field in data:
                     if not isinstance(data[field], dict):
@@ -158,6 +162,31 @@ def _migrate_generated_files():
             logging.getLogger('ComfierUI-Companion').warning('Could not rename theme %s: %s', path.name, error)
 
 
+def validate_canvas_frames(value):
+    if value is None:
+        return {}
+    if not isinstance(value, dict):
+        raise ValueError('Invalid canvas framing')
+    result = {}
+    for mode, frame in value.items():
+        if mode not in ('outerPortrait', 'outerLandscape', 'innerPortrait', 'innerLandscape') or not isinstance(frame, dict):
+            raise ValueError('Invalid canvas view')
+        values = {key: frame.get(key) for key in ('x', 'y', 'zoom')}
+        for key, number in values.items():
+            if type(number) not in (int, float) or not math.isfinite(number) or not (1 <= number <= 4 if key == 'zoom' else 0 <= number <= 100):
+                raise ValueError('Invalid canvas crop')
+        result[mode] = values
+    return result
+
+
+def validate_canvas_image(value):
+    if value is None:
+        return None
+    if not isinstance(value, str) or len(value) > 5592440 or not re.fullmatch(r'data:image/png;base64,[A-Za-z0-9+/]+=*', value):
+        raise ValueError('Invalid canvas PNG (maximum 4 MiB)')
+    return value
+
+
 def validate_profile(data):
     if not isinstance(data, dict) or type(data.get('schemaVersion')) is not int or data['schemaVersion'] != 1:
         raise ValueError('Unsupported theme schema')
@@ -171,6 +200,10 @@ def validate_profile(data):
     if any(type(v) not in (int, float) or not math.isfinite(v) or not 0 <= v <= 100 for v in alpha.values()):
         raise ValueError('Invalid transparency')
     profile = {'schemaVersion': 1, 'name': data['name'].strip(), 'colors': colors, 'transparency': alpha}
+    if 'canvasImage' in data:
+        profile['canvasImage'] = validate_canvas_image(data['canvasImage'])
+    if 'canvasFrames' in data:
+        profile['canvasFrames'] = validate_canvas_frames(data['canvasFrames'])
     for field in ('layout', 'appearance', 'dimensions'):
         if field in data:
             if not isinstance(data[field], dict):
@@ -178,7 +211,7 @@ def validate_profile(data):
             profile[field] = data[field]
     raw = json.dumps(profile, ensure_ascii=False, allow_nan=False, indent=2).encode('utf-8')
     if len(raw) > MAX_BYTES:
-        raise ValueError('Maximum theme size is 256 KB')
+        raise ValueError('Maximum theme size is 6 MiB')
     return profile, raw
 
 
@@ -224,7 +257,7 @@ def save_operation(value):
         stored = dict(profile, _comfierThemeId=identity)
         raw = json.dumps(stored, ensure_ascii=False, allow_nan=False, indent=2).encode('utf-8')
         if len(raw) > MAX_BYTES:
-            raise ValueError('Maximum theme size is 256 KB')
+            raise ValueError('Maximum theme size is 6 MiB')
         if sum(p.stat().st_size for p in files if p != path) + len(raw) > MAX_TOTAL_BYTES:
             raise ValueError('Theme folder storage limit reached')
         # Persist the identity at the old path before renaming, so a interrupted rename is recoverable.

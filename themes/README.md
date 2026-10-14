@@ -1,3 +1,5 @@
-# Theme sync
+# ComfierUI Companion themes
 
-Companion ships no preset theme JSON files. Bundled presets originate in the Android app shared device library and arrive through two-way sync when it connects. You can also drop supported JSON themes here and refresh Profiles. Keep this folder when updating.
+ComfierUI Companion ships no preset theme JSON files in this folder. Hosted Android clients exchange saved themes here through two-way sync. You can also add supported theme JSON files and refresh Profiles. Cloud keeps its own separate device library; sharing or uploading JSON explicitly transfers themes between modes.
+
+Keep this folder when updating ComfierUI Companion. Existing user theme files are not part of the update package and must be preserved.
