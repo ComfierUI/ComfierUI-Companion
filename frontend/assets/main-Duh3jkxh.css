@@ -644,13 +644,13 @@
     padding-top: 0;
 }
 }
-.manager-dialog {
+.manager-dialog:not([data-testid="comfier-embedded-content"]) {
   height: 80vh;
   max-width: 1724px;
   max-height: 1026px;
 }
 @media (min-width: 3000px) {
-.manager-dialog {
+.manager-dialog:not([data-testid="comfier-embedded-content"]) {
     max-width: 2200px;
     max-height: 1320px;
 }
@@ -28638,7 +28638,8 @@ body {
 
 .comfy-multiline-input {
   background-color: var(--comfy-input-bg);
-  color: var(--input-text);
+  --comfier-local-text-paint: var(--comfier-node-font, var(--comfier-ui-text-paint, var(--input-text)));
+  color: var(--comfier-local-text-paint);
   resize: none;
   box-sizing: border-box;
   font-size: var(--comfy-textarea-font-size);
@@ -30474,3 +30475,5 @@ audio.comfy-audio.empty-audio-widget {
     height: 0;
   }
 }
+
+.litegraph .litemenu-entry[data-comfier-combo-highlight]{background-color:#ccc;color:#000}

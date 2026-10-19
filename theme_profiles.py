@@ -52,16 +52,20 @@ def list_profiles(include_ids=False):
                 break
             total += len(raw)
             profile = {'schemaVersion': 1, 'name': name[:80], 'colors': colors, 'transparency': alpha}
+            preserve_font_roles(profile, data)
+            preserve_node_frame(profile, data)
             if isinstance(data.get('layout'), dict):
                 profile['layout'] = data['layout']
             if 'canvasImage' in data:
                 profile['canvasImage'] = validate_canvas_image(data['canvasImage'])
             if 'canvasFrames' in data:
                 profile['canvasFrames'] = validate_canvas_frames(data['canvasFrames'])
-            for field in ('appearance', 'dimensions'):
+            for field in ('appearance', 'dimensions', 'workflow'):
                 if field in data:
                     if not isinstance(data[field], dict):
                         raise ValueError(f'{field} must be an object')
+                    if field == 'workflow' and not isinstance(data[field].get('nodes'), list):
+                        raise ValueError('workflow must contain nodes')
                     profile[field] = data[field]
             if include_ids:
                 profile['id'] = _identity(path, data)
@@ -182,9 +186,25 @@ def validate_canvas_frames(value):
 def validate_canvas_image(value):
     if value is None:
         return None
-    if not isinstance(value, str) or len(value) > 5592440 or not re.fullmatch(r'data:image/png;base64,[A-Za-z0-9+/]+=*', value):
-        raise ValueError('Invalid canvas PNG (maximum 4 MiB)')
+    if not isinstance(value, str) or len(value) > 5592440 or not re.fullmatch(r'data:image/(?:png|webp);base64,[A-Za-z0-9+/]+=*', value):
+        raise ValueError('Invalid canvas image (PNG/WebP, maximum 4 MiB)')
     return value
+
+
+def preserve_node_frame(profile, data):
+    if 'nodeFrameWidth' in data:
+        value = data['nodeFrameWidth']
+        if type(value) not in (int, float) or not math.isfinite(value) or not 0 <= value <= 12:
+            raise ValueError('Node frame width must be between 0 and 12 px')
+        profile['nodeFrameWidth'] = value
+
+
+def preserve_font_roles(profile, data):
+    if 'fontRolesVersion' in data:
+        version = data['fontRolesVersion']
+        if type(version) is not int or version not in (1, 2):
+            raise ValueError('Invalid node font role version')
+        profile['fontRolesVersion'] = version
 
 
 def validate_profile(data):
@@ -200,14 +220,18 @@ def validate_profile(data):
     if any(type(v) not in (int, float) or not math.isfinite(v) or not 0 <= v <= 100 for v in alpha.values()):
         raise ValueError('Invalid transparency')
     profile = {'schemaVersion': 1, 'name': data['name'].strip(), 'colors': colors, 'transparency': alpha}
+    preserve_font_roles(profile, data)
+    preserve_node_frame(profile, data)
     if 'canvasImage' in data:
         profile['canvasImage'] = validate_canvas_image(data['canvasImage'])
     if 'canvasFrames' in data:
         profile['canvasFrames'] = validate_canvas_frames(data['canvasFrames'])
-    for field in ('layout', 'appearance', 'dimensions'):
+    for field in ('layout', 'appearance', 'dimensions', 'workflow'):
         if field in data:
             if not isinstance(data[field], dict):
                 raise ValueError(f'{field} must be an object')
+            if field == 'workflow' and not isinstance(data[field].get('nodes'), list):
+                raise ValueError('workflow must contain nodes')
             profile[field] = data[field]
     raw = json.dumps(profile, ensure_ascii=False, allow_nan=False, indent=2).encode('utf-8')
     if len(raw) > MAX_BYTES:

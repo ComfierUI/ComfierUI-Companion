@@ -1,3 +1,4 @@
+import { nativeGraphTheme, graphDecorationsEnabled, graphPerformance } from "./layoutStore-CZsuzg91.js";
 const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./WidgetButton-xHDOdGqy.js","./rolldown-runtime-xtsTai4I.js","./vendor-vue-core-C1utdb0s.js","./Button-j0oCzR82.js","./vendor-other-BPEcPQTD.js","./vendor-three-DQpYrwAh.js","./vendor-zod-TMj9Wsdv.js","./vendor-tiptap-BT_4t92m.js","./vendor-reka-ui-tdehH9A1.js","./src-DI1bBfrb.js","./widgetPropFilter-RwwBg40l.js","./vendor-other-DODGPXtn.css","./WidgetInputText-DG6u1l9w.js","./Input-Cx8jjgHK.js","./Loader-CwKhrtFX.js","./vendor-i18n-BZvE7WBQ.js","./layout-BZWBHixI.js","./WidgetLayoutField-BUL5w3Gs.js","./widgetTypes-CisWqKm9.js","./WidgetInputNumber-GkdyDoWq.js","./NumberFieldInput-CILJZ6M6.js","./Slider-eQb4a5yt.js","./vendor-vueuse-BxKIIsKg.js","./WidgetInputNumberInput-DNJPeCnS.js","./ScrubableNumberInput-D-uu5ru4.js","./WidgetWithControl-CY9DWnWx.js","./vendor-datadog-DudeEV66.js","./Popover-D5AU3m-q.js","./useModalLiftedZIndex-BuehUvPe.js","./vendor-primevue-C3d0HJ53.js","./WidgetToggleSwitch-c_woab8T.js","./Switch-BAw3-YcG.js","./ToggleGroupItem-Da4A26JJ.js","./toggle-group-B0brfUuj.js","./WidgetSelect-CviByFG5.js","./layoutStore-CZsuzg91.js","./requestAuth-YeU5GIXc.js","./telemetry-IkzvF0TI.js","./api-Bt-fGt5a.js","./zod.gen-C09SPgBJ.js","./vendor-axios-QnwcNXlY.js","./vendor-sentry-zSXGkMPN.js","./reportError-LG-zfbNw.js","./hostTelemetryEnabled-BZ3GL1Cu.js","./remoteConfig-DwMQrLli.js","./vendor-firebase-B37L--zT.js","./toastStore-CTfykAzG.js","./types-t0xJOOCt.js","./desktopHostSession-IrokPizE.js","./i18n-C3J-ToPr.js","./formatUtil-DuxXRy1z.js","./commands-BcZ6fU3-.js","./main-BfqkkuXX.js","./nodeDefs-CFOSmIZi.js","./settings-B3DInspu.js","./comfyApi-CYSC9hA6.js","./types-ColLjFnz.js","./useFeatureFlags-DAoj_aDd.js","./dialog.variants-PsJk1wgr.js","./ssoRequired-BkQMvdnz.js","./dialogStore-B0GYyals.js","./DialogPortal-B3D-ZhO6.js","./refreshRemoteConfig-D9UzqP0h.js","./systemStatsStore-3gc4cifl.js","./useImageQuiet-Ded8W_Zd.js","./vendor-markdown-CtxqRwKg.js","./colorUtil-BzdMMd-Y.js","./vendor-yjs-D9X62SBd.js","./markdownRendererUtil-6g3t5X63.js","./downloadUtil-Bysc7OZ_.js","./SingleSelect-CS2DGZzk.js","./SelectValue-BYMnIcxq.js","./_plugin-vue_export-helper-DEKQMRQ4.js","./creditsUtil-BWj6bywK.js","./useExternalLink-CXT6uu6Z.js","./envUtil-2Z8ainL3.js","./assetPreviewUtil-Bh4f-cpr.js","./ImperativePopover-CdNFQ3n2.js","./outputAssetUtil-Crtu5rBo.js","./layoutStore-Nbgrgm8u.css","./WidgetColorPicker-DdAO9BQ-.js","./ColorPicker-D34wwQO7.js","./WidgetTextarea-GXW_4hSB.js","./Textarea-r-a2mhot.js","./useMoreOptionsMenu-aa1PS45F.js","./Checkbox-CimVrKfM.js","./WidgetChart-2ApwwqFI.js","./vendor-chart-Wj6K1UjP.js","./WidgetImageCompare-BstVe7w_.js","./savedImageUrls-D0kAiNeX.js","./WidgetGalleria-HaGpvYxe.js","./WidgetMarkdown-DfQsj7Kg.js","./WidgetTextPreview-CLL1kcT2.js","./WidgetTextPreview-Dd8GpNOT.js","./WidgetLegacy-Cn7HmuSW.js","./WidgetLegacy-CPLaCTkr.js","./WidgetRecordAudio-QL1Zz4-Q.js","./audioService-CB9cyIF6.js","./AudioPreviewPlayer-xh5rtTkW.js","./AudioPreviewPlayer-DKQYcmJf.js","./Load3D-DiLVPOd4.js","./Load3D-wteGUp-H.js","./menuBarStyles-Dl-y7eUi.js","./AnimationControls-yykLVfiH.js","./Popover-CvXi6yxa.js","./PopoverContent-0k_uVDfE.js","./Load3dViewerContent-BG4TFQvW.js","./load3dService-B4-ohLYW.js","./Viewport3d-1i6ZJT8U.js","./useClickDragGuard-C9dEHod_.js","./useLoad3dViewer-Cv7HNH2I.js","./nodeTypes-CU2vW7lJ.js","./load3dViewerDialog-cvuuBJel.js","./useLoad3d-BeiAY6wy.js","./Load3dViewerContent-CJV2G9XD.css","./Load3DAdvanced-CfiRYleY.js","./Load3DAdvanced-DTiiKDZ_.js","./CameraInfo-C2ajCRw-.js","./CameraInfo-DDXRkhSt.js","./cameraTransform-a83Tjky1.js","./orbitDragMath-BBRzJ8Sz.js","./CameraAngle-DV4cyJqb.js","./widgetBridge-CMvdkhjP.js","./WidgetImageCrop-DSzu6TFR.js","./WidgetBoundingBox-DJK_vV6D.js","./useUpstreamValue-8u8bRmGL.js","./useImageCrop-m6o0bL9k.js","./WidgetBoundingBox-BejREvAU.js","./WidgetCurve-DXfXdTxl.js","./curveUtils-CMFtfKRr.js","./histogramUtil-nwm_kqcs.js","./WidgetPainter-MRSepiNX.js","./WidgetCompositor-CV3ZK7Xm.js","./useCompositorLayers-DOjMhGtA.js","./useLayerEditorSession-K0QHcdu3.js","./WidgetRange-DWScaIPk.js","./useRangeEditor-CWDD5mNu.js","./WidgetBoundingBoxes-DdSve25g.js","./PaletteSwatchRow-8X2kKo8Z.js","./WidgetVideoEdit-DtBGT3u2.js","./Skeleton-gXY6B2Cf.js","./useRetryableMediaSrc-CJ3qVUbY.js","./WidgetColors-DBJfp5sh.js","./WidgetResolutionPreview-7A1bUGJV.js","./WidgetDynamicGroupRow-Dk6TSl7z.js","./AboutPanel-CCJu_GJd.js","./TabsTrigger-ZqeJfaak.js","./Badge-DXbmxSwq.js","./CreditsPanel-Dahddkku.js","./CreditsPanel-eD1Qayu-.js","./Message-NRJmn_pf.js","./Spinner-B79hMIoc.js","./Pagination-BWDSswkE.js","./TableRow-DTbUSGOo.js","./UserPanel-DYSQnGdR.js","./UserAvatar-DqyB8UsY.js","./WorkspaceSettingsPanelContent-DAZ5oNiy.js","./useWorkspaceTierLabel-DjgGD1WF.js","./useScheduledPlanChange-CVxwCKxQ.js","./inviteLinks-C2Ae4GP6.js","./numberUtil-BOSqkNWN.js","./WorkspaceSettingsPanelContent-D6QqJnzL.css","./SecretsPanel-DPt4BW-h.js","./FieldLabel-4kD4Yi7G.js","./FieldDescription-B1neEBHX.js","./PasswordInput-B9my8iEe.js","./InputGroupInput-BndLl3Nb.js","./dateTimeUtil-Dbo04jgD.js","./DialogClose-B8cFZwt-.js","./vRekaZIndex-CMI8sjMU.js","./SkillPacksPanel-lnOzJIwn.js","./skillPacksStore-BL-orGxm.js","./KeybindingPanel-BJpxJcsz.js","./ContextMenu-DHbt-unn.js","./tableUtils-CkWMmXgy.js","./ExtensionPanel-Cxn9K1ez.js","./ServerConfigPanel-DqnE6j46.js","./serverConfigStore-C46jKwFb.js","./RadioGroupItem-BgZ8b2ud.js","./LocalRunButtonWrapper-B7AA3bvD.js","./ComfyQueueButton-D9P1_hG_.js","./ButtonGroup-3C49arG4.js","./ComfyQueueButton-D1fvqmmc.css","./CurrentUserPopoverWorkspace-BDBZtaPi.js","./WorkspaceProfilePic-C1aA3F8q.js","./SubscribeButton-Dtw_BkMs.js","./WorkspaceSwitcherPopover-QMYpYCxW.js","./useWorkspaceSwitch-BOUfRKSR.js","./useDeployToComfyApiDialog-qDpsLxSq.js","./Video-nu2vO3z7.js","./useShareDialog-YyIQ5Jc3.js","./ComfyHubPublishDialog-Eg5J-OAB.js","./workflowShareService-D2WyTi0Z.js","./AgentConsentCard-bVouKdK7.js","./Load3dViewerContent-D5MlSQri.js","./HdrViewerContent-04HfRZ96.js","./hdrFormatUtil-CnRXb_Cj.js","./useLayerEditor-C1ffXZjI.js","./releaseStore-DqREY1M7.js","./releaseStore-B6qG7vPh.js","./MediaVideoTop-wbhXs9X5.js","./VideoPlayOverlay-CUVI1921.js","./MediaAudioTop-BGJkkkoQ.js","./WaveAudioPlayer-C5w_71Xk.js","./MediaImageTop-DJowNyfq.js","./Media3DTop-C1PopDQt.js","./MediaTextTop-BBHPZ9FI.js","./useTextFileContent-XxRImuXq.js","./MediaOtherTop-D0NSgs9g.js","./Preview3d-BWG3gFwY.js","./useDismissableOverlay-CfA0qMz7.js"])))=>i.map(i=>d[i]);
 import { a as __toESM, r as __name } from "./rolldown-runtime-xtsTai4I.js";
 import { a as __vitePreload } from "./vendor-datadog-DudeEV66.js";
@@ -18,7 +19,7 @@ import { n as getComfyCloudBaseUrl, t as getComfyApiBaseUrl } from "./comfyApi-C
 import { t as useFeatureFlags } from "./useFeatureFlags-DAoj_aDd.js";
 import { t as useDialogStore } from "./dialogStore-B0GYyals.js";
 import { a as showConfirmDialog, i as Dialog_default, n as DialogOverlay_default, o as DialogTitle_default, r as DialogContent_default, t as DialogPortal_default } from "./DialogPortal-B3D-ZhO6.js";
-import { At as ContextMenuRoot_default, Bt as useVirtualizer, Ct as PopoverArrow_default, Dt as ContextMenuTrigger_default, E as SplitterGroup_default$1, Ft as ComboboxItem_default, Gt as ListboxRoot_default, Ht as ListboxItem_default, It as ComboboxInput_default, Jt as autoUpdate, Kt as ComboboxAnchor_default, Nt as ComboboxPortal_default, Ot as ContextMenuPortal_default, Rt as ComboboxContent_default, St as PopoverClose_default, T as SplitterPanel_default$1, Tt as PopoverRoot_default, Ut as ListboxFilter_default, Vt as ListboxItemIndicator_default, Wt as ListboxContent_default, Xt as offset, Yt as flip, Zt as shift, _ as TagsInputRoot_default, an as DialogPortal_default$1, at as DropdownMenuSubTrigger_default, bn as useForwardExpose, bt as PopoverPortal_default, cn as DialogContent_default$1, ct as DropdownMenuSeparator_default, dn as DialogRoot_default, dt as DropdownMenuPortal_default, en as VisuallyHidden_default, ft as DropdownMenuLabel_default, g as TagsInputInput_default, h as TagsInputItem_default, hn as CollapsibleRoot_default, i as injectTreeRootContext, in as DialogTitle_default$1, kt as ContextMenuContent_default, ln as FocusScope_default, lt as DropdownMenuRadioItem_default, m as TagsInputItemDelete_default, mn as CollapsibleContent_default, n as TreeItem_default$1, nn as RovingFocusGroup_default, on as DialogOverlay_default$1, ot as DropdownMenuSubContent_default, pn as CollapsibleTrigger_default, pt as DropdownMenuItemIndicator_default, qt as useFloating, r as TreeRoot_default, rn as DialogTrigger_default, sn as DialogDescription_default$1, st as DropdownMenuSub_default, t as TreeVirtualizer_default, tn as RovingFocusItem_default, un as DialogClose_default, ut as DropdownMenuRadioGroup_default, vn as useForwardPropsEmits, vt as DropdownMenuCheckboxItem_default, w as SplitterResizeHandle_default$1, wt as PopoverAnchor_default, xt as PopoverContent_default, yn as useForwardProps, yt as PopoverTrigger_default, zt as ComboboxRoot_default } from "./vendor-reka-ui-tdehH9A1.js";
+import { injectContextMenuRootContext, At as ContextMenuRoot_default, Bt as useVirtualizer, Ct as PopoverArrow_default, Dt as ContextMenuTrigger_default, E as SplitterGroup_default$1, Ft as ComboboxItem_default, Gt as ListboxRoot_default, Ht as ListboxItem_default, It as ComboboxInput_default, Jt as autoUpdate, Kt as ComboboxAnchor_default, Nt as ComboboxPortal_default, Ot as ContextMenuPortal_default, Rt as ComboboxContent_default, St as PopoverClose_default, T as SplitterPanel_default$1, Tt as PopoverRoot_default, Ut as ListboxFilter_default, Vt as ListboxItemIndicator_default, Wt as ListboxContent_default, Xt as offset, Yt as flip, Zt as shift, _ as TagsInputRoot_default, an as DialogPortal_default$1, at as DropdownMenuSubTrigger_default, bn as useForwardExpose, bt as PopoverPortal_default, cn as DialogContent_default$1, ct as DropdownMenuSeparator_default, dn as DialogRoot_default, dt as DropdownMenuPortal_default, en as VisuallyHidden_default, ft as DropdownMenuLabel_default, g as TagsInputInput_default, h as TagsInputItem_default, hn as CollapsibleRoot_default, i as injectTreeRootContext, in as DialogTitle_default$1, kt as ContextMenuContent_default, ln as FocusScope_default, lt as DropdownMenuRadioItem_default, m as TagsInputItemDelete_default, mn as CollapsibleContent_default, n as TreeItem_default$1, nn as RovingFocusGroup_default, on as DialogOverlay_default$1, ot as DropdownMenuSubContent_default, pn as CollapsibleTrigger_default, pt as DropdownMenuItemIndicator_default, qt as useFloating, r as TreeRoot_default, rn as DialogTrigger_default, sn as DialogDescription_default$1, st as DropdownMenuSub_default, t as TreeVirtualizer_default, tn as RovingFocusItem_default, un as DialogClose_default, ut as DropdownMenuRadioGroup_default, vn as useForwardPropsEmits, vt as DropdownMenuCheckboxItem_default, w as SplitterResizeHandle_default$1, wt as PopoverAnchor_default, xt as PopoverContent_default, yn as useForwardProps, yt as PopoverTrigger_default, zt as ComboboxRoot_default } from "./vendor-reka-ui-tdehH9A1.js";
 import { t as cn } from "./src-DI1bBfrb.js";
 import { t as Button_default } from "./Button-j0oCzR82.js";
 import { f as useToast, l as ZIndex, n as script$2, r as script$1, u as script } from "./vendor-primevue-C3d0HJ53.js";
@@ -199,10 +200,12 @@ var ComfyMenuButton_default = /* @__PURE__ */ defineComponent({
 		const colorPaletteService = useColorPaletteService();
 		const settingsDialog = useSettingsDialog();
 		const managerState = useManagerState();
-		const settingStore = useSettingStore();
-		const nodes2Enabled = computed(() => settingStore.get("Comfy.VueNodes.Enabled") ?? false);
+
 		const telemetry = useTelemetry();
-		function onLogoMenuClick() {
+		const menuSide = ref("right");
+		function onLogoMenuClick(event) {
+			const rect = event.currentTarget.getBoundingClientRect();
+			menuSide.value = rect.left + rect.width / 2 > innerWidth / 2 ? "left" : "right";
 			telemetry?.trackUiButtonClicked({
 				button_id: "sidebar_comfy_menu_opened",
 				element_group: "sidebar"
@@ -224,6 +227,8 @@ var ComfyMenuButton_default = /* @__PURE__ */ defineComponent({
 			settingsDialog.show(defaultPanel);
 		};
 		const showManageExtensions = async () => {
+			const panels = useComfierPanelStore();
+			if(panels.isOpen("comfier-extensions")) {panels.remove("comfier-extensions");return;}
 			await managerState.openManager({
 				initialTab: ManagerTab.All,
 				showToastOnLegacyError: false
@@ -247,14 +252,7 @@ var ComfyMenuButton_default = /* @__PURE__ */ defineComponent({
 				label: t("menu.theme"),
 				items: themeMenuItems.value
 			},
-			{
-				key: "nodes-2.0-toggle",
-				label: "Nodes 2.0",
-				checked: nodes2Enabled.value,
-				presentation: "switch",
-				class: "select-none",
-				command: () => onNodes2ToggleChange(!nodes2Enabled.value)
-			},
+			
 			{ separator: true },
 			{
 				key: "browse-templates",
@@ -295,17 +293,13 @@ var ComfyMenuButton_default = /* @__PURE__ */ defineComponent({
 			items.splice(helpIndex, 0, ...extraMenuItems.value, ...helpItem ? [menuSeparator, helpItem] : []);
 			return items;
 		});
-		const onNodes2ToggleChange = async (value) => {
-			await settingStore.set("Comfy.VueNodes.Enabled", value);
-			telemetry?.trackUiButtonClicked({
-				button_id: `menu_nodes_2.0_toggle_${value ? "enabled" : "disabled"}`,
-				element_group: "sidebar"
-			});
-		};
+
 		return (_ctx, _cache) => {
 			const _directive_tooltip = resolveDirective("tooltip");
 			return openBlock(), createBlock(Menu_default, {
 				items: translatedItems.value,
+				side: menuSide.value,
+				align: "start",
 				class: "comfy-command-menu"
 			}, {
 				trigger: withCtx(({ open }) => [withDirectives((openBlock(), createElementBlock("button", {
@@ -325,7 +319,7 @@ var ComfyMenuButton_default = /* @__PURE__ */ defineComponent({
 					hideDelay: 300
 				}]])]),
 				_: 1
-			}, 8, ["items"]);
+			}, 8, ["items", "side"]);
 		};
 	}
 });
@@ -472,6 +466,7 @@ var SearchAutocomplete_default = /* @__PURE__ */ defineComponent({
 			}, {
 				default: withCtx(() => [createVNode(unref(ComboboxAnchor_default), {
 					"data-slot": "combobox-anchor",
+					"data-comfier-panel-search": "",
 					class: normalizeClass(unref(cn)(unref(searchInputVariants)({ size: __props.size }), __props.disabled && "pointer-events-none opacity-50", __props.anchorClass)),
 					onClick: focus
 				}, {
@@ -2303,27 +2298,7 @@ var DescriptionTabPanel_default = /* @__PURE__ */ defineComponent({
 	}
 });
 //#endregion
-//#region src/composables/useVueFeatureFlags.ts
-/**
-* Vue-related feature flags composable
-* Manages local settings-driven flags and LiteGraph integration
-*/
-function useVueFeatureFlagsIndividual() {
-	const settingStore = useSettingStore();
-	const shouldRenderVueNodes = computed(() => {
-		try {
-			return settingStore.get("Comfy.VueNodes.Enabled");
-		} catch {
-			return false;
-		}
-	});
-	watch(shouldRenderVueNodes, () => {
-		LiteGraph.vueNodesMode = shouldRenderVueNodes.value;
-	}, { immediate: true });
-	return { shouldRenderVueNodes };
-}
-var useVueFeatureFlags = createSharedComposable(useVueFeatureFlagsIndividual);
-//#endregion
+
 //#region src/components/node/CreditBadge.vue?vue&type=script&setup=true&lang.ts
 var _hoisted_1$232 = ["textContent"];
 var _hoisted_2$179 = {
@@ -3590,8 +3565,8 @@ var SlotConnectionDot_default = /* @__PURE__ */ defineComponent({
 		const types = computed(() => {
 			if (props.hasError) return ["var(--color-error)"];
 			if (!props.slotData) return [getSlotColor()];
-			if (props.slotData.type === "*") return [""];
-			return `${props.slotData.type}`.split(",").map(getSlotColor).slice(0, 3);
+			if(props.slotData.type==='*')return [getSlotColor('*',props.slotData.name,'var(--color-ink-100)')];
+			return `${props.slotData.type}`.split(",").map(type=>getSlotColor(type,props.slotData.name)).slice(0,3);
 		});
 		const isListShape = computed(() => props.slotData?.shape === RenderShape.GRID);
 		const slotClass = computed(() => cn("slot-dot bg-ink-100", isListShape.value ? "rounded-[1px]" : "rounded-full", "transition-all duration-150", "border border-solid border-node-component-slot-dot-outline", props.multi ? "h-5 w-2" : "size-2 cursor-crosshair group-hover/slot:scale-125 group-hover/slot:[--node-component-slot-dot-outline-opacity-mult:5]"));
@@ -4812,7 +4787,7 @@ var NodePreview_default = /*#__PURE__*/ _plugin_vue_export_helper_default(/* @__
 		position: { default: "absolute" }
 	},
 	setup(__props) {
-		const { shouldRenderVueNodes } = useVueFeatureFlags();
+
 		const colorPaletteStore = useColorPaletteStore();
 		const litegraphColors = computed(() => colorPaletteStore.completedActivePalette.colors.litegraph_base);
 		const widgetStore = useWidgetStore();
@@ -4834,11 +4809,7 @@ var NodePreview_default = /*#__PURE__*/ _plugin_vue_export_helper_default(/* @__
 			return truncate(stringValue, { length: charLimit });
 		};
 		return (_ctx, _cache) => {
-			return unref(shouldRenderVueNodes) ? (openBlock(), createBlock(LGraphNodePreview_default, {
-				key: 0,
-				"node-def": __props.nodeDef,
-				position: __props.position
-			}, null, 8, ["node-def", "position"])) : (openBlock(), createElementBlock("div", _hoisted_1$223, [createBaseVNode("div", _hoisted_2$172, [
+			return (openBlock(), createElementBlock("div", _hoisted_1$223, [createBaseVNode("div", _hoisted_2$172, [
 				createBaseVNode("div", {
 					class: "node_header text-ellipsis",
 					"data-testid": "node-header",
@@ -6763,6 +6734,7 @@ var ManagerDialog_default = /* @__PURE__ */ defineComponent({
 				"right-panel-open": isRightPanelOpen.value,
 				"onUpdate:rightPanelOpen": _cache[4] || (_cache[4] = ($event) => isRightPanelOpen.value = $event),
 				embedded: __props.embedded,
+				"content-padding": __props.embedded ? "compact" : "default",
 				"content-title": _ctx.$t("manager.discoverCommunityContent"),
 				"right-panel-title": _ctx.$t("manager.nodePackInfo"),
 				class: "manager-dialog size-full min-h-0 min-w-0"
@@ -6901,6 +6873,7 @@ var ManagerDialog_default = /* @__PURE__ */ defineComponent({
 			}, 8, [
 				"right-panel-open",
 				"embedded",
+				"content-padding",
 				"content-title",
 				"right-panel-title"
 			]);
@@ -9107,7 +9080,7 @@ var SubgraphEditor_default = /* @__PURE__ */ defineComponent({
 		const canvasStore = useCanvasStore();
 		const previewExposureStore = usePreviewExposureStore();
 		const searchQuery = ref("");
-		const { shouldRenderVueNodes } = useVueFeatureFlags();
+
 		const activeNode = computed(() => {
 			const node = canvasStore.selectedItems[0];
 			if (node instanceof SubgraphNode) return node;
@@ -9205,10 +9178,7 @@ var SubgraphEditor_default = /* @__PURE__ */ defineComponent({
 		const candidateWidgets = computed(() => {
 			if (!activeNode.value) return [];
 			const promotedSourceKeys = new Set(activeRows.value.map(activeRowSourceKey));
-			return interiorWidgets.value.filter(([n, w]) => !promotedSourceKeys.has(`${n.id}:${w.name}`)).filter(([, widget]) => {
-				const visibility = widget.visibility ?? deriveWidgetVisibility(widget);
-				return widget.name.startsWith("$$") || !(shouldRenderVueNodes.value && visibility.surfaces.vueNode === "never");
-			});
+			return interiorWidgets.value.filter(([n, w]) => !promotedSourceKeys.has(`${n.id}:${w.name}`));
 		});
 		const filteredCandidates = computed(() => {
 			const query = searchQuery.value.toLowerCase();
@@ -14351,7 +14321,7 @@ var SettingsPanel_default = /* @__PURE__ */ defineComponent({
 //#region src/platform/settings/composables/useSettingSearch.ts
 function useSettingSearch() {
 	const settingStore = useSettingStore();
-	const { shouldRenderVueNodes } = useVueFeatureFlags();
+
 	const searchQuery = ref("");
 	const filteredSettingIds = ref([]);
 	const matchedNavItemKeys = ref(/* @__PURE__ */ new Set());
@@ -14382,7 +14352,7 @@ function useSettingSearch() {
 		}
 		const queryLower = query.toLocaleLowerCase();
 		const filteredSettings = Object.values(settingStore.settingsById).filter((setting) => {
-			if (setting.type === "hidden" || setting.deprecated || shouldRenderVueNodes.value && setting.hideInVueNodes) return false;
+			if ((setting.type === "hidden" || setting.deprecated)) return false;
 			const idLower = setting.id.toLowerCase();
 			const nameLower = setting.name.toLowerCase();
 			const translatedName = st(`settings.${normalizeI18nKey(setting.id)}.name`, setting.name).toLocaleLowerCase();
@@ -14465,12 +14435,12 @@ function useSettingUI(defaultPanel, scrollToSettingId) {
 	const settingStore = useSettingStore();
 	const activeCategory = ref(null);
 	const { flags } = useFeatureFlags();
-	const { shouldRenderVueNodes } = useVueFeatureFlags();
+
 	const { workspaceRole } = useWorkspaceUI();
 	const governanceStore = usePartnerNodeGovernanceStore();
 	const skillPacksStore = useSkillPacksStore();
 	const settingRoot = computed(() => {
-		const root = buildTree(Object.values(settingStore.settingsById).filter((setting) => setting.type !== "hidden" && !(shouldRenderVueNodes.value && setting.hideInVueNodes)), (setting) => setting.category || setting.id.split("."));
+		const root = buildTree(Object.values(settingStore.settingsById).filter((setting) => (setting.type !== "hidden")), (setting) => setting.category || setting.id.split("."));
 		const floatingSettings = (root.children ?? []).filter((node) => node.leaf);
 		if (floatingSettings.length) {
 			root.children = (root.children ?? []).filter((node) => !node.leaf);
@@ -19901,7 +19871,8 @@ var HelpCenterPopups_default = /* @__PURE__ */ defineComponent({
 var useSearchBoxStore = defineStore("searchBox", () => {
 	const canvasStore = useCanvasStore();
 	const { x, y } = useMouse({ type: "client" });
-	const useSearchBoxV2 = computed(() => false);
+	const settingStore = useSettingStore();
+	const useSearchBoxV2 = computed(() => settingStore.get("Comfy.NodeSearchBoxImpl") !== "V1");
 	const newSearchBoxEnabled = computed(() => true);
 	const popoverRef = shallowRef(null);
 	function setPopoverRef(popover) {
@@ -19957,7 +19928,7 @@ var _hoisted_4$75 = [
 	"aria-valuemax",
 	"aria-valuenow"
 ];
-var _hoisted_5$55 = { class: "crystools-text text-white" };
+var _hoisted_5$55 = { class: "crystools-text text-white absolute inset-0 flex items-center justify-center text-center pointer-events-none" };
 //#endregion
 //#region src/comfier/ResourceFills.vue
 var ResourceFills_default = /* @__PURE__ */ defineComponent({
@@ -20146,7 +20117,7 @@ var ResourceFills_default = /* @__PURE__ */ defineComponent({
 				id: "comfier-owned-monitors",
 				ref_key: "monitors",
 				ref: monitors,
-				class: "flex flex-wrap justify-center gap-1",
+				class: "flex flex-nowrap justify-center gap-1 w-full min-w-0",
 				"data-testid": "comfier-resource-fills",
 				"aria-label": unref(t)("comfierTest.resources")
 			}, [(openBlock(true), createElementBlock(Fragment, null, renderList(meters.value, (meter) => {
@@ -20154,7 +20125,8 @@ var ResourceFills_default = /* @__PURE__ */ defineComponent({
 					key: meter.key,
 					"data-comfier-meter": meter.key,
 					"data-value": meter.value,
-					class: "crystools-monitor flex flex-col",
+					class: "crystools-monitor flex flex-col min-w-0 flex-1 items-center",
+					style: "min-width:0;flex:1 1 0%;max-width:100%",
 					"aria-label": meter.label
 				}, [createBaseVNode("span", _hoisted_3$93, toDisplayString(meter.label), 1), createBaseVNode("div", {
 					role: "meter",
@@ -20163,11 +20135,11 @@ var ResourceFills_default = /* @__PURE__ */ defineComponent({
 					"aria-valuemax": meter.max,
 					"aria-valuenow": meter.value ?? void 0,
 					style: normalizeStyle({
-						width: meterWidth.value + "px",
+						width: "100%",
 						height: meterHeight.value + "px",
 						"--comfier-monitor-text": appearance.value.monitorTextColor || "#ffffff"
 					}),
-					class: "crystools-content relative overflow-hidden rounded-sm border border-[#aaa] bg-black/30"
+					class: "crystools-content relative w-full min-w-0 overflow-hidden rounded-sm border border-[#aaa] bg-black/30"
 				}, [createBaseVNode("div", {
 					"data-comfier-fill": "",
 					class: "absolute inset-y-0 left-0",
@@ -20411,9 +20383,9 @@ var OwnedSurface_default = /* @__PURE__ */ defineComponent({
 		const container = useTemplateRef("container");
 		watchEffect(() => {
 			const target = container.value;
-			if (target) target.replaceChildren(...props.element ? [props.element] : []);
+			if (target) target.replaceChildren(...Array.isArray(props.element) ? props.element : props.element ? [props.element] : []);
 		});
-		onBeforeUnmount(() => props.element?.remove());
+		onBeforeUnmount(() => (Array.isArray(props.element) ? props.element : [props.element]).forEach(element => element?.remove()));
 		return (_ctx, _cache) => {
 			return openBlock(), createElementBlock("div", {
 				ref_key: "container",
@@ -20429,17 +20401,16 @@ function createCompanionSettings() {
 	let stopped = false;
 	const inlineChoices = [];
 	const jobs = window.__comfierRuntime.scope("companion-settings");
-	const root = document.createElement("div");
-	root.className = "flex flex-col gap-3";
+	const rows = {};
+	const versions = [];
 	function portControls(panel) {
-		if (panel.querySelector(".comfier-companion-port-row")) return;
 		const row = document.createElement("div");
-		row.className = "comfier-companion-port-row";
-		row.style.cssText = "order:4;width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:8px;box-sizing:border-box";
+		row.className = "comfier-companion-port-row comfier-settings-row";
 		const label = document.createElement("label");
-		label.textContent = "Companion Port";
+		label.textContent = "ComfierUI Companion Port";
 		label.style.cssText = "font:inherit!important;display:block;flex:1;min-width:0;margin:0;text-align:left";
 		const input = document.createElement("input");
+		input.className = controlClass;
 		input.type = "number";
 		input.inputMode = "numeric";
 		input.min = 1024;
@@ -20447,14 +20418,21 @@ function createCompanionSettings() {
 		input.step = 1;
 		input.placeholder = "8147";
 		input.setAttribute("aria-label", "Companion Port");
-		input.style.cssText = "width:calc(5ch + 30px);max-width:100%;box-sizing:border-box;margin-left:auto";
+		const portWidth = !window.ComfierApp && !window.__COMFIER_CLOUD_MODE ? "60.572265625px" : "43.71484375px";
+		input.style.cssText = `width:${portWidth}!important;min-width:${portWidth}!important;max-width:${portWidth}!important;flex:0 0 ${portWidth}!important;box-sizing:border-box!important;margin-left:auto;font-family:'Comfier Field Mono'!important;font-size:14px!important;font-weight:400!important;font-style:normal!important;letter-spacing:0!important;font-kerning:none!important;font-variant:normal!important;padding:0 4px!important;border-width:1px!important;text-align:center!important;line-height:normal!important;`;
 		label.htmlFor = "comfier-companion-port-input";
 		input.id = label.htmlFor;
 		const apply = document.createElement("button");
+		apply.className = controlClass;
 		apply.type = "button";
 		apply.textContent = "Apply";
+		apply.style.height = "40px";
+		apply.style.minHeight = "40px";
+		apply.style.maxHeight = "40px";
+		input.style.height = "40px";
+		input.style.minHeight = "40px";
+		input.style.maxHeight = "40px";
 		row.append(label, input, apply);
-		panel.appendChild(row);
 		const notify = (message) => window.alert(message);
 		let reserved = [8188];
 		let gatewayPort = null;
@@ -20514,167 +20492,2345 @@ function createCompanionSettings() {
 				input.disabled = false;
 			}
 		};
+		return row;
 	}
 	function browserSettings(panel) {
-		const browser = !window.ComfierApp && !window.__COMFIER_CLOUD_MODE;
-		panel.dataset.comfierBrowserSettings = String(browser);
-		if (!browser) {
-			panel.querySelector(".comfier-browser-start-row")?.remove();
-			return;
-		}
-		if (panel.querySelector(".comfier-browser-start-row")) return;
-		const row = document.createElement("label");
-		row.className = "comfier-browser-start-row";
-		row.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:8px;order:3";
-		const text = document.createElement("span");
+		if (window.ComfierApp || window.__COMFIER_CLOUD_MODE) return null;
+		const row = document.createElement("div");
+		row.className = "comfier-browser-start-row comfier-settings-row";
+		const text = document.createElement("label");
 		text.textContent = "Browser start page";
-		const select = document.createElement("select");
-		select.setAttribute("aria-label", "Browser start page");
-		for (const [value, title] of [["companion", "ComfierUI"], ["comfy", "Default ComfyUI"]]) {
-			const option = document.createElement("option");
-			option.value = value;
-			option.textContent = title;
-			select.append(option);
-		}
-		select.disabled = true;
-		const choice = window.__comfierInlineSettingsChoice(select);
+		text.htmlFor = "comfier-browser-start-page";
+		let saved = "companion";
+		const choice = window.__comfierInlineSettingsChoice({
+			id: text.htmlFor, label: text.textContent, value: saved, disabled: true,
+			options: [["companion", "ComfierUI"], ["comfy", "Default ComfyUI"], ["silent", "Silent"]].map(([value, label]) => ({value, label})),
+			async onChange(value) {
+				choice.update({disabled: true});
+				try {
+					saved = (await request({method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({page: value})})).page;
+				} catch (error) {
+					if (!stopped) window.alert(error.message);
+				} finally {
+					if (!stopped) choice.update({value: saved, disabled: false});
+				}
+			}
+		});
 		inlineChoices.push(choice);
 		row.append(text, choice.element);
-		panel.append(row);
 		async function request(options) {
 			const response = await window.app.api.fetchApi("/comfierui/gateway/browser-start", options);
 			if (!response.ok) throw Error(await response.text() || "Could not save browser start page");
 			return response.json();
 		}
-		let saved = "companion";
-		request().then((config) => {
+		request().then(config => {
+			if (stopped) return;
 			saved = config.page;
-			select.value = saved;
-			select.disabled = false;
-			choice.refresh();
-		}).catch((error) => {
-			select.title = error.message;
-		});
-		select.onchange = async () => {
-			select.disabled = true;
-			choice.refresh();
-			try {
-				saved = (await request({
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ page: select.value })
-				})).page;
-				select.value = saved;
-			} catch (error) {
-				select.value = saved;
-				window.alert(error.message);
-			} finally {
-				select.disabled = false;
-			choice.refresh();
-			}
-		};
+			choice.update({value: saved, disabled: false});
+		}).catch(error => { if (!stopped) choice.element.title = error.message; });
+		return row;
 	}
 	function repositorySettings(panel) {
-		if (panel.querySelector(".comfier-civitai-start-row")) return;
 		const key = "comfier.repository.civitai.v1";
 		const row = document.createElement("div");
-		row.className = "comfier-civitai-start-row";
-		row.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:8px;order:3;width:100%";
-		const text = document.createElement("span");
-		text.textContent = "Civitai start page";
-		text.style.textAlign = "left";
-		const select = document.createElement("select");
-		select.style.marginLeft = "auto";
-		select.setAttribute("aria-label", "Civitai start page");
-		for (const [value, title] of [
-			["ask", "Ask every time"],
-			["red", "Civitai Red"],
-			["blue", "Civitai Blue"]
-		]) {
-			const option = document.createElement("option");
-			option.value = value;
-			option.textContent = title;
-			select.append(option);
+		row.className = "comfier-civitai-start-row comfier-settings-row";
+		const text = document.createElement("label");
+		text.textContent = "CivitAI Start Page";
+		text.htmlFor = "comfier-civitai-start-page";
+		function read() {
+			try { const value = localStorage.getItem(key); return ["red", "blue"].includes(value) ? value : "ask"; }
+			catch (_) { return "ask"; }
 		}
-		let choice;
-		const update = () => {
-			try {
-				const value = localStorage.getItem(key);
-				select.value = ["red", "blue"].includes(value) ? value : "ask";
-			} catch (_) {
-				select.value = "ask";
+		const choice = window.__comfierInlineSettingsChoice({
+			id: text.htmlFor, label: "Civitai start page", value: read(),
+			options: [["ask", "Ask every time"], ["red", "Civitai Red"], ["blue", "Civitai Blue"]].map(([value, label]) => ({value, label})),
+			onChange(value) {
+				try { localStorage.setItem(key, value); }
+				catch (_) { choice.update({value: read()}); window.alert("Could not save the Civitai preference"); }
 			}
-			choice?.refresh();
-		};
-		update();
-		select.onchange = () => {
-			try {
-				localStorage.setItem(key, select.value);
-			} catch (_) {
-				update();
-				window.alert("Could not save the Civitai preference");
-			}
-		};
+		});
+		inlineChoices.push(choice);
+		const update = () => choice.update({value: read()});
 		jobs.listen(window, "comfier-repository-preference", update);
 		jobs.listen(window, "storage", update);
-		choice = window.__comfierInlineSettingsChoice(select);
-		inlineChoices.push(choice);
 		row.append(text, choice.element);
-		panel.append(row);
+		return row;
 	}
 	if (!window.__COMFIER_CLOUD_MODE) {
-		portControls(root);
-		browserSettings(root);
+		rows.port = portControls();
+		rows.browser = browserSettings();
+		rows.repository = repositorySettings();
 	}
-	if (!window.__COMFIER_CLOUD_MODE) repositorySettings(root);
-	for (const control of root.querySelectorAll("input,select,button")) control.className = controlClass;
-	const comfyVersion = document.createElement("div");
-	comfyVersion.className = "ui-comfy-version";
-	comfyVersion.style.order = "103";
-	root.append(comfyVersion);
-	comfyVersion.textContent = "ComfyUI Version: " + (window.__COMFIER_CLOUD_MODE ? "Comfy Cloud" : "Loading…");
-	if (!window.__COMFIER_CLOUD_MODE) {
-		const api = window.app?.api;
-		Promise.resolve(api?.getSystemStats?.()).then((stats) => {
-			if (!stopped) comfyVersion.textContent = "ComfyUI Version: " + (stats?.system?.comfyui_version || "Unavailable");
-		}).catch(() => {
-			if (!stopped) comfyVersion.textContent = "ComfyUI Version: Unavailable";
-		});
-	}
-	if (window.ComfierApp) {
-		const appVersion = document.createElement("div");
-		appVersion.className = "ui-app-version";
-		appVersion.style.order = "104";
-		let installedVersion = "Unavailable";
-		try { installedVersion = window.ComfierApp.getAppVersion?.() || installedVersion; } catch (_) {}
-		appVersion.textContent = "App Version: " + installedVersion;
-		root.append(appVersion);
-		if (!window.__COMFIER_CLOUD_MODE) {
-			const companionVersion = document.createElement("div");
-			companionVersion.className = "ui-companion-version";
-			companionVersion.style.order = "105";
-			const update = () => {
-				companionVersion.textContent = "ComfierUI Companion Version: " + (window.__comfierCompanionVersion || "Unavailable");
-			};
-			update();
-			jobs.listen(window, "comfier-companion-status", update);
-			root.append(companionVersion);
-		}
-	}
+    const appVersion=document.createElement("div");appVersion.className="ui-app-version";
+    let installedVersion="0.98.32-Dev";
+    try {installedVersion=window.ComfierApp?.getAppVersion?.() || installedVersion;} catch (_) {}
+    appVersion.textContent="ComfierUI Version: " + installedVersion;versions.push(appVersion);
+    if (!window.__COMFIER_CLOUD_MODE) {
+        const companionVersion=document.createElement("div");companionVersion.className="ui-companion-version";
+        const update=()=>{companionVersion.textContent="ComfierUI Companion Version: " + (window.__comfierCompanionVersion || "Unavailable");};
+        update();jobs.listen(window,"comfier-companion-status",update);versions.push(companionVersion);
+        const comfyVersion=document.createElement("div");comfyVersion.className="ui-comfy-version";
+        comfyVersion.textContent="ComfyUI Version: Loading…";versions.push(comfyVersion);
+        Promise.resolve(window.app?.api?.getSystemStats?.()).then(stats=>{
+            if(!stopped)comfyVersion.textContent="ComfyUI Version: " + (stats?.system?.comfyui_version || "Unavailable");
+        }).catch(()=>{if(!stopped)comfyVersion.textContent="ComfyUI Version: Unavailable";});
+    }
 	return {
-		element: root,
+		rows, versions,
+		closeChoices() { inlineChoices.forEach(choice => choice.close()); },
 		remove() {
 			stopped = true;
 			inlineChoices.forEach((choice) => choice.remove());
 			jobs.dispose();
-			root.remove();
+			Object.values(rows).forEach(row => row?.remove());
+			versions.forEach(element => element.remove());
 		}
 	};
 }
 //#endregion
 //#region src/comfier/usageGuide.js
+function createDesktopUsageGuide(cloud) {
+  const sections = [
+  {
+    "id": "connect",
+    "title": "Getting connected",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "With a self-hosted connection, ComfyUI runs on your own computer. That computer stores the models and does the generation work. ComfierUI Companion connects it to the ComfierUI workspace."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Set up ComfierUI Companion"
+        ]
+      },
+      "\n",
+      {
+        "tag": "ol",
+        "href": null,
+        "children": [
+          "\n",
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "On the computer running ComfyUI, open ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Extensions"
+                ]
+              },
+              " and search for ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "ComfierUI-Companion"
+                ]
+              },
+              " from developer ComfierUI."
+            ]
+          },
+          "\n",
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Install a compatible version, then restart ComfyUI."
+            ]
+          },
+          "\n",
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Leave ComfyUI running while you use ComfierUI."
+            ]
+          },
+          "\n"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "For a manual installation, follow the instructions included with Companion. Use the Python environment that runs ComfyUI when installing its requirements. Keep your saved themes and settings when updating an existing installation."
+        ]
+      },
+      "\n",
+      {
+        "tag": "div",
+        "href": null,
+        "children": [
+          "\n",
+          {
+            "tag": "h4",
+            "href": null,
+            "children": [
+              "Open the desktop workspace"
+            ]
+          },
+          "\n",
+          {
+            "tag": "p",
+            "href": null,
+            "children": [
+              "On the host computer, open ",
+              {
+                "tag": "code",
+                "href": null,
+                "children": [
+                  "http://127.0.0.1:8147/"
+                ]
+              },
+              " in your browser. If you have changed the Companion port, use that port instead."
+            ]
+          },
+          "\n",
+          {
+            "tag": "p",
+            "href": null,
+            "children": [
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Browser Start Page"
+                ]
+              },
+              " in ComfierUI Settings chooses which workspace opens when an automatic browser launch is requested. ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Silent"
+                ]
+              },
+              " keeps that launch from opening a page."
+            ]
+          },
+          "\n"
+        ]
+      },
+      "\n",
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Port reminder:"
+            ]
+          },
+          " ComfierUI normally connects through Companion on 8147. ComfyUI’s own port is usually 8188. Do not forward either port through your router or expose it directly to the public internet; use a private VPN for access away from home."
+        ]
+      },
+      "\n"
+    ]
+  },
+  {
+    "id": "workspace",
+    "title": "Finding your way around",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Use the side buttons to open workflows, templates, models, job history, and other panels. Select a panel’s button again to close it. Panel positions may differ if you have customized your layout."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "There are two settings areas:"
+        ]
+      },
+      "\n",
+      {
+        "tag": "ul",
+        "href": null,
+        "children": [
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "ComfierUI Settings"
+                ]
+              },
+              ", opened with the three-dot button, contains the UI Editor, Global Theme, Help, and ComfierUI preferences."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "ComfyUI Settings"
+                ]
+              },
+              ", opened with the gear button, contains the underlying ComfyUI preferences and settings supplied by installed extensions."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Resize a side panel using its edge where a resize control is available. The zoom percentage opens canvas zoom controls; the minimap helps you locate another part of a large graph."
+        ]
+      },
+      "\n",
+      "\n",
+      "\n",
+      {
+        "tag": "div",
+        "href": null,
+        "children": [
+          {
+            "tag": "h4",
+            "href": null,
+            "children": [
+              "Using Escape"
+            ]
+          },
+          {
+            "tag": "p",
+            "href": null,
+            "children": [
+              "Escape closes supported menus, dialogs, and panels. You can also close a panel using the same launcher button that opened it."
+            ]
+          }
+        ]
+      },
+      "\n"
+    ]
+  },
+  {
+    "id": "workflows",
+    "title": "Opening and running workflows",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "A workflow is the set of connected steps used to make an image, video, audio clip, or other result. Open one from ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Templates"
+            ]
+          },
+          ", your saved workflows, or an imported file."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Choose how the workflow opens"
+        ]
+      },
+      "\n",
+      {
+        "tag": "ul",
+        "href": null,
+        "children": [
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Full Canvas"
+                ]
+              },
+              " shows the nodes and connections so you can inspect or change the workflow."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "App Mode"
+                ]
+              },
+              " presents the workflow’s main controls in a simpler panel while keeping the full graph intact."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Choose ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Remember my choice"
+            ]
+          },
+          " to skip this question next time. Change it later under ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "ComfierUI Settings → Open Workflow As"
+            ]
+          },
+          "."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Run a workflow in App Mode"
+        ]
+      },
+      "\n",
+      {
+        "tag": "ol",
+        "href": null,
+        "children": [
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Enter the prompts and choose any required input images, video, or audio."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Check the resolution and seed settings. The available controls depend on the workflow."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Generate"
+                ]
+              },
+              "."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "View the completed output at the top of App Mode. Choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Full Canvas"
+                ]
+              },
+              " to return to the graph with your changes."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "A seed is the starting number used by a generation. ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "New Seed"
+            ]
+          },
+          " chooses another one. ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Control after generation"
+            ]
+          },
+          " determines how it changes between runs."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Choose the controls shown in App Mode"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Open ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Manage Selected Nodes"
+            ]
+          },
+          " at the bottom of App Mode. Add, hide, or reorder the exposed fields, including supported fields inside subgraphs. These choices are saved with the workflow. Fields marked read-only cannot be changed from App Mode."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Save and organize your work"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Use workflow tabs to switch between open workflows. Save changes when you want to keep them, or export a workflow to move it elsewhere. A saved workflow keeps the graph and its settings; it does not bundle every model or extension that the workflow needs."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Workflow Overview"
+            ]
+          },
+          " helps you find important inputs and workflow errors. If required models are missing, its Errors area may offer download actions. A missing custom node usually means the matching extension must be installed on the host."
+        ]
+      },
+      "\n",
+      "\n"
+    ]
+  },
+  {
+    "id": "results",
+    "title": "Previews and completed results",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "App Mode keeps completed output visible. Job History lets you revisit runs and inspect available results. Use the media preview controls to view images or play video and audio; supported previews can open in a larger view."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Use the media or assets panel to browse available files and choose inputs. The files and actions shown depend on your connection and the workflow."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Choose your preview behavior"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "App Mode Generation Preview"
+            ]
+          },
+          " controls the optional generation preview popup. Turning it off leaves the workflow’s normal output available."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Canvas Live Gallery Mode"
+            ]
+          },
+          " uses the latest successful generation image as the canvas background. It works independently of the preview popup and automatic downloads. Turning it off keeps the current background so you can continue using or framing it."
+        ]
+      },
+      "\n",
+      "\n"
+    ]
+  },
+  {
+    "id": "layout-editor",
+    "title": "Arranging your workspace",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Open ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "ComfierUI Settings → UI Editor"
+            ]
+          },
+          " to arrange the interface. A ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "container"
+            ]
+          },
+          " is a group of interface controls, such as a toolbar. Changing these containers does not change the nodes in your workflow."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Move or resize a container"
+        ]
+      },
+      "\n",
+      {
+        "tag": "ol",
+        "href": null,
+        "children": [
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Select the container you want to change."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Press and hold it to begin moving. On desktop, hold the left mouse button."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Move it to the desired lane, or choose a lane in Properties. Lanes provide positions around the edges and inside the workspace."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Use an edge or corner handle to resize it, or enter exact values under ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Dimensions"
+                ]
+              },
+              "."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "If an arrangement is highlighted as unable to fit, move or resize the affected container before saving."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Reorder or move buttons"
+        ]
+      },
+      "\n",
+      {
+        "tag": "ol",
+        "href": null,
+        "children": [
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Select the button’s container first, then select the button."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Drag the selected button to an insertion line, or use ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Move Earlier"
+                ]
+              },
+              " and ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Move Later"
+                ]
+              },
+              " under Dimensions for smaller changes."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Use ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Select additional buttons"
+                ]
+              },
+              " when you want to move or style several together."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Move or merge several containers"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Use ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Select additional containers"
+            ]
+          },
+          " to build a selection. Press and hold one selected container to move them together."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "When multiple eligible containers are selected, Properties offers ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Merge containers"
+            ]
+          },
+          ". Confirming joins their buttons into the first selected container. Use Undo to reverse the merge. The workflow top bar can move with other containers but cannot be merged."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Make a scrollable toolbar"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Enable ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Connected scrollable bar"
+            ]
+          },
+          " for a single row or column. ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Visible buttons"
+            ]
+          },
+          " chooses how many fit at once; additional buttons can be reached by scrolling. ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Autofill lane"
+            ]
+          },
+          " uses the available lane length."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Hide and restore controls"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Hide controls you do not want in the current view. Open ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Hidden controls"
+            ]
+          },
+          " to restore an individual control or use ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Restore all"
+            ]
+          },
+          "."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Keep different layouts for different views"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Phone portrait, phone landscape, tablet portrait, and tablet landscape each have their own layout. Desktop uses the tablet layouts."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Copy Layout From"
+            ]
+          },
+          " reuses another view’s arrangement. ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Apply appearance across all views"
+            ]
+          },
+          " copies styling, while keeping button order and positions separate."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Save or undo your changes"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Use the editor menu for ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Undo"
+            ]
+          },
+          " and ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Redo"
+            ]
+          },
+          ". Choose ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Save/Exit"
+            ]
+          },
+          " when you are ready to finish, then ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Save & Exit"
+            ]
+          },
+          " to keep the changes, ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Discard & Exit"
+            ]
+          },
+          " to return to the starting state, or ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Keep editing"
+            ]
+          },
+          " to continue."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Changes are visible while you edit. Closing an inspector or clearing a selection does not itself save or discard the session."
+        ]
+      },
+      "\n"
+    ]
+  },
+  {
+    "id": "appearance",
+    "title": "Changing colors and sizes",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Set a global color"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Open ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "ComfierUI Settings → Global Theme"
+            ]
+          },
+          ". Global Theme controls the overall appearance: buttons, panels, containers, text, canvas, active selections, progress, and status colors."
+        ]
+      },
+      "\n",
+      {
+        "tag": "ol",
+        "href": null,
+        "children": [
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Choose a color with the wheel, an existing palette swatch, or the six-digit hex field."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Adjust ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Brightness"
+                ]
+              },
+              " and ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Transparency"
+                ]
+              },
+              " if needed. More transparency makes the color more see-through."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Select the role you want to change, such as ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Panel Backgrounds"
+                ]
+              },
+              " or ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "UI Font"
+                ]
+              },
+              "."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "The color picker selects the color; choosing the role applies it. ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "UI Font"
+            ]
+          },
+          " changes the text color, not the typeface. The canvas sampler lets you choose a color from the current canvas image, then apply it to a role."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Style one container or button"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "In the UI Editor, select a container or button and open ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Properties"
+            ]
+          },
+          ". Use its theme controls for fills, frames, and icon colors, and Dimensions for sizes, frame thickness, corners, and icon size. Pick a color before selecting the property that should receive it."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Use Reset beside a setting to remove its individual value. An explicit value on a particular control can take priority over the global setting, so a global change may not visibly change that control."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Set default sizes"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Open ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Global Dimensions"
+            ]
+          },
+          " from the UI Editor menu. Set default frame thickness, corner curves, button icon size, and circle/capsule edges. Individual container and button values keep their overrides. Clear a default field to return it to Auto, or use the global reset action."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Use the node color menu"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "In Full Canvas, open a node’s context menu and choose ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Colors"
+            ]
+          },
+          " to use the available node color choices. Save the workflow to keep your changes."
+        ]
+      },
+      "\n"
+    ]
+  },
+  {
+    "id": "themes",
+    "title": "Saving and sharing themes",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "In ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Global Theme"
+            ]
+          },
+          ", open ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Profiles"
+            ]
+          },
+          " in the color controls. A theme profile is a reusable collection of appearance settings. It can also carry a layout, canvas image and framing, or workflow when those are present."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Save a theme profile"
+        ]
+      },
+      "\n",
+      {
+        "tag": "ol",
+        "href": null,
+        "children": [
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Adjust the workspace’s appearance."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Open Profiles and choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Save"
+                ]
+              },
+              "."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Enter a name and confirm."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "The profile appears in Saved themes. Select it before using Load, Rename, or Delete. Saving a named profile makes the setup easy to reuse or share. Editor saves can also update the active saved profile, so share a copy first if you want to preserve an earlier look separately."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Load only the parts you want"
+        ]
+      },
+      "\n",
+      {
+        "tag": "ol",
+        "href": null,
+        "children": [
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Select a saved theme and choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Load"
+                ]
+              },
+              ", or choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Upload"
+                ]
+              },
+              " to import a supported JSON, PNG, or WebP file."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "In ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Apply Theme"
+                ]
+              },
+              ", select ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Colors"
+                ]
+              },
+              ", ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Layout"
+                ]
+              },
+              ", ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Canvas"
+                ]
+              },
+              ", or ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Workflow"
+                ]
+              },
+              ". Check marks show which parts you have chosen."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Load Selected"
+                ]
+              },
+              ", or choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Load All"
+                ]
+              },
+              " for every available part."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Parts that the file does not contain are disabled. For example, choose Colors alone to try a new look while keeping your arrangement. Select Workflow only when you also want to open the graph carried by that file. Save your current work before loading a different workflow."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Share a theme"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Choose ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Share"
+            ]
+          },
+          ", enter a filename, and save the exported file. With a canvas image, the current export is WebP with theme and crop settings. Without a canvas image, it is JSON."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "A supported workflow or generated image may also carry theme information. Importing one through Profiles lets you choose the theme parts and, if included, the workflow separately. A reusable canvas image must fit the supported 4 MiB image limit; reduce the image size if an import is rejected."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Use themes across devices"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Portable theme files can be used across ComfierUI environments. A self-hosted workspace also synchronizes saved themes with the connected Companion’s themes folder. Keep that folder when updating Companion."
+        ]
+      },
+      "\n",
+      "\n"
+    ]
+  },
+  {
+    "id": "canvas-image",
+    "title": "Setting a canvas image",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Use a canvas image to place a background behind the graph. Start by uploading a PNG or WebP through ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Global Theme → Profiles"
+            ]
+          },
+          ". Include ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Canvas"
+            ]
+          },
+          " when choosing what to load."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Frame the image"
+        ]
+      },
+      "\n",
+      {
+        "tag": "ol",
+        "href": null,
+        "children": [
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Open ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Global Theme → Canvas"
+                ]
+              },
+              " to adjust the current background."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Drag the image to position it."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Zoom with the available controls, a pinch gesture, or the mouse wheel."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Apply to this view"
+                ]
+              },
+              " to keep the framing, or ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Cancel"
+                ]
+              },
+              " to restore the previous framing."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Each of the four views has its own framing. A crop that looks right in portrait does not have to be used in landscape."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "If ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Canvas Live Gallery Mode"
+            ]
+          },
+          " is enabled, a later successful generation can replace the background. Turn it off when you want to keep a chosen image. If you are working inside a UI Editor session, finish with Save & Exit to retain the session’s changes."
+        ]
+      },
+      "\n"
+    ]
+  },
+  {
+    "id": "downloads",
+    "title": "Downloading to your host",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          {
+            "tag": "span",
+            "href": null,
+            "children": [
+              "Self hosted"
+            ]
+          },
+          " Requires ComfierUI Companion. Comfy Cloud does not provide a destination folder on your own computer."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "The ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Downloads"
+            ]
+          },
+          " panel transfers models, extensions, and workflows to the computer running ComfyUI. Open it using the down-arrow button."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Start a download"
+        ]
+      },
+      "\n",
+      {
+        "tag": "ol",
+        "href": null,
+        "children": [
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Paste a supported download or repository URL, or use a provider button to find a file."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Review the suggested filename. You can rename it before starting; keep the appropriate extension, such as ",
+              {
+                "tag": "code",
+                "href": null,
+                "children": [
+                  ".safetensors"
+                ]
+              },
+              ", ",
+              {
+                "tag": "code",
+                "href": null,
+                "children": [
+                  ".gguf"
+                ]
+              },
+              ", ",
+              {
+                "tag": "code",
+                "href": null,
+                "children": [
+                  ".json"
+                ]
+              },
+              ", or ",
+              {
+                "tag": "code",
+                "href": null,
+                "children": [
+                  ".zip"
+                ]
+              },
+              "."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "models"
+                ]
+              },
+              ", ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "custom_nodes"
+                ]
+              },
+              ", or ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "workflows"
+                ]
+              },
+              ", then choose the destination folder offered beside it."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Check the destination and choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Download"
+                ]
+              },
+              "."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Model destinations come from the folders configured on the host, including available subfolders. An extension’s filename field becomes ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Folder name"
+            ]
+          },
+          " because you are installing a repository."
+        ]
+      },
+      "\n",
+      "\n",
+      {
+        "tag": "div",
+        "href": null,
+        "children": [
+          {
+            "tag": "h4",
+            "href": null,
+            "children": [
+              "Browse on desktop"
+            ]
+          },
+          {
+            "tag": "p",
+            "href": null,
+            "children": [
+              "Provider buttons open a separate browser tab or window. Find the supported file or repository, copy its URL, then paste it into Downloads. Sign-in details from the separate browser window are not automatically passed to the host downloader."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Cancel resume or retry"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "The monitor lists each transfer’s filename, progress, and status. ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Cancel"
+            ]
+          },
+          " stops an active transfer. A canceled model transfer offers ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Resume"
+            ]
+          },
+          "; a failed item offers ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Retry"
+            ]
+          },
+          "."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Clear"
+            ]
+          },
+          " removes completed or canceled entries. Clearing a canceled model also discards its partial file, so resume it before clearing if you still want to finish that download."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Download missing models"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "For supported models, ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Workflow Overview → Errors"
+            ]
+          },
+          " offers Download and Download All. Completed model downloads refresh the model list and node definitions automatically. You normally do not need to restart ComfyUI just to make a newly downloaded model appear."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Install an extension"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Choose ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "custom_nodes"
+            ]
+          },
+          " and provide a supported public GitHub, GitLab, Codeberg, or Bitbucket repository URL. Companion downloads the repository and installs its listed Python requirements when present. The monitor shows installation progress. Retry after a requirements failure reuses the downloaded repository."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "After installation, use ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Restart"
+            ]
+          },
+          " in the Downloads header to restart ComfyUI and load the new nodes. Wait for it to reconnect before continuing. This action requires ComfyUI-Manager restart support; otherwise, restart ComfyUI on the host."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Download a workflow"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Choose ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "workflows"
+            ]
+          },
+          ", select a host folder, and provide a supported workflow JSON or ZIP URL. Only valid workflow JSON files are kept from an archive; bundled media and unrelated files are skipped. Numbered filenames protect existing files."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "When the download finishes, choose ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Load"
+            ]
+          },
+          ". If an archive contains several workflows, choose which one to open. Your App Mode or Full Canvas preference still applies."
+        ]
+      },
+      "\n"
+    ]
+  },
+  {
+    "id": "ltx",
+    "title": "Fine timing with LTX Director",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          {
+            "tag": "span",
+            "href": null,
+            "children": [
+              "Requires LTX Director"
+            ]
+          },
+          " Precision controls appear on a supported LTX Director node."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Precision Mode lets you adjust timeline boundaries by exact frames. A frame is one image in a video, so a one-frame adjustment is the smallest timing step."
+        ]
+      },
+      "\n",
+      {
+        "tag": "ol",
+        "href": null,
+        "children": [
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "In Full Canvas, find the LTX Director node and choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Precision"
+                ]
+              },
+              " on that node."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Select the timeline segment you want to change."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Choose ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "Start"
+                ]
+              },
+              " or ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "End"
+                ]
+              },
+              "."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Use the minus or plus controls to adjust by ",
+              {
+                "tag": "strong",
+                "href": null,
+                "children": [
+                  "1, 5, 10, or 20 frames"
+                ]
+              },
+              ". You can also type an exact starting or ending frame."
+            ]
+          },
+          {
+            "tag": "li",
+            "href": null,
+            "children": [
+              "Use timeline zoom to inspect the timing, then close Precision when finished."
+            ]
+          }
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Adjustments respect neighboring segments, minimum segment length, and available source media. A value may stop short of what you entered if it would exceed one of those limits. A shared boundary may also adjust the neighboring segment."
+        ]
+      },
+      "\n"
+    ]
+  },
+  {
+    "id": "host-tools",
+    "title": "Host resources and extensions",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          {
+            "tag": "span",
+            "href": null,
+            "children": [
+              "Self hosted"
+            ]
+          },
+          " These tools work with your own ComfyUI computer."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Read the resource monitor"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "The monitor can show CPU use, RAM use, GPU use, video memory, and GPU temperature. Available readings depend on the host’s hardware and installed requirements. GPU readings use supported NVIDIA hardware. Crystools is not required."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "To customize it, select the monitor in the UI Editor. Choose which meters are visible, their direction and order, and their fill colors. Meter order is separate from ordinary button order. Monitor settings in ComfyUI Settings also include the GPU index when more than one GPU is present."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Fill palettes have low, medium, and high colors. The current thresholds are below 50, 50–79, and 80 or above, using percent or degrees Celsius as appropriate. You can also set the value text color."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Free host memory"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Unload Models"
+            ]
+          },
+          " removes loaded models from memory. ",
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "Unload Models and Clear Execution Cache"
+            ]
+          },
+          " also removes cached work from earlier runs. This does not delete the model files, but the next generation may need to load or calculate more again."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          {
+            "tag": "strong",
+            "href": null,
+            "children": [
+              "The resource monitor is also a button:"
+            ]
+          },
+          " activating it outside the UI Editor unloads models and clears execution cache. Inside the UI Editor, select it to customize its appearance instead."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "Use optional extension panels"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "The LoRA Manager launcher opens its integration when the corresponding extension is installed. A LoRA is an additional model used to influence a generation’s style or subject. If the launcher cannot open its panel, check the host installation and restart ComfyUI after installing the extension."
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "LTX Director is another optional extension. Its Precision controls are described in the timing section. Optional extension interfaces can have their own settings and help."
+        ]
+      },
+      "\n"
+    ]
+  },
+  {
+    "id": "troubleshooting",
+    "title": "When something does not work",
+    "blocks": [
+      "\n",
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "The workspace will not connect"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Check that ComfyUI and Companion are running, and that the address and Companion port match the host. For a remote connection, check the private VPN on both devices. After changing the Companion port, update any saved connection details that still use the old one."
+        ]
+      },
+      "\n",
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "A panel or control seems missing"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Check which layout is active and whether the control was hidden in that view. In the UI Editor, use Hidden controls to restore it. Some tools appear only with a self-hosted connection or a particular installed extension."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "A global theme change does not affect one item"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Check the item’s individual appearance settings. A container or button may have an override. Reset that value to let it follow the broader appearance settings again."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "A workflow reports missing items"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Read the errors in Workflow Overview. Download a missing model where an action is offered. Install the required extension for a missing custom node, then restart ComfyUI. On Cloud, the workflow must use supported nodes and available models."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "A new extension does not appear"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Check that installation and requirements completed successfully. Restart the ComfyUI backend, then wait for reconnection. A page refresh reloads the interface; it does not restart ComfyUI or load newly installed Python nodes. Use Hard Refresh if it is subsequently requested."
+        ]
+      },
+      "\n",
+      {
+        "tag": "h4",
+        "href": null,
+        "children": [
+          "A download fails"
+        ]
+      },
+      "\n",
+      {
+        "tag": "p",
+        "href": null,
+        "children": [
+          "Check the URL, selected host folder, available disk space, and whether the provider requires access or sign-in. Use Retry for a failed transfer. For an extension requirements failure, check the installation message before retrying."
+        ]
+      },
+      "\n"
+    ]
+  }
+];
+  const root = document.createElement('article');
+  root.className = 'comfier-usage-guide';
+  const scroll = document.createElement('section');
+  scroll.className = 'comfier-usage-scroll';
+  scroll.tabIndex = 0;
+  scroll.setAttribute('aria-label', 'ComfierUI usage guide');
+  const quickLinks = document.createElement('nav');
+  quickLinks.className = 'comfier-usage-links';
+  quickLinks.setAttribute('aria-label', 'Help sections');
+  scroll.append(quickLinks);
+  function button(label) {
+    const element = document.createElement('button');
+    element.type = 'button';
+    element.className = 'comfier-help-control';
+    element.textContent = label;
+    return element;
+  }
+  for (const { id, title, paragraphs = [], entries = [], blocks = [] } of sections) {
+    const section = document.createElement('section');
+    section.id = 'comfier-guide-' + id;
+    const heading = document.createElement('h3');
+    heading.textContent = title;
+    heading.tabIndex = -1;
+    section.append(heading);
+    for (const text of paragraphs) {
+      const p = document.createElement('p');
+      p.textContent = text;
+      section.append(p);
+    }
+    for (const [heading, text] of entries) {
+      const h = document.createElement('h4');
+      h.textContent = heading;
+      const p = document.createElement('p');
+      p.textContent = text;
+      section.append(h, p);
+    }
+    function appendBlock(host, block) {
+      if (typeof block === "string") { host.append(document.createTextNode(block)); return; }
+      const element = document.createElement(block.tag);
+      if (block.tag === "a" && block.href) element.setAttribute("href", block.href);
+      for (const child of block.children) appendBlock(element, child);
+      host.append(element);
+    }
+    for (const block of blocks) appendBlock(section, block);
+    const jump = button(title);
+    jump.setAttribute('aria-controls', section.id);
+    jump.onclick = () => {
+      const top = section.getBoundingClientRect().top - scroll.getBoundingClientRect().top + scroll.scrollTop;
+      scroll.scrollTo({ top, behavior: 'auto' });
+      heading.focus({ preventScroll: true });
+    };
+    if (id === 'themes') jump.classList.add('comfier-help-editor-link');
+    quickLinks.append(jump);
+    scroll.append(section);
+  }
+  const footer = document.createElement('footer');
+  footer.className = 'comfier-usage-footer';
+  const top = button('Back to Top');
+  // Reserve the footer's height so visibility cannot resize the scroll viewport.
+  function updateTop() {
+    const scrolled = scroll.scrollTop > 0;
+    top.style.visibility = scrolled ? 'visible' : 'hidden';
+    top.tabIndex = scrolled ? 0 : -1;
+    top.setAttribute('aria-hidden', String(!scrolled));
+  }
+  scroll.addEventListener('scroll', updateTop, { passive: true });
+  top.onclick = () => {
+    scroll.scrollTo({ top: 0, behavior: 'auto' });
+    updateTop();
+    quickLinks.firstElementChild?.focus({ preventScroll: true });
+  };
+  footer.append(top);
+  root.append(scroll, footer);
+  updateTop();
+  return {
+    element: root,
+    reset() { scroll.scrollTop = 0; updateTop(); scroll.focus({ preventScroll: true }); },
+    remove() { scroll.removeEventListener('scroll', updateTop); root.remove(); }
+  };
+}
+
+
 // Constructed only when Settings > Help is opened. Uses one owned scroll surface.
 function createUsageGuide(cloud) {
+  if (!window.ComfierApp) return createDesktopUsageGuide(cloud);
   const sections = [
     { id: 'links', title: 'Tap to Link', paragraphs: [
       'Tap a visible input or output socket to arm it. Compatible sockets pulse in their type color. Tap a compatible socket to complete the link; an incompatible target briefly flashes red.',
@@ -20798,142 +22954,110 @@ function createUsageGuide(cloud) {
 //#endregion
 //#region src/comfier/AppSettingsPanel.vue?vue&type=script&setup=true&lang.ts
 var _hoisted_1$150 = {
-	class: "ui-zoom-panel comfier-settings-content",
+	class: "comfier-settings-content comfier-app-settings-native-panel",
 	"data-testid": "comfier-app-settings"
 };
 var _hoisted_2$115 = { class: "comfier-app-settings-heading" };
-var _hoisted_3$91 = {
-	key: 0,
-	class: "ui-diagnostics-row flex min-h-10 items-center justify-between gap-3"
-};
-var _hoisted_4$74 = [
-	"aria-label",
-	"checked",
-	"disabled"
-];
-var _hoisted_5$54 = { class: "comfier-workflow-mode-row flex min-h-10 items-center justify-between gap-3" };
-var _hoisted_6$43 = ["value"];
-var _hoisted_7$36 = { value: "ask" };
-var _hoisted_8$28 = { value: "app" };
-var _hoisted_9$26 = { value: "graph" };
 //#endregion
 //#region src/comfier/AppSettingsPanel.vue
+/*
+ * Change ONLY what Dan explicitly requests. Everything else is here for an
+ * established reason. Define requested behavior in its component/store owner
+ * at creation; do not add DOM repair, backing controls, CSS override layers,
+ * observers, polling, or unrelated layout/control/callback changes.
+ */
 var AppSettingsPanel_default = /* @__PURE__ */ defineComponent({
 	__name: "AppSettingsPanel",
-	setup(__props) {
-		const companionSettings = createCompanionSettings();
-		onBeforeUnmount(companionSettings.remove);
+	emits: ["theme-sampling"],
+	setup(__props, {emit}) {
+		const companion = createCompanionSettings();
+		const device = window.__comfierDevice?.createSettings();
 		const layout = useComfierLayoutStore();
 		const appMode = useComfierAppModeStore();
-		const canvasPreviewEnabled = ref(window.__comfierCanvasPreview?.enabled || false);
-		const workflowChoiceOpen = ref(false);
-		const workflowPreference = ref(appMode.preference);
-		useOverlayBack(workflowChoiceOpen);
-		const workflowChoices = [["ask", "comfierTest.askEveryTime"], ["app", "comfierTest.appMode"], ["graph", "comfierTest.fullCanvas"]];
-		function chooseWorkflowPreference(value) {
-			appMode.setPreference(value);
-			workflowPreference.value = value;
-			workflowChoiceOpen.value = false;
-		}
-
-		function setWorkflowMode(event) {
-			if (!(event.target instanceof HTMLSelectElement)) return;
-			const value = event.target.value;
-			if (value === "ask" || value === "app" || value === "graph") appMode.setPreference(value);
-		}
 		const { t } = useI18n();
-		const deviceSettings = window.__comfierDevice?.createSettings();
-		onBeforeUnmount(() => deviceSettings?.remove());
 		const cloud = location.pathname.startsWith("/__comfier_cloud__/");
-        const settingsRoot = ref(null);
-        const helpOpen = ref(false);
-        let usageGuide;
-        let settingsScroll = 0;
-        function closeHelp() {
-            helpOpen.value = false;
-            nextTick(() => {
-                if (!settingsRoot.value) return;
-                settingsRoot.value.scrollTop = settingsScroll;
-                settingsRoot.value.querySelector('[data-comfier-settings-help]')?.focus({ preventScroll: true });
-            });
-        }
-        function openHelp() {
-            workflowChoiceOpen.value = false;
-            settingsScroll = settingsRoot.value?.scrollTop || 0;
-            usageGuide ||= createUsageGuide(cloud);
-            helpOpen.value = true;
-            nextTick(() => {
-                if (!helpOpen.value) return;
-                if (settingsRoot.value) settingsRoot.value.scrollTop = 0;
-                usageGuide.reset();
-            });
-        }
-        useOverlayBack(helpOpen, closeHelp);
-        onBeforeUnmount(() => usageGuide?.remove());
+		const settingsRoot = ref(null);
+		const page = ref("settings");
+		const canvasPreviewEnabled = ref(window.__comfierCanvasPreview?.enabled || false);
+		const generationDownloadsEnabled = ref(window.ComfierApp?.getGenerationDownloadDestination?.() === "downloads");
 		const diagnosticsEnabled = ref(window.__comfierDiagnosticSuite?.isEnabled() ?? false);
 		const diagnosticsReady = ref(Boolean(window.__comfierDiagnosticSuite));
+		let usageGuide;
+		let themePage;
+		let settingsScroll = 0;
+		const workflowChoice = window.__comfierInlineSettingsChoice({
+			id: "comfier-workflow-mode", label: "Open Workflow As", value: appMode.preference,
+			className: "comfier-inline-choice comfier-workflow-choice",
+			options: [["ask", "comfierTest.askEveryTime"], ["app", "comfierTest.appMode"], ["graph", "comfierTest.fullCanvas"]].map(([value, label]) => ({value, label: t(label)})),
+			onChange: value => appMode.setPreference(value)
+		});
+		watch(() => appMode.preference, value => workflowChoice.update({value}));
+
+		function returnToSettings() {
+			page.value = "settings";
+			nextTick(() => { if (settingsRoot.value) settingsRoot.value.scrollTop = settingsScroll; });
+		}
+		function openPage(value) {
+			workflowChoice.close(); companion.closeChoices();
+			settingsScroll = settingsRoot.value?.scrollTop || 0;
+			if (value === "help") usageGuide ||= createUsageGuide(cloud);
+			if (value === "theme") {
+				themePage = window.__comfierThemeStudio?.open(returnToSettings, value => { emit("theme-sampling", value); return nextTick(); });
+				if (!themePage) return;
+			}
+			page.value = value;
+			nextTick(() => {
+				if (settingsRoot.value) settingsRoot.value.scrollTop = 0;
+				if (page.value === "help") usageGuide.reset();
+			});
+		}
+		function closeHelp() {
+			returnToSettings();
+			nextTick(() => settingsRoot.value?.querySelector('[data-comfier-settings-help]')?.focus({preventScroll: true}));
+		}
+		useOverlayBack(computed(() => page.value === "help"), closeHelp);
 		useEventListener(window, "comfier-diagnostic-mode-change", () => {
 			diagnosticsEnabled.value = window.__comfierDiagnosticSuite?.isEnabled() ?? false;
 			diagnosticsReady.value = Boolean(window.__comfierDiagnosticSuite);
 		});
-		function toggleDiagnostics(event) {
-			if (!(event.target instanceof HTMLInputElement)) return;
-			if (event.target.checked) window.__comfierDiagnosticSuite?.enable();
-			else window.__comfierDiagnosticSuite?.disable();
-		}
-		return (_ctx, _cache) => {
-            const header = createBaseVNode("header", { class: "comfier-settings-header" }, [
-                createBaseVNode("h2", _hoisted_2$115, helpOpen.value ? "ComfierUI Help" : toDisplayString(unref(t)("comfierTest.appSettings"))),
-                createBaseVNode("button", { type: "button", class: "comfier-help-control", "data-comfier-settings-help": "",
-                    onClick: helpOpen.value ? closeHelp : openHelp,
-                    "aria-label": helpOpen.value ? "Back to ComfierUI Settings" : "ComfierUI Help"
-                }, helpOpen.value ? "Back" : "Help")
-            ]);
-            const rootProps = { ..._hoisted_1$150, ref: settingsRoot,
-                class: [_hoisted_1$150.class, { "comfier-settings-help-open": helpOpen.value }],
-                onKeydown: event => {
-                    if (helpOpen.value && event.key === "Escape") {
-                        event.preventDefault(); event.stopPropagation(); closeHelp();
-                    }
-                }
-            };
-            if (helpOpen.value) return openBlock(), createElementBlock("div", rootProps, [header,
-                createVNode(OwnedSurface_default, { key: "usage-guide", element: usageGuide.element })
-            ]);
-            return openBlock(), createElementBlock("div", rootProps, [header,
-				createBaseVNode("button", {
-					class: normalizeClass(["ufu-launch", unref(controlClass)]),
-					onClick: _cache[0] || (_cache[0] = ($event) => unref(layout).open())
-				}, toDisplayString(unref(t)("comfierTest.uiEditor")), 3),
-				!unref(cloud) ? (openBlock(), createElementBlock("label", _hoisted_3$91, [createBaseVNode("span", null, toDisplayString(unref(t)("comfierTest.diagnosticMode")), 1), createBaseVNode("input", {
-					type: "checkbox",
-					"aria-label": unref(t)("comfierTest.diagnosticMode"),
-					checked: diagnosticsEnabled.value,
-					disabled: !diagnosticsReady.value,
-					onChange: toggleDiagnostics
-				}, null, 40, _hoisted_4$74)])) : createCommentVNode("", true),
-				createVNode(OwnedSurface_default, { element: unref(companionSettings).element }, null, 8, ["element"]),
-				
-				createBaseVNode("div", {class: "comfier-workflow-mode-row"}, [
-					createBaseVNode("span", null, toDisplayString(unref(t)("comfierTest.openWorkflowsAs"))),
-					createBaseVNode("div", {class: "comfier-workflow-choice", onFocusout: e => { if (!e.currentTarget.contains(e.relatedTarget)) workflowChoiceOpen.value = false; }}, [
-						createBaseVNode("button", {type: "button", class: normalizeClass(unref(controlClass)), "aria-label": "Open workflows as", "aria-haspopup": "listbox", "aria-expanded": workflowChoiceOpen.value, onClick: () => workflowChoiceOpen.value = !workflowChoiceOpen.value, onKeydown: e => { if (e.key === "Escape") { workflowChoiceOpen.value = false; e.stopPropagation(); } }}, toDisplayString(unref(t)(workflowChoices.find(c => c[0] === workflowPreference.value)?.[1] || workflowChoices[0][1])) + " ▾"),
-						workflowChoiceOpen.value ? createBaseVNode("div", {class: "comfier-workflow-options", role: "listbox", "aria-label": "Workflow opening mode"}, workflowChoices.map(([value, label]) => createBaseVNode("button", {type: "button", role: "option", "aria-selected": workflowPreference.value === value, onClick: () => chooseWorkflowPreference(value)}, toDisplayString(unref(t)(label))))) : createCommentVNode("", true)
-					])
-				]),
-				createBaseVNode("label", {class: "comfier-preview-popup-row flex min-h-10 items-center justify-between gap-3"}, [
-          createBaseVNode("span", null, "Generation preview popup"),
-          createBaseVNode("input", {type: "checkbox", "aria-label": "Generation preview popup", checked: unref(appMode).generationPreview.enabled,
-            onChange: event => unref(appMode).setPreviewPopupEnabled(event.target.checked)}, null, 40, ["checked"])
-        ]),
-        createBaseVNode("label", {class: "comfier-canvas-preview-row flex min-h-10 items-center justify-between gap-3"}, [
-          createBaseVNode("span", null, "Canvas Live Gallery"),
-          createBaseVNode("input", {type: "checkbox", "aria-label": "Canvas Live Gallery", checked: canvasPreviewEnabled.value,
-            onChange: event => { window.__comfierCanvasPreview?.setEnabled(event.target.checked); canvasPreviewEnabled.value = event.target.checked; }}, null, 40, ["checked"])
-        ]),
-        createVNode(OwnedSurface_default, { element: unref(deviceSettings)?.element }, null, 8, ["element"])
-			]);
-		};
+		onBeforeUnmount(() => {
+			workflowChoice.remove(); companion.remove(); device?.remove(); usageGuide?.remove();
+			if (page.value === "theme") window.__comfierThemeStudio?.closeAll();
+		});
+		const owned = (element, key, style = {display: "contents"}) => element ? createVNode(OwnedSurface_default, {key, element, style}) : createCommentVNode("", true);
+		const toggle = (className, label, checked, onChange, disabled = false) => createBaseVNode("label", {class: className + " comfier-settings-row"}, [
+			createBaseVNode("span", null, label), createBaseVNode("input", {type: "checkbox", "aria-label": label, checked, disabled, onChange})
+		]);
+		const header = help => createBaseVNode("header", {class: help ? "comfier-settings-header" : "comfier-settings-header comfier-settings-main-header"}, [
+			createBaseVNode("h2", _hoisted_2$115, help ? "ComfierUI Help" : t("comfierTest.appSettings")),
+			createBaseVNode("button", {type: "button", class: "comfier-help-control", "data-comfier-settings-help": "", onClick: help ? closeHelp : () => openPage("help"), "aria-label": help ? "Back to ComfierUI Settings" : "ComfierUI Help"}, help ? "Back" : "Help")
+		]);
+		return () => createBaseVNode("div", {..._hoisted_1$150, ref: settingsRoot,
+			class: normalizeClass([_hoisted_1$150.class, {"comfier-settings-help-open": page.value === "help"}]),
+			onKeydown: event => { if (page.value === "help" && event.key === "Escape") { event.preventDefault(); event.stopPropagation(); closeHelp(); } }
+		}, [
+			// Keep the settings owners mounted. The page itself controls visibility;
+			// hidden settings cannot take layout space or intercept focus/Back.
+			createBaseVNode("section", {class: "comfier-settings-page", hidden: page.value !== "settings", inert: page.value !== "settings" ? "" : undefined}, [
+				header(false),
+				toggle("ui-diagnostics-row", t("comfierTest.diagnosticMode"), diagnosticsEnabled.value, event => event.target.checked ? window.__comfierDiagnosticSuite?.enable() : window.__comfierDiagnosticSuite?.disable(), !diagnosticsReady.value),
+				owned(device?.rows?.notifications, "notifications"),
+				toggle("comfier-canvas-preview-row", "Canvas Live Gallery Mode", canvasPreviewEnabled.value, event => { window.__comfierCanvasPreview?.setEnabled(event.target.checked); canvasPreviewEnabled.value = event.target.checked; }),
+				toggle("comfier-preview-popup-row", "App Mode Generation Preview", appMode.generationPreview.enabled, event => appMode.setPreviewPopupEnabled(event.target.checked)),
+				window.ComfierApp?.getGenerationDownloadDestination && window.ComfierApp?.setGenerationDownloadDestination ? toggle("comfier-generation-download-row", "Auto Download Complete Generations", generationDownloadsEnabled.value, event => { generationDownloadsEnabled.value = event.target.checked; window.ComfierApp.setGenerationDownloadDestination(event.target.checked ? "downloads" : "disabled"); }) : createCommentVNode("", true),
+				owned(device?.rows?.reconnect, "reconnect"),
+				createBaseVNode("div", {class: "comfier-workflow-mode-row comfier-settings-row"}, [createBaseVNode("label", {for: "comfier-workflow-mode"}, "Open Workflow As"), owned(workflowChoice.element, "workflow")]),
+				owned(companion.rows.repository, "civitai"), owned(companion.rows.browser, "browser"), owned(companion.rows.port, "port"),
+				...companion.versions.map((element, index) => owned(element, "version-" + index)),
+				createBaseVNode("footer", {class: "comfier-settings-footer"}, [
+					createBaseVNode("button", {type: "button", class: "ufu-launch", onClick: () => layout.open()}, t("comfierTest.uiEditor")),
+					createBaseVNode("button", {type: "button", class: "ui-global-theme", onClick: () => openPage("theme")}, "Global Theme"),
+					owned(device?.footer, "device-footer")
+				])
+			]),
+			page.value === "help" ? createBaseVNode("section", {class: "comfier-settings-help-page"}, [header(true), owned(usageGuide.element, "usage-guide")]) : createCommentVNode("", true),
+			page.value === "theme" ? owned(themePage, "theme-page") : createCommentVNode("", true)
+		]);
 	}
 });
 //#endregion
@@ -20951,9 +23075,6 @@ function createDownloads(host, managerStore) {
 	let urlInput = null;
 	let urlFolders = null;
 	let urlTarget = null;
-	let urlTargetChoice = null;
-	let urlFolderChoice = null;
-	function refreshUrlChoices() { urlTargetChoice?.refresh(); urlFolderChoice?.refresh(); }
 	let urlName = null;
 	let urlNameRow = null;
 	let urlStatus = null;
@@ -21100,7 +23221,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		if (urlStatus) urlStatus.textContent = message;
 	}
 	function closeUrlPanel() {
-		urlTargetChoice?.close(); urlFolderChoice?.close();
+		urlTarget?.close(); urlFolders?.close();
 		host.closeForm();
 		return true;
 	}
@@ -21184,36 +23305,22 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		});
 		clipboardRow.append(paste, clear);
 		form.append(clipboardRow);
-		urlTarget = document.createElement("select");
-		urlTarget.className = "comfier-download-target";
-		urlTarget.setAttribute("aria-label", "Download target");
-		for (const [value, label] of [
-			["custom_nodes", "custom_nodes"],
-			["models", "models"],
-			["workflows", "workflows"]
-		]) {
-			const option = document.createElement("option");
-			option.value = value;
-			option.textContent = label;
-			urlTarget.append(option);
-		}
-		urlTarget.value = "models";
-		urlTarget.addEventListener("change", () => {
-			selectTarget();
-			urlFolders.hidden = false;
-			urlDownloadButton.disabled = urlBusy;
-			if (urlTarget.value === "workflows") loadWorkflowFolders().catch((error) => urlMessage(error.message));
+		urlTarget = window.__comfierInlineSettingsChoice({label: "Download target", value: "models",
+			options: ["custom_nodes", "models", "workflows"].map(value => ({value,label:value})),
+			onChange(value) {
+				selectTarget();
+				urlFolders.update({hidden: false});
+				urlDownloadButton.disabled = urlBusy;
+				if (value === "workflows") loadWorkflowFolders().catch(error => urlMessage(error.message));
+			}
 		});
-		urlFolders = document.createElement("select");
-		urlFolders.required = true;
-		urlFolders.addEventListener("change", () => {
-			if (urlTarget.value === "models") modelFolderValue = urlFolders.value;
-			else if (urlTarget.value === "workflows") workflowFolderValue = urlFolders.value;
+		urlFolders = window.__comfierInlineSettingsChoice({label: "Host model folder", options: [],
+			onChange(value) {
+				if (urlTarget.value === "models") modelFolderValue = value;
+				else if (urlTarget.value === "workflows") workflowFolderValue = value;
+			}
 		});
-		urlFolders.setAttribute("aria-label", "Host model folder");
-		urlTargetChoice = window.__comfierInlineSettingsChoice(urlTarget);
-		urlFolderChoice = window.__comfierInlineSettingsChoice(urlFolders);
-		options.append(urlTargetChoice.element, urlFolderChoice.element);
+		options.append(urlTarget.element, urlFolders.element);
 		form.append(options);
 		urlNameRow = document.createElement("label");
 		urlNameRow.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px";
@@ -21320,15 +23427,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		const heading = document.createElement("h2");
 		heading.textContent = "Choose workflow";
 		dialog.append(heading);
-		const select = document.createElement("select");
-		select.setAttribute("aria-label", "Imported workflow");
-		for (const file of files) {
-			const option = document.createElement("option");
-			option.value = file;
-			option.textContent = file;
-			select.append(option);
-		}
-		const choice = window.__comfierInlineSettingsChoice(select);
+		const choice = window.__comfierInlineSettingsChoice({label: "Imported workflow", value: files[0], options: files.map(value => ({value, label: value}))});
 		dialog.append(choice.element);
 		const row = document.createElement("div");
 		row.className = "comfier-download-url-options";
@@ -21358,7 +23457,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 				}
 				button.disabled = true;
 				try {
-					await loadWorkflow(item, select.value);
+					await loadWorkflow(item, choice.value);
 					close();
 				} catch (error) {
 					button.disabled = false;
@@ -21383,32 +23482,15 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		}
 		urlName.placeholder = custom ? "Repository folder name" : workflow ? "Workflow filename (.json or .zip)" : "Model filename including extension";
 		urlInput.placeholder = custom ? "Git repository URL" : workflow ? "Workflow JSON or ZIP URL" : "Model file URL";
-		urlFolders.setAttribute("aria-label", custom ? "Host custom nodes folder" : workflow ? "Host workflow folder" : "Host model folder");
+		urlFolders.update({label: custom ? "Host custom nodes folder" : workflow ? "Host workflow folder" : "Host model folder"});
 		if (custom) {
-			urlFolders.replaceChildren();
-			const option = document.createElement("option");
-			option.value = JSON.stringify({ directory: "custom_nodes" });
-			option.textContent = "custom_nodes";
-			urlFolders.append(option);
+			urlFolders.update({options: [{value: JSON.stringify({directory: "custom_nodes"}), label: "custom_nodes"}]});
 			urlNameRow.firstChild.textContent = "Folder name";
 			urlMessage("Download clones this repository and installs its requirements into the ComfyUI Python environment.");
 		} else {
-			urlFolders.replaceChildren();
-			for (const folder of workflow ? workflowFolderOptions : modelFolderOptions) {
-				const option = document.createElement("option");
-				option.textContent = folder.label;
-				option.value = JSON.stringify({
-					directory: folder.directory,
-					rootIndex: folder.rootIndex,
-					subdirectory: folder.subdirectory
-				});
-				urlFolders.append(option);
-			}
-			const saved = workflow ? workflowFolderValue : modelFolderValue;
-			if ([...urlFolders.options].some((o) => o.value === saved)) urlFolders.value = saved;
+			urlFolders.update({options: (workflow ? workflowFolderOptions : modelFolderOptions).map(folder => ({label: folder.label, value: JSON.stringify({directory: folder.directory, rootIndex: folder.rootIndex, subdirectory: folder.subdirectory})})), value: workflow ? workflowFolderValue : modelFolderValue});
 			urlNameRow.firstChild.textContent = "Filename";
 		}
-		refreshUrlChoices();
 		if (lookup && urlInput.value.trim()) resolveFilename();
 	}
 	async function openUrlPanel(trigger) {
@@ -21428,24 +23510,12 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			modelFolderOptions = payload.folders || [];
 			if (stopped) return;
 			const previous = urlFolders.value;
-			urlFolders.replaceChildren();
-			for (const folder of payload.folders || []) {
-				const option = document.createElement("option");
-				option.textContent = folder.label;
-				option.title = folder.path || folder.label;
-				option.value = JSON.stringify({
-					directory: folder.directory,
-					rootIndex: folder.rootIndex,
-					subdirectory: folder.subdirectory
-				});
-				urlFolders.append(option);
-			}
-			if ([...urlFolders.options].some((o) => o.value === previous)) urlFolders.value = previous;
-			else if ([...urlFolders.options].some((o) => JSON.parse(o.value).directory === "checkpoints" && !JSON.parse(o.value).subdirectory)) urlFolders.value = [...urlFolders.options].find((o) => JSON.parse(o.value).directory === "checkpoints" && !JSON.parse(o.value).subdirectory).value;
+			const options = (payload.folders || []).map(folder => ({label: folder.label, title: folder.path || folder.label, value: JSON.stringify({directory: folder.directory, rootIndex: folder.rootIndex, subdirectory: folder.subdirectory})}));
+			const value = options.some(option => option.value === previous) ? previous : options.find(option => JSON.parse(option.value).directory === "checkpoints" && !JSON.parse(option.value).subdirectory)?.value;
+			urlFolders.update({options, value: value || options[0]?.value || ""});
 			modelFolderValue = urlFolders.value;
 			if (urlTarget.value !== "models") selectTarget(false, false);
 			if (urlTarget.value === "workflows") await loadWorkflowFolders();
-			refreshUrlChoices();
 			urlMessage(urlFolders.options.length ? payload.truncated ? "Showing the first 4,000 model folders." : "" : "No host model folders are available.");
 		} catch (error) {
 			if (!stopped) urlMessage(error.message);
@@ -21484,7 +23554,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			const info = await response.json();
 			if (stopped || generation !== filenameGeneration || filenameEdited || urlInput.value.trim() !== url) return;
 			if (info.kind === "workflows" && urlTarget.value === "models") {
-				urlTarget.value = "workflows";
+				urlTarget.update({value: "workflows"});
 				selectTarget(false, false);
 				await loadWorkflowFolders();
 				if (stopped || generation !== filenameGeneration || filenameEdited || urlInput.value.trim() !== url) return;
@@ -21591,7 +23661,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		if (stopped) return;
 		urlInput.value = data.url;
 		if (data.kind === "custom_nodes") {
-			urlTarget.value = "custom_nodes";
+			urlTarget.update({value: "custom_nodes"});
 			selectTarget(true, false);
 			browserContext = null;
 			filenameEdited = false;
@@ -21599,7 +23669,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			urlInput.focus();
 			return;
 		}
-		urlTarget.value = data.kind === "workflows" || /\.(json|zip)$/i.test(data.name || data.url) ? "workflows" : "models";
+		urlTarget.update({value: data.kind === "workflows" || /\.(json|zip)$/i.test(data.name || data.url) ? "workflows" : "models"});
 		selectTarget(true, false);
 		if (urlTarget.value === "workflows") await loadWorkflowFolders();
 		urlName.value = data.name || "";
@@ -22083,8 +24153,8 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		if (!was || !timer && !inFlight) poll(true);
 	}
 	function remove() {
-		urlTargetChoice?.remove(); urlFolderChoice?.remove();
-		urlTargetChoice = null; urlFolderChoice = null;
+		urlTarget?.remove(); urlFolders?.remove();
+		urlTarget = null; urlFolders = null;
 		browserContext = null;
 		repositoryChoice?.remove();
 		repositoryChoice = null;
@@ -22757,6 +24827,7 @@ var ComfyRunButton_default = defineAsyncComponent(() => __vitePreload(() => impo
 var AgentEntryButton_default = /* @__PURE__ */ defineComponent({
 	__name: "AgentEntryButton",
 	props: {
+		layoutId: {},
 		active: {
 			type: Boolean,
 			default: false
@@ -22768,15 +24839,15 @@ var AgentEntryButton_default = /* @__PURE__ */ defineComponent({
 	},
 	setup(__props) {
 		return (_ctx, _cache) => {
-			return openBlock(), createBlock(Button_default, {
+			return openBlock(), withDirectives(createBlock(Button_default, {
 				variant: "outline",
 				size: "sm",
-				class: normalizeClass(unref(cn)("group no-drag shrink-0 gap-1 rounded-lg", __props.active && "bg-secondary-background-hover", __props.inviting && !__props.active && "agent-shimmer-outline")),
+				class: normalizeClass(unref(cn)("comfier-agent-entry group no-drag shrink-0 gap-1 rounded-lg", __props.active && "bg-secondary-background-hover", __props.inviting && !__props.active && "agent-shimmer-outline")),
 				"aria-pressed": __props.active
 			}, {
 				default: withCtx(() => [createBaseVNode("i", { class: normalizeClass(unref(cn)("size-3 transition-transform duration-300 ease-out group-hover:rotate-360 group-hover:duration-500 motion-reduce:transition-none", __props.active ? "icon-[comfy--astroid-filled]" : "icon-[lucide--astroid]")) }, null, 2), createBaseVNode("span", null, toDisplayString(_ctx.$t("agent.entryButton")), 1)]),
 				_: 1
-			}, 8, ["class", "aria-pressed"]);
+			}, 8, ["class", "aria-pressed"]), [[unref(vLayoutControl), __props.layoutId]]);
 		};
 	}
 });
@@ -22990,6 +25061,7 @@ var _hoisted_1$147 = {
 var CurrentUserButton_default = /* @__PURE__ */ defineComponent({
 	__name: "CurrentUserButton",
 	props: {
+		layoutId: {},
 		showArrow: {
 			type: Boolean,
 			default: true
@@ -23012,7 +25084,16 @@ var CurrentUserButton_default = /* @__PURE__ */ defineComponent({
 			return teamWorkspaceName.value;
 		});
 		const popover = ref(null);
+		const popoverSide = ref("bottom");
+		const popoverAlign = ref("end");
 		const workspacePopoverContent = ref(null);
+		function toggleInwardPopover(event) {
+			const bar = event.currentTarget?.closest("#topbar-workflow-tabs");
+			const edge = bar?.dataset.ufuEdge || "top";
+			popoverSide.value = edge === "left" ? "right" : edge === "right" ? "left" : "bottom";
+			popoverAlign.value = popoverSide.value === "bottom" && bar?.getBoundingClientRect().left < innerWidth / 2 ? "start" : "end";
+			popover.value?.toggle(event);
+		}
 		const closePopover = () => {
 			popover.value?.hide();
 		};
@@ -23020,13 +25101,13 @@ var CurrentUserButton_default = /* @__PURE__ */ defineComponent({
 			workspacePopoverContent.value?.refreshBalance();
 		};
 		return (_ctx, _cache) => {
-			return openBlock(), createElementBlock("div", null, [unref(isLoggedIn) ? (openBlock(), createBlock(Button_default, {
+			return openBlock(), createElementBlock("div", null, [unref(isLoggedIn) ? (openBlock(), withDirectives(createBlock(Button_default, {
 				key: 0,
 				class: "p-1 hover:bg-transparent",
 				variant: "muted-textonly",
 				"aria-label": _ctx.$t("g.currentUser"),
 				"data-testid": "current-user-button",
-				onClick: _cache[0] || (_cache[0] = ($event) => popover.value?.toggle($event))
+				onClick: _cache[0] || (_cache[0] = ($event) => toggleInwardPopover($event))
 			}, {
 				default: withCtx(() => [createBaseVNode("div", { class: normalizeClass(unref(cn)("flex items-center justify-center gap-1 rounded-full hover:bg-interface-button-hover-surface", __props.compact && "size-full")) }, [showWorkspaceSkeleton.value ? (openBlock(), createBlock(unref(script), {
 					key: 0,
@@ -23048,10 +25129,11 @@ var CurrentUserButton_default = /* @__PURE__ */ defineComponent({
 					class: normalizeClass(__props.compact && "h-full w-auto")
 				}, null, 8, ["photo-url", "class"])), __props.showArrow ? (openBlock(), createElementBlock("i", _hoisted_1$147)) : createCommentVNode("", true)], 2)]),
 				_: 1
-			}, 8, ["aria-label"])) : createCommentVNode("", true), createVNode(ImperativePopover_default, {
+			}, 8, ["aria-label"]), [[unref(vLayoutControl), __props.layoutId]])) : createCommentVNode("", true), createVNode(ImperativePopover_default, {
 				ref_key: "popover",
 				ref: popover,
-				align: "end",
+				align: popoverAlign.value,
+				side: popoverSide.value,
 				"content-class": "w-80 overflow-visible p-0",
 				onShow: onPopoverShow
 			}, {
@@ -23614,18 +25696,27 @@ var _hoisted_2$110 = {
 	key: 1,
 	class: "icon-[lucide--panels-top-left] bg-primary-background"
 };
-var _hoisted_3$86 = { class: "workflow-label inline-block max-w-[150px] truncate font-inter text-sm leading-none font-normal text-inherit" };
+var _hoisted_3$86 = { class: "workflow-label inline-block max-w-[150px] truncate font-inter text-sm leading-none font-normal text-inherit", style: {writingMode: "horizontal-tb", textOrientation: "mixed", maxWidth: "150px", maxHeight: "none"} };
 var _hoisted_4$70 = { class: "relative size-4 shrink-0" };
 var _hoisted_5$50 = ["aria-label"];
 var _hoisted_6$40 = ["aria-label"];
 var _hoisted_7$33 = ["aria-label"];
 //#endregion
 //#region src/components/topbar/WorkflowTab.vue
+var WorkflowTabMenuBack_default = /* @__PURE__ */ defineComponent({
+	__name: "WorkflowTabMenuBack",
+	setup() {
+		const menu = injectContextMenuRootContext();
+		useOverlayBack(menu.open, () => menu.onOpenChange(false));
+		return () => null;
+	}
+});
 var WorkflowTab_default = /* @__PURE__ */ defineComponent({
 	inheritAttrs: false,
 	__name: "WorkflowTab",
 	props: {
 		workflowOption: {},
+		layoutId: {},
 		isFirst: { type: Boolean },
 		isLast: { type: Boolean }
 	},
@@ -23769,19 +25860,19 @@ var WorkflowTab_default = /* @__PURE__ */ defineComponent({
 		});
 		return (_ctx, _cache) => {
 			return openBlock(), createElementBlock(Fragment, null, [createVNode(unref(ContextMenuRoot_default), { modal: false }, {
-				default: withCtx(() => [createVNode(unref(ContextMenuTrigger_default), { "as-child": "" }, {
+				default: withCtx(() => [createVNode(WorkflowTabMenuBack_default), createVNode(unref(ContextMenuTrigger_default), { "as-child": "" }, {
 					default: withCtx(() => [createBaseVNode("div", mergeProps({
 						ref_key: "workflowTabRef",
 						ref: workflowTabRef,
 						"data-testid": "workflow-tab",
-						class: "workflow-tab group/tab relative h-full shrink-0"
+						class: "workflow-tab group/tab relative h-full shrink-0", style: {maxHeight: "none", overflow: "visible", width: "auto"}
 					}, _ctx.$attrs, {
 						onMouseenter: handleMouseEnter,
 						onMouseleave: handleMouseLeave,
 						onClick: handleClick
-					}), [createVNode(TabsTrigger_default, {
+					}), [withDirectives(createVNode(TabsTrigger_default, {
 						value: __props.workflowOption.workflow.path,
-						class: "h-full max-w-full min-w-22.5 py-2 pr-2 pl-3"
+						class: "h-full max-w-full min-w-22.5 py-2 pr-2 pl-3", style: {maxHeight: "none", overflow: "visible", width: "auto", minWidth: "90px"}
 					}, {
 						default: withCtx(() => [
 							isBuilderState.value ? (openBlock(), createElementBlock("i", _hoisted_1$142)) : __props.workflowOption.workflow.initialMode === "app" ? (openBlock(), createElementBlock("i", _hoisted_2$110)) : createCommentVNode("", true),
@@ -23810,7 +25901,7 @@ var WorkflowTab_default = /* @__PURE__ */ defineComponent({
 							}, null, 2)) : createCommentVNode("", true)])
 						]),
 						_: 1
-					}, 8, ["value"]), createVNode(Button_default, {
+					}, 8, ["value"]), [[unref(vLayoutControl), __props.layoutId]]), createVNode(Button_default, {
 						class: normalizeClass(unref(cn)("close-button absolute top-1/2 right-2 size-4 -translate-y-1/2 rounded-none p-0 text-smoke-800 group-focus-within/tab:visible group-hover/tab:visible", isActiveTab.value && !hasStatusIndicator.value ? "visible" : "invisible")),
 						variant: "muted-textonly",
 						size: "unset",
@@ -23826,7 +25917,7 @@ var WorkflowTab_default = /* @__PURE__ */ defineComponent({
 					}, 8, ["class", "aria-label"])], 16)]),
 					_: 1
 				}), createVNode(unref(ContextMenuPortal_default), null, {
-					default: withCtx(() => [createVNode(unref(ContextMenuContent_default), { class: normalizeClass(unref(cn)(unref(menuContentClass), "min-w-56")) }, {
+					default: withCtx(() => [createVNode(unref(ContextMenuContent_default), { class: normalizeClass(unref(cn)(unref(menuContentClass), "min-w-56")), style: { maxHeight: "var(--reka-context-menu-content-available-height)" } }, {
 						default: withCtx(() => [createVNode(MenuItems_default, { items: contextMenuItems.value }, null, 8, ["items"])]),
 						_: 1
 					}, 8, ["class"])]),
@@ -24392,7 +26483,7 @@ var WorkflowOverflowMenu_default = /* @__PURE__ */ defineComponent({
 });
 //#endregion
 //#region src/components/topbar/WorkflowTabs.vue?vue&type=script&setup=true&lang.ts
-var _hoisted_1$140 = { class: "no-drag overflow-hidden" };
+var _hoisted_1$140 = { class: "no-drag overflow-hidden", style: {flex: "1 1 0%", minWidth: "0", minHeight: "0"} };
 var _hoisted_2$109 = ["data-agent-gate-settled", "data-agent-flags-settled"];
 var _hoisted_3$85 = {
 	key: 0,
@@ -24413,6 +26504,14 @@ var ComfierCloudTopbarTools = defineComponent({
   __name: "ComfierCloudTopbarTools",
   setup() {
     const toast = useToastStore();
+    const menuSide = ref("bottom");
+    const menuAlign = ref("start");
+    function pointCloudMenuInward(event) {
+      const bar = event.currentTarget?.closest("#topbar-workflow-tabs");
+      const edge = bar?.dataset.ufuEdge || "top";
+      menuSide.value = edge === "left" ? "right" : edge === "right" ? "left" : "bottom";
+      menuAlign.value = menuSide.value === "bottom" && bar?.getBoundingClientRect().left > innerWidth / 2 ? "end" : "start";
+    }
     function placeholder(label) {
       toast.add({severity: "info", summary: label,
         detail: "This feature is not available with API-key sign-in yet. Comfy account integration is pending OAuth whitelisting.", life: 6000});
@@ -24425,14 +26524,14 @@ var ComfierCloudTopbarTools = defineComponent({
       ["Share Feedback", "icon-[lucide--megaphone]"]
     ].map(([label, icon]) => ({key: label, label, icon, command: () => placeholder(label)}));
     return () => createVNode("div", {class: "comfier-cloud-topbar-tools flex shrink-0 items-center gap-1", role: "group", "aria-label": "Comfy Cloud tools"}, [
-      createVNode(Menu_default, {items, "max-height": "viewport"}, {
-        trigger: withCtx(() => [createVNode(Button_default, {variant: "muted-textonly", size: "sm", class: "shrink-0 gap-1 rounded-lg",
-          "aria-label": "Comfy Cloud account", title: "Comfy Cloud account", "aria-haspopup": "menu"}, {
+      createVNode(Menu_default, {items, side: menuSide.value, align: menuAlign.value, "max-height": "viewport"}, {
+        trigger: withCtx(() => [withDirectives(createVNode(Button_default, {variant: "muted-textonly", size: "sm", class: "shrink-0 gap-1 rounded-lg",
+          "aria-label": "Comfy Cloud account", title: "Comfy Cloud account", "aria-haspopup": "menu", onClick: pointCloudMenuInward}, {
             default: withCtx(() => [createBaseVNode("i", {class: "icon-[lucide--user] size-4", "aria-hidden": "true"}),
-              createBaseVNode("i", {class: "pi pi-chevron-down text-xs", "aria-hidden": "true"})])
-          })])
+              createVNode("i", {class: "pi pi-chevron-down text-xs", "aria-hidden": "true", style: {transform: menuSide.value === "right" ? "rotate(-90deg)" : menuSide.value === "left" ? "rotate(90deg)" : "none"}})])
+          }), [[unref(vLayoutControl), "topbar:account"]])])
       }),
-      createVNode(AgentEntryButton_default, {active: false, inviting: false, title: "Comfy Agent", "aria-label": "Comfy Agent", onClick: () => placeholder("Comfy Agent")})
+      createVNode(AgentEntryButton_default, {"layout-id": "topbar:agents", active: false, inviting: false, title: "Comfy Agent", "aria-label": "Comfy Agent", onClick: () => placeholder("Comfy Agent")})
     ]);
   }
 });
@@ -24500,6 +26599,7 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 		const handleWheel = (event) => {
 			const scrollElement = event.currentTarget;
 			const scrollAmount = event.deltaX || event.deltaY;
+			// The intact bar is rotated as a unit; its scroll axis stays horizontal.
 			scrollElement.scroll({ left: scrollElement.scrollLeft + scrollAmount });
 		};
 		const scrollContent = ref(null);
@@ -24531,7 +26631,7 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 			return openBlock(), createElementBlock("div", {
 				ref_key: "containerRef",
 				ref: containerRef,
-				class: normalizeClass(unref(cn)("workflow-tabs-container flex h-full flex-auto flex-row gap-1 overflow-hidden bg-comfy-menu-bg px-1", unref(false) ? "max-w-[env(titlebar-area-width,100vw)]" : "max-w-full"))
+				class: normalizeClass(unref(cn)("workflow-tabs-container flex h-full w-full flex-auto flex-row gap-1 overflow-hidden bg-transparent px-1", unref(false) ? "max-w-[env(titlebar-area-width,100vw)]" : "max-w-full"))
 			}, [
 
 				createBaseVNode("div", _hoisted_1$140, [createBaseVNode("div", {
@@ -24545,11 +26645,11 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 					"activation-mode": "manual",
 					"onUpdate:modelValue": openWorkflowByPath
 				}, {
-					default: withCtx(() => [createVNode(TabsList_default, { class: normalizeClass(unref(cn)("workflow-tabs h-full flex-nowrap gap-1", props.class)) }, {
+					default: withCtx(() => [createVNode(TabsList_default, { class: normalizeClass(unref(cn)("workflow-tabs h-full flex-row flex-nowrap gap-1", props.class)) }, {
 						default: withCtx(() => [(openBlock(true), createElementBlock(Fragment, null, renderList(options.value, (option, index) => {
 							return openBlock(), createBlock(WorkflowTab_default, {
 								key: option.value,
-								"workflow-option": option,
+								"workflow-option": option, "layout-id": "topbar:workflow-tab-" + index,
 								"is-first": index === 0,
 								"is-last": index === options.value.length - 1,
 								onMouseup: withModifiers(($event) => onCloseWorkflow(option), ["middle"]),
@@ -24557,7 +26657,7 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 								onCloseToRight: ($event) => closeWorkflows(options.value.slice(index + 1)),
 								onCloseOthers: ($event) => closeWorkflows([...options.value.slice(index + 1), ...options.value.slice(0, index)])
 							}, null, 8, [
-								"workflow-option",
+								"workflow-option", "layout-id",
 								"is-first",
 								"is-last",
 								"onMouseup",
@@ -24581,7 +26681,7 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 				}, {
 					default: withCtx(() => [..._cache[5] || (_cache[5] = [createBaseVNode("i", { class: "pi pi-plus" }, null, -1)])]),
 					_: 1
-				}, 8, ["aria-label"])), [[_directive_tooltip, {
+				}, 8, ["aria-label"])), [[unref(vLayoutControl), "topbar:new-workflow"], [_directive_tooltip, {
 					value: _ctx.$t("sideToolbar.newBlankWorkflow"),
 					showDelay: 300
 				}]]),
@@ -24590,7 +26690,7 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 					"data-testid": "integrated-tab-bar-actions",
 					"data-agent-gate-settled": unref(agentPanelStore).gateSettled || void 0,
 					"data-agent-flags-settled": unref(agentPanelStore).flagsSettled || void 0,
-					class: "ml-auto flex shrink-0 items-center gap-1 px-0"
+					class: "ml-auto flex flex-row shrink-0 items-center gap-1 px-0"
 				}, comfierCloud ? [createVNode(ComfierCloudTopbarTools)] : [
 					createVNode(TopbarBadges_default),
 					createVNode(TopbarSubscribeButton_default),
@@ -24611,7 +26711,7 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 					}]]) : createCommentVNode("", true),
 					showCurrentUser.value ? (openBlock(), createBlock(CurrentUserButton_default, {
 						key: 2,
-						compact: "",
+						compact: "", "layout-id": "topbar:account",
 						class: "shrink-0 p-1"
 					})) : (openBlock(), createBlock(LoginButton_default, {
 						key: 3,
@@ -24620,7 +26720,7 @@ var WorkflowTabs_default = /* @__PURE__ */ defineComponent({
 					showAgentEntry.value ? (openBlock(), createElementBlock(Fragment, { key: 4 }, [_cache[7] || (_cache[7] = createBaseVNode("div", {
 						"data-testid": "agent-entry-separator",
 						class: "h-5 w-px shrink-0 bg-border-subtle"
-					}, null, -1)), createVNode(AgentEntryButton_default, {
+					}, null, -1)), createVNode(AgentEntryButton_default, {"layout-id": "topbar:agents",
 						active: unref(agentPanelStore).isVisible,
 						inviting: !unref(agentPanelStore).hasEverOpened,
 						onClick: onAgentEntryClick
@@ -26507,7 +28607,7 @@ var SidebarTabTemplate_default = /* @__PURE__ */ defineComponent({
 				"aria-label": __props.title,
 				class: normalizeClass(unref(cn)("comfy-vue-side-bar-container group/sidebar-tab flex size-full flex-col", __props.class))
 			}, [
-				createBaseVNode("div", _hoisted_2$104, [__props.title || _ctx.$slots["alt-title"] || _ctx.$slots["tool-buttons"] ? (openBlock(), createElementBlock("div", _hoisted_3$81, [createBaseVNode("h2", { class: "comfier-sidebar-title" }, toDisplayString(__props.title), 1), renderSlot(_ctx.$slots, "alt-title"), createBaseVNode("div", { class: "comfier-sidebar-actions" }, [renderSlot(_ctx.$slots, "tool-buttons"), !window.ComfierApp ? createBaseVNode("button", { type: "button", class: "comfier-sidebar-close", onClick: (event) => { const side = event.currentTarget.closest("[data-testid^=comfier-panel-]")?.getAttribute("data-testid")?.replace("comfier-panel-", ""); const panels = useComfierPanelStore(); if (side && panels.lanes[side]) panels.remove(panels.lanes[side].id); } }, _ctx.$t("comfierTest.close"), 1) : createCommentVNode("", true)])])) : createCommentVNode("", true), renderSlot(_ctx.$slots, "header")]),
+				createBaseVNode("div", _hoisted_2$104, [__props.title || _ctx.$slots["alt-title"] || _ctx.$slots["tool-buttons"] ? (openBlock(), createElementBlock("div", _hoisted_3$81, [createBaseVNode("h2", { class: "comfier-sidebar-title" }, toDisplayString(__props.title), 1), renderSlot(_ctx.$slots, "alt-title"), createBaseVNode("div", { class: "comfier-sidebar-actions" }, [renderSlot(_ctx.$slots, "tool-buttons"), createCommentVNode("", true)])])) : createCommentVNode("", true), renderSlot(_ctx.$slots, "header")]),
 				createBaseVNode("div", _hoisted_4$65, [renderSlot(_ctx.$slots, "body")]),
 				renderSlot(_ctx.$slots, "footer")
 			], 10, _hoisted_1$134);
@@ -27208,6 +29308,7 @@ function installDiagnosticSuite() {
 		return;
 	}
 	window.__comfierDiagnosticSuiteInstalled = true;
+    const performanceOnly=location.pathname.startsWith('/__comfier_cloud__/');
 	var state = {
 		enabled: false,
 		selected: null,
@@ -27285,7 +29386,7 @@ function installDiagnosticSuite() {
 	document.head.appendChild(style);
 	var root = document.createElement("div");
 	root.id = "comfier-diagnostics-root";
-	root.innerHTML = "<button id='comfier-diagnostics-launch'>Diag</button><section id='comfier-diagnostics-menu'><div class='comfier-diagnostics-title'>Diagnostic Suite</div><div id='comfier-diagnostics-grid'><button data-tool='element'>Element</button><button data-tool='hit'>Hit Stack</button><button data-tool='events'>Event Trace</button><button data-tool='viewport'>Viewport</button><button data-tool='canvas'>Canvas</button><button data-tool='overlays'>Overlays</button><button data-tool='console'>Console</button><button data-tool='network'>Network</button><button data-tool='storage'>Storage</button><button data-tool='state'>App State</button><button data-tool='all'>Export All</button></div><button id='comfier-diagnostics-disable' data-tool='disable'>Close Diagnostic Mode</button></section><section id='comfier-diagnostics-report-panel'><div id='comfier-diagnostics-report-title' class='comfier-diagnostics-title'>Report</div><textarea id='comfier-diagnostics-script' spellcheck='false' autocapitalize='off' autocomplete='off' placeholder='Enter JavaScript. Use return to display a value; await is supported.'></textarea><textarea id='comfier-diagnostics-report' readonly></textarea><textarea id='comfier-diagnostics-children' aria-label='Direct children and highlighted child details' readonly></textarea><div id='comfier-diagnostics-backups'></div><div id='comfier-diagnostics-actions'><button data-act='parent'>Parent</button><button data-act='child'>Return Child</button><button data-act='prev-child'>Prev Child</button><button data-act='next-child'>Next Child</button><button data-act='select-child'>Select Child</button><button data-act='copy-child'>Copy Child</button><button data-act='pick'>Pick</button><button data-act='refresh'>Refresh</button><button data-act='mode'>Inject</button><button data-act='inject-return'>Inject</button><button data-act='run'>Run</button><button data-act='save'>Save</button><button data-act='backups'>Backups</button><button data-act='clear-script'>Clear Script</button><button data-act='clear-console'>Clear Console</button><button data-act='copy-script'>Copy Script</button><button data-act='copy'>Copy Console</button><button data-act='menu'>Menu</button><button data-act='close'>Close</button></div></section>";
+	root.innerHTML = "<button id='comfier-diagnostics-launch'>Diag</button><section id='comfier-diagnostics-menu'><div class='comfier-diagnostics-title'>Diagnostic Suite</div><div id='comfier-diagnostics-grid'><button data-tool='element'>Element</button><button data-tool='hit'>Hit Stack</button><button data-tool='events'>Event Trace</button><button data-tool='viewport'>Viewport</button><button data-tool='canvas'>Canvas</button><button data-tool='performance'>Performance</button><button data-tool='overlays'>Overlays</button><button data-tool='console'>Console</button><button data-tool='network'>Network</button><button data-tool='storage'>Storage</button><button data-tool='state'>App State</button><button data-tool='all'>Export All</button></div><button id='comfier-diagnostics-disable' data-tool='disable'>Close Diagnostic Mode</button></section><section id='comfier-diagnostics-report-panel'><div id='comfier-diagnostics-report-title' class='comfier-diagnostics-title'>Report</div><textarea id='comfier-diagnostics-script' spellcheck='false' autocapitalize='off' autocomplete='off' placeholder='Enter JavaScript. Use return to display a value; await is supported.'></textarea><textarea id='comfier-diagnostics-report' readonly></textarea><textarea id='comfier-diagnostics-children' aria-label='Direct children and highlighted child details' readonly></textarea><div id='comfier-diagnostics-backups'></div><div id='comfier-diagnostics-actions'><button data-act='perf-start'>Start Capture</button><button data-act='perf-stop'>Stop &amp; Report</button><button data-act='perf-reset'>Reset Capture</button><button data-act='parent'>Parent</button><button data-act='child'>Return Child</button><button data-act='prev-child'>Prev Child</button><button data-act='next-child'>Next Child</button><button data-act='select-child'>Select Child</button><button data-act='copy-child'>Copy Child</button><button data-act='pick'>Pick</button><button data-act='refresh'>Refresh</button><button data-act='mode'>Inject</button><button data-act='inject-return'>Inject</button><button data-act='run'>Run</button><button data-act='save'>Save</button><button data-act='backups'>Backups</button><button data-act='clear-script'>Clear Script</button><button data-act='clear-console'>Clear Console</button><button data-act='copy-script'>Copy Script</button><button data-act='copy'>Copy Console</button><button data-act='menu'>Menu</button><button data-act='close'>Close</button></div></section>";
 	document.body.appendChild(root);
 	var highlight = document.createElement("div");
 	highlight.id = "comfier-diagnostics-highlight";
@@ -27300,6 +29401,7 @@ function installDiagnosticSuite() {
 	var childReport = root.querySelector("#comfier-diagnostics-children");
 	var reportTitle = root.querySelector("#comfier-diagnostics-report-title");
 	var actionButtons = Array.from(root.querySelectorAll("#comfier-diagnostics-actions [data-act]"));
+    if(performanceOnly)root.querySelectorAll('[data-tool]').forEach(button=>{button.hidden=!['performance','disable'].includes(button.dataset.tool);});
 	function syncViewportMode() {
 		root.classList.toggle("outer-landscape", innerWidth > innerHeight && Math.min(screen.width, screen.height) <= 520);
 	}
@@ -27339,7 +29441,7 @@ function installDiagnosticSuite() {
 			"copy",
 			"menu",
 			"close"
-		] : kind === "hit" ? [
+		] : kind === "performance" ? ["perf-start","perf-stop","perf-reset","refresh","copy","menu","close"] : kind === "hit" ? [
 			"pick",
 			"copy",
 			"menu",
@@ -27576,6 +29678,7 @@ function installDiagnosticSuite() {
 		root.classList.toggle("enabled", state.enabled);
 		refreshSettingsToggles();
 		if (!state.enabled) {
+            graphPerformance.stop('Diagnostic Mode disabled');
 			state.eventTrace = false;
 			closeAll();
 			setConsoleInjection(false);
@@ -27920,7 +30023,7 @@ function installDiagnosticSuite() {
 		});
 	}
 	function allReport() {
-		return "COMFIERUI DIAGNOSTIC EXPORT\n" + viewportReport() + section("APP STATE", appStateReport()) + section("SELECTED ELEMENT", elementReport(state.selected)) + section("CANVAS", canvasReport()) + section("OVERLAYS", overlaysReport()) + section("STORAGE", storageReport()) + section("INPUT EVENTS", logReport("EVENTS", state.events)) + section("CONSOLE", logReport("CONSOLE", state.console)) + section("ERRORS", logReport("ERRORS", state.errors)) + section("NETWORK", logReport("NETWORK", state.network));
+		return "COMFIERUI DIAGNOSTIC EXPORT\n" + section('GRAPH PERFORMANCE',graphPerformance.report()) + viewportReport() + section("APP STATE", appStateReport()) + section("SELECTED ELEMENT", elementReport(state.selected)) + section("CANVAS", canvasReport()) + section("OVERLAYS", overlaysReport()) + section("STORAGE", storageReport()) + section("INPUT EVENTS", logReport("EVENTS", state.events)) + section("CONSOLE", logReport("CONSOLE", state.console)) + section("ERRORS", logReport("ERRORS", state.errors)) + section("NETWORK", logReport("NETWORK", state.network));
 	}
 	function arm(mode) {
 		if (!state.enabled) return;
@@ -27942,6 +30045,7 @@ function installDiagnosticSuite() {
 	}
 	launch.addEventListener("click", function(e) {
 		if (!state.enabled) return;
+        graphPerformance.stop('Opened diagnostics');
 		e.preventDefault();
 		e.stopPropagation();
 		if (menu.classList.contains("open") || panel.classList.contains("open")) closeAll();
@@ -27961,6 +30065,7 @@ function installDiagnosticSuite() {
 				});
 			} else if (t === "viewport") showReport("Viewport / Keyboard", viewportReport(), "viewport", viewportReport);
 			else if (t === "canvas") showReport("Canvas Inventory", canvasReport(), "canvas", canvasReport);
+            else if(t==='performance'){graphPerformance.stop('Opened performance report');showReport('Graph Performance',graphPerformance.report(),'performance',()=>graphPerformance.report());}
 			else if (t === "overlays") showReport("Overlay Inventory", overlaysReport(), "overlays", overlaysReport);
 			else if (t === "console") {
 				setConsoleInjection(false);
@@ -27995,7 +30100,12 @@ function installDiagnosticSuite() {
 		}
 		if (!act) return;
 		var a = act.dataset.act;
-		if (a === "parent" && state.selected && state.selected.parentElement) choose(state.selected.parentElement, true);
+        if(a==='perf-start' && state.reportKind==='performance'){
+            try{state.eventTrace=false;graphPerformance.start(window.app?.canvas,()=>{launch.textContent='Diag';});closeAll();launch.textContent='Perf ●';}
+            catch(error){showReport('Graph Performance',error.message,'performance',()=>graphPerformance.report());}
+        }else if(a==='perf-stop' && state.reportKind==='performance'){graphPerformance.stop();showReport('Graph Performance',graphPerformance.report(),'performance',()=>graphPerformance.report());}
+        else if(a==='perf-reset' && state.reportKind==='performance'){graphPerformance.reset();showReport('Graph Performance',graphPerformance.report(),'performance',()=>graphPerformance.report());}
+		else if (a === "parent" && state.selected && state.selected.parentElement) choose(state.selected.parentElement, true);
 		else if (a === "child" && state.childHistory.length) choose(state.childHistory.pop(), false);
 		else if (a === "prev-child" || a === "next-child") refreshChildren(a === "prev-child" ? -1 : 1);
 		else if (a === "select-child") {
@@ -28102,6 +30212,7 @@ function installDiagnosticSuite() {
 			if (state.events.length > 300) state.events.shift();
 		}, true);
 	});
+    if(!performanceOnly){
 	[
 		"log",
 		"info",
@@ -28110,7 +30221,7 @@ function installDiagnosticSuite() {
 	].forEach(function(level) {
 		var original = console[level];
 		console[level] = function() {
-			if (state.enabled) {
+			if (state.enabled && !graphPerformance.active) {
 				var args = Array.prototype.slice.call(arguments).map(function(x) {
 					return safe(function() {
 						return typeof x === "string" ? x : JSON.stringify(x);
@@ -28123,12 +30234,12 @@ function installDiagnosticSuite() {
 		};
 	});
 	window.addEventListener("error", function(e) {
-		if (!state.enabled) return;
+		if (!state.enabled || graphPerformance.active) return;
 		state.errors.push(now() + " ERROR " + e.message + " @ " + e.filename + ":" + e.lineno + ":" + e.colno);
 		if (state.errors.length > 200) state.errors.shift();
 	});
 	window.addEventListener("unhandledrejection", function(e) {
-		if (!state.enabled) return;
+		if (!state.enabled || graphPerformance.active) return;
 		state.errors.push(now() + " REJECTION " + clip(safe(function() {
 			return e.reason && (e.reason.stack || e.reason.message) || e.reason;
 		}, "unknown"), 1200));
@@ -28137,7 +30248,7 @@ function installDiagnosticSuite() {
 	if (window.fetch) {
 		var nativeFetch = window.fetch;
 		window.fetch = function() {
-			if (!state.enabled) return nativeFetch.apply(this, arguments);
+			if (!state.enabled || graphPerformance.active) return nativeFetch.apply(this, arguments);
 			var start = performance.now();
 			var url = clip(arguments[0] && (arguments[0].url || arguments[0]), 220);
 			return nativeFetch.apply(this, arguments).then(function(res) {
@@ -28155,14 +30266,14 @@ function installDiagnosticSuite() {
 		var nativeOpen = NativeXHR.prototype.open;
 		var nativeSend = NativeXHR.prototype.send;
 		NativeXHR.prototype.open = function(method, url) {
-			if (state.enabled) this.__comfierDiag = {
+			if (state.enabled && !graphPerformance.active) this.__comfierDiag = {
 				method,
 				url: clip(url, 220)
 			};
 			return nativeOpen.apply(this, arguments);
 		};
 		NativeXHR.prototype.send = function() {
-			if (!state.enabled) return nativeSend.apply(this, arguments);
+			if (!state.enabled || graphPerformance.active) return nativeSend.apply(this, arguments);
 			var x = this;
 			var start = performance.now();
 			x.addEventListener("loadend", function() {
@@ -28173,6 +30284,7 @@ function installDiagnosticSuite() {
 			return nativeSend.apply(this, arguments);
 		};
 	}
+    }
 	window.addEventListener("resize", function() {
 		syncViewportMode();
 		positionHighlight();
@@ -28215,7 +30327,7 @@ function installDiagnosticSuite() {
 var ready;
 function startDiagnostics(registerBack) {
 	let mounted = true;
-	ready ||= installDiagnosticHostBridge();
+	ready ||= location.pathname.startsWith('/__comfier_cloud__/') ? Promise.resolve() : installDiagnosticHostBridge();
 	ready.then(() => {
 		if (!mounted) return;
 		installDiagnosticSuite();
@@ -28249,7 +30361,7 @@ var _hoisted_5$44 = {
 };
 var _hoisted_6$35 = ["aria-label"];
 var _hoisted_7$28 = ["aria-label", "aria-pressed"];
-var _hoisted_8$23 = { class: "flex flex-col items-center gap-0.5" };
+var _hoisted_8$23 = { class: "flex flex-col items-center", style: "gap:1px" };
 var _hoisted_9$22 = { class: "comfier-multiselect-label text-[7px] font-bold" };
 var _hoisted_10$16 = ["checked"];
 var _hoisted_11$15 = ["aria-label"];
@@ -28342,6 +30454,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 		const multiSelect = ref(false);
 		const actionError = ref("");
 		const unloading = ref(false);
+		const themeSampling = ref(false);
 		watch(() => panels.isOpen("comfier-apps"), (open) => {
 			if (!open && !appMode.graphVisible) appMode.fullCanvas();
 		});
@@ -28380,6 +30493,16 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 			} finally {
 				unloading.value = false;
 			}
+		}
+		// The monitor reuses the owned host cleanup action; UI Editor keeps its geometry.
+		function clearResourceMemory(event) {
+			if (cloud || window.__comfierLayoutEditor?.isEditing()) return;
+			if (event?.type === "keydown") {
+				if (event.key !== "Enter" && event.key !== " ") return;
+				event.preventDefault();
+				if (event.repeat) return;
+			}
+			return unload(true);
 		}
 		const hostPanels = cloud ? [] : [{
 			id: "comfier-downloads",
@@ -28516,23 +30639,14 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 		}
 		function panelStyle(side) {
 			layout.snapshot;
-			const appPanel = panels.lanes[side]?.id === "comfier-apps";
+			const appPanel = panels.lanes[side]?.id === "comfier-apps" && mode.value !== "outerPortrait";
 			const loraPanel = panels.lanes[side]?.id === "comfier-lora";
 			const other = side === "left" ? "right" : "left";
 			const available = availableWidth(side);
-			const panelWidth = loraPanel ? panels.lanes[other] && !portrait.value ? Math.max(0, available - panelWidths.value[other]) : phoneLandscape.value ? available * 2 / 3 : available : Math.min(panelWidths.value[side], available);
+			const panelWidth = loraPanel && (portrait.value || phoneLandscape.value) ? (panels.lanes[other] && !portrait.value ? Math.max(0, available - panelWidths.value[other]) : phoneLandscape.value ? available * 2 / 3 : available) : Math.min(panelWidths.value[side], available);
 			const space = layout.panelSpace(appPanel ? 0 : panelWidth);
 			let left = space?.left ?? 58;
 			let right = space?.right ?? width.value - 58;
-			// Only phone portrait Apps can cover occupied side edge lanes.
-			switch (mode.value) {
-				case "outerPortrait":
-					if (appPanel) { left = 4; right = width.value - 4; }
-					break;
-				case "innerPortrait": break;
-				case "innerLandscape": break;
-				case "outerLandscape": break;
-			}
 			const top = phoneLandscape.value ? 4 : space ? appPanel ? space.top : side === "left" ? space.leftTop : space.rightTop : topHeight.value + 12;
 			const bottom = phoneLandscape.value ? 4 : space ? height.value - (appPanel ? space.bottom : side === "left" ? Math.min(space.bottom, space.leftBottom) : space.rightBottom) : bottomHeight.value + 12;
 			return {
@@ -28544,6 +30658,8 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 				zIndex: panels.activeId === panels.lanes[side]?.id ? 504 : 502
 			};
 		}
+		// Panel state is the prompt-width owner; no DOM size observer is needed.
+		watch(() => ["left", "right"].filter(side => panels.lanes[side]?.id === "comfier-apps").map(side => panelStyle(side).width).join("|"), () => appMode.refreshPrompts(), {flush: "post"});
 		function resizeHandleStyle(side) {
 			const style = panelStyle(side);
 			return {
@@ -28685,7 +30801,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 				app.canvas.deselectAll();
 				return true;
 			}, 180, "canvas-selection"));
-			if (!cloud) releaseDiagnostics = startDiagnostics(registerBackHandler);
+			releaseDiagnostics = startDiagnostics(registerBackHandler);
 			releaseDetails = startDetailPopovers();
 			releaseTouchMenus = bindCanvasTouchGestures(app.canvas);
 			window.__comfierBack = {
@@ -28874,8 +30990,8 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 				(openBlock(), createElementBlock(Fragment, null, renderList(sides, (side) => {
 					return withDirectives(createBaseVNode("section", {
 						key: side,
-						style: normalizeStyle(panelStyle(side)),
-						class: normalizeClass(["comfier-early-floating-panel pointer-events-auto absolute flex flex-col overflow-hidden rounded-[10px] border border-interface-stroke bg-comfy-menu-bg", { "comfier-extensions-panel": unref(panels).lanes[side]?.id === "comfier-extensions" }]),
+						style: normalizeStyle([panelStyle(side), themeSampling.value && unref(panels).lanes[side]?.id === "comfier-app-settings" ? {visibility: "hidden", pointerEvents: "none"} : null]),
+						class: normalizeClass(["comfier-early-floating-panel pointer-events-auto absolute flex flex-col overflow-hidden rounded-[10px] border border-interface-stroke bg-comfy-menu-bg", { "comfier-extensions-panel": unref(panels).lanes[side]?.id === "comfier-extensions", "comfier-desktop-dock": !unref(android) }]),
 						"data-testid": "comfier-panel-" + side,
 						"data-comfier-side-panel": "",
 						"aria-label": panelTitle(side),
@@ -28889,11 +31005,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 						"comfier-properties",
 						"comfier-downloads",
 						"comfier-app-settings"
-					].includes(unref(panels).lanes[side]?.id ?? "") ? (openBlock(), createElementBlock("header", _hoisted_26, [createBaseVNode("h2", _hoisted_27, toDisplayString(panelTitle(side)), 1), !unref(android) ? (openBlock(), createElementBlock("button", {
-						key: 0,
-						class: normalizeClass(unref(buttonClass)),
-						onClick: ($event) => close(side)
-					}, toDisplayString(unref(t)("comfierTest.close")), 11, _hoisted_28)) : createCommentVNode("", true)])) : createCommentVNode("", true), createBaseVNode("div", { class: normalizeClass(unref(cn)("min-h-0 flex-1", [
+					].includes(unref(panels).lanes[side]?.id ?? "") ? (openBlock(), createElementBlock("header", _hoisted_26, [createBaseVNode("h2", _hoisted_27, toDisplayString(panelTitle(side)), 1), createCommentVNode("", true)])) : createCommentVNode("", true), createBaseVNode("div", { class: normalizeClass(unref(cn)("min-h-0 flex-1", [
 						"comfier-settings",
 						"comfier-templates",
 						"comfier-apps"
@@ -28918,6 +31030,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 						onClose: _cache[10] || (_cache[10] = ($event) => unref(panels).remove("comfier-help"))
 					})) : unref(panels).lanes[side]?.id === "comfier-app-settings" ? (openBlock(), createBlock(AppSettingsPanel_default, {
 						key: 4,
+						onThemeSampling: value => { themeSampling.value = value; },
 						class: "comfier-app-settings-native-panel"
 					})) : unref(panels).lanes[side]?.id === "comfier-extensions" ? (openBlock(), createBlock(ManagerDialog_default, {
 						key: 5,
@@ -28947,15 +31060,11 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 					key: 0,
 					id: "comfier-lora-manager-panel",
 					style: normalizeStyle(panelStyle(loraSide.value)),
-					class: "comfier-early-floating-panel pointer-events-auto absolute flex flex-col overflow-hidden rounded-[10px] border border-interface-stroke bg-comfy-menu-bg",
+					class: normalizeClass(["comfier-early-floating-panel pointer-events-auto absolute flex flex-col overflow-hidden rounded-[10px] border border-interface-stroke bg-comfy-menu-bg", { "comfier-desktop-dock": !unref(android) }]),
 					"data-testid": "comfier-lora-panel",
 					"aria-label": unref(t)("comfierTest.lora"),
 					onPointerdown: _cache[12] || (_cache[12] = ($event) => unref(panels).focus("comfier-lora"))
-				}, [createBaseVNode("header", _hoisted_31, [createBaseVNode("h2", _hoisted_32, toDisplayString(unref(t)("comfierTest.lora")), 1), !unref(android) ? (openBlock(), createElementBlock("button", {
-					key: 0,
-					class: normalizeClass(unref(buttonClass)),
-					onClick: _cache[11] || (_cache[11] = ($event) => unref(panels).remove("comfier-lora"))
-				}, toDisplayString(unref(t)("comfierTest.close")), 3)) : createCommentVNode("", true)]), createBaseVNode("div", { class: normalizeClass(unref(cn)("min-h-0 flex-1 overflow-x-auto overflow-y-hidden overscroll-contain", "")) }, [createBaseVNode("iframe", {
+				}, [createBaseVNode("header", _hoisted_31, [createBaseVNode("h2", _hoisted_32, toDisplayString(unref(t)("comfierTest.lora")), 1), createCommentVNode("", true)]), createBaseVNode("div", { class: normalizeClass(unref(cn)("min-h-0 flex-1 overflow-x-auto overflow-y-hidden overscroll-contain", "")) }, [createBaseVNode("iframe", {
 					id: "comfier-lora-manager-frame",
 					src: "/loras",
 					title: unref(t)("comfierTest.lora"),
@@ -28976,7 +31085,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 						onPointercancelCapture: cancelResize,
 						onLostpointercaptureCapture: cancelResize,
 						onKeydown: ($event) => resizeKey($event, side)
-					}, [createBaseVNode("span", _hoisted_35, [createBaseVNode("i", { class: normalizeClass(unref(cn)("icon-[lucide--chevron-right] size-6", side === "right" && "rotate-180")) }, null, 2)])], 46, _hoisted_34), [[vShow, !portrait.value && unref(panels).lanes[side] && !["comfier-apps", "comfier-lora"].includes(unref(panels).lanes[side]?.id ?? "")]]);
+					}, [createBaseVNode("span", _hoisted_35, [createBaseVNode("i", { class: normalizeClass(unref(cn)("icon-[lucide--chevron-right] size-6", side === "right" && "rotate-180")) }, null, 2)])], 46, _hoisted_34), [[vShow, !portrait.value && unref(panels).lanes[side] && unref(panels).lanes[side]?.id !== "comfier-apps"]]);
 				}), 64)),
 				createBaseVNode("div", _hoisted_36, [createVNode(MiniMap_default)]),
 				actionError.value ? (openBlock(), createElementBlock("p", {
@@ -28988,7 +31097,7 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 				unref(bottomPanel).bottomPanelVisible ? (openBlock(), createElementBlock("section", {
 					key: 2,
 					id: "comfier-logs-bottom-panel",
-					class: "comfier-early-floating-bottom pointer-events-auto absolute right-14 left-14 overflow-auto rounded-[10px] border border-interface-stroke bg-comfy-menu-bg",
+					class: normalizeClass(["comfier-early-floating-bottom pointer-events-auto absolute right-14 left-14 overflow-auto rounded-[10px] border border-interface-stroke bg-comfy-menu-bg", { "comfier-desktop-dock": !unref(android) }]),
 					style: normalizeStyle({
 						...(phoneLandscape.value ? {} : { position: "fixed" }),
 						left: bottomSpace.value.left + "px",
@@ -29013,7 +31122,16 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 					ref: bottomBar,
 					class: "pointer-events-auto contents"
 				}, [
-					createVNode(ResourceFills_default),
+					createVNode(ResourceFills_default, {
+						role: "button",
+						tabindex: 0,
+						title: "Unload models and clear execution cache",
+						"aria-label": "Unload models and clear execution cache",
+						"aria-busy": unloading.value,
+						"aria-disabled": unloading.value,
+						onClick: clearResourceMemory,
+						onKeydown: clearResourceMemory
+					}, null, 8, ["aria-busy", "aria-disabled"]),
 					(openBlock(), createBlock(Suspense, null, {
 						default: withCtx(() => [createVNode(unref(ComfyRunButton_default))]),
 						_: 1
@@ -29034,53 +31152,8 @@ var ComfierShell_default = /* @__PURE__ */ defineComponent({
 	}
 });
 //#endregion
-//#region src/components/builder/VueNodeSwitchPopup.vue?vue&type=script&setup=true&lang.ts
-var _hoisted_1$126 = { class: "flex cursor-pointer items-center gap-2 text-sm text-muted-foreground" };
-//#endregion
-//#region src/components/builder/VueNodeSwitchPopup.vue
-var VueNodeSwitchPopup_default = /* @__PURE__ */ defineComponent({
-	__name: "VueNodeSwitchPopup",
-	setup(__props) {
-		const appModeStore = useAppModeStore();
-		const canvasStore = useCanvasStore();
-		const settingStore = useSettingStore();
-		const dontShowAgain = ref(false);
-		function dismiss() {
-			if (dontShowAgain.value) settingStore.set("Comfy.AppBuilder.VueNodeSwitchDismissed", true);
-			appModeStore.showVueNodeSwitchPopup = false;
-		}
-		return (_ctx, _cache) => {
-			return unref(appModeStore).showVueNodeSwitchPopup && !unref(canvasStore).isPickingNodes ? (openBlock(), createBlock(NotificationPopup_default, {
-				key: 0,
-				"data-testid": "linear-vue-node-switch-popup",
-				title: _ctx.$t("appBuilder.vueNodeSwitch.title"),
-				"show-close": "",
-				position: "bottom-left",
-				onClose: dismiss
-			}, {
-				"footer-start": withCtx(() => [createBaseVNode("label", _hoisted_1$126, [withDirectives(createBaseVNode("input", {
-					"onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => dontShowAgain.value = $event),
-					type: "checkbox",
-					"data-testid": "linear-vue-node-switch-dont-show-again",
-					class: "accent-primary-background"
-				}, null, 512), [[vModelCheckbox, dontShowAgain.value]]), createTextVNode(" " + toDisplayString(_ctx.$t("appBuilder.vueNodeSwitch.dontShowAgain")), 1)])]),
-				"footer-end": withCtx(() => [createVNode(Button_default, {
-					variant: "secondary",
-					size: "lg",
-					"data-testid": "linear-vue-node-switch-dismiss",
-					class: "font-normal",
-					onClick: dismiss
-				}, {
-					default: withCtx(() => [createTextVNode(toDisplayString(_ctx.$t("appBuilder.vueNodeSwitch.dismiss")), 1)]),
-					_: 1
-				})]),
-				default: withCtx(() => [createTextVNode(toDisplayString(_ctx.$t("appBuilder.vueNodeSwitch.content")) + " ", 1)]),
-				_: 1
-			}, 8, ["title"])) : createCommentVNode("", true);
-		};
-	}
-});
-//#endregion
+
+
 //#region src/composables/element/useAbsolutePosition.ts
 function useAbsolutePosition(options = {}) {
 	const { useTransform = false } = options;
@@ -29179,15 +31252,20 @@ function useDomClipping(options = {}) {
 		return "";
 	};
 	let pendingRaf = 0;
+    let perfPending=null;
 	/**
 	* Updates the clip-path style based on element and selection information.
 	* Batched via requestAnimationFrame to avoid forcing synchronous layout
 	* from getBoundingClientRect() on every reactive state change.
 	*/
 	const updateClipPath = (element, canvasElement, isSelected, selectedArea) => {
-		if (pendingRaf) cancelAnimationFrame(pendingRaf);
+		if (pendingRaf){cancelAnimationFrame(pendingRaf);if(perfPending)graphPerformance.cancelDomClip(perfPending);}
+        perfPending=graphPerformance.active?graphPerformance.scheduleDomClip():null;
 		pendingRaf = requestAnimationFrame(() => {
 			pendingRaf = 0;
+            const perf=perfPending;perfPending=null;
+            const measured=perf&&graphPerformance.isCapture(perf),stamp=measured?performance.now():0;
+            try {
 			const elementRect = element.getBoundingClientRect();
 			const canvasRect = canvasElement.getBoundingClientRect();
 			const clipPath = calculateClipPath(elementRect, canvasRect, isSelected, selectedArea);
@@ -29195,6 +31273,7 @@ function useDomClipping(options = {}) {
 				clipPath: clipPath || "none",
 				willChange: "clip-path"
 			};
+            } finally {if(measured)graphPerformance.finishDomClip(perf,performance.now()-stamp);}
 		});
 	};
 	return {
@@ -29380,6 +31459,8 @@ var DomWidgets_default = /* @__PURE__ */ defineComponent({
 		const updateWidgets = () => {
 			const lgCanvas = canvasStore.canvas;
 			if (!lgCanvas) return;
+            const perfFrame=graphPerformance.frame,perfStart=perfFrame?graphPerformance.stamp(perfFrame):0;
+            try {
 			const lowQuality = lgCanvas.low_quality;
 			const currentGraph = lgCanvas.graph;
 			const viewportOffsetX = lgCanvas.ds.offset[0];
@@ -29399,6 +31480,7 @@ var DomWidgets_default = /* @__PURE__ */ defineComponent({
 			lastSelected.width = selectedArea?.[2] ?? 0;
 			lastSelected.height = selectedArea?.[3] ?? 0;
 			for (const widgetState of widgetStates.value) {
+                if(perfFrame)perfFrame.domWidgets++;
 				const widget = widgetState.widget;
 				if (!widget.isVisible() || !widgetState.active) {
 					widgetState.visible = false;
@@ -29409,6 +31491,7 @@ var DomWidgets_default = /* @__PURE__ */ defineComponent({
 				const nodeVisible = lgCanvas.isNodeVisible(posNode);
 				widgetState.visible = isInCorrectGraph && nodeVisible && !(widget.options.hideOnZoom && lowQuality);
 				if (widgetState.visible) {
+                    if(perfFrame)perfFrame.visibleDomWidgets++;
 					const margin = widget.margin;
 					const newPosX = posNode.pos[0] + margin;
 					const newPosY = posNode.pos[1] + margin + widget.y;
@@ -29420,6 +31503,7 @@ var DomWidgets_default = /* @__PURE__ */ defineComponent({
 					widgetState.readonly = lgCanvas.read_only;
 				}
 			}
+            } finally {if(perfFrame)perfFrame.phases.domWidgets+=graphPerformance.stamp(perfFrame)-perfStart;}
 		};
 		const canvasStore = useCanvasStore();
 		whenever(() => canvasStore.canvas, (canvas) => canvas.onDrawForeground = useChainCallback(canvas.onDrawForeground, updateWidgets), { immediate: true });
@@ -29534,44 +31618,7 @@ function createNodeProgressCanvasSync(nodeToLocator) {
 	};
 }
 //#endregion
-//#region src/components/graph/LinkOverlayCanvas.vue
-var LinkOverlayCanvas_default = /* @__PURE__ */ defineComponent({
-	__name: "LinkOverlayCanvas",
-	props: { canvas: {} },
-	emits: ["ready", "dispose"],
-	setup(__props, { emit: __emit }) {
-		const emit = __emit;
-		const canvasRef = ref(null);
-		const appMode = useComfierAppModeStore();
-		const { pause, resume } = useRafFn(() => {
-			const el = canvasRef.value;
-			const mainCanvas = __props.canvas.canvas;
-			if (!el || !mainCanvas) return;
-			if (el.width !== mainCanvas.width || el.height !== mainCanvas.height) {
-				el.width = mainCanvas.width;
-				el.height = mainCanvas.height;
-			}
-		}, { immediate: false });
-		watch(() => appMode.graphVisible, (visible) => {
-			if (visible) resume();
-			else pause();
-		}, { immediate: true });
-		onMounted(() => {
-			if (canvasRef.value) emit("ready", canvasRef.value);
-		});
-		onBeforeUnmount(() => {
-			emit("dispose");
-		});
-		return (_ctx, _cache) => {
-			return withDirectives((openBlock(), createElementBlock("canvas", {
-				ref_key: "canvasRef",
-				ref: canvasRef,
-				class: "pointer-events-none absolute inset-0 size-full"
-			}, null, 512)), [[vShow, unref(appMode).graphVisible]]);
-		};
-	}
-});
-//#endregion
+
 //#region src/components/graph/NodeTooltip.vue
 var NodeTooltip_default = /*#__PURE__*/ _plugin_vue_export_helper_default(/* @__PURE__ */ defineComponent({
 	__name: "NodeTooltip",
@@ -30757,7 +32804,7 @@ function useSelectionToolboxPosition(toolboxRef) {
 	const canvasStore = useCanvasStore();
 	const lgCanvas = canvasStore.getCanvas();
 	const { getSelectableItems } = useSelectedLiteGraphItems();
-	const { shouldRenderVueNodes } = useVueFeatureFlags();
+
 	const isDraggingLiteGraphItems = ref(lgCanvas.isDragging);
 	useEventListener(lgCanvas.canvas, "litegraph:dragging-items-changed", (event) => {
 		isDraggingLiteGraphItems.value = event.detail.dragging;
@@ -30768,10 +32815,7 @@ function useSelectionToolboxPosition(toolboxRef) {
 	});
 	const visible = ref(false);
 	const { left: canvasLeft, top: canvasTop } = useElementBounding(lgCanvas.canvas);
-	const isDragging = computed(() => {
-		const vueNodeDragging = shouldRenderVueNodes.value && layoutStore.isDraggingVueNodes.value;
-		return isDraggingLiteGraphItems.value || vueNodeDragging;
-	});
+	const isDragging = computed(() => !!isDraggingLiteGraphItems.value);
 	/**
 	* Update position based on selection
 	*/
@@ -33304,7 +35348,7 @@ var NodeSearchBoxPopover_default = /* @__PURE__ */ defineComponent({
 		}
 		const canvasStore = useCanvasStore();
 		function addNode(nodeDef, dragEvent) {
-			const followCursor = settingStore.get("Comfy.NodeSearchBoxImpl.FollowCursor");
+			const followCursor = false;
 			const node = withNodeAddSource("search_modal", () => litegraphService.addNodeOnGraph(nodeDef, { pos: getNewNodeLocation() }, {
 				ghost: useSearchBoxV2.value && followCursor,
 				dragEvent
@@ -33312,7 +35356,7 @@ var NodeSearchBoxPopover_default = /* @__PURE__ */ defineComponent({
 			if (!node) return;
 			if (disconnectOnReset && triggerEvent) {
 				revealSlotForDroppedLink(node);
-				canvasStore.getCanvas().linkConnector.connectToNode(node, triggerEvent);
+				canvasStore.getCanvas().linkConnector.connectToNode(node, triggerEvent, true);
 			} else if (!triggerEvent) console.warn("The trigger event was undefined when addNode was called.");
 			disconnectOnReset = false;
 			useWorkflowStore().activeWorkflow?.changeTracker?.captureCanvasState();
@@ -33410,7 +35454,7 @@ var NodeSearchBoxPopover_default = /* @__PURE__ */ defineComponent({
 				disconnectOnReset = false;
 				createEvent.preventDefault();
 				revealSlotForDroppedLink(node);
-				canvas.linkConnector.connectToNode(node, e);
+				canvas.linkConnector.connectToNode(node, e, true);
 			}, options);
 			const cancelResetOnContextClose = useEventListener(menu.controller.signal, "abort", reset, options);
 		}
@@ -33486,7 +35530,7 @@ var NodeSearchBoxPopover_default = /* @__PURE__ */ defineComponent({
 						leaveToClass: "opacity-0 scale-75"
 					}
 				},
-				style: normalizeStyle(searchShellStyle.value),
+				style: normalizeStyle(unref(useSearchBoxV2) ? undefined : searchShellStyle.value),
 				onHide: clearFilters
 			}, {
 				container: withCtx(() => [unref(useSearchBoxV2) ? (openBlock(), createElementBlock("div", _hoisted_1$102, [createVNode(NodeSearchContent_default, {
@@ -33523,38 +35567,7 @@ var NodeSearchBoxPopover_default = /* @__PURE__ */ defineComponent({
 	}
 });
 //#endregion
-//#region src/composables/graph/useGroupContextMenu.ts
-function shouldUseLegacyContextMenu(canvas, node) {
-	return Boolean(node) || !LiteGraph.vueNodesMode || !canvas.graph;
-}
-/**
-* Routes Nodes 2.0 group right-clicks to Vue while nodes, reroutes,
-* background, and legacy mode stay on litegraph.
-*/
-function useGroupContextMenu() {
-	const original = LGraphCanvas.prototype.processContextMenu;
-	function processContextMenuWithVueGroupMenu(...args) {
-		const [node, event] = args;
-		if (shouldUseLegacyContextMenu(this, node)) {
-			original.apply(this, args);
-			return;
-		}
-		const { reroute, link, group } = getCanvasContextMenuTarget(this, event.canvasX, event.canvasY);
-		if (reroute || link || !group) {
-			original.apply(this, args);
-			return;
-		}
-		if (!(this.selectedItems.size === 1 && this.selectedItems.has(group)) && !this.selectOnly) {
-			this.deselectAll();
-			this.select(group, { selectGroupChildren: false });
-			this.onSelectionChange?.(this.selected_nodes);
-			this.setDirty(true);
-		}
-		showNodeOptions(event);
-	}
-	LGraphCanvas.prototype.processContextMenu = processContextMenuWithVueGroupMenu;
-}
-//#endregion
+
 //#region src/core/graph/subgraph/createPromotionErrorReconciler.ts
 function createPromotionErrorReconciler({ dropOutOfScope, rescanHost, removeHostWidgetCandidate }) {
 	const subscriptions = /* @__PURE__ */ new Map();
@@ -34351,8 +36364,8 @@ var CORE_SETTINGS = [
 		experimental: true,
 		name: "Node search box implementation",
 		type: "hidden",
-		options: ["v1 (legacy)"],
-		defaultValue: "v1 (legacy)"
+		options: ["default", "V1"],
+		defaultValue: "default"
 	},
 	{
 		id: "Comfy.LinkRelease.Action",
@@ -34401,8 +36414,8 @@ var CORE_SETTINGS = [
 		],
 		name: "Added nodes follow the cursor",
 		tooltip: "When enabled, nodes added from the search box follow the cursor until clicked to place. Only applies to the default implementation.",
-		type: "boolean",
-		defaultValue: true,
+		type: "hidden",
+		defaultValue: false,
 		versionAdded: "1.44.4"
 	},
 	{
@@ -34449,7 +36462,7 @@ var CORE_SETTINGS = [
 			"Location"
 		],
 		name: "Sidebar location",
-		type: "combo",
+		type: "hidden",
 		options: ["left", "right"],
 		defaultValue: "left"
 	},
@@ -34461,22 +36474,11 @@ var CORE_SETTINGS = [
 			"Size"
 		],
 		name: "Sidebar size",
-		type: "combo",
+		type: "hidden",
 		options: ["normal", "small"],
 		defaultValue: () => window.innerWidth < 1536 ? "small" : "normal"
 	},
-	{
-		id: "Comfy.Sidebar.UnifiedWidth",
-		category: [
-			"Appearance",
-			"Sidebar",
-			"UnifiedWidth"
-		],
-		name: "Unified sidebar width",
-		type: "boolean",
-		defaultValue: true,
-		versionAdded: "1.18.1"
-	},
+	
 	{
 		id: "Comfy.Sidebar.Style",
 		category: [
@@ -35007,7 +37009,7 @@ var CORE_SETTINGS = [
 		id: "Comfy.UI.TabBarLayout",
 		category: ["Appearance", "General"],
 		name: "Tab Bar Layout",
-		type: "combo",
+		type: "hidden",
 		options: ["Default", "Legacy"],
 		tooltip: "Controls the elements contained in the integrated tab bar.",
 		defaultValue: "Default",
@@ -35034,7 +37036,7 @@ var CORE_SETTINGS = [
 		],
 		defaultValue: "Top",
 		name: "Use new menu",
-		type: "combo",
+		type: "hidden",
 		options: ["Disabled", "Top"],
 		tooltip: "Enable the redesigned top menu bar.",
 		migrateDeprecatedValue: (val) => {
@@ -35047,7 +37049,7 @@ var CORE_SETTINGS = [
 	{
 		id: "Comfy.Workflow.WorkflowTabsPosition",
 		name: "Opened workflows position",
-		type: "combo",
+		type: "hidden",
 		options: ["Sidebar", "Topbar"],
 		defaultValue: "Topbar",
 		migrateDeprecatedValue: (val) => {
@@ -35680,32 +37682,9 @@ var CORE_SETTINGS = [
 		type: "hidden",
 		defaultValue: "default"
 	},
-	(
-	/**
-	* Nodes 2.0 Settings
-	*/
-	{
-		id: "Comfy.VueNodes.Enabled",
-		category: [
-			"Comfy",
-			"Nodes 2.0",
-			"VueNodesEnabled"
-		],
-		name: "Modern Node Design (Nodes 2.0)",
-		type: "boolean",
-		tooltip: "Modern: DOM-based rendering with enhanced interactivity, native browser features, and updated visual design. Classic: Traditional canvas rendering.",
-		defaultValue: false,
-		defaultsByInstallVersion: { "1.41.0": false },
-		sortOrder: 100,
-		experimental: true,
-		versionAdded: "1.27.1"
-	}),
-	{
-		id: "Comfy.AppBuilder.VueNodeSwitchDismissed",
-		name: "App Builder Vue Node switch dismissed",
-		type: "hidden",
-		defaultValue: false
-	},
+	
+	
+	
 	{
 		id: "Comfy.PartnerNodesEducation.Dismissed",
 		name: "Partner nodes education card dismissed",
@@ -37488,85 +39467,30 @@ function useFirstRunTourControllerInternal() {
 	function releaseTourStart(ownership) {
 		if (ownsTourStart(ownership)) tourStart = { phase: "idle" };
 	}
-	async function writeRenderer(ownership, enabled, restoreRenderer) {
-		const write = settingStore.set("Comfy.VueNodes.Enabled", enabled);
-		const writingState = {
-			phase: "writingRenderer",
-			ownership,
-			restoreRenderer,
-			write
-		};
-		tourStart = writingState;
-		try {
-			await write;
-		} finally {
-			if (tourStart === writingState) tourStart = {
-				phase: "claimed",
-				ownership,
-				restoreRenderer
-			};
-		}
-	}
-	async function cleanUpFailedTourStart(ownership, shouldCancel) {
-		const currentStart = tourStart;
-		if (currentStart.phase === "idle" || currentStart.ownership !== ownership) return;
-		releaseFirstRunTargets();
-		tourWorkflow.value = null;
-		const { restoreRenderer } = currentStart;
-		if (restoreRenderer && shouldCancel()) return;
-		if (restoreRenderer) await writeRenderer(ownership, false, restoreRenderer);
-		releaseTourStart(ownership);
-	}
+
+	async function cleanUpFailedTourStart(ownership) {
+ if(!ownsTourStart(ownership))return;
+ releaseFirstRunTargets();tourWorkflow.value=null;releaseTourStart(ownership);
+ }
+
 	function canBeginTour(shouldCancel) {
 		return !shouldCancel() && !engine.activeTour && canvasContextHolds.value;
 	}
-	async function claimTourStart(ownership) {
-		const previousStart = tourStart;
-		const restoreRenderer = previousStart.phase === "idle" ? !settingStore.get("Comfy.VueNodes.Enabled") : previousStart.restoreRenderer;
-		if (previousStart.phase === "writingRenderer") {
-			tourStart = {
-				...previousStart,
-				ownership
-			};
-			await previousStart.write.catch(() => void 0);
-			if (ownsTourStart(ownership)) tourStart = {
-				phase: "claimed",
-				ownership,
-				restoreRenderer
-			};
-		} else tourStart = {
-			phase: "claimed",
-			ownership,
-			restoreRenderer
-		};
-		return restoreRenderer;
-	}
-	async function claimRendererForTour(ownership) {
-		const restoreRenderer = await claimTourStart(ownership);
-		if (!ownsTourStart(ownership)) return restoreRenderer;
-		if (restoreRenderer && !settingStore.get("Comfy.VueNodes.Enabled")) await writeRenderer(ownership, true, restoreRenderer);
-		return restoreRenderer;
-	}
-	async function cancelPendingStart() {
-		if (tourStart.phase === "idle") return;
-		const ownership = Symbol("cancelled-first-run-tour-start");
-		try {
-			const restoreRenderer = await claimTourStart(ownership);
-			if (ownsTourStart(ownership) && restoreRenderer && settingStore.get("Comfy.VueNodes.Enabled")) await writeRenderer(ownership, false, restoreRenderer);
-		} finally {
-			releaseTourStart(ownership);
-		}
-	}
-	/** False when there is no tour to give; any renderer switch is undone. */
+	function claimTourStart(ownership) {tourStart={phase:"claimed",ownership};}
+ async function cancelPendingStart() {
+  if(tourStart.phase==="idle")return;
+  releaseFirstRunTargets();tourWorkflow.value=null;tourStart={phase:"idle"};
+ }
+
+	/** False when there is no tour to give. */
 	async function beginTour(templateId, shouldCancel = () => false) {
 		const ownership = Symbol("first-run-tour-start");
 		if (!canBeginTour(shouldCancel)) return false;
-		const restoreRenderer = await claimRendererForTour(ownership);
+		claimTourStart(ownership);
 		if (!ownsTourStart(ownership) || shouldCancel()) return false;
 		tourStart = {
 			phase: "previewing",
-			ownership,
-			restoreRenderer
+			ownership
 		};
 		tourWorkflow.value = workflowStore.activeWorkflow ?? null;
 		runState.value = "idle";
@@ -38741,57 +40665,8 @@ function usePromotedPreviews(lgraphNode) {
 	}) };
 }
 //#endregion
-//#region src/renderer/extensions/vueNodes/components/NodeBadges.vue?vue&type=script&setup=true&lang.ts
-var _hoisted_1$100 = {
-	key: 0,
-	class: "flex h-5 w-full gap-2 px-2 text-muted-foreground"
-};
-var _hoisted_2$82 = {
-	key: 0,
-	class: "flex h-6 items-center justify-center overflow-clip rounded-full bg-component-node-widget-background"
-};
-var _hoisted_3$65 = {
-	key: 0,
-	class: "mr-0.5 h-4 border-r border-muted-foreground pr-0.5"
-};
-var _hoisted_4$51 = {
-	key: 1,
-	"data-testid": "comfy-badge",
-	class: "flex size-6 items-center justify-center rounded-full bg-component-node-widget-background"
-};
-var _hoisted_5$37 = {
-	key: 2,
-	class: "flex h-6 items-center justify-center overflow-clip rounded-full bg-component-node-widget-background"
-};
-var _hoisted_6$29 = {
-	key: 0,
-	class: "mr-0.5 h-4 border-r border-muted-foreground pr-0.5"
-};
-//#endregion
-//#region src/renderer/extensions/vueNodes/components/NodeBadges.vue
-var NodeBadges_default = /* @__PURE__ */ defineComponent({
-	__name: "NodeBadges",
-	props: {
-		hasComfyBadge: { type: Boolean },
-		hasComfyCloudBadge: { type: Boolean },
-		core: {},
-		extension: {}
-	},
-	setup(__props) {
-		return (_ctx, _cache) => {
-			return __props.hasComfyBadge || __props.core.length || __props.extension.length ? (openBlock(), createElementBlock("div", _hoisted_1$100, [
-				__props.core.length ? (openBlock(), createElementBlock("div", _hoisted_2$82, [(openBlock(true), createElementBlock(Fragment, null, renderList(__props.core, (badge, index) => {
-					return openBlock(), createElementBlock(Fragment, { key: badge.text }, [index !== 0 ? (openBlock(), createElementBlock("div", _hoisted_3$65)) : createCommentVNode("", true), createVNode(NodeBadge_default, mergeProps({ "bg-color": "transparent" }, { ref_for: true }, badge, { class: "h-6 first:pl-2 last:pr-2" }), null, 16)], 64);
-				}), 128))])) : createCommentVNode("", true),
-				__props.hasComfyBadge ? (openBlock(), createElementBlock("div", _hoisted_4$51, [createBaseVNode("i", { class: normalizeClass(unref(cn)("icon-[comfy--comfy-c] size-3", __props.hasComfyCloudBadge && "text-brand-yellow")) }, null, 2)])) : createCommentVNode("", true),
-				__props.extension.length ? (openBlock(), createElementBlock("div", _hoisted_5$37, [(openBlock(true), createElementBlock(Fragment, null, renderList(__props.extension, (badge, index) => {
-					return openBlock(), createElementBlock(Fragment, { key: badge.text }, [index !== 0 ? (openBlock(), createElementBlock("div", _hoisted_6$29)) : createCommentVNode("", true), createVNode(NodeBadge_default, mergeProps({ "bg-color": "transparent" }, { ref_for: true }, badge, { class: "h-6 first:pl-2 last:pr-2" }), null, 16)], 64);
-				}), 128))])) : createCommentVNode("", true)
-			])) : createCommentVNode("", true);
-		};
-	}
-});
-//#endregion
+
+
 //#region src/renderer/extensions/linearMode/AppOutput.vue?vue&type=script&setup=true&lang.ts
 var _hoisted_1$99 = { class: "absolute top-0 right-0 size-8" };
 var _hoisted_2$81 = {
@@ -38880,569 +40755,11 @@ function useNodeEventHandlersIndividual() {
 }
 var useNodeEventHandlers = createSharedComposable(useNodeEventHandlersIndividual);
 //#endregion
-//#region src/renderer/extensions/vueNodes/composables/useNodeSnap.ts
-/**
-* Composable for node snap-to-grid functionality
-*
-* Provides reactive access to snap settings and utilities for applying
-* snap-to-grid behavior to Vue nodes during drag and resize operations.
-*/
-function useNodeSnap() {
-	const settingStore = useSettingStore();
-	const gridSize = computed(() => settingStore.get("Comfy.SnapToGrid.GridSize"));
-	const alwaysSnap = computed(() => settingStore.get("pysssss.SnapToGrid"));
-	/**
-	* Determines if snap-to-grid should be applied based on shift key and settings
-	* @param event - The pointer event to check for shift key
-	* @returns true if snapping should be applied
-	*/
-	function shouldSnap(event) {
-		return event.shiftKey || alwaysSnap.value;
-	}
-	/**
-	* Applies snap-to-grid to a position
-	* @param position - Position object with x, y coordinates
-	* @returns The snapped position as a new object
-	*/
-	function applySnapToPosition(position) {
-		const size = gridSize.value;
-		if (!size) return { ...position };
-		const posArray = [position.x, position.y];
-		if (snapPoint(posArray, size)) return {
-			x: posArray[0],
-			y: posArray[1]
-		};
-		return { ...position };
-	}
-	/**
-	* Applies snap-to-grid to a size (width/height)
-	* @param size - Size object with width, height
-	* @returns The snapped size as a new object
-	*/
-	function applySnapToSize(size) {
-		const gridSizeValue = gridSize.value;
-		if (!gridSizeValue) return { ...size };
-		const sizeArray = [size.width, size.height];
-		if (snapPoint(sizeArray, gridSizeValue, "ceil")) return {
-			width: sizeArray[0],
-			height: sizeArray[1]
-		};
-		return { ...size };
-	}
-	return {
-		gridSize,
-		alwaysSnap,
-		shouldSnap,
-		applySnapToPosition,
-		applySnapToSize
-	};
-}
-//#endregion
-//#region src/renderer/extensions/vueNodes/composables/useShiftKeySync.ts
-function useShiftKeySync() {
-	const shiftKeyState = shallowRef(false);
-	let canvasEl = null;
-	/**
-	* Synchronizes shift key state to LiteGraph canvas by dispatching synthetic keyboard events.
-	*
-	* Only dispatches events when shift state actually changes to minimize overhead.
-	* Canvas reference is lazily initialized on first sync.
-	*
-	* @param isShiftPressed - Current shift key state to synchronize
-	*/
-	function syncShiftState(isShiftPressed) {
-		if (isShiftPressed === shiftKeyState.value) return;
-		if (!canvasEl) {
-			canvasEl = useCanvasStore().canvas?.canvas ?? null;
-			if (!canvasEl) return;
-		}
-		shiftKeyState.value = isShiftPressed;
-		canvasEl.dispatchEvent(new KeyboardEvent(isShiftPressed ? "keydown" : "keyup", {
-			key: "Shift",
-			shiftKey: isShiftPressed,
-			bubbles: true
-		}));
-	}
-	/**
-	* Tracks shift key state during drag/resize operations and synchronizes to canvas.
-	*
-	* Attaches window-level keyboard event listeners for the duration of the operation.
-	* Listeners are automatically cleaned up when the returned function is called.
-	*
-	* @param initialShiftKey - Shift state when drag/resize begins
-	* @returns Cleanup function that removes event listeners - must be called when operation ends
-	*
-	* @example
-	* ```ts
-	* function startDrag(event: PointerEvent) {
-	*   const stopTracking = trackShiftKey(event.shiftKey)
-	*
-	*   const handlePointerUp = () => {
-	*     stopTracking() // Cleanup listeners
-	*   }
-	* }
-	* ```
-	*/
-	function trackShiftKey(initialShiftKey) {
-		syncShiftState(initialShiftKey);
-		const handleKeyEvent = (e) => {
-			if (e.key !== "Shift") return;
-			syncShiftState(e.shiftKey);
-		};
-		const stopKeydown = useEventListener(window, "keydown", handleKeyEvent, { passive: true });
-		const stopKeyup = useEventListener(window, "keyup", handleKeyEvent, { passive: true });
-		return () => {
-			stopKeydown();
-			stopKeyup();
-		};
-	}
-	tryOnScopeDispose(() => {
-		shiftKeyState.value = false;
-		canvasEl = null;
-	});
-	return { trackShiftKey };
-}
-//#endregion
-//#region src/renderer/extensions/vueNodes/layout/useNodeDrag.ts
-var useNodeDrag = createSharedComposable(() => {
-	const mutations = useLayoutMutations(LayoutSource.Vue);
-	const { selectedNodeIds, selectedItems } = storeToRefs(useCanvasStore());
-	const transformState = useTransformState();
-	const { shouldSnap, applySnapToPosition } = useNodeSnap();
-	const { trackShiftKey } = useShiftKeySync();
-	const canvasStore = useCanvasStore();
-	let dragStartPos = null;
-	let dragStartMouse = null;
-	let otherSelectedNodesStartPositions = null;
-	let rafId = null;
-	let stopShiftSync = null;
-	/** `pos` is readonly on Positionable, so absolute targets are reached via `move()`. */
-	let nonNodeStartPositions = null;
-	let autoPan = null;
-	let lastPointerX = 0;
-	let lastPointerY = 0;
-	function startDrag(event, nodeId, initialShiftKey) {
-		const { rootGraphId } = canvasStore;
-		if (!rootGraphId) return;
-		const layout = layoutStore.getNodeLayout(rootGraphId, nodeId);
-		if (!layout) return;
-		const position = layout.position;
-		stopShiftSync = trackShiftKey(initialShiftKey);
-		dragStartPos = { ...position };
-		dragStartMouse = {
-			x: event.clientX,
-			y: event.clientY
-		};
-		lastPointerX = event.clientX;
-		lastPointerY = event.clientY;
-		const selectedNodes = toValue(selectedNodeIds);
-		const isDraggedNodeInSelection = selectedNodes.has(nodeId);
-		if (isDraggedNodeInSelection && selectedNodes.size > 1) {
-			otherSelectedNodesStartPositions = /* @__PURE__ */ new Map();
-			for (const id of selectedNodes) {
-				if (id === nodeId) continue;
-				const nodeLayout = layoutStore.getNodeLayout(rootGraphId, id);
-				if (nodeLayout) otherSelectedNodesStartPositions.set(id, { ...nodeLayout.position });
-			}
-		} else otherSelectedNodesStartPositions = null;
-		nonNodeStartPositions = isDraggedNodeInSelection ? new Map(toValue(selectedItems).filter((item) => !isLGraphNode(item)).map((item) => [item, {
-			x: item.pos[0],
-			y: item.pos[1]
-		}])) : null;
-	}
-	function startAutoPan(event, nodeId) {
-		if (autoPan) {
-			autoPan.updatePointer(event.clientX, event.clientY);
-			return;
-		}
-		const lgCanvas = canvasStore.canvas;
-		if (!lgCanvas?.ds) return;
-		autoPan = new AutoPanController({
-			canvas: lgCanvas.canvas,
-			ds: lgCanvas.ds,
-			maxPanSpeed: lgCanvas.auto_pan_speed,
-			onPan: (panX, panY) => {
-				if (dragStartPos) {
-					dragStartPos.x += panX;
-					dragStartPos.y += panY;
-				}
-				if (otherSelectedNodesStartPositions) for (const pos of otherSelectedNodesStartPositions.values()) {
-					pos.x += panX;
-					pos.y += panY;
-				}
-				if (nonNodeStartPositions) for (const start of nonNodeStartPositions.values()) {
-					start.x += panX;
-					start.y += panY;
-				}
-				updateNodePositions(nodeId);
-			}
-		});
-		autoPan.updatePointer(event.clientX, event.clientY);
-		autoPan.start();
-	}
-	/**
-	* Recalculates all dragged node positions based on the current mouse
-	* position and canvas transform.
-	*/
-	function updateNodePositions(nodeId) {
-		if (!dragStartPos || !dragStartMouse) return;
-		const { rootGraphId } = canvasStore;
-		if (!rootGraphId) return;
-		const mouseDelta = {
-			x: lastPointerX - dragStartMouse.x,
-			y: lastPointerY - dragStartMouse.y
-		};
-		const canvasOrigin = transformState.screenToCanvas({
-			x: 0,
-			y: 0
-		});
-		const canvasWithDelta = transformState.screenToCanvas(mouseDelta);
-		const canvasDelta = {
-			x: canvasWithDelta.x - canvasOrigin.x,
-			y: canvasWithDelta.y - canvasOrigin.y
-		};
-		const updates = [{
-			nodeId,
-			position: {
-				x: dragStartPos.x + canvasDelta.x,
-				y: dragStartPos.y + canvasDelta.y
-			}
-		}];
-		if (otherSelectedNodesStartPositions && otherSelectedNodesStartPositions.size > 0) for (const [otherNodeId, startPos] of otherSelectedNodesStartPositions) updates.push({
-			nodeId: otherNodeId,
-			position: {
-				x: startPos.x + canvasDelta.x,
-				y: startPos.y + canvasDelta.y
-			}
-		});
-		mutations.batchMoveNodes(rootGraphId, updates);
-		for (const [item, start] of nonNodeStartPositions ?? []) item.move(start.x + canvasDelta.x - item.pos[0], start.y + canvasDelta.y - item.pos[1], true);
-	}
-	function handleDrag(event, nodeId) {
-		if (!dragStartPos || !dragStartMouse) return;
-		if (canvasStore.isReadOnly) {
-			autoPan?.stop();
-			const canvas = canvasStore.getCanvas();
-			const delta = [event.clientX - lastPointerX, event.clientY - lastPointerY];
-			canvas.ds.offset[0] += delta[0] / canvas.ds.scale;
-			canvas.ds.offset[1] += delta[1] / canvas.ds.scale;
-			canvas.setDirty(true, true);
-			lastPointerX = event.clientX;
-			lastPointerY = event.clientY;
-			dragStartMouse.x += delta[0];
-			dragStartMouse.y += delta[1];
-			return;
-		}
-		if (rafId !== null) return;
-		lastPointerX = event.clientX;
-		lastPointerY = event.clientY;
-		startAutoPan(event, nodeId);
-		rafId = requestAnimationFrame(() => {
-			rafId = null;
-			updateNodePositions(nodeId);
-		});
-	}
-	function endDrag(event, nodeId) {
-		const { rootGraphId } = canvasStore;
-		if (shouldSnap(event) && nodeId && rootGraphId) {
-			const boundsUpdates = [];
-			const currentLayout = layoutStore.getNodeLayout(rootGraphId, nodeId);
-			if (currentLayout) {
-				const currentPos = currentLayout.position;
-				const snappedPos = applySnapToPosition({ ...currentPos });
-				if (snappedPos.x !== currentPos.x || snappedPos.y !== currentPos.y) boundsUpdates.push({
-					nodeId,
-					bounds: {
-						x: snappedPos.x,
-						y: snappedPos.y,
-						width: currentLayout.size.width,
-						height: currentLayout.size.height
-					}
-				});
-			}
-			if (otherSelectedNodesStartPositions && otherSelectedNodesStartPositions.size > 0) for (const otherNodeId of otherSelectedNodesStartPositions.keys()) {
-				const nodeLayout = layoutStore.getNodeLayout(rootGraphId, otherNodeId);
-				if (nodeLayout) {
-					const currentPos = { ...nodeLayout.position };
-					const snappedPos = applySnapToPosition(currentPos);
-					if (snappedPos.x !== currentPos.x || snappedPos.y !== currentPos.y) boundsUpdates.push({
-						nodeId: otherNodeId,
-						bounds: {
-							x: snappedPos.x,
-							y: snappedPos.y,
-							width: nodeLayout.size.width,
-							height: nodeLayout.size.height
-						}
-					});
-				}
-			}
-			if (boundsUpdates.length > 0) layoutStore.batchUpdateNodeBounds(rootGraphId, boundsUpdates, { source: LayoutSource.Vue });
-		}
-		resetDragState();
-	}
-	function resetDragState() {
-		dragStartPos = null;
-		dragStartMouse = null;
-		otherSelectedNodesStartPositions = null;
-		nonNodeStartPositions = null;
-		autoPan?.stop();
-		autoPan = null;
-		stopShiftSync?.();
-		stopShiftSync = null;
-		if (rafId !== null) {
-			cancelAnimationFrame(rafId);
-			rafId = null;
-		}
-	}
-	return {
-		startDrag,
-		handleDrag,
-		endDrag,
-		cancelDrag: resetDragState
-	};
-});
-//#endregion
-//#region src/renderer/extensions/vueNodes/composables/useNodePointerInteractions.ts
-function useNodePointerInteractions(nodeStateRef) {
-	const canvasStore = useCanvasStore();
-	const { startDrag, endDrag, handleDrag, cancelDrag } = useNodeDrag();
-	const { forwardEventToCanvas, shouldHandleNodePointerEvents } = useCanvasInteractions();
-	const { bringNodeToFront } = useNodeZIndex();
-	let gesture = idleGesture;
-	let press = null;
-	function canDrag() {
-		return !toValue(nodeStateRef).flags.pinned;
-	}
-	function dispatch(gestureEvent, event) {
-		const result = reduceGesture(gesture, gestureEvent);
-		gesture = result.state;
-		try {
-			for (const effect of result.effects) runEffect(effect, event);
-		} finally {
-			if (gesture.phase === "idle") clearPress();
-		}
-	}
-	function clearPress() {
-		const completedPress = press;
-		press = null;
-		completedPress?.releaseCapture?.();
-		if (completedPress?.movingNode) layoutStore.isDraggingVueNodes.value = false;
-	}
-	function cancelPress() {
-		if (press) dispatch({ type: "cancel" }, press.event);
-	}
-	function selectNode(activePress, sticky = false) {
-		const { canvas } = canvasStore;
-		const node = canvasStore.currentGraph?.getNodeById(activePress.nodeId);
-		if (activePress.graph !== canvasStore.currentGraph) return;
-		if (node && !window.__comfierDeviceInput?.selectVueNode?.(canvas, node, activePress.event, sticky)) canvas?.processSelect(node, activePress.event, sticky);
-	}
-	function startNodeDrag(activePress, event) {
-		if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) return;
-		selectNode(activePress, true);
-		if (!canDrag()) return;
-		layoutStore.isDraggingVueNodes.value = true;
-		activePress.movingNode = true;
-		startDrag(activePress.event, activePress.nodeId, event.shiftKey);
-	}
-	const effectHandlers = {
-		click: (activePress) => selectNode(activePress),
-		doubleClick: (activePress) => selectNode(activePress),
-		movePress: () => {},
-		startDrag: startNodeDrag,
-		moveDrag: (activePress, event) => {
-			if (activePress.movingNode && canDrag()) handleDrag(event, activePress.nodeId);
-		},
-		endDrag: (activePress, event) => {
-			if (activePress.movingNode) endDrag(event, canDrag() ? activePress.nodeId : void 0);
-		},
-		cancelDrag: (activePress) => {
-			if (activePress.movingNode) cancelDrag();
-		}
-	};
-	function runEffect(effect, event) {
-		if (press) effectHandlers[effect](press, event);
-	}
-	const forwardMiddlePointerIfNeeded = (event, isMiddleInput) => {
-		if (!isMiddleInput(event)) return false;
-		forwardEventToCanvas(event);
-		return true;
-	};
-	function shouldCloneOnPress(event) {
-		return LiteGraph.alt_drag_do_clone_nodes && event.altKey && !event.ctrlKey && !!canvasStore.canvas?.allow_interaction;
-	}
-	function cloneNode(nodeId) {
-		const node = canvasStore.currentGraph?.getNodeById(nodeId);
-		const clone = node && LGraphCanvas.cloneNodes([node])?.created[0];
-		return isLGraphNode(clone) ? clone.id : void 0;
-	}
-	function pressNode(event) {
-		const nodeId = toValue(nodeStateRef).id;
-		const cloneId = shouldCloneOnPress(event) ? cloneNode(nodeId) : void 0;
-		if (cloneId === void 0) {
-			if (canDrag()) bringNodeToFront(nodeId);
-			return nodeId;
-		}
-		nextTick(() => bringNodeToFront(cloneId));
-		return cloneId;
-	}
-	function forwardNodeBodyToCanvas(event) {
-		const node = canvasStore.currentGraph?.getNodeById(toValue(nodeStateRef).id);
-		if (!window.__comfierDeviceInput?.forwardVueBody?.(event, node, forwardEventToCanvas)) forwardEventToCanvas(event);
-	}
-	function onPointerdown(event) {
-		if (forwardMiddlePointerIfNeeded(event, isMiddlePointerInput)) return;
-		if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) {
-			forwardNodeBodyToCanvas(event);
-			return;
-		}
-		if (!shouldHandleNodePointerEvents.value) {
-			forwardEventToCanvas(event);
-			return;
-		}
-		if (event.button !== 0) return;
-		if (press) {
-			if (press.event.pointerId !== event.pointerId) return;
-			cancelPress();
-		}
-		const nodeId = pressNode(event);
-		const captureTarget = event.target instanceof Element ? event.target : void 0;
-		press = {
-			nodeId,
-			graph: canvasStore.currentGraph,
-			event,
-			movingNode: false,
-			releaseCapture: canDrag() && captureTarget ? captureGesture(captureTarget, event.pointerId, cancelPress) : void 0
-		};
-		dispatch({
-			type: "down",
-			position: {
-				x: event.clientX,
-				y: event.clientY
-			},
-			timeStamp: event.timeStamp,
-			policy: CanvasPointer.gesturePolicy()
-		}, event);
-	}
-	function dispatchUp(event) {
-		dispatch({
-			type: "up",
-			position: {
-				x: event.clientX,
-				y: event.clientY
-			},
-			acceptsDoubleClick: false
-		}, event);
-	}
-	function isPressPointer(event) {
-		return press?.event.pointerId === event.pointerId;
-	}
-	function onPointermove(event) {
-		if (forwardMiddlePointerIfNeeded(event, isMiddleButtonHeld)) return;
-		if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) {
-			forwardNodeBodyToCanvas(event);
-			return;
-		}
-		if (!isPressPointer(event)) return;
-		if (!(event.buttons & 1)) {
-			dispatchUp(event);
-			return;
-		}
-		dispatch({
-			type: "move",
-			position: {
-				x: event.clientX,
-				y: event.clientY
-			}
-		}, event);
-	}
-	function onPointerup(event) {
-		if (forwardMiddlePointerIfNeeded(event, isMiddleButtonEvent)) return;
-		if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) {
-			forwardNodeBodyToCanvas(event);
-			return;
-		}
-		if (!shouldHandleNodePointerEvents.value) {
-			forwardEventToCanvas(event);
-			if (!isPressPointer(event)) return;
-			if (press?.movingNode) dispatchUp(event);
-			else cancelPress();
-			return;
-		}
-		if (!isPressPointer(event) || event.button !== 0) return;
-		dispatchUp(event);
-	}
-	function onPointercancel(event) {
-		if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) forwardNodeBodyToCanvas(event);
-		if (isPressPointer(event)) cancelPress();
-	}
-	function onContextmenu(event) {
-		if (!press?.movingNode) return;
-		event.preventDefault();
-		event.stopImmediatePropagation();
-		cancelPress();
-	}
-	onScopeDispose(cancelPress);
-	return { pointerHandlers: {
-		onPointerdown,
-		onPointermove,
-		onPointerup,
-		onPointercancel,
-		onContextmenu
-	} };
-}
-//#endregion
-//#region src/renderer/extensions/vueNodes/composables/usePartitionedBadges.ts
-var COMFY_CLOUD_PYTHON_MODULE = "comfy_api_nodes.nodes_comfy_cloud";
-function splitAroundFirstSpace(text) {
-	const index = text.indexOf(" ");
-	if (index === -1) return [text, void 0];
-	return [text.slice(0, index), text.slice(index + 1)];
-}
-/**
-* Partitions a node's badge rows into the Vue renderer's chips: core
-* rows, credits rows as pricing entries, and raw `node.badges`
-* extension badges appended last.
-*/
-function usePartitionedBadges(nodeData) {
-	const settingStore = useSettingStore();
-	const canvasStore = useCanvasStore();
-	const nodeDefStore = useNodeDefStore();
-	return computed(() => {
-		const rootGraph = canvasStore.currentGraph?.rootGraph;
-		const node = rootGraph ? resolveNode(nodeData.id, rootGraph) : void 0;
-		const nodeDef = node ? nodeDefStore.fromLGraphNode(node) : null;
-		const showComfyLogo = nodeDef?.isCoreNode === true && settingStore.get("Comfy.NodeBadge.NodeSourceBadgeMode") === NodeBadgeMode.ShowAll;
-		const isComfyCloudNode = nodeDef?.python_module === COMFY_CLOUD_PYTHON_MODULE;
-		const core = [];
-		const extension = [];
-		const pricing = [];
-		for (const row of node ? nodeBadges(node) : []) {
-			if (row.kind === "credits") {
-				const [required, rest] = splitAroundFirstSpace(row.text);
-				pricing.push({
-					required,
-					rest
-				});
-				continue;
-			}
-			if (nodeDef?.isCoreNode && row.part === "source") continue;
-			core.push({ text: row.part === "lifecycle" ? trim(row.text, ["[", "]"]) : row.text });
-		}
-		for (const badge of (node?.badges ?? []).map(toValue)) {
-			if (!badge.text) continue;
-			extension.push(badge);
-		}
-		return {
-			hasComfyBadge: showComfyLogo && pricing.length === 0 || isComfyCloudNode,
-			hasComfyCloudBadge: isComfyCloudNode,
-			core,
-			extension,
-			pricing
-		};
-	});
-}
-//#endregion
+
+
+
+
+
 //#region src/renderer/extensions/vueNodes/widgets/components/WidgetDOM.vue
 var WidgetDOM_default = /* @__PURE__ */ defineComponent({
 	__name: "WidgetDOM",
@@ -39758,346 +41075,12 @@ function useProcessedWidgets(nodeDataGetter, widgetIdsGetter = () => void 0) {
 	};
 }
 //#endregion
-//#region src/renderer/extensions/vueNodes/execution/useNodeExecutionState.ts
-/**
-* Composable for managing execution state of Vue-based nodes
-*
-* Provides reactive access to execution state and progress for a specific node
-* by injecting execution data from the parent GraphCanvas provider.
-*
-* @param nodeLocatorIdMaybe - Locator ID (root or subgraph scoped) of the node to track
-* @returns Object containing reactive execution state and progress
-*/
-var useNodeExecutionState = (nodeLocatorIdMaybe) => {
-	const locatorId = computed(() => toValue(nodeLocatorIdMaybe) ?? "");
-	const { nodeLocationProgressStates, isIdle } = storeToRefs(useExecutionStore());
-	const progressState = computed(() => {
-		const id = locatorId.value;
-		return id ? nodeLocationProgressStates.value[id] : void 0;
-	});
-	const executing = computed(() => !isIdle.value && progressState.value?.state === "running");
-	const progress = computed(() => {
-		const state = progressState.value;
-		return state && state.max > 0 ? state.value / state.max : void 0;
-	});
-	return {
-		executing,
-		progress,
-		progressPercentage: computed(() => {
-			const prog = progress.value;
-			return prog !== void 0 ? Math.round(prog * 100) : void 0;
-		}),
-		progressState,
-		executionState: computed(() => {
-			const state = progressState.value;
-			if (!state) return "idle";
-			return state.state;
-		})
-	};
-};
-//#endregion
-//#region src/renderer/extensions/vueNodes/layout/useNodeLayout.ts
-/**
-* Composable for individual Vue node components
-* Uses customRef for shared write access with Canvas renderer
-*/
-function useNodeLayout(nodeIdMaybe) {
-	const nodeId = toValue(nodeIdMaybe);
-	const mutations = useLayoutMutations(LayoutSource.Vue);
-	const canvasStore = useCanvasStore();
-	const layoutRef = shallowRef(null);
-	watch(() => canvasStore.rootGraphId, (rootGraphId) => {
-		if (!rootGraphId) {
-			layoutRef.value = null;
-			return;
-		}
-		layoutRef.value = layoutStore.getNodeLayoutRef(rootGraphId, nodeId);
-	}, { immediate: true });
-	const layout = computed(() => layoutRef.value?.value ?? null);
-	const position = computed(() => layout.value?.position ?? {
-		x: 0,
-		y: 0
-	});
-	const size = computed(() => layout.value?.size ?? {
-		width: 200,
-		height: 100
-	});
-	const zIndex = computed(() => layout.value?.zIndex ?? 0);
-	/**
-	* Update node position directly (without drag)
-	*/
-	function moveNodeTo(position) {
-		const { rootGraphId } = canvasStore;
-		if (!rootGraphId) return;
-		mutations.moveNode(rootGraphId, nodeId, position);
-	}
-	return {
-		position,
-		size,
-		zIndex,
-		moveNodeTo
-	};
-}
-//#endregion
-//#region src/renderer/extensions/vueNodes/preview/useNodePreviewState.ts
-var useNodePreviewState = (nodeIdMaybe, options) => {
-	const nodeId = toValue(nodeIdMaybe);
-	const workflowStore = useWorkflowStore();
-	const { nodePreviewImages } = storeToRefs(useNodeOutputStore());
-	const locatorId = computed(() => workflowStore.nodeIdToNodeLocatorId(nodeId));
-	const previewUrls = computed(() => {
-		const key = locatorId.value;
-		if (!key) return void 0;
-		const urls = nodePreviewImages.value[key];
-		return urls?.length ? urls : void 0;
-	});
-	const hasPreview = computed(() => !!previewUrls.value?.length);
-	return {
-		locatorId,
-		previewUrls,
-		hasPreview,
-		latestPreviewUrl: computed(() => {
-			const urls = previewUrls.value;
-			return urls?.length ? urls.at(-1) : "";
-		}),
-		shouldShowPreviewImg: computed(() => {
-			if (!options?.isCollapsed) return hasPreview.value;
-			return !options.isCollapsed.value && hasPreview.value;
-		})
-	};
-};
-//#endregion
-//#region src/renderer/extensions/vueNodes/utils/nodeStyleUtils.ts
-/**
-* Applies light theme color adjustments to a color
-*/
-function applyLightThemeColor(color) {
-	if (!color) return "";
-	if (!useColorPaletteStore().completedActivePalette.light_theme) return color;
-	return adjustColor(color, { lightness: .5 });
-}
-/**
-* Picks the class variant matching a node's render shape, treating every
-* shape other than BOX and CARD as the default rounding.
-*/
-function shapeVariantClass(shape, variants) {
-	switch (shape) {
-		case RenderShape.BOX: return variants.box;
-		case RenderShape.CARD: return variants.card;
-		default: return variants.default;
-	}
-}
-//#endregion
-//#region src/renderer/extensions/vueNodes/interactions/resize/resizeHandleConfig.ts
-var RESIZE_HANDLES = [
-	{
-		corner: "SE",
-		positionClasses: "-right-1 -bottom-1",
-		cursorClass: "cursor-se-resize",
-		i18nKey: "g.resizeFromBottomRight",
-		svgPositionClasses: "top-1 left-1",
-		svgTransform: ""
-	},
-	{
-		corner: "NE",
-		positionClasses: "-right-1 -top-1",
-		cursorClass: "cursor-ne-resize",
-		i18nKey: "g.resizeFromTopRight",
-		svgPositionClasses: "bottom-1 left-1",
-		svgTransform: "scaleY(-1)"
-	},
-	{
-		corner: "SW",
-		positionClasses: "-left-1 -bottom-1",
-		cursorClass: "cursor-sw-resize",
-		i18nKey: "g.resizeFromBottomLeft",
-		svgPositionClasses: "top-1 right-1",
-		svgTransform: "scaleX(-1)"
-	},
-	{
-		corner: "NW",
-		positionClasses: "-left-1 -top-1",
-		cursorClass: "cursor-nw-resize",
-		i18nKey: "g.resizeFromTopLeft",
-		svgPositionClasses: "bottom-1 right-1",
-		svgTransform: "scale(-1, -1)"
-	}
-];
-/** True for corners on the left edge of a node (SW, NW) — these move the x-origin when dragged. */
-var hasWestEdge = (corner) => corner === "SW" || corner === "NW";
-/** True for corners on the top edge of a node (NE, NW) — these move the y-origin when dragged. */
-var hasNorthEdge = (corner) => corner === "NE" || corner === "NW";
-//#endregion
-//#region src/renderer/extensions/vueNodes/interactions/resize/useNodeResize.ts
-/**
-* Composable for node resizing functionality from any corner.
-*
-* Provides resize handle interaction that integrates with the layout system.
-* Handles pointer capture, coordinate calculations, size constraints,
-* and position adjustments for non-SE corners.
-*/
-function useNodeResize(resizeCallback) {
-	const transformState = useTransformState();
-	const isResizing = ref(false);
-	const resizeStartPointer = ref(null);
-	const resizeStartSize = ref(null);
-	const resizeStartPosition = ref(null);
-	const resizeCorner = ref("SE");
-	const { shouldSnap, applySnapToPosition, applySnapToSize } = useNodeSnap();
-	const { trackShiftKey } = useShiftKeySync();
-	let finishResize = null;
-	onScopeDispose(() => finishResize?.());
-	const startResize = (event, corner = "SE") => {
-		finishResize?.();
-		event.stopPropagation();
-		const target = event.currentTarget;
-		if (!(target instanceof HTMLElement)) return;
-		const nodeElement = target.closest("[data-node-id]");
-		if (!(nodeElement instanceof HTMLElement)) return;
-		const rawNodeId = nodeElement.dataset.nodeId;
-		if (!rawNodeId) return;
-		const nodeId = toNodeId(rawNodeId);
-		const rect = nodeElement.getBoundingClientRect();
-		const scale = transformState.camera.z;
-		const startSize = {
-			width: rect.width / scale,
-			height: rect.height / scale
-		};
-		const measureMinContentHeight = (candidateWidth) => {
-			const savedWidth = nodeElement.style.getPropertyValue("--node-width");
-			const savedHeight = nodeElement.style.getPropertyValue("--node-height");
-			nodeElement.style.setProperty("--node-width", `${candidateWidth}px`);
-			nodeElement.style.setProperty("--node-height", "0px");
-			const measured = nodeElement.getBoundingClientRect().height;
-			nodeElement.style.setProperty("--node-height", savedHeight || "");
-			nodeElement.style.setProperty("--node-width", savedWidth || "");
-			return measured / (transformState.camera.z || 1);
-		};
-		const { rootGraphId } = useCanvasStore();
-		const nodeLayout = rootGraphId ? layoutStore.getNodeLayout(rootGraphId, nodeId) : null;
-		const startPosition = nodeLayout ? { ...nodeLayout.position } : {
-			x: 0,
-			y: 0
-		};
-		const pointerId = event.pointerId;
-		const stopShiftSync = trackShiftKey(event.shiftKey);
-		target.setPointerCapture(event.pointerId);
-		layoutStore.isResizingVueNodes.value = true;
-		isResizing.value = true;
-		resizeStartPointer.value = {
-			x: event.clientX,
-			y: event.clientY
-		};
-		resizeStartSize.value = startSize;
-		resizeStartPosition.value = startPosition;
-		resizeCorner.value = corner;
-		const handlePointerMove = (moveEvent) => {
-			if (moveEvent.pointerId !== pointerId) return;
-			if (moveEvent.buttons === 0) { cleanup(); return; }
-			if (!isResizing.value || !resizeStartPointer.value || !resizeStartSize.value || !resizeStartPosition.value) return;
-			const scale = transformState.camera.z;
-			const deltaX = (moveEvent.clientX - resizeStartPointer.value.x) / (scale || 1);
-			const deltaY = (moveEvent.clientY - resizeStartPointer.value.y) / (scale || 1);
-			const activeCorner = resizeCorner.value;
-			let newWidth;
-			let newHeight;
-			let newX = resizeStartPosition.value.x;
-			let newY = resizeStartPosition.value.y;
-			switch (activeCorner) {
-				case "NE":
-					newY = resizeStartPosition.value.y + deltaY;
-					newWidth = resizeStartSize.value.width + deltaX;
-					newHeight = resizeStartSize.value.height - deltaY;
-					break;
-				case "SW":
-					newX = resizeStartPosition.value.x + deltaX;
-					newWidth = resizeStartSize.value.width - deltaX;
-					newHeight = resizeStartSize.value.height + deltaY;
-					break;
-				case "NW":
-					newX = resizeStartPosition.value.x + deltaX;
-					newY = resizeStartPosition.value.y + deltaY;
-					newWidth = resizeStartSize.value.width - deltaX;
-					newHeight = resizeStartSize.value.height - deltaY;
-					break;
-				default:
-					newWidth = resizeStartSize.value.width + deltaX;
-					newHeight = resizeStartSize.value.height + deltaY;
-			}
-			const isWestCorner = hasWestEdge(activeCorner);
-			const isNorthCorner = hasNorthEdge(activeCorner);
-			if (shouldSnap(moveEvent)) {
-				if (isNorthCorner || isWestCorner) {
-					const originalX = newX;
-					const originalY = newY;
-					const snapped = applySnapToPosition({
-						x: newX,
-						y: newY
-					});
-					newX = snapped.x;
-					newY = snapped.y;
-					if (isNorthCorner) newHeight += originalY - newY;
-					if (isWestCorner) newWidth += originalX - newX;
-				}
-				const snappedSize = applySnapToSize({
-					width: newWidth,
-					height: newHeight
-				});
-				newWidth = snappedSize.width;
-				newHeight = snappedSize.height;
-			}
-			const minWidth = parseFloat(nodeElement.style.getPropertyValue("min-width") || "0") || 225;
-			if (newWidth < minWidth) {
-				if (isWestCorner) newX = resizeStartPosition.value.x + resizeStartSize.value.width - minWidth;
-				newWidth = minWidth;
-			}
-			const minContentHeight = measureMinContentHeight(newWidth);
-			if (newHeight < minContentHeight) {
-				if (isNorthCorner) newY = resizeStartPosition.value.y + resizeStartSize.value.height - minContentHeight;
-				newHeight = minContentHeight;
-			}
-			const payload = { size: {
-				width: newWidth,
-				height: newHeight
-			} };
-			if (activeCorner !== "SE") payload.position = {
-				x: newX,
-				y: newY
-			};
-			const targetNodeElement = target.closest("[data-node-id]");
-			if (targetNodeElement instanceof HTMLElement) resizeCallback(payload, targetNodeElement);
-		};
-		const cleanup = () => {
-			if (!isResizing.value) return;
-			isResizing.value = false;
-			layoutStore.isResizingVueNodes.value = false;
-			resizeStartPointer.value = null;
-			resizeStartSize.value = null;
-			resizeStartPosition.value = null;
-			stopShiftSync();
-			stopMoveListen();
-			stopUpListen();
-			stopCancelListen();
-			stopLostListen();
-			finishResize = null;
-			try { if (target.hasPointerCapture(pointerId)) target.releasePointerCapture(pointerId); } catch {}
-		};
-		const handlePointerEnd = (endEvent) => {
-			if (endEvent.pointerId === pointerId) cleanup();
-		};
-		// Capture sees release before node/canvas navigation can stop bubbling.
-		const stopMoveListen = useEventListener(window, "pointermove", handlePointerMove, { capture: true });
-		const stopUpListen = useEventListener(window, "pointerup", handlePointerEnd, { capture: true });
-		const stopCancelListen = useEventListener(window, "pointercancel", handlePointerEnd, { capture: true });
-		const stopLostListen = useEventListener(target, "lostpointercapture", handlePointerEnd);
-		finishResize = cleanup;
-	};
-	return {
-		startResize,
-		isResizing
-	};
-}
-//#endregion
+
+
+
+
+
+
 //#region ~icons/lucide/image-off
 var _hoisted_1$98 = {
 	viewBox: "0 0 24 24",
@@ -40119,286 +41102,12 @@ var image_off_default = markRaw({
 	render: render$1
 });
 //#endregion
-//#region src/renderer/extensions/vueNodes/components/LivePreview.vue?vue&type=script&setup=true&lang.ts
-var _hoisted_1$97 = {
-	key: 0,
-	class: "flex size-full flex-col items-center justify-center text-center text-white"
-};
-var _hoisted_2$80 = { class: "text-xs text-smoke-400" };
-var _hoisted_3$63 = ["src", "alt"];
-var _hoisted_4$50 = { class: "mt-1 text-center text-xs text-node-component-header" };
-//#endregion
-//#region src/renderer/extensions/vueNodes/components/LivePreview.vue
-var LivePreview_default = /* @__PURE__ */ defineComponent({
-	__name: "LivePreview",
-	props: { imageUrl: {} },
-	setup(__props) {
-		const props = __props;
-		const actualDimensions = ref(null);
-		const imageError = ref(false);
-		watch(() => props.imageUrl, () => {
-			imageError.value = false;
-		});
-		const handleImageLoad = (event) => {
-			if (!event.target || !(event.target instanceof HTMLImageElement)) return;
-			const img = event.target;
-			imageError.value = false;
-			if (img.naturalWidth && img.naturalHeight) actualDimensions.value = `${img.naturalWidth} x ${img.naturalHeight}`;
-		};
-		const handleImageError = () => {
-			imageError.value = true;
-			actualDimensions.value = null;
-		};
-		return (_ctx, _cache) => {
-			const _component_i_lucide58image_off = image_off_default;
-			return __props.imageUrl ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [imageError.value ? (openBlock(), createElementBlock("div", _hoisted_1$97, [createVNode(_component_i_lucide58image_off, { class: "mb-1 size-8 text-smoke-500" }), createBaseVNode("p", _hoisted_2$80, toDisplayString(_ctx.$t("g.imageFailedToLoad")), 1)])) : (openBlock(), createElementBlock("img", {
-				key: 1,
-				src: __props.imageUrl,
-				alt: _ctx.$t("g.liveSamplingPreview"),
-				class: "pointer-events-none min-h-55 w-full flex-1 object-contain contain-size",
-				onLoad: handleImageLoad,
-				onError: handleImageError
-			}, null, 40, _hoisted_3$63)), createBaseVNode("div", _hoisted_4$50, toDisplayString(imageError.value ? _ctx.$t("g.errorLoadingImage") : actualDimensions.value || _ctx.$t("g.calculatingDimensions")), 1)], 64)) : createCommentVNode("", true);
-		};
-	}
-});
-//#endregion
-//#region src/renderer/extensions/vueNodes/VideoPreview.vue?vue&type=script&setup=true&lang.ts
-var _hoisted_1$96 = ["aria-label", "aria-busy"];
-var _hoisted_2$79 = {
-	key: 0,
-	role: "alert",
-	class: "flex flex-auto flex-col items-center justify-center bg-muted-background py-8 text-center text-base-foreground"
-};
-var _hoisted_3$62 = { class: "text-sm text-base-foreground" };
-var _hoisted_4$49 = { class: "mt-1 text-xs text-base-foreground" };
-var _hoisted_5$36 = ["src"];
-var _hoisted_6$28 = {
-	key: 3,
-	class: "actions absolute top-2 right-2 flex gap-2.5"
-};
-var _hoisted_7$24 = ["title", "aria-label"];
-var _hoisted_8$19 = ["title", "aria-label"];
-var _hoisted_9$18 = {
-	key: 4,
-	class: "absolute inset-x-2 bottom-2 flex justify-center gap-1"
-};
-var _hoisted_10$12 = ["aria-label", "onClick"];
-var _hoisted_11$11 = { class: "mt-2 text-center text-xs text-muted-foreground" };
-var _hoisted_12$10 = {
-	key: 0,
-	class: "text-red-400",
-	"data-testid": "error-loading-video"
-};
-var _hoisted_13$10 = {
-	key: 1,
-	class: "text-smoke-400"
-};
-var _hoisted_14$9 = { key: 2 };
-var actionButtonClass$1 = "flex h-8 min-h-8 items-center justify-center gap-2.5 rounded-lg border-0 bg-button-surface px-2 py-2 text-button-surface-contrast shadow-sm transition-colors duration-200 hover:bg-button-hover-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-button-surface-contrast focus-visible:ring-offset-2 focus-visible:ring-offset-transparent cursor-pointer";
-//#endregion
-//#region src/renderer/extensions/vueNodes/VideoPreview.vue
-var VideoPreview_default$1 = /* @__PURE__ */ defineComponent({
-	__name: "VideoPreview",
-	props: {
-		imageUrls: {},
-		nodeId: {}
-	},
-	setup(__props) {
-		const props = __props;
-		const { t } = useI18n();
-		const nodeOutputStore = useNodeOutputStore();
-		const currentIndex = ref(0);
-		const isHovered = ref(false);
-		const isFocused = ref(false);
-		const actualDimensions = ref(null);
-		const videoError = ref(false);
-		const showLoader = ref(false);
-		const videoWrapperEl = ref();
-		const currentVideoUrl = computed(() => props.imageUrls[currentIndex.value]);
-		const hasMultipleVideos = computed(() => props.imageUrls.length > 1);
-		watch(() => props.imageUrls, (newUrls, oldUrls) => {
-			if (!(!oldUrls || newUrls.length !== oldUrls.length || newUrls.some((url, i) => url !== oldUrls[i]))) return;
-			if (currentIndex.value >= newUrls.length) currentIndex.value = 0;
-			actualDimensions.value = null;
-			videoError.value = false;
-			showLoader.value = newUrls.length > 0;
-		}, { immediate: true });
-		const handleVideoLoad = (event) => {
-			if (!event.target || !(event.target instanceof HTMLVideoElement)) return;
-			const video = event.target;
-			showLoader.value = false;
-			videoError.value = false;
-			if (video.videoWidth && video.videoHeight) actualDimensions.value = `${video.videoWidth} x ${video.videoHeight}`;
-		};
-		const handleVideoError = () => {
-			showLoader.value = false;
-			videoError.value = true;
-			actualDimensions.value = null;
-		};
-		const handleDownload = () => {
-			try {
-				downloadFile(currentVideoUrl.value);
-			} catch (error) {
-				useToast().add({
-					severity: "error",
-					summary: "Error",
-					detail: t("g.failedToDownloadVideo"),
-					life: 3e3,
-					group: "video-preview"
-				});
-			}
-		};
-		const handleRemove = () => {
-			if (!props.nodeId) return;
-			nodeOutputStore.removeNodeOutputs(props.nodeId);
-		};
-		const setCurrentIndex = (index) => {
-			if (currentIndex.value === index) return;
-			if (index >= 0 && index < props.imageUrls.length) {
-				const urlChanged = props.imageUrls[index] !== currentVideoUrl.value;
-				currentIndex.value = index;
-				videoError.value = false;
-				if (urlChanged) {
-					actualDimensions.value = null;
-					showLoader.value = true;
-				}
-			}
-		};
-		const handleMouseEnter = () => {
-			isHovered.value = true;
-		};
-		const handleMouseLeave = () => {
-			isHovered.value = false;
-		};
-		const handleFocusIn = () => {
-			isFocused.value = true;
-		};
-		const handleFocusOut = (event) => {
-			if (!videoWrapperEl.value?.contains(event.relatedTarget)) isFocused.value = false;
-		};
-		const getNavigationDotClass = (index) => cn("size-2 cursor-pointer rounded-full border-0 transition-all duration-200", index === currentIndex.value ? "bg-base-foreground" : "bg-base-foreground/50 hover:bg-base-foreground/80");
-		const handleKeyDown = (event) => {
-			if (props.imageUrls.length <= 1) return;
-			switch (event.key) {
-				case "ArrowLeft":
-					event.preventDefault();
-					setCurrentIndex(currentIndex.value > 0 ? currentIndex.value - 1 : props.imageUrls.length - 1);
-					break;
-				case "ArrowRight":
-					event.preventDefault();
-					setCurrentIndex(currentIndex.value < props.imageUrls.length - 1 ? currentIndex.value + 1 : 0);
-					break;
-				case "Home":
-					event.preventDefault();
-					setCurrentIndex(0);
-					break;
-				case "End":
-					event.preventDefault();
-					setCurrentIndex(props.imageUrls.length - 1);
-			}
-		};
-		const getVideoFilename = (url) => {
-			try {
-				return new URL(url).searchParams.get("filename") || "Unknown file";
-			} catch {
-				return "Invalid URL";
-			}
-		};
-		return (_ctx, _cache) => {
-			return __props.imageUrls.length > 0 ? (openBlock(), createElementBlock("div", {
-				key: 0,
-				class: "video-preview flex size-full min-h-55 min-w-16 flex-col px-2",
-				onKeydown: handleKeyDown
-			}, [createBaseVNode("div", {
-				ref_key: "videoWrapperEl",
-				ref: videoWrapperEl,
-				class: "relative flex flex-1 overflow-hidden rounded-[5px] bg-node-component-surface",
-				tabindex: "0",
-				role: "region",
-				"aria-label": _ctx.$t("g.videoPreview"),
-				"aria-busy": showLoader.value,
-				onMouseenter: handleMouseEnter,
-				onMouseleave: handleMouseLeave,
-				onFocusin: handleFocusIn,
-				onFocusout: handleFocusOut
-			}, [
-				videoError.value ? (openBlock(), createElementBlock("div", _hoisted_2$79, [
-					_cache[0] || (_cache[0] = createBaseVNode("i", { class: "mb-2 icon-[lucide--video-off] size-12 text-base-foreground" }, null, -1)),
-					createBaseVNode("p", _hoisted_3$62, toDisplayString(_ctx.$t("g.videoFailedToLoad")), 1),
-					createBaseVNode("p", _hoisted_4$49, toDisplayString(getVideoFilename(currentVideoUrl.value)), 1)
-				])) : createCommentVNode("", true),
-				showLoader.value && !videoError.value ? (openBlock(), createBlock(unref(script), {
-					key: 1,
-					class: "absolute inset-0 size-full",
-					"border-radius": "5px",
-					width: "100%",
-					height: "100%"
-				})) : createCommentVNode("", true),
-				!videoError.value ? (openBlock(), createElementBlock("video", {
-					key: 2,
-					src: currentVideoUrl.value,
-					class: normalizeClass(unref(cn)("absolute inset-0 size-full object-contain", showLoader.value && "invisible")),
-					preload: "metadata",
-					controls: "",
-					loop: "",
-					playsinline: "",
-					onLoadeddata: handleVideoLoad,
-					onError: handleVideoError
-				}, null, 42, _hoisted_5$36)) : createCommentVNode("", true),
-				isHovered.value || isFocused.value ? (openBlock(), createElementBlock("div", _hoisted_6$28, [createBaseVNode("button", {
-					class: normalizeClass(actionButtonClass$1),
-					title: _ctx.$t("g.downloadVideo"),
-					"aria-label": _ctx.$t("g.downloadVideo"),
-					onClick: handleDownload
-				}, [..._cache[1] || (_cache[1] = [createBaseVNode("i", { class: "icon-[lucide--download] size-4" }, null, -1)])], 8, _hoisted_7$24), createBaseVNode("button", {
-					class: normalizeClass(actionButtonClass$1),
-					title: _ctx.$t("g.removeVideo"),
-					"aria-label": _ctx.$t("g.removeVideo"),
-					onClick: handleRemove
-				}, [..._cache[2] || (_cache[2] = [createBaseVNode("i", { class: "icon-[lucide--x] size-4" }, null, -1)])], 8, _hoisted_8$19)])) : createCommentVNode("", true),
-				hasMultipleVideos.value ? (openBlock(), createElementBlock("div", _hoisted_9$18, [(openBlock(true), createElementBlock(Fragment, null, renderList(__props.imageUrls, (_, index) => {
-					return openBlock(), createElementBlock("button", {
-						key: index,
-						class: normalizeClass(getNavigationDotClass(index)),
-						"aria-label": _ctx.$t("g.viewVideoOfTotal", {
-							index: index + 1,
-							total: __props.imageUrls.length
-						}),
-						onClick: ($event) => setCurrentIndex(index)
-					}, null, 10, _hoisted_10$12);
-				}), 128))])) : createCommentVNode("", true)
-			], 40, _hoisted_1$96), createBaseVNode("div", _hoisted_11$11, [videoError.value ? (openBlock(), createElementBlock("span", _hoisted_12$10, toDisplayString(_ctx.$t("g.errorLoadingVideo")), 1)) : showLoader.value ? (openBlock(), createElementBlock("span", _hoisted_13$10, toDisplayString(_ctx.$t("g.loading")) + "... ", 1)) : (openBlock(), createElementBlock("span", _hoisted_14$9, toDisplayString(actualDimensions.value || _ctx.$t("g.calculatingDimensions")), 1))])], 32)) : createCommentVNode("", true);
-		};
-	}
-});
-//#endregion
-//#region src/renderer/extensions/vueNodes/components/AudioPreview.vue?vue&type=script&setup=true&lang.ts
-var _hoisted_1$95 = {
-	key: 0,
-	class: "flex flex-col gap-2 px-2"
-};
-var _hoisted_2$78 = ["src"];
-//#endregion
-//#region src/renderer/extensions/vueNodes/components/AudioPreview.vue
-var AudioPreview_default = /* @__PURE__ */ defineComponent({
-	__name: "AudioPreview",
-	props: { audioUrls: {} },
-	setup(__props) {
-		return (_ctx, _cache) => {
-			return __props.audioUrls.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_1$95, [(openBlock(true), createElementBlock(Fragment, null, renderList(__props.audioUrls, (url, index) => {
-				return openBlock(), createElementBlock("audio", {
-					key: index,
-					src: url,
-					controls: "",
-					preload: "metadata",
-					class: "w-full"
-				}, null, 8, _hoisted_2$78);
-			}), 128))])) : createCommentVNode("", true);
-		};
-	}
-});
-//#endregion
+
+
+
+
+
+
 //#region ~icons/comfy/mask
 var _hoisted_1$94 = {
 	width: "1.2em",
@@ -40439,573 +41148,12 @@ function openHdrViewer(url) {
 	});
 }
 //#endregion
-//#region src/renderer/extensions/vueNodes/components/ImagePreview.vue?vue&type=script&setup=true&lang.ts
-var _hoisted_1$93 = [
-	"src",
-	"alt",
-	"onLoad"
-];
-var _hoisted_2$76 = {
-	key: 1,
-	class: "flex size-full flex-col items-center justify-center gap-1 text-base-foreground"
-};
-var _hoisted_3$60 = { class: "text-xs" };
-var _hoisted_4$48 = {
-	key: 0,
-	class: "invisible absolute top-2 right-2 group-focus-within:visible group-hover:visible"
-};
-var _hoisted_5$35 = ["title", "aria-label"];
-var _hoisted_6$27 = [
-	"aria-roledescription",
-	"aria-label",
-	"aria-busy"
-];
-var _hoisted_7$23 = {
-	key: 0,
-	role: "alert",
-	class: "flex size-full flex-1 flex-col items-center justify-around self-center py-8 text-center text-base-foreground"
-};
-var _hoisted_8$18 = { class: "text-sm text-base-foreground" };
-var _hoisted_9$17 = { class: "mt-1 text-xs text-base-foreground" };
-var _hoisted_10$11 = {
-	key: 1,
-	class: "size-full"
-};
-var _hoisted_11$10 = { class: "text-sm" };
-var _hoisted_12$9 = { class: "rounded-md bg-base-foreground px-3 py-1.5 text-sm text-base-background" };
-var _hoisted_13$9 = ["src", "alt"];
-var _hoisted_14$8 = { class: "actions invisible absolute top-2 right-2 flex gap-1 group-focus-within/panel:visible group-hover/panel:visible" };
-var _hoisted_15$8 = ["title", "aria-label"];
-var _hoisted_16$6 = ["title", "aria-label"];
-var _hoisted_17$4 = ["title", "aria-label"];
-var _hoisted_18$3 = ["title", "aria-label"];
-var _hoisted_19$1 = {
-	key: 2,
-	class: "pt-2 text-center text-xs text-base-foreground"
-};
-var _hoisted_20$1 = {
-	key: 0,
-	class: "text-error",
-	"data-testid": "error-loading-image"
-};
-var _hoisted_21$1 = {
-	key: 1,
-	class: "text-base-foreground"
-};
-var _hoisted_22 = { key: 2 };
-var _hoisted_23 = {
-	key: 3,
-	class: "flex flex-wrap items-center justify-center gap-1 pt-4"
-};
-var _hoisted_24 = ["title", "aria-label"];
-var _hoisted_25 = [
-	"aria-current",
-	"aria-label",
-	"onClick"
-];
-var actionButtonClass = "flex h-8 min-h-8 cursor-pointer items-center justify-center rounded-lg border-0 bg-base-foreground p-2 text-base-background shadow-interface transition-colors duration-200 hover:bg-base-foreground/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-base-foreground focus-visible:ring-offset-2";
-//#endregion
-//#region src/renderer/extensions/vueNodes/components/ImagePreview.vue
-var ImagePreview_default$1 = /* @__PURE__ */ defineComponent({
-	__name: "ImagePreview",
-	props: {
-		imageUrls: {},
-		nodeId: {}
-	},
-	setup(__props) {
-		const { t } = useI18n();
-		const maskEditor = useMaskEditor();
-		const nodeOutputStore = useNodeOutputStore();
-		const { hasMultipleOutputs, showOutputsExportDialog } = useNodeOutputsExport();
-		const toastStore = useToastStore();
-		function defaultViewMode(urls) {
-			return urls.length > 1 ? "grid" : "gallery";
-		}
-		const { width: gridWidth, height: gridHeight } = useElementSize(useTemplateRef("gridEl"));
-		const currentIndex = ref(0);
-		const viewMode = ref(defaultViewMode(__props.imageUrls));
-		const galleryPanelEl = ref();
-		const actualDimensions = ref(null);
-		const imageError = ref(false);
-		const showLoader = ref(false);
-		const imageAspectRatio = ref(1);
-		const { start: startDelayedLoader, stop: stopDelayedLoader } = useTimeoutFn(() => {
-			showLoader.value = true;
-		}, 250, { immediate: false });
-		const currentImageUrl = computed(() => __props.imageUrls[currentIndex.value] ?? "");
-		const currentImageIsHdr = computed(() => isHdrImageUrl(currentImageUrl.value));
-		const gridImageUrls = computed(() => __props.imageUrls.map(getGridThumbnailUrl));
-		const hasMultipleImages = computed(() => __props.imageUrls.length > 1);
-		const canExportOutputs = computed(() => {
-			const node = __props.nodeId ? resolveNode(__props.nodeId) : void 0;
-			return !!node && hasMultipleOutputs(node);
-		});
-		const imageAltText = computed(() => t("g.viewImageOfTotal", {
-			index: currentIndex.value + 1,
-			total: __props.imageUrls.length
-		}));
-		const gridCols = computed(() => {
-			const bias = gridWidth.value / gridHeight.value / imageAspectRatio.value;
-			return Math.max(Math.round(Math.sqrt(__props.imageUrls.length * bias)), 1);
-		});
-		watch(() => __props.imageUrls, (newUrls, oldUrls) => {
-			if (!(!oldUrls || newUrls.length !== oldUrls.length || newUrls.some((url, i) => url !== oldUrls[i]))) return;
-			if (currentIndex.value >= newUrls.length) currentIndex.value = 0;
-			actualDimensions.value = null;
-			viewMode.value = defaultViewMode(newUrls);
-			imageError.value = false;
-			if (newUrls.length > 0) startDelayedLoader();
-		}, { immediate: true });
-		function handleImageLoad(event) {
-			if (!event.target || !(event.target instanceof HTMLImageElement)) return;
-			const img = event.target;
-			stopDelayedLoader();
-			showLoader.value = false;
-			imageError.value = false;
-			if (img.naturalWidth && img.naturalHeight) actualDimensions.value = `${img.naturalWidth} x ${img.naturalHeight}`;
-			if (__props.nodeId) nodeOutputStore.syncLegacyNodeImgs(__props.nodeId, img, currentIndex.value);
-		}
-		function updateAspectRatio(event, index) {
-			if (!(event.target instanceof HTMLImageElement) || index !== 0) return;
-			const { naturalWidth, naturalHeight } = event.target;
-			if (naturalWidth && naturalHeight) imageAspectRatio.value = naturalWidth / naturalHeight;
-		}
-		function handleImageError() {
-			stopDelayedLoader();
-			showLoader.value = false;
-			imageError.value = true;
-			actualDimensions.value = null;
-			const failedUrl = currentImageUrl.value;
-			describeImageLoadFailure(failedUrl).then((metadata) => {
-				useTelemetry()?.trackImageLoadFailed(metadata);
-			});
-		}
-		function handleEditMask() {
-			if (!__props.nodeId) return;
-			const node = resolveNode(__props.nodeId);
-			if (!node) return;
-			maskEditor.openMaskEditor(node);
-		}
-		async function handleOpenLayerEditor() {
-			if (!__props.nodeId) return;
-			const node = resolveNode(__props.nodeId);
-			if (!node) return;
-			const { useLayerEditor } = await __vitePreload(async () => {
-				const { useLayerEditor } = await import("./useLayerEditor-C1ffXZjI.js");
-				return { useLayerEditor };
-			}, __vite__mapDeps([197,1,35,26,4,5,2,6,7,36,22,37,38,39,40,41,42,43,44,45,46,47,48,15,49,50,51,52,53,54,55,56,57,58,59,60,61,8,9,3,62,29,63,64,65,28,20,66,67,68,69,70,18,31,13,71,14,72,73,74,75,11,79]), import.meta.url);
-			useLayerEditor().openLayerEditor(node);
-		}
-		function handleDownload() {
-			try {
-				downloadFile(currentImageUrl.value);
-			} catch {
-				toastStore.add({
-					severity: "error",
-					summary: t("g.error"),
-					detail: t("g.failedToDownloadImage")
-				});
-			}
-		}
-		function handleExportOutputs() {
-			if (!__props.nodeId) return;
-			const node = resolveNode(__props.nodeId);
-			if (!node) return;
-			showOutputsExportDialog(node);
-		}
-		function setCurrentIndex(index) {
-			if (currentIndex.value === index) return;
-			if (index >= 0 && index < __props.imageUrls.length) {
-				const urlChanged = __props.imageUrls[index] !== currentImageUrl.value;
-				currentIndex.value = index;
-				imageError.value = false;
-				if (urlChanged) startDelayedLoader();
-			}
-		}
-		async function openImageInGallery(index) {
-			setCurrentIndex(index);
-			viewMode.value = "gallery";
-			await nextTick();
-			galleryPanelEl.value?.focus();
-		}
-		function handleGridClick(index) {
-			const url = __props.imageUrls[index];
-			if (isHdrImageUrl(url)) {
-				openHdrViewer(url);
-				return;
-			}
-			openImageInGallery(index);
-		}
-		function getNavigationDotClass(index) {
-			return cn("size-2 cursor-pointer rounded-full border-0 p-0 transition-all duration-200", index === currentIndex.value ? "bg-base-foreground" : "bg-base-foreground/50 hover:bg-base-foreground/80");
-		}
-		function handleKeyDown(event) {
-			if (event.key === "Escape" && viewMode.value === "gallery" && hasMultipleImages.value) {
-				event.preventDefault();
-				viewMode.value = "grid";
-				return;
-			}
-			if (__props.imageUrls.length <= 1 || viewMode.value === "grid") return;
-			switch (event.key) {
-				case "ArrowLeft":
-					event.preventDefault();
-					setCurrentIndex(currentIndex.value > 0 ? currentIndex.value - 1 : __props.imageUrls.length - 1);
-					break;
-				case "ArrowRight":
-					event.preventDefault();
-					setCurrentIndex(currentIndex.value < __props.imageUrls.length - 1 ? currentIndex.value + 1 : 0);
-					break;
-				case "Home":
-					event.preventDefault();
-					setCurrentIndex(0);
-					break;
-				case "End":
-					event.preventDefault();
-					setCurrentIndex(__props.imageUrls.length - 1);
-			}
-		}
-		function getImageFilename(url) {
-			if (!url) return t("g.imageDoesNotExist");
-			try {
-				return new URL(url).searchParams.get("filename") || t("g.unknownFile");
-			} catch {
-				return t("g.imageDoesNotExist");
-			}
-		}
-		return (_ctx, _cache) => {
-			const _component_i_comfy58mask = mask_default;
-			return __props.imageUrls.length > 0 ? (openBlock(), createElementBlock("div", {
-				key: 0,
-				class: "image-preview group relative flex size-full min-w-16 flex-col justify-center px-2",
-				style: normalizeStyle({ minHeight: `${unref(220)}px` }),
-				onKeydown: handleKeyDown
-			}, [
-				viewMode.value === "grid" ? (openBlock(), createElementBlock("div", {
-					key: 0,
-					ref: "gridEl",
-					"data-testid": "image-grid",
-					class: "relative grid w-full flex-1 gap-1 rounded-sm p-1 contain-size",
-					style: normalizeStyle({ gridTemplateColumns: `repeat(${gridCols.value}, 1fr)` })
-				}, [(openBlock(true), createElementBlock(Fragment, null, renderList(gridImageUrls.value, (url, index) => {
-					return openBlock(), createBlock(Button_default, {
-						key: index,
-						size: "unset",
-						class: "overflow-hidden rounded-none p-0 ring-border-default hover:ring-1 focus-visible:ring-2",
-						"aria-label": _ctx.$t("g.viewImageOfTotal", {
-							index: index + 1,
-							total: __props.imageUrls.length
-						}),
-						onClick: ($event) => handleGridClick(index)
-					}, {
-						default: withCtx(() => [!unref(isHdrImageUrl)(__props.imageUrls[index]) ? (openBlock(), createElementBlock("img", {
-							key: 0,
-							src: url,
-							alt: `${_ctx.$t("g.galleryThumbnail")} ${index + 1}`,
-							draggable: "false",
-							class: "pointer-events-none size-full object-contain",
-							onLoad: ($event) => updateAspectRatio($event, index)
-						}, null, 40, _hoisted_1$93)) : (openBlock(), createElementBlock("div", _hoisted_2$76, [_cache[3] || (_cache[3] = createBaseVNode("i", { class: "icon-[lucide--sun] size-6" }, null, -1)), createBaseVNode("span", _hoisted_3$60, toDisplayString(_ctx.$t("hdrViewer.hdrImage")), 1)]))]),
-						_: 2
-					}, 1032, ["aria-label", "onClick"]);
-				}), 128)), canExportOutputs.value ? (openBlock(), createElementBlock("div", _hoisted_4$48, [createBaseVNode("button", {
-					class: normalizeClass(actionButtonClass),
-					title: _ctx.$t("g.downloadImages"),
-					"aria-label": _ctx.$t("g.downloadImages"),
-					onClick: handleExportOutputs
-				}, [..._cache[4] || (_cache[4] = [createBaseVNode("i", { class: "icon-[lucide--folder-down] size-4" }, null, -1)])], 8, _hoisted_5$35)])) : createCommentVNode("", true)], 4)) : createCommentVNode("", true),
-				viewMode.value === "gallery" ? (openBlock(), createElementBlock("div", {
-					key: 1,
-					ref_key: "galleryPanelEl",
-					ref: galleryPanelEl,
-					class: "group/panel relative flex min-h-0 w-full flex-1 cursor-pointer overflow-hidden rounded-sm bg-transparent",
-					tabindex: "0",
-					role: "region",
-					"aria-roledescription": _ctx.$t("g.imageGallery"),
-					"aria-label": _ctx.$t("g.imagePreview"),
-					"aria-busy": showLoader.value
-				}, [
-					imageError.value ? (openBlock(), createElementBlock("div", _hoisted_7$23, [
-						_cache[5] || (_cache[5] = createBaseVNode("i", { class: "mb-2 icon-[lucide--image-off] size-12 text-base-foreground" }, null, -1)),
-						createBaseVNode("p", _hoisted_8$18, toDisplayString(_ctx.$t("g.imageFailedToLoad")), 1),
-						createBaseVNode("p", _hoisted_9$17, toDisplayString(getImageFilename(currentImageUrl.value)), 1)
-					])) : createCommentVNode("", true),
-					showLoader.value && !imageError.value && !currentImageIsHdr.value ? (openBlock(), createElementBlock("div", _hoisted_10$11, [createVNode(Skeleton_default, { class: "size-full rounded-sm" })])) : createCommentVNode("", true),
-					!imageError.value && currentImageIsHdr.value ? (openBlock(), createElementBlock("button", {
-						key: 2,
-						type: "button",
-						"data-testid": "hdr-open-button",
-						class: "absolute inset-0 flex cursor-pointer flex-col items-center justify-center gap-3 border-0 bg-transparent text-base-foreground",
-						onClick: _cache[0] || (_cache[0] = ($event) => unref(openHdrViewer)(currentImageUrl.value))
-					}, [
-						_cache[6] || (_cache[6] = createBaseVNode("i", { class: "icon-[lucide--sun] size-12" }, null, -1)),
-						createBaseVNode("span", _hoisted_11$10, toDisplayString(_ctx.$t("hdrViewer.hdrImage")), 1),
-						createBaseVNode("span", _hoisted_12$9, toDisplayString(_ctx.$t("hdrViewer.openInHdrViewer")), 1)
-					])) : createCommentVNode("", true),
-					!imageError.value && !currentImageIsHdr.value ? (openBlock(), createElementBlock("img", {
-						key: 3,
-						"data-testid": "main-image",
-						src: currentImageUrl.value,
-						alt: imageAltText.value,
-						draggable: "false",
-						class: "pointer-events-none absolute inset-0 block size-full object-contain",
-						onLoad: handleImageLoad,
-						onError: handleImageError
-					}, null, 40, _hoisted_13$9)) : createCommentVNode("", true),
-					createBaseVNode("div", _hoisted_14$8, [
-						!hasMultipleImages.value && !imageError.value && !currentImageIsHdr.value ? (openBlock(), createElementBlock("button", {
-							key: 0,
-							class: normalizeClass(actionButtonClass),
-							title: _ctx.$t("g.editOrMaskImage"),
-							"aria-label": _ctx.$t("g.editOrMaskImage"),
-							onClick: handleEditMask
-						}, [createVNode(_component_i_comfy58mask, { class: "size-4" })], 8, _hoisted_15$8)) : createCommentVNode("", true),
-						hasMultipleImages.value && !imageError.value ? (openBlock(), createElementBlock("button", {
-							key: 1,
-							class: normalizeClass(actionButtonClass),
-							title: _ctx.$t("g.openLayerEditor"),
-							"aria-label": _ctx.$t("g.openLayerEditor"),
-							onClick: handleOpenLayerEditor
-						}, [..._cache[7] || (_cache[7] = [createBaseVNode("i", { class: "icon-[lucide--layers] size-4" }, null, -1)])], 8, _hoisted_16$6)) : createCommentVNode("", true),
-						!imageError.value ? (openBlock(), createElementBlock("button", {
-							key: 2,
-							class: normalizeClass(actionButtonClass),
-							title: _ctx.$t("g.downloadImage"),
-							"aria-label": _ctx.$t("g.downloadImage"),
-							onClick: handleDownload
-						}, [..._cache[8] || (_cache[8] = [createBaseVNode("i", { class: "icon-[lucide--download] size-4" }, null, -1)])], 8, _hoisted_17$4)) : createCommentVNode("", true),
-						hasMultipleImages.value ? (openBlock(), createElementBlock("button", {
-							key: 3,
-							class: normalizeClass(actionButtonClass),
-							title: _ctx.$t("g.viewGrid"),
-							"aria-label": _ctx.$t("g.viewGrid"),
-							onClick: _cache[1] || (_cache[1] = ($event) => viewMode.value = "grid")
-						}, [..._cache[9] || (_cache[9] = [createBaseVNode("i", { class: "icon-[lucide--layout-grid] size-4" }, null, -1)])], 8, _hoisted_18$3)) : createCommentVNode("", true)
-					])
-				], 8, _hoisted_6$27)) : createCommentVNode("", true),
-				viewMode.value === "gallery" && !currentImageIsHdr.value ? (openBlock(), createElementBlock("div", _hoisted_19$1, [imageError.value ? (openBlock(), createElementBlock("span", _hoisted_20$1, toDisplayString(_ctx.$t("g.errorLoadingImage")), 1)) : showLoader.value ? (openBlock(), createElementBlock("span", _hoisted_21$1, toDisplayString(_ctx.$t("g.loading")) + "... ", 1)) : (openBlock(), createElementBlock("span", _hoisted_22, toDisplayString(actualDimensions.value || _ctx.$t("g.calculatingDimensions")), 1))])) : createCommentVNode("", true),
-				viewMode.value === "gallery" && hasMultipleImages.value ? (openBlock(), createElementBlock("div", _hoisted_23, [createBaseVNode("button", {
-					class: "mr-1 flex cursor-pointer items-center justify-center rounded-sm border-0 bg-transparent p-0.5 text-base-foreground/50 transition-colors hover:text-base-foreground",
-					title: _ctx.$t("g.viewGrid"),
-					"aria-label": _ctx.$t("g.viewGrid"),
-					onClick: _cache[2] || (_cache[2] = ($event) => viewMode.value = "grid")
-				}, [..._cache[10] || (_cache[10] = [createBaseVNode("i", { class: "icon-[lucide--layout-grid] size-3.5" }, null, -1)])], 8, _hoisted_24), (openBlock(true), createElementBlock(Fragment, null, renderList(__props.imageUrls, (_, index) => {
-					return openBlock(), createElementBlock("button", {
-						key: index,
-						class: normalizeClass(getNavigationDotClass(index)),
-						"aria-current": index === currentIndex.value ? "true" : void 0,
-						"aria-label": _ctx.$t("g.viewImageOfTotal", {
-							index: index + 1,
-							total: __props.imageUrls.length
-						}),
-						onClick: ($event) => setCurrentIndex(index)
-					}, null, 10, _hoisted_25);
-				}), 128))])) : createCommentVNode("", true)
-			], 36)) : createCommentVNode("", true);
-		};
-	}
-});
-//#endregion
-//#region src/renderer/extensions/vueNodes/components/NodeContent.vue?vue&type=script&setup=true&lang.ts
-var _hoisted_1$92 = {
-	key: 0,
-	class: "node-error p-2 text-sm text-red-500"
-};
-var _hoisted_2$75 = {
-	key: 1,
-	class: "lg-node-content flex flex-auto grow flex-col [content-visibility:auto]"
-};
-//#endregion
-//#region src/renderer/extensions/vueNodes/components/NodeContent.vue
-var NodeContent_default = /* @__PURE__ */ defineComponent({
-	__name: "NodeContent",
-	props: {
-		nodeData: {},
-		media: {}
-	},
-	setup(__props) {
-		const props = __props;
-		const hasMedia = computed(() => props.media && props.media.urls.length > 0);
-		const nodeId = computed(() => props.nodeData?.id);
-		const renderError = ref(null);
-		const { toastErrorHandler } = useErrorHandling();
-		onErrorCaptured((error) => {
-			renderError.value = error.message;
-			toastErrorHandler(error);
-			return false;
-		});
-		return (_ctx, _cache) => {
-			return renderError.value ? (openBlock(), createElementBlock("div", _hoisted_1$92, toDisplayString(unref(st)("nodeErrors.content", "Node Content Error")), 1)) : (openBlock(), createElementBlock("div", _hoisted_2$75, [renderSlot(_ctx.$slots, "default", {}, () => [hasMedia.value && __props.media?.type === "video" ? (openBlock(), createBlock(VideoPreview_default$1, {
-				key: 0,
-				"image-urls": __props.media.urls,
-				"node-id": nodeId.value,
-				class: "mt-2 flex-auto"
-			}, null, 8, ["image-urls", "node-id"])) : hasMedia.value && __props.media?.type === "audio" ? (openBlock(), createBlock(AudioPreview_default, {
-				key: 1,
-				"audio-urls": __props.media.urls,
-				class: "mt-2 flex-auto"
-			}, null, 8, ["audio-urls"])) : hasMedia.value && __props.media?.type === "image" ? (openBlock(), createBlock(ImagePreview_default$1, {
-				key: 2,
-				"image-urls": __props.media.urls,
-				"node-id": nodeId.value,
-				class: "flex-auto",
-				style: normalizeStyle({ marginTop: `${unref(8)}px` })
-			}, null, 8, [
-				"image-urls",
-				"node-id",
-				"style"
-			])) : createCommentVNode("", true)])]));
-		};
-	}
-});
-//#endregion
-//#region src/renderer/extensions/vueNodes/components/NodeFooter.vue?vue&type=script&setup=true&lang.ts
-var _hoisted_1$91 = { class: "flex size-full items-center justify-center gap-2" };
-var _hoisted_2$74 = { class: "truncate" };
-var _hoisted_3$59 = { class: "flex size-full items-center justify-center gap-2" };
-var _hoisted_4$47 = { class: "truncate" };
-var _hoisted_5$34 = { class: "flex size-full items-center justify-center gap-2" };
-var _hoisted_6$26 = { class: "truncate" };
-var _hoisted_7$22 = { class: "flex size-full items-center justify-center gap-2" };
-var _hoisted_8$17 = { class: "truncate" };
-var _hoisted_9$16 = { class: "flex size-full items-center justify-center gap-2" };
-var _hoisted_10$10 = { class: "truncate" };
-var _hoisted_11$9 = { class: "flex size-full items-center justify-center gap-2" };
-var _hoisted_12$8 = { class: "truncate" };
-var _hoisted_13$8 = { class: "flex size-full items-center justify-center gap-2" };
-var _hoisted_14$7 = { class: "truncate" };
-var _hoisted_15$7 = { class: "truncate" };
-var tabStyles = "pointer-events-auto h-11 text-xs font-normal";
-var footerWrapperBase = "isolate -z-1 -mt-5 box-border flex";
-//#endregion
-//#region src/renderer/extensions/vueNodes/components/NodeFooter.vue
-var NodeFooter_default = /* @__PURE__ */ defineComponent({
-	__name: "NodeFooter",
-	props: {
-		isSubgraph: { type: Boolean },
-		errorSeverity: {},
-		showErrorsTabEnabled: { type: Boolean },
-		showAdvancedInputsButton: { type: Boolean },
-		showAdvancedState: { type: Boolean },
-		headerColor: {},
-		shape: {}
-	},
-	emits: [
-		"enterSubgraph",
-		"openErrors",
-		"toggleAdvanced"
-	],
-	setup(__props, { emit: __emit }) {
-		const { t } = useI18n();
-		const emit = __emit;
-		const hasAnyError = computed(() => __props.errorSeverity !== "none");
-		const errorLabel = computed(() => t(__props.errorSeverity === "missing" ? "rightSidePanel.errors" : "g.error"));
-		const errorColorClass = computed(() => __props.errorSeverity === "missing" ? "bg-warning-background text-warning-on-background hover:bg-warning-background-hover" : "bg-destructive-background text-white hover:bg-destructive-background-hover");
-		let suppressNextClick = false;
-		function snapshotDragOnPointerUp() {
-			suppressNextClick = layoutStore.isDraggingVueNodes.value;
-		}
-		function emitIfNotDragged(name) {
-			const wasDrag = suppressNextClick;
-			suppressNextClick = false;
-			if (wasDrag) return;
-			if (name === "enterSubgraph") emit("enterSubgraph");
-			else if (name === "openErrors") emit("openErrors");
-			else emit("toggleAdvanced");
-		}
-		function getBottomRadius(nodeShape, corners = "both") {
-			if (nodeShape === RenderShape.BOX) return "";
-			return nodeShape === RenderShape.CARD || corners === "right" ? "rounded-br-xl" : "rounded-b-xl";
-		}
-		const footerRadiusClass = computed(() => getBottomRadius(__props.shape));
-		const errorRadiusClass = computed(() => getBottomRadius(__props.shape));
-		const enterRadiusClass = computed(() => getBottomRadius(__props.shape, "right"));
-		const errorWrapperStyles = cn(footerWrapperBase, "-mx-1 -mb-2 w-[calc(100%+8px)] pb-1");
-		const headerColorStyle = computed(() => __props.headerColor ? { backgroundColor: __props.headerColor } : void 0);
-		return (_ctx, _cache) => {
-			return __props.isSubgraph && hasAnyError.value && __props.showErrorsTabEnabled ? (openBlock(), createElementBlock("div", {
-				key: 0,
-				class: normalizeClass(unref(errorWrapperStyles))
-			}, [createVNode(Button_default, {
-				variant: "textonly",
-				class: normalizeClass(unref(cn)(tabStyles, "z-10 box-border w-1/2 rounded-none pt-9 pb-3", errorColorClass.value, errorRadiusClass.value)),
-				onPointerup: snapshotDragOnPointerUp,
-				onClick: _cache[0] || (_cache[0] = withModifiers(($event) => emitIfNotDragged("openErrors"), ["stop"]))
-			}, {
-				default: withCtx(() => [createBaseVNode("div", _hoisted_1$91, [createBaseVNode("span", _hoisted_2$74, toDisplayString(errorLabel.value), 1), _cache[7] || (_cache[7] = createBaseVNode("i", { class: "icon-[lucide--info] size-4 shrink-0" }, null, -1))])]),
-				_: 1
-			}, 8, ["class"]), createVNode(Button_default, {
-				variant: "textonly",
-				"data-testid": "subgraph-enter-button",
-				class: normalizeClass(unref(cn)(tabStyles, "-ml-5 box-border w-[calc(50%+20px)] rounded-none bg-node-component-header-surface pt-9 pb-3 pl-5 text-node-component-slot-text", enterRadiusClass.value)),
-				style: normalizeStyle(headerColorStyle.value),
-				onPointerup: snapshotDragOnPointerUp,
-				onClick: _cache[1] || (_cache[1] = withModifiers(($event) => emitIfNotDragged("enterSubgraph"), ["stop"]))
-			}, {
-				default: withCtx(() => [createBaseVNode("div", _hoisted_3$59, [createBaseVNode("span", _hoisted_4$47, toDisplayString(unref(t)("g.enter")), 1), _cache[8] || (_cache[8] = createBaseVNode("i", { class: "icon-[comfy--workflow] size-4 shrink-0" }, null, -1))])]),
-				_: 1
-			}, 8, ["class", "style"])], 2)) : !__props.isSubgraph && hasAnyError.value && __props.showErrorsTabEnabled && (__props.showAdvancedInputsButton || __props.showAdvancedState) ? (openBlock(), createElementBlock("div", {
-				key: 1,
-				class: normalizeClass(unref(errorWrapperStyles))
-			}, [createVNode(Button_default, {
-				variant: "textonly",
-				class: normalizeClass(unref(cn)(tabStyles, "z-10 box-border w-1/2 rounded-none pt-9 pb-3", errorColorClass.value, errorRadiusClass.value)),
-				onPointerup: snapshotDragOnPointerUp,
-				onClick: _cache[2] || (_cache[2] = withModifiers(($event) => emitIfNotDragged("openErrors"), ["stop"]))
-			}, {
-				default: withCtx(() => [createBaseVNode("div", _hoisted_5$34, [createBaseVNode("span", _hoisted_6$26, toDisplayString(errorLabel.value), 1), _cache[9] || (_cache[9] = createBaseVNode("i", { class: "icon-[lucide--info] size-4 shrink-0" }, null, -1))])]),
-				_: 1
-			}, 8, ["class"]), createVNode(Button_default, {
-				variant: "textonly",
-				"data-testid": "advanced-inputs-button",
-				class: normalizeClass(unref(cn)(tabStyles, "-ml-5 box-border w-[calc(50%+20px)] rounded-none bg-node-component-header-surface pt-9 pb-3 pl-5 text-node-component-slot-text", enterRadiusClass.value)),
-				style: normalizeStyle(headerColorStyle.value),
-				onPointerup: snapshotDragOnPointerUp,
-				onClick: _cache[3] || (_cache[3] = withModifiers(($event) => emitIfNotDragged("toggleAdvanced"), ["stop"]))
-			}, {
-				default: withCtx(() => [createBaseVNode("div", _hoisted_7$22, [createBaseVNode("span", _hoisted_8$17, toDisplayString(__props.showAdvancedState ? unref(t)("rightSidePanel.hideAdvancedShort") : unref(t)("rightSidePanel.showAdvancedShort")), 1), createBaseVNode("i", { class: normalizeClass(__props.showAdvancedState ? "icon-[lucide--chevron-up] size-4 shrink-0" : "icon-[lucide--settings-2] size-4 shrink-0") }, null, 2)])]),
-				_: 1
-			}, 8, ["class", "style"])], 2)) : hasAnyError.value && __props.showErrorsTabEnabled ? (openBlock(), createElementBlock("div", {
-				key: 2,
-				class: normalizeClass(unref(errorWrapperStyles))
-			}, [createVNode(Button_default, {
-				variant: "textonly",
-				class: normalizeClass(unref(cn)(tabStyles, "box-border w-full rounded-none pt-9 pb-3", errorColorClass.value, footerRadiusClass.value)),
-				onPointerup: snapshotDragOnPointerUp,
-				onClick: _cache[4] || (_cache[4] = withModifiers(($event) => emitIfNotDragged("openErrors"), ["stop"]))
-			}, {
-				default: withCtx(() => [createBaseVNode("div", _hoisted_9$16, [createBaseVNode("span", _hoisted_10$10, toDisplayString(errorLabel.value), 1), _cache[10] || (_cache[10] = createBaseVNode("i", { class: "icon-[lucide--info] size-4 shrink-0" }, null, -1))])]),
-				_: 1
-			}, 8, ["class"])], 2)) : __props.isSubgraph ? (openBlock(), createElementBlock("div", {
-				key: 3,
-				class: normalizeClass(unref(cn)(footerWrapperBase, hasAnyError.value ? "-mx-1 -mb-2 w-[calc(100%+8px)] pb-1" : "w-full"))
-			}, [createVNode(Button_default, {
-				variant: "textonly",
-				"data-testid": "subgraph-enter-button",
-				class: normalizeClass(unref(cn)(tabStyles, "box-border w-full rounded-none bg-node-component-header-surface text-node-component-slot-text", hasAnyError.value ? "pt-9 pb-3" : "pt-8 pb-3", footerRadiusClass.value)),
-				style: normalizeStyle(headerColorStyle.value),
-				onPointerup: snapshotDragOnPointerUp,
-				onClick: _cache[5] || (_cache[5] = withModifiers(($event) => emitIfNotDragged("enterSubgraph"), ["stop"]))
-			}, {
-				default: withCtx(() => [createBaseVNode("div", _hoisted_11$9, [createBaseVNode("span", _hoisted_12$8, toDisplayString(unref(t)("g.enterSubgraph")), 1), _cache[11] || (_cache[11] = createBaseVNode("i", { class: "icon-[comfy--workflow] size-4 shrink-0" }, null, -1))])]),
-				_: 1
-			}, 8, ["class", "style"])], 2)) : __props.showAdvancedInputsButton || __props.showAdvancedState ? (openBlock(), createElementBlock("div", {
-				key: 4,
-				class: normalizeClass(unref(cn)(footerWrapperBase, hasAnyError.value ? "-mx-1 -mb-2 w-[calc(100%+8px)] pb-1" : "w-full"))
-			}, [createVNode(Button_default, {
-				variant: "textonly",
-				"data-testid": "advanced-inputs-button",
-				class: normalizeClass(unref(cn)(tabStyles, "box-border w-full rounded-none bg-node-component-header-surface text-node-component-slot-text", hasAnyError.value ? "pt-9 pb-3" : "pt-8 pb-3", footerRadiusClass.value)),
-				style: normalizeStyle(headerColorStyle.value),
-				onPointerup: snapshotDragOnPointerUp,
-				onClick: _cache[6] || (_cache[6] = withModifiers(($event) => emitIfNotDragged("toggleAdvanced"), ["stop"]))
-			}, {
-				default: withCtx(() => [createBaseVNode("div", _hoisted_13$8, [__props.showAdvancedState ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [createBaseVNode("span", _hoisted_14$7, toDisplayString(unref(t)("rightSidePanel.hideAdvancedInputsButton")), 1), _cache[12] || (_cache[12] = createBaseVNode("i", { class: "icon-[lucide--chevron-up] size-4 shrink-0" }, null, -1))], 64)) : (openBlock(), createElementBlock(Fragment, { key: 1 }, [createBaseVNode("span", _hoisted_15$7, toDisplayString(unref(t)("rightSidePanel.showAdvancedInputsButton")), 1), _cache[13] || (_cache[13] = createBaseVNode("i", { class: "icon-[lucide--settings-2] size-4 shrink-0" }, null, -1))], 64))])]),
-				_: 1
-			}, 8, ["class", "style"])], 2)) : createCommentVNode("", true);
-		};
-	}
-});
-//#endregion
+
+
+
+
+
+
 //#region src/renderer/extensions/vueNodes/components/NodeWidgets.vue?vue&type=script&setup=true&lang.ts
 var _hoisted_1$90 = {
 	key: 0,
@@ -41057,462 +41205,8 @@ var NodeWidgets_default = /* @__PURE__ */ defineComponent({
 	}
 });
 //#endregion
-//#region src/renderer/extensions/vueNodes/components/LGraphNode.vue?vue&type=script&setup=true&lang.ts
-var _hoisted_1$89 = {
-	key: 0,
-	class: "node-error p-2 text-sm text-red-500"
-};
-var _hoisted_2$73 = [
-	"data-node-id",
-	"data-collapsed",
-	"data-ghost",
-	"inert"
-];
-var _hoisted_3$58 = {
-	key: 0,
-	class: "relative flex flex-col items-center justify-center"
-};
-var _hoisted_4$46 = { class: "relative" };
-var _hoisted_5$33 = ["data-testid"];
-var _hoisted_6$25 = [
-	"data-corner",
-	"aria-label",
-	"onPointerdown"
-];
-var baseResizeHandleClasses = "absolute h-5 w-5 opacity-0 pointer-events-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/40 touch-none";
-var progressClasses = "h-2 bg-primary-500 transition-all duration-300";
-var BEFORE_OVERLAY_BASE = "before:pointer-events-none before:absolute before:inset-0";
-//#endregion
-//#region src/renderer/extensions/vueNodes/components/LGraphNode.vue
-var LGraphNode_default = /* @__PURE__ */ defineComponent({
-	__name: "LGraphNode",
-	props: { nodeData: {} },
-	setup(__props) {
-		const { t } = useI18n();
-		const { isSelectMode, isSelectOutputsMode } = useAppMode();
-		const settingStore = useSettingStore();
-		const colorPaletteStore = useColorPaletteStore();
-		const isLightTheme = computed(() => !!colorPaletteStore.completedActivePalette.light_theme);
-		const { handleNodeCollapse, handleNodeTitleUpdate, handleNodeRightClick } = useNodeEventHandlers();
-		const nodeId = computed(() => __props.nodeData.id);
-		useVueElementTracking(nodeId.value, "node");
-		const canvasStore = useCanvasStore();
-		const { selectedNodeIds, isGhostPlacing } = storeToRefs(useCanvasStore());
-		const isSelected = computed(() => {
-			return selectedNodeIds.value.has(nodeId.value);
-		});
-		const nodeLocatorId = computed(() => locatorIdFromState(__props.nodeData, canvasStore.rootGraphId) ?? void 0);
-		const { executing, progress } = useNodeExecutionState(nodeLocatorId);
-		const errorSeverity = computed(() => getNodeErrorSeverity(__props.nodeData, canvasStore.rootGraphId, lgraphNode.value));
-		const hasAnyError = computed(() => errorSeverity.value !== "none");
-		const showErrorsTabEnabled = computed(() => settingStore.get("Comfy.RightSidePanel.ShowErrorsTab"));
-		const displayHeader = computed(() => __props.nodeData.titleMode !== TitleMode.NO_TITLE);
-		const isRerouteNode = computed(() => __props.nodeData.type === "Reroute");
-		const isCollapsed = computed(() => __props.nodeData.flags?.collapsed ?? false);
-		const bypassed = computed(() => __props.nodeData.mode === LGraphEventMode.BYPASS);
-		const muted = computed(() => __props.nodeData.mode === LGraphEventMode.NEVER);
-		const nodeOpacity = computed(() => {
-			const globalOpacity = settingStore.get("Comfy.Node.Opacity") ?? 1;
-			if (__props.nodeData.flags?.ghost) return globalOpacity * .6;
-			if (bypassed.value || muted.value) return globalOpacity * .5;
-			return globalOpacity;
-		});
-		const hasInputs = computed(() => nonWidgetedInputs(__props.nodeData.inputs).length > 0);
-		const { handleWheel, shouldHandleNodePointerEvents } = useCanvasInteractions();
-		const renderError = ref(null);
-		const { toastErrorHandler } = useErrorHandling();
-		onErrorCaptured((error) => {
-			renderError.value = error.message;
-			toastErrorHandler(error);
-			return false;
-		});
-		const { position, size, zIndex } = useNodeLayout(() => __props.nodeData.id);
-		const imagePreviewGrowth = computed(() => nodeMedia.value?.type === "image" && hasExpandingWidget.value ? 232 : 0);
-		const nodeSizeStyle = computed(() => isCollapsed.value ? {} : {
-			"--node-width": `${size.value.width}px`,
-			"--node-height": `${size.value.height + LiteGraph.NODE_TITLE_HEIGHT + imagePreviewGrowth.value}px`
-		});
-		const { pointerHandlers } = useNodePointerInteractions(() => __props.nodeData);
-		const badges = usePartitionedBadges(__props.nodeData);
-		const handleContextMenu = (event) => {
-			event.preventDefault();
-			event.stopPropagation();
-			handleNodeRightClick(event, __props.nodeData.id);
-			showNodeOptions(event, { nodeId: __props.nodeData.id });
-		};
-		const { startResize } = useNodeResize((result) => {
-			if (isCollapsed.value) return;
-			const node = resolveLGraphNode();
-			if (!node) return;
-			resizeNodeLayout(node, {
-				width: Math.max(result.size.width, 225),
-				height: removeNodeTitleHeight(result.size.height) - imagePreviewGrowth.value
-			}, {
-				position: result.position,
-				source: LayoutSource.Vue
-			});
-		});
-		const handleResizePointerDown = (event, corner) => {
-			if (event.button !== 0) return;
-			if (!shouldHandleNodePointerEvents.value && !(isSelected.value && window.__comfierDeviceInput?.allowVueResize?.())) return;
-			if (__props.nodeData.flags?.pinned) return;
-			if (__props.nodeData.resizable === false) return;
-			startResize(event, corner);
-		};
-		const hasCustomContent = computed(() => {
-			if (promotedPreviews.value.length > 0) return true;
-			return !!nodeMedia.value && nodeMedia.value.urls.length > 0;
-		});
-		const { latestPreviewUrl, shouldShowPreviewImg } = useNodePreviewState(() => __props.nodeData.id, { isCollapsed });
-		const cursorClass = computed(() => {
-			if (__props.nodeData.flags?.pinned) return "cursor-default";
-			return layoutStore.isDraggingVueNodes.value ? "cursor-grabbing" : "cursor-grab";
-		});
-		const bodyRoundingClass = computed(() => shapeVariantClass(__props.nodeData.shape, {
-			box: "",
-			card: "rounded-br-xl",
-			default: "rounded-b-xl"
-		}));
-		const shapeClass = computed(() => shapeVariantClass(__props.nodeData.shape, {
-			box: "",
-			card: "rounded-tl-xl rounded-br-xl",
-			default: "rounded-xl"
-		}));
-		const isTransparentHeaderless = computed(() => !displayHeader.value && !!__props.nodeData.bgcolor && isTransparent(__props.nodeData.bgcolor));
-		const selectionShapeClass = computed(() => {
-			if (isTransparentHeaderless.value) return "border-0";
-			const isExpanded = hasAnyError.value;
-			return shapeVariantClass(__props.nodeData.shape, {
-				box: "",
-				card: isExpanded ? "rounded-tl-[23px] rounded-br-[23px]" : "rounded-tl-[19px] rounded-br-[19px]",
-				default: isExpanded ? "rounded-[19px]" : "rounded-[15px]"
-			});
-		});
-		const bypassOverlayClass = computed(() => shapeVariantClass(__props.nodeData.shape, {
-			box: `${BEFORE_OVERLAY_BASE} before:bg-bypass/60`,
-			card: `before:rounded-tl-xl before:rounded-br-xl ${BEFORE_OVERLAY_BASE} before:bg-bypass/60`,
-			default: `before:rounded-xl ${BEFORE_OVERLAY_BASE} before:bg-bypass/60`
-		}));
-		const mutedOverlayClass = computed(() => shapeVariantClass(__props.nodeData.shape, {
-			box: BEFORE_OVERLAY_BASE,
-			card: `before:rounded-tl-xl before:rounded-br-xl ${BEFORE_OVERLAY_BASE}`,
-			default: `before:rounded-xl ${BEFORE_OVERLAY_BASE}`
-		}));
-		const handleCollapse = () => {
-			handleNodeCollapse(__props.nodeData.id, !isCollapsed.value);
-		};
-		const handleHeaderTitleUpdate = (newTitle) => {
-			handleNodeTitleUpdate(__props.nodeData.id, newTitle);
-		};
-		const rightSidePanelStore = useRightSidePanelStore();
-		const handleOpenErrors = () => {
-			rightSidePanelStore.openPanel("errors");
-		};
-		const handleToggleAdvanced = () => {
-			const node = resolveLGraphNode();
-			if (!node) return;
-			if (node instanceof SubgraphNode) {
-				if (rightSidePanelStore.isOpen) rightSidePanelStore.closePanel();
-				else rightSidePanelStore.focusSection("advanced-inputs");
-				return;
-			}
-			node.showAdvanced = !node.showAdvanced;
-		};
-		const handleEnterSubgraph = () => {
-			useTelemetry()?.trackUiButtonClicked({
-				button_id: "graph_node_open_subgraph_clicked",
-				element_group: "graph_node"
-			});
-			const graph = app.rootGraph;
-			if (!graph) {
-				console.warn("LGraphNode: No graph available for subgraph navigation");
-				return;
-			}
-			const locatorId = nodeLocatorId.value;
-			if (!locatorId) return;
-			const litegraphNode = getNodeByLocatorId(graph, locatorId);
-			if (!litegraphNode?.isSubgraphNode() || !("subgraph" in litegraphNode)) {
-				console.warn("LGraphNode: Node is not a valid subgraph node", litegraphNode);
-				return;
-			}
-			const canvas = app.canvas;
-			if (!canvas || typeof canvas.openSubgraph !== "function") {
-				console.warn("LGraphNode: Canvas or openSubgraph method not available");
-				return;
-			}
-			canvas.openSubgraph(litegraphNode.subgraph, litegraphNode);
-		};
-		const nodeOutputs = useNodeOutputStore();
-		const nodeOutputLocatorId = computed(() => {
-			const subgraphId = subgraphIdFromState(__props.nodeData, canvasStore.rootGraphId);
-			return subgraphId ? `${subgraphId}:${__props.nodeData.id}` : __props.nodeData.id;
-		});
-		function resolveLGraphNode() {
-			const locatorId = nodeLocatorId.value;
-			if (!locatorId) return null;
-			return getNodeByLocatorId(app.rootGraph, locatorId);
-		}
-		const lgraphNode = computed(resolveLGraphNode);
-		// The owner supplies renderer APIs; app-only controls remain in the device service.
-		const deviceMoveSurface = shallowRef(null);
-		const deviceHandleTransform = useTransformState();
-		const deviceMutations = useLayoutMutations(LayoutSource.Vue);
-		function bindDeviceMoveSurface() {
-			deviceMoveSurface.value?.remove();
-			deviceMoveSurface.value = window.__comfierDeviceInput?.createVueMoveHandle?.({
-				read: () => ({ canvas: canvasStore.canvas, graph: canvasStore.currentGraph, rootGraphId: canvasStore.rootGraphId, node: resolveLGraphNode(), selected: isSelected.value }),
-				position: (state, item) => isLGraphNode(item) ? layoutStore.getNodeLayout(state.rootGraphId, item.id)?.position : { x: item.pos[0], y: item.pos[1] },
-				move: (state, rows) => {
-					deviceMutations.batchMoveNodes(state.rootGraphId, rows.filter(row => isLGraphNode(row.item)).map(row => ({ nodeId: row.item.id, position: { x: row.x, y: row.y } })));
-					for (const row of rows) if (!isLGraphNode(row.item)) row.item.move(row.x - row.item.pos[0], row.y - row.item.pos[1], true);
-				},
-				setDragging: value => layoutStore.isDraggingVueNodes.value = value
-			}) ?? null;
-		}
-		onMounted(bindDeviceMoveSurface);
-		useEventListener(window, "comfier-device-ready", bindDeviceMoveSurface);
-		onScopeDispose(() => deviceMoveSurface.value?.remove());
-		watch(isSelected, () => deviceMoveSurface.value?.sync());
 
-		const { promotedPreviews } = usePromotedPreviews(lgraphNode);
-		const { hideExecutedOutput } = useGLSLPreview(lgraphNode);
-		const widgetValueStore = useWidgetValueStore();
-		const widgetIds = computed(() => {
-			const graphId = canvasStore.rootGraphId;
-			const bareNodeId = stripGraphPrefix(__props.nodeData.id);
-			if (!graphId || !bareNodeId) return [];
-			return widgetValueStore.getNodeWidgetIds(graphId, bareNodeId) ?? [];
-		});
-		const renderedWidgetIds = computed(() => {
-			const node = lgraphNode.value;
-			if (!node || !shouldHideLinkedCoreLoadAudioPlayer(node)) return widgetIds.value;
-			return widgetIds.value.filter((id) => {
-				const widget = widgetValueStore.getWidget(id);
-				return widget?.name !== "audioUI" || widget.type !== "audioUI";
-			});
-		});
-		const hasRenderableWidgets = computed(() => renderedWidgetIds.value.length > 0);
-		const { canSelectInputs, nodeType, processedWidgets } = useProcessedWidgets(() => __props.nodeData, () => renderedWidgetIds.value);
-		const processedWidgetModel = computed(() => ({
-			processedWidgets: processedWidgets.value,
-			nodeType: nodeType.value,
-			canSelectInputs: canSelectInputs.value
-		}));
-		const hasExpandingWidget = computed(() => processedWidgets.value.some((widget) => widget.visible && shouldExpand(widget.simplified.type)));
-		const showAdvancedInputsButton = computed(() => {
-			const node = lgraphNode.value;
-			if (!node) return false;
-			if (isCollapsed.value) return false;
-			if (node instanceof SubgraphNode) return hasUnpromotedWidgets(node);
-			const hasAdvancedWidgets = widgetIds.value.some((id) => {
-				const visibility = widgetValueStore.getWidgetVisibility(id);
-				if (visibility) return visibility.surfaces.vueNode === "advanced";
-				return widgetValueStore.getWidget(id)?.options?.advanced;
-			});
-			const alwaysShowAdvanced = settingStore.get("Comfy.Node.AlwaysShowAdvancedWidgets");
-			return hasAdvancedWidgets && !alwaysShowAdvanced;
-		});
-		const hasVideoInput = computed(() => __props.nodeData.inputs.some((input) => input.type === "VIDEO"));
-		const hasVideoEditWidget = computed(() => widgetIds.value.some((id) => widgetValueStore.getWidget(id)?.type === "videoedit"));
-		const nodeMedia = computed(() => {
-			const newOutputs = nodeOutputs.nodeOutputs[nodeOutputLocatorId.value];
-			const node = lgraphNode.value;
-			if (!node || !newOutputs?.images?.length || node.hideOutputImages || hideExecutedOutput.value) return void 0;
-			if (node instanceof SubgraphNode) return void 0;
-			if (shouldHideLinkedCoreMediaInputPreview(node, newOutputs)) return void 0;
-			const urls = nodeOutputs.getNodeImageUrls(node);
-			if (!urls?.length) return void 0;
-			const type = isVideoOutput(newOutputs) || node.previewMediaType === "video" || !node.previewMediaType && hasVideoInput.value ? "video" : "image";
-			if (type === "video" && hasVideoEditWidget.value) return void 0;
-			return {
-				type,
-				urls
-			};
-		});
-		const isDraggingOver = ref(false);
-		function handleDragOver(event) {
-			const node = resolveLGraphNode();
-			if (!node || !node.onDragOver) {
-				isDraggingOver.value = false;
-				return;
-			}
-			const canDrop = node.onDragOver(event);
-			isDraggingOver.value = canDrop;
-		}
-		function handleDragLeave() {
-			isDraggingOver.value = false;
-		}
-		function handleDrop() {
-			isDraggingOver.value = false;
-			app.dragOverNode = resolveLGraphNode();
-		}
-		return (_ctx, _cache) => {
-			return renderError.value ? (openBlock(), createElementBlock("div", _hoisted_1$89, toDisplayString(unref(st)("nodeErrors.render", "Node Render Error")), 1)) : (openBlock(), createElementBlock("div", mergeProps({
-				key: 1,
-				tabindex: "0",
-				"data-node-id": __props.nodeData.id,
-				"data-collapsed": isCollapsed.value || void 0,
-				"data-ghost": __props.nodeData.flags?.ghost || void 0,
-				class: unref(cn)("group/node lg-node absolute isolate touch-none text-xs", "flex flex-col contain-layout contain-style", isLightTheme.value ? "drop-shadow-md drop-shadow-black/15" : "drop-shadow-xl drop-shadow-black/40", isRerouteNode.value ? "h-(--node-height)" : "min-h-(--node-height) min-w-(--min-node-width)", cursorClass.value, isSelected.value && "outline-node-component-outline", unref(executing) && "outline-node-stroke-executing", unref(shouldHandleNodePointerEvents) && !__props.nodeData.flags?.ghost && !unref(isGhostPlacing) ? "pointer-events-auto" : "pointer-events-none"),
-				style: {
-					...nodeSizeStyle.value,
-					"--min-node-width": `${unref(225)}px`,
-					transform: `translate(${unref(position).x ?? 0}px, ${(unref(position).y ?? 0) - unref(LiteGraph).NODE_TITLE_HEIGHT}px)`,
-					zIndex: unref(zIndex),
-					opacity: nodeOpacity.value
-				},
-				inert: unref(isGhostPlacing)
-			}, unref(pointerHandlers), {
-				onWheel: _cache[0] || (_cache[0] = (...args) => unref(handleWheel) && unref(handleWheel)(...args)),
-				onContextmenu: handleContextMenu,
-				onDragover: withModifiers(handleDragOver, ["prevent"]),
-				onDragleave: handleDragLeave,
-				onDrop: handleDrop
-			}), [
-				isSelected.value && deviceMoveSurface.value ? createVNode(OwnedSurface_default, { element: deviceMoveSurface.value.element, class: "cm-vue-move-surface" }) : createCommentVNode("", true),
-				lgraphNode.value?.constructor?.nodeData?.output_node && unref(isSelectOutputsMode) && __props.nodeData.mode === unref(LGraphEventMode).ALWAYS && !hasAnyError.value ? (openBlock(), createBlock(AppOutput_default, {
-					key: 0,
-					id: nodeId.value
-				}, null, 8, ["id"])) : createCommentVNode("", true),
-				isSelected.value || unref(executing) ? (openBlock(), createElementBlock("div", {
-					key: 1,
-					"data-testid": "node-state-outline-overlay",
-					class: normalizeClass(unref(cn)("pointer-events-none absolute z-0 border-3 outline-none", selectionShapeClass.value, hasAnyError.value ? "-inset-1.75" : "-inset-0.75", isSelected.value ? "border-node-component-outline" : "border-node-stroke-executing"))
-				}, null, 2)) : createCommentVNode("", true),
-				createBaseVNode("div", {
-					"data-testid": "node-inner-wrapper",
-					class: normalizeClass(unref(cn)("flex flex-1 flex-col bg-node-component-header-surface", "w-(--node-width)", !isRerouteNode.value && "min-w-(--min-node-width)", shapeClass.value, hasAnyError.value && "ring-4", errorSeverity.value === "missing" && "ring-warning-background", errorSeverity.value === "error" && "ring-destructive-background", bypassed.value && bypassOverlayClass.value, muted.value && mutedOverlayClass.value, isDraggingOver.value && "bg-primary-500/10 ring-4 ring-primary-500")),
-					style: normalizeStyle({
-						"--component-node-background": unref(applyLightThemeColor)(__props.nodeData.bgcolor),
-						backgroundColor: unref(applyLightThemeColor)(__props.nodeData?.color)
-					})
-				}, [
-					displayHeader.value ? (openBlock(), createElementBlock("div", _hoisted_3$58, [isCollapsed.value ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
-						hasInputs.value ? (openBlock(), createBlock(SlotConnectionDot_default, {
-							key: 0,
-							multi: "",
-							class: "absolute left-0 -translate-x-1/2"
-						})) : createCommentVNode("", true),
-						__props.nodeData.outputs.length ? (openBlock(), createBlock(SlotConnectionDot_default, {
-							key: 1,
-							multi: "",
-							class: "absolute right-0 translate-x-1/2"
-						})) : createCommentVNode("", true),
-						createVNode(NodeSlots_default, {
-							"node-data": __props.nodeData,
-							unified: ""
-						}, null, 8, ["node-data"])
-					], 64)) : createCommentVNode("", true), createVNode(NodeHeader_default, {
-						"node-data": __props.nodeData,
-						collapsed: isCollapsed.value,
-						"price-badges": unref(badges).pricing,
-						onCollapse: handleCollapse,
-						"onUpdate:title": handleHeaderTitleUpdate
-					}, null, 8, [
-						"node-data",
-						"collapsed",
-						"price-badges"
-					])])) : createCommentVNode("", true),
-					isCollapsed.value && unref(executing) && unref(progress) !== void 0 ? (openBlock(), createElementBlock("div", {
-						key: 1,
-						class: normalizeClass(unref(cn)("absolute inset-x-4 -bottom-px translate-y-1/2 rounded-full", progressClasses)),
-						style: normalizeStyle({ width: `${Math.min(unref(progress) * 100, 100)}%` })
-					}, null, 6)) : createCommentVNode("", true),
-					!isCollapsed.value && isRerouteNode.value ? (openBlock(), createBlock(NodeSlots_default, {
-						key: 2,
-						"node-data": __props.nodeData
-					}, null, 8, ["node-data"])) : !isCollapsed.value ? (openBlock(), createElementBlock(Fragment, { key: 3 }, [createBaseVNode("div", _hoisted_4$46, [unref(executing) && unref(progress) !== void 0 ? (openBlock(), createElementBlock("div", {
-						key: 0,
-						class: normalizeClass(unref(cn)("absolute inset-x-0 top-1/2 -translate-y-1/2", !!(unref(progress) < 1) && "rounded-r-full", progressClasses)),
-						style: normalizeStyle({ width: `${Math.min(unref(progress) * 100, 100)}%` })
-					}, null, 6)) : createCommentVNode("", true)]), createBaseVNode("div", {
-						class: normalizeClass(unref(cn)("flex flex-1 flex-col bg-component-node-background pt-1 pb-3", bodyRoundingClass.value)),
-						style: normalizeStyle({ rowGap: `${unref(4)}px` }),
-						"data-testid": `node-body-${__props.nodeData.id}`
-					}, [
-						createVNode(NodeSlots_default, { "node-data": __props.nodeData }, null, 8, ["node-data"]),
-						hasRenderableWidgets.value ? (openBlock(), createBlock(NodeWidgets_default, {
-							key: 0,
-							"node-data": __props.nodeData,
-							"processed-widget-model": processedWidgetModel.value
-						}, null, 8, ["node-data", "processed-widget-model"])) : createCommentVNode("", true),
-						hasCustomContent.value ? (openBlock(), createElementBlock("div", {
-							key: 1,
-							class: normalizeClass(unref(cn)("flex min-h-0 flex-col", nodeMedia.value?.type === "image" && hasExpandingWidget.value ? "shrink-0" : "flex-1"))
-						}, [nodeMedia.value ? (openBlock(), createBlock(NodeContent_default, {
-							key: 0,
-							"node-data": __props.nodeData,
-							media: nodeMedia.value
-						}, null, 8, ["node-data", "media"])) : createCommentVNode("", true), (openBlock(true), createElementBlock(Fragment, null, renderList(unref(promotedPreviews), (preview) => {
-							return openBlock(), createBlock(NodeContent_default, {
-								key: `${preview.sourceNodeId}-${preview.sourceWidgetName}`,
-								"node-data": __props.nodeData,
-								media: preview
-							}, null, 8, ["node-data", "media"]);
-						}), 128))], 2)) : createCommentVNode("", true),
-						unref(shouldShowPreviewImg) && !lgraphNode.value?.isSubgraphNode() ? (openBlock(), createBlock(LivePreview_default, {
-							key: 2,
-							"image-url": unref(latestPreviewUrl)
-						}, null, 8, ["image-url"])) : createCommentVNode("", true),
-						!isTransparentHeaderless.value ? (openBlock(), createBlock(NodeBadges_default, mergeProps({ key: 3 }, unref(badges), {
-							pricing: void 0,
-							class: "mt-auto"
-						}), null, 16)) : createCommentVNode("", true)
-					], 14, _hoisted_5$33)], 64)) : createCommentVNode("", true)
-				], 6),
-				!isRerouteNode.value ? (openBlock(), createBlock(NodeFooter_default, {
-					key: 2,
-					"is-subgraph": !!lgraphNode.value?.isSubgraphNode(),
-					"error-severity": errorSeverity.value,
-					"show-errors-tab-enabled": showErrorsTabEnabled.value,
-					"show-advanced-inputs-button": showAdvancedInputsButton.value,
-					"show-advanced-state": !!__props.nodeData.showAdvanced,
-					"header-color": unref(applyLightThemeColor)(__props.nodeData?.color),
-					shape: __props.nodeData.shape,
-					onEnterSubgraph: handleEnterSubgraph,
-					onOpenErrors: handleOpenErrors,
-					onToggleAdvanced: handleToggleAdvanced
-				}, null, 8, [
-					"is-subgraph",
-					"error-severity",
-					"show-errors-tab-enabled",
-					"show-advanced-inputs-button",
-					"show-advanced-state",
-					"header-color",
-					"shape"
-				])) : createCommentVNode("", true),
-				!isCollapsed.value && !isRerouteNode.value && __props.nodeData.resizable !== false && !unref(isSelectMode) && (!window.__comfierDeviceInput?.vueResizeAttributes || isSelected.value && !__props.nodeData.flags?.pinned) ? (openBlock(true), createElementBlock(Fragment, { key: 3 }, renderList(unref(RESIZE_HANDLES), (handle) => {
-					const deviceAttributes = window.__comfierDeviceInput?.vueResizeAttributes?.(handle.corner.toLowerCase(), deviceHandleTransform.camera.z);
-					if (deviceAttributes) return createBaseVNode("div", mergeProps(deviceAttributes, {
-						key: handle.corner, role: "button", "data-corner": handle.corner,
-						"aria-label": unref(t)(handle.i18nKey),
-						onPointerdown: withModifiers(($event) => handleResizePointerDown($event, handle.corner), ["stop"])
-					}), null, 16);
-					return openBlock(), createElementBlock("div", {
-						key: handle.corner,
-						role: "button",
-						"data-corner": handle.corner,
-						"aria-label": unref(t)(handle.i18nKey),
-						class: normalizeClass(unref(cn)(baseResizeHandleClasses, handle.positionClasses, handle.cursorClass, isSelected.value && window.__comfierDeviceInput ? "opacity-100" : "group-hover/node:opacity-100")),
-						onPointerdown: withModifiers(($event) => handleResizePointerDown($event, handle.corner), ["stop"])
-					}, [(openBlock(), createElementBlock("svg", {
-						xmlns: "http://www.w3.org/2000/svg",
-						viewBox: "0 0 12 12",
-						class: normalizeClass(unref(cn)("absolute size-2/5", handle.svgPositionClasses)),
-						style: normalizeStyle(handle.svgTransform ? { transform: handle.svgTransform } : void 0)
-					}, [..._cache[1] || (_cache[1] = [createBaseVNode("path", {
-						d: "M11 1L1 11M11 6L6 11",
-						stroke: "var(--color-muted-foreground)",
-						"stroke-width": "2",
-						"stroke-linecap": "round",
-						"stroke-linejoin": "round"
-					}, null, -1)])], 6))], 42, _hoisted_6$25);
-				}), 128)) : createCommentVNode("", true)
-			], 16, _hoisted_2$73));
-		};
-	}
-});
-//#endregion
+
 //#region src/components/graph/SelectionRectangle.vue
 var SelectionRectangle_default = /* @__PURE__ */ defineComponent({
 	__name: "SelectionRectangle",
@@ -41663,36 +41357,20 @@ var GraphCanvas_default = /* @__PURE__ */ defineComponent({
 		const toastStore = useToastStore();
 		const colorPaletteStore = useColorPaletteStore();
 		const colorPaletteService = useColorPaletteService();
-		const canvasInteractions = useCanvasInteractions();
+
 		const bootstrapStore = useBootstrapStore();
 		const { isI18nReady, i18nError } = storeToRefs(bootstrapStore);
 		const { isReady: isSettingsReady, error: settingsError } = storeToRefs(settingStore);
 		const tooltipEnabled = computed(() => settingStore.get("Comfy.EnableTooltips"));
 		const selectionToolboxEnabled = computed(() => settingStore.get("Comfy.Canvas.SelectionToolbox") && !canvasStore.isPickingNodes);
-		const { shouldRenderVueNodes } = useVueFeatureFlags();
+
 		let cleanupErrorHooks = null;
 		watch(() => canvasStore.currentGraph, (graph) => {
 			cleanupErrorHooks?.();
 			cleanupErrorHooks = graph ? installErrorClearingHooks(graph) : null;
+            window.__comfierDeviceInput?.overlaySelectionChanged?.(canvasStore.canvas);
 		});
-		function exitToLegacyRendering(graph) {
-			layoutStore.clearViewGeometry();
-			if (graph) arrangeForLegacyRender(graph);
-			canvasStore.canvas?.setDirty(true, true);
-		}
-		watch([shouldRenderVueNodes, () => canvasStore.currentGraph], ([enabled, graph], previous) => {
-			if (previous && previous[0] !== enabled) {
-				LiteGraph.vueNodesMode = enabled;
-				if (graph) forEachNode(graph.rootGraph, (node) => {
-					for (const widget of node.widgets ?? []) {
-						widget.syncLiveVisibilityOptions?.();
-						widget.syncLiveDisabled?.();
-					}
-				});
-			}
-			if (enabled) layoutStore.clearViewGeometry();
-			else if (previous?.[0]) exitToLegacyRendering(graph);
-		}, { immediate: true });
+
 		watchEffect((onCleanup) => {
 			const canvas = canvasStore.canvas;
 			if (canvas) onCleanup(notifyLayoutChanges(canvas));
@@ -41700,23 +41378,7 @@ var GraphCanvas_default = /* @__PURE__ */ defineComponent({
 		watch(() => canvasStore.isInSubgraph, (newValue, oldValue) => {
 			if (oldValue && !newValue) useWorkflowStore().updateActiveGraph();
 		});
-		const nodeDataStore = useNodeDataStore();
-		const allNodes = computed(() => {
-			const { rootGraphId } = canvasStore;
-			const graphId = canvasStore.currentGraph?.id;
-			if (!rootGraphId || graphId === void 0) return [];
-			return nodeDataStore.getGraphNodesFor(rootGraphId, graphId);
-		});
-		function onLinkOverlayReady(el) {
-			if (!canvasStore.canvas) return;
-			canvasStore.canvas.overlayCanvas = el;
-			canvasStore.canvas.overlayCtx = el.getContext("2d");
-		}
-		function onLinkOverlayDispose() {
-			if (!canvasStore.canvas) return;
-			canvasStore.canvas.overlayCanvas = null;
-			canvasStore.canvas.overlayCtx = null;
-		}
+
 		watchEffect(() => {
 			LiteGraph.nodeOpacity = settingStore.get("Comfy.Node.Opacity");
 		});
@@ -41754,13 +41416,9 @@ var GraphCanvas_default = /* @__PURE__ */ defineComponent({
 			if (!canvas) return;
 			await colorPaletteService.loadColorPalette(currentPaletteId);
 		});
-		watch(() => settingStore.get("Comfy.Canvas.BackgroundImage"), async () => {
-			if (!canvasStore.canvas) return;
-			const currentPaletteId = colorPaletteStore.activePaletteId;
-			if (!currentPaletteId) return;
-			await colorPaletteService.loadColorPalette(currentPaletteId);
-			canvasStore.canvas.setDirty(false, true);
-		});
+        watch(() => settingStore.get('Comfy.Canvas.BackgroundImage'), async () => {
+            if(canvasStore.canvas)await colorPaletteService.loadCanvasBackground();
+        });
 		watch(() => colorPaletteStore.activePaletteId, async (newValue) => {
 			await settingStore.set("Comfy.ColorPalette", newValue);
 		});
@@ -41801,7 +41459,6 @@ var GraphCanvas_default = /* @__PURE__ */ defineComponent({
 		useNodeBadge();
 		useGlobalLitegraph();
 		useContextMenuTranslation();
-		useGroupContextMenu();
 		useCopy();
 		usePaste();
 		useWorkflowAutoSave();
@@ -41876,26 +41533,11 @@ var GraphCanvas_default = /* @__PURE__ */ defineComponent({
 			cleanupErrorHooks = null;
 		});
 		useEventListener(canvasRef, "pointerdown", collapseOutsideSelectionOnPrimaryPointerDown, { capture: true });
-		function forwardPointerDownPanEvent(e) {
-			collapseOutsideSelectionOnPrimaryPointerDown(e);
-			forwardPanEvent(e, isMiddlePointerInput);
-		}
-		function forwardPointerMovePanEvent(e) {
-			forwardPanEvent(e, isMiddleButtonHeld);
-		}
-		function forwardPointerUpPanEvent(e) {
-			forwardPanEvent(e, isMiddleButtonEvent);
-		}
-		function forwardSpaceKeyEvent(e) {
-			const target = e.target;
-			if (!layoutStore.isDraggingVueNodes.value || target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || target instanceof HTMLButtonElement || target instanceof HTMLElement && target.isContentEditable) return;
-			app.canvas?.processKey(e);
-		}
-		function forwardPanEvent(e, isMiddleInput) {
-			if (!isMiddleInput(e)) return;
-			if (shouldIgnoreCopyPaste(e.target) && document.activeElement === e.target) return;
-			canvasInteractions.forwardEventToCanvas(e);
-		}
+		
+		
+		
+		
+
 		return (_ctx, _cache) => {
 			return openBlock(), createElementBlock(Fragment, null, [
 				comfyAppReady.value ? (openBlock(), createBlock(ComfierShell_default, { key: 0 })) : createCommentVNode("", true),
@@ -41912,35 +41554,8 @@ var GraphCanvas_default = /* @__PURE__ */ defineComponent({
 					tabindex: "1",
 					class: "absolute inset-0 size-full touch-none"
 				}, null, 512),
-				unref(shouldRenderVueNodes) && unref(app).canvas && comfyAppReady.value ? (openBlock(), createBlock(TransformPane_default, {
-					key: 1,
-					canvas: unref(app).canvas,
-					inert: unref(canvasStore).isPickingNodes,
-					onWheelCapture: unref(canvasInteractions).forwardEventToCanvas,
-					onPointerdownCapture: forwardPointerDownPanEvent,
-					onPointerupCapture: forwardPointerUpPanEvent,
-					onPointermoveCapture: forwardPointerMovePanEvent,
-					onKeydown: withKeys(forwardSpaceKeyEvent, ["space"])
-				}, {
-					default: withCtx(() => [(openBlock(true), createElementBlock(Fragment, null, renderList(allNodes.value, (nodeData) => {
-						return openBlock(), createBlock(LGraphNode_default, {
-							key: nodeData.id,
-							"node-data": nodeData,
-							"data-node-id": nodeData.id
-						}, null, 8, ["node-data", "data-node-id"]);
-					}), 128))]),
-					_: 1
-				}, 8, [
-					"canvas",
-					"inert",
-					"onWheelCapture"
-				])) : createCommentVNode("", true),
-				unref(shouldRenderVueNodes) && unref(app).canvas && comfyAppReady.value ? (openBlock(), createBlock(LinkOverlayCanvas_default, {
-					key: 2,
-					canvas: unref(app).canvas,
-					onReady: onLinkOverlayReady,
-					onDispose: onLinkOverlayDispose
-				}, null, 8, ["canvas"])) : createCommentVNode("", true),
+				(createCommentVNode("", true)),
+				(createCommentVNode("", true)),
 				comfyAppReady.value ? (openBlock(), createBlock(SelectionRectangle_default, {
 					key: 3,
 					"panel-el": canvasPanelBoundsRef.value ?? void 0
@@ -41951,12 +41566,12 @@ var GraphCanvas_default = /* @__PURE__ */ defineComponent({
 					ref: nodeSearchboxPopoverRef
 				}, null, 512),
 				createVNode(NodeDragPreview_default),
-				createVNode(VueNodeSwitchPopup_default),
+				
 				comfyAppReady.value ? (openBlock(), createElementBlock(Fragment, { key: 5 }, [
 					createVNode(TitleEditor_default),
 					selectionToolboxEnabled.value ? (openBlock(), createBlock(SelectionToolbox_default, { key: 0 })) : createCommentVNode("", true),
 					createVNode(NodeContextMenu_default),
-					!unref(shouldRenderVueNodes) ? (openBlock(), createBlock(DomWidgets_default, { key: 1 })) : createCommentVNode("", true)
+					(openBlock(), createBlock(DomWidgets_default, { key: 1 }))
 				], 64)) : createCommentVNode("", true)
 			], 64);
 		};
@@ -45121,7 +44736,7 @@ var MediaAssetFilterMenu_default = /* @__PURE__ */ defineComponent({
 		const matchingMediaTypes = computed(() => mediaTypeFilterOptions.filter((filter) => t(filter.label).toLowerCase().includes(normalizedQuery.value)));
 		const matchingDates = computed(() => dateFilterOptions.filter((filter) => t(filter.label).toLowerCase().includes(normalizedQuery.value)));
 		const hasSearchResults = computed(() => matchingMediaTypes.value.length > 0 || matchingDates.value.length > 0);
-		const submenuClass = cn(menuContentClass, "min-w-40");
+		const submenuClass = cn(menuContentClass, "min-w-40", "comfier-media-assets-menu");
 		onMounted(() => {
 			nextTick(() => searchInput.value?.focus());
 		});
@@ -45329,7 +44944,7 @@ var MediaAssetSettingsButton_default = /* @__PURE__ */ defineComponent({
 	__name: "MediaAssetSettingsButton",
 	setup(__props) {
 		return (_ctx, _cache) => {
-			return openBlock(), createElementBlock("div", _hoisted_1$71, [createVNode(Popover_default, null, {
+			return openBlock(), createElementBlock("div", _hoisted_1$71, [createVNode(Popover_default, {class:"comfier-media-assets-menu"}, {
 				button: withCtx(() => [createVNode(Button_default, {
 					variant: "secondary",
 					size: "icon",
@@ -46634,6 +46249,7 @@ var AssetsSidebarTab_default = /* @__PURE__ */ defineComponent({
 				createVNode(SidebarTabTemplate_default, mergeProps({
 					ref_key: "panelRef",
 					ref: panelRef,
+					class: "comfier-media-assets",
 					title: isInFolderView.value ? "" : _ctx.$t("sideToolbar.mediaAssets.title")
 				}, _ctx.$attrs), {
 					"alt-title": withCtx(() => [isInFolderView.value ? (openBlock(), createElementBlock("div", _hoisted_1$67, [createBaseVNode("div", _hoisted_2$56, [
@@ -46788,6 +46404,7 @@ var AssetsSidebarTab_default = /* @__PURE__ */ defineComponent({
 				}, null, 8, ["active-index", "all-gallery-items"]),
 				createVNode(ContextMenu_default, {
 					id: unref(contextMenuId),
+					class: "comfier-media-assets-menu",
 					ref_key: "contextMenuRef",
 					ref: contextMenuRef,
 					model: contextMenuItems.value
@@ -50859,15 +50476,7 @@ function useCoreCommands() {
 				app.canvas.setDirty(true, true);
 			}
 		},
-		{
-			id: "Experimental.ToggleVueNodes",
-			label: () => `Experimental: ${useSettingStore().get("Comfy.VueNodes.Enabled") ? "Disable" : "Enable"} Nodes 2.0`,
-			function: async () => {
-				const settingStore = useSettingStore();
-				const current = settingStore.get("Comfy.VueNodes.Enabled");
-				await settingStore.set("Comfy.VueNodes.Enabled", !current);
-			}
-		},
+		
 		{
 			id: "Comfy.Canvas.FitView",
 			icon: "pi pi-expand",
@@ -51025,6 +50634,8 @@ function useCoreCommands() {
 			versionAdded: "1.3.7",
 			category: "view-controls",
 			function: () => {
+				const panels = useComfierPanelStore();
+				if (panels.isOpen("comfier-settings")) { settingsDialog.hide(); return; }
 				settingsDialog.show();
 			}
 		},
@@ -51409,6 +51020,8 @@ function useCoreCommands() {
 			label: "Custom Nodes Manager",
 			versionAdded: "1.12.10",
 			function: async () => {
+				const panels = useComfierPanelStore();
+				if(panels.isOpen("comfier-extensions")) {panels.remove("comfier-extensions");return;}
 				await useManagerState().openManager({ showToastOnLegacyError: true });
 			}
 		},
@@ -51545,6 +51158,8 @@ function useCoreCommands() {
 			icon: "icon-[mdi--puzzle-outline]",
 			label: "Manager",
 			function: async () => {
+				const panels = useComfierPanelStore();
+				if (panels.isOpen("comfier-extensions")) { panels.remove("comfier-extensions"); return; }
 				await useManagerState().openManager({
 					initialTab: ManagerTab.All,
 					showToastOnLegacyError: false
@@ -54477,7 +54092,7 @@ var AppBuilder_default = /* @__PURE__ */ defineComponent({
 		const appModeStore = useAppModeStore();
 		const canvasInteractions = useCanvasInteractions();
 		const canvasStore = useCanvasStore();
-		const settingStore = useSettingStore();
+
 		const workflowStore = useWorkflowStore();
 		const { t } = useI18n();
 		const canvas = canvasStore.getCanvas();
@@ -54489,7 +54104,7 @@ var AppBuilder_default = /* @__PURE__ */ defineComponent({
 		function getHovered(e) {
 			const { graph } = canvas;
 			if (!canvas || !graph) return;
-			if (settingStore.get("Comfy.VueNodes.Enabled")) return void 0;
+
 			if (!e) return;
 			canvas.adjustMouseEvent(e);
 			const node = graph.getNodeOnPos(e.canvasX, e.canvasY);
@@ -54498,7 +54113,7 @@ var AppBuilder_default = /* @__PURE__ */ defineComponent({
 			if (widget || node.constructor.nodeData?.output_node) return [node, widget];
 		}
 		function getNodeBounding(nodeId) {
-			if (settingStore.get("Comfy.VueNodes.Enabled")) return void 0;
+
 			const node = app.rootGraph.getNodeById(nodeId);
 			if (!node) return;
 			const titleOffset = node.title_mode === TitleMode.NORMAL_TITLE ? LiteGraph.NODE_TITLE_HEIGHT : 0;
@@ -54510,7 +54125,7 @@ var AppBuilder_default = /* @__PURE__ */ defineComponent({
 			};
 		}
 		function getWidgetBounding(entry) {
-			if (settingStore.get("Comfy.VueNodes.Enabled")) return void 0;
+
 			if (entry.status !== "resolved") return void 0;
 			const { node, widget } = entry;
 			const margin = widget instanceof DOMWidgetImpl ? widget.margin : void 0;
@@ -54671,7 +54286,7 @@ var AppBuilder_default = /* @__PURE__ */ defineComponent({
 					"tooltip"
 				])) : createCommentVNode("", true),
 				unref(isSelectOutputsMode) && !unref(appModeStore).selectedOutputs.length ? (openBlock(), createElementBlock("div", _hoisted_9$5, [createTextVNode(toDisplayString(unref(t)("linearMode.builder.outputPlaceholder")) + " ", 1), createBaseVNode("span", _hoisted_10$4, toDisplayString(unref(t)("linearMode.builder.outputRequiredPlaceholder")), 1)])) : createCommentVNode("", true)
-			])]), unref(isSelectMode) && !unref(settingStore).get("Comfy.VueNodes.Enabled") ? (openBlock(), createBlock(Teleport, {
+			])]), (unref(isSelectMode)) ? (openBlock(), createBlock(Teleport, {
 				key: 0,
 				to: "body"
 			}, [createBaseVNode("div", {
@@ -55245,11 +54860,17 @@ var SidebarTemplatesButton_default = /* @__PURE__ */ defineComponent({
 		* Open templates dialog from sidebar and track UI button click.
 		*/
 		const openTemplates = () => {
+			const panels = useComfierPanelStore();
+			const templates = useWorkflowTemplateSelectorDialog();
+			if (panels.isOpen("comfier-templates")) {
+				templates.hide();
+				return;
+			}
 			useTelemetry()?.trackUiButtonClicked({
 				button_id: "sidebar_templates_dialog_opened",
 				element_group: "sidebar"
 			});
-			useWorkflowTemplateSelectorDialog().show("sidebar");
+			templates.show("sidebar");
 		};
 		return (_ctx, _cache) => {
 			return withDirectives((openBlock(), createBlock(SidebarIcon_default, {

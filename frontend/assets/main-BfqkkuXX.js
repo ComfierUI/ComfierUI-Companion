@@ -3863,7 +3863,7 @@ var comfierTest = {
 	"diagnosticMode": "Diagnostic Mode",
 	"multiLabel": "MULTI",
 	"nodeSearch": "Node search",
-	"appSettings": "ComfierUI settings",
+	"appSettings": "ComfierUI Settings",
 	"devicePreferences": "Frontend preferences are saved on this device.",
 	"androidOnly": "Android connection controls are available in the ComfierUI app.",
 	"autoReconnect": "Reconnect automatically",

@@ -7,7 +7,10 @@ import { t as cn } from "./src-DI1bBfrb.js";
 var cleanup = /* @__PURE__ */ new WeakMap();
 var vLayoutControl = {
 	mounted(el, { value }) {
+		if (!value) return;
 		useComfierLayoutStore().register(value, el);
+		// The topbar root owns its existing launcher anchor; children register for editing only.
+		if (value.startsWith("topbar:") && value !== "topbar:workspace") return;
 		const launch = () => useComfierPanelStore().launchFrom(el.getBoundingClientRect());
 		el.addEventListener("click", launch, { capture: true });
 		cleanup.set(el, () => el.removeEventListener("click", launch, { capture: true }));

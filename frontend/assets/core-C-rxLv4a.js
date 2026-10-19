@@ -149,11 +149,9 @@ function addFilter(ctx, values, options = {}) {
 			let selectedItem = displayedItems.at(selectedIndex);
 			updateSelected();
 			function updateSelected() {
-				selectedItem?.style.setProperty("background-color", "");
-				selectedItem?.style.setProperty("color", "");
+				selectedItem?.removeAttribute("data-comfier-combo-highlight");
 				selectedItem = displayedItems.at(selectedIndex);
-				selectedItem?.style.setProperty("background-color", "#ccc", "important");
-				selectedItem?.style.setProperty("color", "#000", "important");
+				selectedItem?.setAttribute("data-comfier-combo-highlight", "");
 			}
 			const positionList = () => ctx.fitComboViewport?.();
 			filter.addEventListener("keydown", (event) => {

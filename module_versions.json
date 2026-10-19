@@ -3,21 +3,21 @@
   "modules": {
     "companion-core": {
       "id": "companion-core",
-      "versionCode": 83,
+      "versionCode": 149,
       "requires": {
-        "hosted-frontend": 83
+        "hosted-frontend": 149
       },
-      "bytes": 36008,
-      "sha256": "1d2843e277501ce7495a77148f47e9ccc54ba659e334cdfa9f892e9e9a82b9ae"
+      "bytes": 36504,
+      "sha256": "943e742f8842f169cd92904cb8f38fb93dfdcd07815e2f40eddc9111caefe6d7"
     },
     "hosted-frontend": {
       "id": "hosted-frontend",
-      "versionCode": 83,
+      "versionCode": 149,
       "requires": {
-        "companion-core": 83
+        "companion-core": 149
       },
-      "bytes": 23235398,
-      "sha256": "1ea2313e3a4b7471d952697ebc1f18783b289a513386512eb3cf8b9cd7bd6786"
+      "bytes": 23468328,
+      "sha256": "9ae5cbcf3a8ba744871e7438ae3749f5900df5020b41c1174832d7cb12e9f646"
     }
   }
 }

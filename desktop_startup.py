@@ -43,6 +43,8 @@ async def launch_when_ready(target, *, timeout=300, interval=0.5):
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
         url = target()
+        if url is None:
+            return False
         if await ready(url):
             # Recheck after readiness in case the user changed the gateway port.
             if url != target():

@@ -788,33 +788,6 @@ img[data-v-ca0e6d87] {
   background: var(--button-hover-surface);
 }
 
-.comfier-settings-content.comfier-app-settings-native-panel{display:flex;flex-direction:column;gap:8px;padding:10px!important;width:100%;height:100%;min-width:0;overflow:auto;box-sizing:border-box}
-.comfier-settings-content>*{flex-shrink:0}
-.comfier-settings-content>div,.comfier-settings-content>div>div{display:contents!important}
-.comfier-settings-content .ui-zoom-panel{display:contents!important}
-.comfier-settings-content .ui-hard-refresh{order:100}
-.comfier-settings-content .ui-disconnect{order:101}
-.comfier-settings-content .ui-zoom-panel{padding:0!important;height:auto!important;overflow:visible!important}
-.comfier-settings-content .comfier-workflow-mode-row{order:5;flex-direction:column;align-items:stretch;gap:8px}
-.comfier-settings-content .comfier-workflow-mode-row select{width:100%}
-.comfier-settings-content .ui-diagnostics-row{order:8}
-.comfier-settings-content>.ufu-launch{order:9}
-.comfier-settings-content .comfier-app-settings-heading{order:0!important;width:100%!important;margin:0!important;padding:8px 0!important;text-align:center!important;font-size:2em!important;font-weight:600!important;line-height:1.25!important;box-sizing:border-box!important}
-.comfier-settings-content .ui-auto-reconnect-row{order:1!important}
-.comfier-settings-content .ui-generation-notifications-row{order:2!important}
-.comfier-settings-content .ui-diagnostics-row{order:3!important}
-.comfier-settings-content :is(.ui-auto-reconnect-row,.ui-generation-notifications-row,.ui-diagnostics-row){display:grid!important;grid-template-columns:22px minmax(0,1fr) max-content!important;align-items:center!important;gap:12px!important;width:100%!important;max-width:none!important;min-height:36px!important;margin:0!important;padding:0!important;font:inherit!important;text-align:left!important;box-sizing:border-box!important}
-.comfier-settings-content :is(.ui-auto-reconnect-row,.ui-generation-notifications-row,.ui-diagnostics-row)>input{grid-column:1!important;width:22px!important;height:22px!important;min-width:22px!important;margin:0!important;justify-self:start!important}
-.comfier-settings-content :is(.ui-auto-reconnect-row,.ui-generation-notifications-row,.ui-diagnostics-row)>span{margin:0!important;font:inherit!important}
-.comfier-settings-content :is(.ui-auto-reconnect-state,.ui-generation-notifications-state,.ui-diagnostics-state){justify-self:end!important;font-weight:400!important}
-.comfier-settings-content .ufu-launch{order:100!important;margin-top:auto!important}
-.comfier-settings-content .ui-hard-refresh{order:101!important;margin-top:0!important}
-.comfier-settings-content .ui-disconnect{order:102!important;margin-top:0!important}
-.comfier-settings-content :is(.ufu-launch,.ui-hard-refresh,.ui-disconnect){display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;max-width:none!important;height:48px!important;min-height:48px!important;max-height:48px!important;padding:0 12px!important;box-sizing:border-box!important;font-family:inherit!important;font-size:12px!important;font-weight:600!important;line-height:1.25!important;text-align:center!important;border:1px solid var(--interface-stroke,#3b4554)!important;border-radius:8px!important;background:var(--secondary-background,#242427)!important;color:inherit!important;cursor:pointer;touch-action:manipulation}
-.comfier-settings-content .ui-app-version{order:103!important}
-.comfier-settings-content .ui-companion-version{order:104!important}
-.comfier-settings-content :is(.ui-auto-reconnect-row,.ui-generation-notifications-row,.ui-diagnostics-row)>span{grid-column:2!important}
-.comfier-settings-content .ui-cloud-diagnostics-row{order:3}
 
 .comfier-unified-downloads{display:grid;grid-template-rows:minmax(0,2fr) minmax(0,1fr);height:100%;min-height:0;overflow:hidden}
 .comfier-unified-downloads>div{min-height:0;overflow:auto}
@@ -824,8 +797,10 @@ img[data-v-ca0e6d87] {
 .comfier-unified-downloads .comfier-downloads-status:empty{display:none}
 .comfier-unified-downloads .p-tablist{flex-wrap:wrap;height:auto!important;flex-basis:auto!important;min-height:44px;justify-content:flex-end}
 .comfier-unified-downloads .comfier-downloads-status{flex:0 1 auto}
-#comfier-multiselect-toggle input[type=checkbox]{appearance:none!important;background:transparent!important;border:2px solid var(--comfier-icon-color,#fff)!important;border-radius:4px}
-#comfier-multiselect-toggle input[type=checkbox]:checked{background:transparent!important;box-shadow:inset 0 0 0 4px var(--comfier-icon-color,#fff)}
+#comfier-multiselect-toggle>span{height:auto!important;min-height:27px!important;max-height:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:1px!important;line-height:normal!important}
+#comfier-multiselect-toggle .comfier-multiselect-label{display:block!important;height:8px!important;min-height:8px!important;max-height:8px!important;line-height:8px!important;margin:0!important;padding:0!important;color:var(--comfier-icon-color,#fff)!important}
+#comfier-multiselect-toggle input[type=checkbox]{appearance:none!important;display:block!important;width:max(18px,var(--ufu-icon-size,18px))!important;height:max(18px,var(--ufu-icon-size,18px))!important;min-width:18px!important;min-height:18px!important;max-width:none!important;max-height:none!important;box-sizing:border-box!important;padding:0!important;margin:0!important;flex:0 0 auto!important;background:transparent!important;border:1px solid var(--comfier-icon-color,#fff)!important;border-radius:2px!important}
+#comfier-multiselect-toggle input[type=checkbox]:checked{background:var(--comfier-icon-color,#fff)!important;box-shadow:none!important}
 
 .node-tooltip[data-v-c905f5ab] {
   pointer-events: none;
@@ -1123,36 +1098,20 @@ img[data-v-ca0e6d87] {
 }
 
 /* Match UI Editor's declared 10px panel padding. Inline chooser stays in the row. */
-.comfier-settings-content .comfier-workflow-mode-row{display:flex!important;flex-direction:row!important;align-items:flex-start!important;justify-content:space-between;gap:8px;order:5}
-.comfier-settings-content .comfier-workflow-mode-row>span{padding-top:8px;min-width:0}
-.comfier-settings-content .comfier-workflow-mode-row>.comfier-workflow-choice{display:flex!important;flex-direction:column;width:calc(58% - 24px);max-width:calc(58% - 24px);flex:0 1 calc(58% - 24px);gap:4px}
-.comfier-settings-content .comfier-workflow-choice>.comfier-workflow-options{display:flex!important;flex-direction:column;gap:4px;width:100%;padding:4px;border:1px solid #aaa;border-radius:6px;background:#111;box-sizing:border-box}
-.comfier-workflow-choice button{width:100%;font:500 14px system-ui;min-height:40px;padding:8px;border:1px solid #aaa;border-radius:6px;box-sizing:border-box;background:#fff;color:#111;text-align:center}
 
 /* Inline Civitai/destination choices: match the workflow chooser controls. */
-html:root body .comfier-settings-content .comfier-inline-choice{display:flex!important;flex-direction:column;flex:0 1 auto;min-width:100px;max-width:58%;margin-left:auto;gap:4px}
-html:root body .comfier-settings-content .comfier-generation-download-row>.comfier-inline-choice{max-width:45%}
-html:root body .comfier-settings-content .comfier-inline-choice>.comfier-inline-options{display:flex!important;flex-direction:column;gap:4px;width:100%;padding:4px;border:1px solid #aaa;border-radius:6px;background:#111;box-sizing:border-box}
-html:root body .comfier-settings-content .comfier-inline-choice>.comfier-inline-options[hidden]{display:none!important}
-.comfier-inline-choice button{width:100%;font:500 14px system-ui;min-height:40px;padding:8px;border:1px solid #aaa;border-radius:6px;box-sizing:border-box;background:#fff;color:#111;text-align:center}
 
 /* Owned inline choices: stay in their panel instead of opening Android selects. */
 .comfier-inline-choice{display:flex;flex-direction:column;gap:4px;min-width:0;max-width:100%}
 .comfier-inline-choice>.comfier-inline-options{display:flex;flex-direction:column;gap:4px;max-height:240px;overflow:auto;overscroll-behavior:contain;width:100%;padding:4px;border:1px solid var(--comfier-button-frame,#aaa);border-radius:6px;background:var(--comfier-panel-bg,var(--comfy-menu-bg,#171717));box-sizing:border-box}
 .comfier-inline-choice[hidden],.comfier-inline-options[hidden]{display:none!important}
-.comfier-inline-choice button{font-family:system-ui,sans-serif;font-size:14px;font-weight:500;min-height:40px;padding:8px;border:1px solid var(--comfier-button-frame,#aaa);border-radius:6px;background:var(--comfier-button-bg,#fff);color:var(--comfier-ui-font,#111);white-space:normal;overflow-wrap:anywhere}
+.comfier-inline-choice button{width:100%;box-sizing:border-box;text-align:center;font-family:system-ui,sans-serif;font-size:14px;font-weight:500;min-height:40px;padding:8px;border:1px solid var(--comfier-button-frame,#aaa);border-radius:6px;background:var(--comfier-button-bg,#fff);color:var(--comfier-ui-font,#111);white-space:normal;overflow-wrap:anywhere}
 .comfier-inline-options button[aria-selected=true]{outline:2px solid var(--comfier-active-color,#20DFF3);outline-offset:-2px}
 .comfier-app-field-choice{width:100%}
 .ufu-inspector label>.comfier-inline-choice{flex:0 1 58%;width:58%}
 .comfier-node-appearance>.comfier-inline-choice{width:100%;margin-bottom:16px}
 
 /* Settings Help stays inside the existing panel bounds in all four views. */
-.comfier-settings-content .comfier-settings-header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 0;order:0;width:100%;box-sizing:border-box;flex-shrink:0}
-.comfier-settings-content .comfier-settings-header>.comfier-app-settings-heading{width:auto!important;min-width:0;flex:1;margin:0!important;padding:0!important;text-align:left!important;font-size:18px!important;font-weight:600!important;line-height:1.3!important}
-.comfier-settings-content .comfier-help-control{font:500 14px/1.3 system-ui,sans-serif;min-height:40px;min-width:0;padding:8px;border:1px solid #aaa;border-radius:6px;background:#fff;color:#111;text-align:center;cursor:pointer;box-sizing:border-box;touch-action:manipulation}
-.comfier-settings-header>.comfier-help-control{flex:0 0 auto;white-space:nowrap;margin:0 4px}
-.comfier-settings-content.comfier-settings-help-open{overflow:hidden!important;min-height:0}
-.comfier-settings-content>.comfier-usage-guide,.comfier-settings-content .comfier-usage-guide{display:flex!important;flex:1 1 0!important;flex-direction:column;gap:8px;min-height:0;min-width:0;width:100%;overflow:hidden;box-sizing:border-box;order:1}
 .comfier-usage-guide>.comfier-usage-scroll{display:block;flex:1 1 0;min-height:0;overflow:auto;overscroll-behavior:contain;scroll-behavior:auto;padding:4px;box-sizing:border-box;font:400 14px/1.6 system-ui,sans-serif;color:#fff;-webkit-text-fill-color:#fff}
 .comfier-usage-scroll p{margin:0 0 14px;overflow-wrap:anywhere}
 .comfier-usage-scroll h3{font:600 18px/1.35 system-ui,sans-serif;margin:24px 0 12px}
@@ -1166,7 +1125,62 @@ html:root body .comfier-settings-content .comfier-inline-choice>.comfier-inline-
 .comfier-usage-scroll h4{font:600 14px/1.35 system-ui,sans-serif;margin:18px 0 8px}
 
 /* Canvas Preview and settings organization use their existing row owners. */
-html:root body .comfier-settings-content .comfier-generation-download-row{order:5!important}
-html:root body .comfier-settings-content .comfier-workflow-mode-row{order:6!important}
-html:root body .comfier-settings-content .comfier-canvas-preview-row{order:0}
-html:root body .comfier-settings-content .comfier-workflow-mode-row>.comfier-workflow-choice{width:auto!important;min-width:100px;max-width:45%!important;flex:0 1 auto!important;margin-left:auto}
+
+/* Settings retain their existing row alignment and larger 22px toggle size. */
+
+
+/* User-approved finalized settings order; footer owners retain their existing rules. */
+
+.comfier-desktop-dock {position:fixed;}
+/* Existing Jobs History tool stays in its native action slot. */
+/* Keep the native Settings Help control at the same level, to the left of the parent Close. */
+/* Only named desktop surfaces: inherit the existing theme's alpha-aware panel paint. */
+.comfier-desktop-dock .comfier-owned-minimap,
+.comfier-desktop-dock .comfier-downloads-list,
+.comfier-desktop-dock .comfier-download-row,
+.comfier-desktop-dock .comfier-unified-downloads,
+.comfier-desktop-dock #comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager),
+.comfier-desktop-dock .comfier-logs-console-body {
+ background-color:var(--comfier-panel-paint,var(--comfier-panel-bg,#171717))!important;
+}
+
+/* Scoped desktop exceptions: LoRA's native close control, plus the four actual inner paints. */
+.comfier-desktop-dock#comfier-logs-bottom-panel :is(.p-tabpanels,.p-tabpanel,.p-tabs-panels,.p-tabs-panel),
+.comfier-desktop-dock #comfier-downloads-bottom-panel :is(.p-tabpanels,.p-tabpanel,.p-tabs-panels,.p-tabs-panel,.comfier-downloads-list,.comfier-download-row),
+.comfier-desktop-dock #comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager),
+.comfier-desktop-dock .comfier-owned-minimap {
+ background-color:var(--comfier-panel-paint,var(--comfier-panel-bg,#171717))!important;
+}
+
+/* Settings footer 2x2: Global Theme/UI Editor, Hard Refresh/Disconnect. */
+
+
+/* Only the Settings launch footer is hidden while its Global Theme page is open. */
+
+/* Settings controls remain full-width rows; only the footer uses two columns. */
+
+/* Settings owns its pages, row order and footer from creation. */
+.comfier-settings-content.comfier-app-settings-native-panel{display:block;padding:10px;width:100%;height:100%;min-width:0;min-height:0;overflow:auto;box-sizing:border-box}
+.comfier-settings-page{display:flex;flex-direction:column;gap:8px;min-height:100%;width:100%;box-sizing:border-box}
+.comfier-settings-page[hidden]{display:none}
+.comfier-settings-page>*{flex-shrink:0}
+.comfier-settings-row{display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;width:100%;min-width:0;min-height:40px;gap:8px;margin:0;padding:0;box-sizing:border-box}
+.comfier-settings-row>:is(span,label){flex:1 1 auto;min-width:0;margin:0;text-align:left}
+.comfier-settings-row>input[type=checkbox]{width:22px;height:22px;min-width:22px;min-height:22px;margin:0;flex:0 0 22px}
+.comfier-settings-row .comfier-inline-choice{flex:0 1 auto;min-width:100px;max-width:58%;margin-left:auto}
+.comfier-workflow-mode-row .comfier-inline-choice{max-width:45%}
+.comfier-settings-row .comfier-inline-options{background:#111;border-color:#aaa}
+.comfier-settings-header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0;width:100%;box-sizing:border-box;flex-shrink:0}
+.comfier-settings-header>.comfier-app-settings-heading{flex:1;min-width:0;margin:0;padding:0;text-align:left;font:600 18px/1.3 system-ui,sans-serif}
+.comfier-help-control{font:500 14px/1.3 system-ui,sans-serif;min-height:40px;min-width:0;padding:8px;border:1px solid #aaa;border-radius:6px;background:#fff;color:#111;text-align:center;cursor:pointer;box-sizing:border-box;touch-action:manipulation}
+.comfier-settings-header>.comfier-help-control{flex:0 0 auto;white-space:nowrap;margin:0}
+.comfier-settings-footer{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;margin-top:auto;padding:0;flex-shrink:0}
+.comfier-settings-footer button{display:flex;align-items:center;justify-content:center;width:100%;min-width:0;max-width:none;min-height:48px;height:48px;max-height:48px;padding:0 12px;box-sizing:border-box;font:500 14px/1.3 system-ui,sans-serif;text-align:center;border:1px solid #aaa;border-radius:6px;background:#fff;color:#111;cursor:pointer;touch-action:manipulation}
+.comfier-settings-content.comfier-settings-help-open{overflow:hidden}
+.comfier-settings-help-page{display:flex;flex-direction:column;gap:8px;height:100%;min-height:0}
+.comfier-settings-help-page .comfier-usage-guide{display:flex;flex:1 1 0;flex-direction:column;gap:8px;min-height:0;min-width:0;width:100%;overflow:hidden;box-sizing:border-box}
+.comfier-settings-content .comfier-unavailable{cursor:default;opacity:.42}
+
+.comfier-settings-main-header{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}
+.comfier-settings-main-header>.comfier-app-settings-heading{grid-column:2;text-align:center}
+.comfier-settings-main-header>.comfier-help-control{grid-column:3;justify-self:end}

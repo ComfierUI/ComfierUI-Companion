@@ -370,7 +370,7 @@ var applyColorAdjustments = (color, options) => {
 		return color;
 	}
 	if (options.lightness) hsla.l = Math.max(0, Math.min(100, hsla.l + options.lightness * 100));
-	if (options.opacity) hsla.a = Math.max(0, Math.min(1, options.opacity));
+	if (options.opacity !== undefined) hsla.a = Math.max(0, Math.min(1, options.opacity * (options.multiplyOpacity ? hsla.a : 1)));
 	return `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, ${hsla.a})`;
 };
 var adjustColor = memoize(applyColorAdjustments, (color, options) => `${color}-${JSON.stringify(options)}`);

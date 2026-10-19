@@ -173,7 +173,7 @@ var AsyncSearchInput_default = /* @__PURE__ */ defineComponent({
 			emit("enter", event);
 		}
 		return (_ctx, _cache) => {
-			return openBlock(), createElementBlock("label", { class: normalizeClass(unref(cn)("group", "rounded-lg bg-secondary-background transition-all duration-150", "flex flex-1 items-center", "border-0 text-base-foreground", "focus-within:ring focus-within:ring-border-default/80", __props.class)) }, [
+			return openBlock(), createElementBlock("label", { "data-comfier-panel-search": "", class: normalizeClass(unref(cn)("group", "rounded-lg bg-secondary-background transition-all duration-150", "flex flex-1 items-center", "border-0 text-base-foreground", "focus-within:ring focus-within:ring-border-default/80", __props.class)) }, [
 				createBaseVNode("i", { class: normalizeClass(unref(cn)("ml-2 size-4 shrink-0 transition-colors duration-150", isQuerying.value ? "icon-[lucide--loader-circle] animate-spin" : "icon-[lucide--search]", searchQuery.value?.trim() !== "" ? "text-base-foreground" : "text-muted-foreground group-focus-within:text-base-foreground group-hover:text-base-foreground")) }, null, 2),
 				withDirectives(createBaseVNode("input", {
 					ref_key: "inputRef",

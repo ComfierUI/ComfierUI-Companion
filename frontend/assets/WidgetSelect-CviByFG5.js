@@ -1,3 +1,4 @@
+import { notifyCanvasMenuOpened } from "./comfierCanvasMenuGuard.js";
 import "./rolldown-runtime-xtsTai4I.js";
 import { At as capitalize } from "./vendor-other-BPEcPQTD.js";
 import { $ as mergeProps, Bt as shallowRef, Dt as withDirectives, E as withModifiers, Et as withCtx, F as createBaseVNode, G as defineComponent, H as createTextVNode, Ht as toRef, I as createBlock, Jt as normalizeClass, Kt as unref, L as createCommentVNode, Lt as ref, Mt as isRef, O as Fragment, P as computed, Q as mergeModels, R as createElementBlock, St as watch, T as withKeys, U as createVNode, Wt as toValue, X as inject, Xt as normalizeStyle, Zt as toDisplayString, dt as renderList, ft as renderSlot, lt as openBlock, mt as resolveDirective, ut as provide, xt as useTemplateRef, yt as useModel } from "./vendor-vue-core-C1utdb0s.js";
@@ -205,7 +206,7 @@ var WidgetSelectDefault_default = /* @__PURE__ */ defineComponent({
 		}
 		function handleOpenChange(open) {
 			isOpen.value = open;
-			if (open) window.__comfierDropdownOpened?.();
+			if (open) notifyCanvasMenuOpened();
 			if (open) refreshOptions();
 			else searchQuery.value = "";
 		}

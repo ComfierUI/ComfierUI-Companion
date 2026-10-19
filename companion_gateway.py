@@ -26,7 +26,7 @@ LOG = logging.getLogger("ComfierUI-Companion")
 GATEWAY_HOST = "0.0.0.0"
 GATEWAY_PORT = 8147
 BACKEND = "http://127.0.0.1:8188"
-DISPLAY_TEST_VERSION = "0.14.0"
+DISPLAY_TEST_VERSION = "0.100.1"
 _registered = False
 _runner = None
 _site = None
@@ -38,7 +38,7 @@ _BROWSER_FILE = EXTENSION_ROOT / "browser_start.json"
 def _browser_page():
     try:
         value = json.loads(_BROWSER_FILE.read_text()).get("page")
-        return value if value in {"companion", "comfy"} else "companion"
+        return value if value in {"companion", "comfy", "silent"} else "companion"
     except (OSError, ValueError, AttributeError):
         return "companion"
 
@@ -79,9 +79,9 @@ async def _browser_start(request):
             payload = await request.json()
             page = payload.get("page") if isinstance(payload, dict) else None
         except (ValueError, TypeError):
-            raise web.HTTPBadRequest(text="Choose ComfierUI or Default ComfyUI")
-        if page not in {"companion", "comfy"}:
-            raise web.HTTPBadRequest(text="Choose ComfierUI or Default ComfyUI")
+            raise web.HTTPBadRequest(text="Choose ComfierUI, Default ComfyUI or Silent")
+        if page not in {"companion", "comfy", "silent"}:
+            raise web.HTTPBadRequest(text="Choose ComfierUI, Default ComfyUI or Silent")
         try:
             pending = _BROWSER_FILE.with_suffix(".tmp")
             pending.write_text(json.dumps({"page": page}))
@@ -697,5 +697,10 @@ def register_companion_gateway() -> None:
         except Exception:
             LOG.exception("Companion gateway startup failed")
         if launch:
-            await launch_when_ready(lambda: f"http://127.0.0.1:{GATEWAY_PORT}" if _browser_page() == "companion" and _site is not None else BACKEND)
+            def launch_target():
+                page = _browser_page()
+                if page == "silent":
+                    return None
+                return f"http://127.0.0.1:{GATEWAY_PORT}" if page == "companion" and _site is not None else BACKEND
+            await launch_when_ready(launch_target)
     PromptServer.instance.loop.create_task(start())

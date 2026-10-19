@@ -1,3 +1,4 @@
+import { notifyCanvasMenuOpened } from "./comfierCanvasMenuGuard.js";
 import { createGenerationPreview } from "./comfierGenerationPreview.js";
 import { createCloudTemplateFilter } from "./comfierCloudTemplates.js";
 const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./useSessionCookie-B1w4dEt1.js","./useSessionCookie-brPafxdw.js","./rolldown-runtime-xtsTai4I.js","./api-Bt-fGt5a.js","./vendor-datadog-DudeEV66.js","./vendor-other-BPEcPQTD.js","./vendor-three-DQpYrwAh.js","./vendor-vue-core-C1utdb0s.js","./vendor-zod-TMj9Wsdv.js","./vendor-tiptap-BT_4t92m.js","./requestAuth-YeU5GIXc.js","./vendor-vueuse-BxKIIsKg.js","./telemetry-IkzvF0TI.js","./zod.gen-C09SPgBJ.js","./vendor-axios-QnwcNXlY.js","./vendor-sentry-zSXGkMPN.js","./reportError-LG-zfbNw.js","./hostTelemetryEnabled-BZ3GL1Cu.js","./remoteConfig-DwMQrLli.js","./vendor-firebase-B37L--zT.js","./toastStore-CTfykAzG.js","./useFeatureFlags-DAoj_aDd.js","./vendor-other-DODGPXtn.css","./LayerEditorContent-BTa25w_f.js","./vendor-i18n-BZvE7WBQ.js","./vendor-reka-ui-tdehH9A1.js","./src-DI1bBfrb.js","./Button-j0oCzR82.js","./useModalLiftedZIndex-BuehUvPe.js","./vendor-primevue-C3d0HJ53.js","./Input-Cx8jjgHK.js","./SelectValue-BYMnIcxq.js","./ColorPicker-D34wwQO7.js","./colorUtil-BzdMMd-Y.js","./Popover-CvXi6yxa.js","./PopoverContent-0k_uVDfE.js","./ToggleGroupItem-Da4A26JJ.js","./useCompositorLayers-DOjMhGtA.js","./useLayerEditorSession-K0QHcdu3.js","./downloadUtil-Bysc7OZ_.js","./i18n-C3J-ToPr.js","./formatUtil-DuxXRy1z.js","./commands-BcZ6fU3-.js","./main-BfqkkuXX.js","./nodeDefs-CFOSmIZi.js","./settings-B3DInspu.js","./TopBarHeader-UnV3yuBN.js","./DialogClose-B8cFZwt-.js","./useTerminalTabs-BIwPvHzh.js","./_plugin-vue_export-helper-DEKQMRQ4.js","./envUtil-2Z8ainL3.js","./Spinner-B79hMIoc.js","./vendor-xterm-tvYwlZkL.js","./vendor-xterm-BKlWQB97.css","./useTerminalTabs-CwR8y0SL.css","./core-C-rxLv4a.js","./dialogStore-B0GYyals.js","./systemStatsStore-3gc4cifl.js","./NumberFieldInput-CILJZ6M6.js","./useExternalLink-CXT6uu6Z.js","./nodeTypes-CU2vW7lJ.js","./WidgetTextPreview-Dd8GpNOT.js","./markdownRendererUtil-6g3t5X63.js","./vendor-markdown-CtxqRwKg.js","./Textarea-r-a2mhot.js","./layout-BZWBHixI.js","./audioService-CB9cyIF6.js","./ApiNodesSignInContent-CI9U70qu.js","./AccessibleTooltip-BrSxwyaK.js","./SignInContent-CQxTCTAo.js","./desktopHostSession-IrokPizE.js","./comfyApi-CYSC9hA6.js","./SignUpForm-D4VB-c6J.js","./FieldLabel-4kD4Yi7G.js","./FieldDescription-B1neEBHX.js","./signInSchema-COhVh-MP.js","./PasswordFields-ZEHNFiy2.js","./PasswordInput-B9my8iEe.js","./InputGroupInput-BndLl3Nb.js","./useSocialSignIn-4ach6N_x.js","./Message-NRJmn_pf.js","./Skeleton-gXY6B2Cf.js","./UpdatePasswordContent-BLaN5U7R.js","./ComfyOrgHeader-DEHSobcB.js","./comfy-logo-single-BCSzfwR_.js","./CloudNotificationContent-CdFPpVPj.js","./cloud-subscription-Bm9_w48j.js","./ComfyHubPublishDialog-D1hn2SU8.js","./ComfyHubPublishDialog-Eg5J-OAB.js","./widgetTypes-CisWqKm9.js","./toggle-group-B0brfUuj.js","./workflowShareService-D2WyTi0Z.js","./useImageQuiet-Ded8W_Zd.js","./DeleteWorkspaceDialogContent-D9DnoQkF.js","./CreateWorkspaceDialogContent-DujgE0Ff.js","./TeamWorkspacesDialogContent-hkAf66tR.js","./WorkspaceProfilePic-C1aA3F8q.js","./useWorkspaceSwitch-BOUfRKSR.js","./useWorkspaceTierLabel-DjgGD1WF.js","./LeaveWorkspaceDialogContent-CArLTbCq.js","./EditWorkspaceDialogContent-COKckCUM.js","./RemoveMemberDialogContent-Bn8BTASV.js","./ChangeMemberRoleDialogContent-CXzMrk8W.js","./SetMemberCreditLimitDialogContent-BF2snlYs.js","./InviteMemberDialogContent-Dm-ygALg.js","./InviteMembersForm-C3A0-ikF.js","./inviteLinks-C2Ae4GP6.js","./InviteMemberUpsellDialogContent-B8kzuMZw.js","./InviteLinkInvalidDialogContent-Cx9n5gbE.js","./InviteWrongAccountDialogContent-Df-pnQe0.js","./RevokeInviteDialogContent-BxQim8zS.js","./CancelSubscriptionDialogContent-CRHuFTrW.js","./subscriptionCancellationTelemetry-DPU1P5zB.js","./dateTimeUtil-Dbo04jgD.js","./launchCancellationFlow-PTLnBbhW.js","./loadExternalScript-BQM11osQ.js","./useDowngradeToPersonal-DdJwBFPl.js","./DowngradeRemoveMembersDialogContent-Cy4iRdR8.js","./creditsUtil-BWj6bywK.js","./missingModelMetadata-GstrqCEv.js","./missingModelMetadata-BkeVgXPg.js"])))=>i.map(i=>d[i]);
@@ -6601,6 +6602,7 @@ function collectingSeveredLinks(severed, fn) {
 */
 function emitNodeFieldWrite(node, write) {
 	if (node.graph?.getNodeById(node.id) !== node) return;
+	if (write.field === "flags.collapsed" || write.field === "flags.pinned") window.__comfierDeviceInput?.overlayNodeChanged?.(node);
 	emitGraphIntent({
 		type: "set_node_field",
 		graph: node.graph,
@@ -7882,163 +7884,6 @@ function resolvePromotedWidgetSource(rootGraph, node, widget) {
 	};
 }
 //#endregion
-//#region src/comfier/nodeAppearance.js
-var key = "comfierAppearance";
-var roles = [
-	["nodeBg", "Background"],
-	["nodeLabel", "Header"],
-	...[
-		["socketModel", "Model"],
-		["socketClip", "CLIP"],
-		["socketVae", "VAE"],
-		["socketLatent", "Latent"],
-		["socketMask", "Mask"],
-		["socketConditioning", "Positive / negative conditioning"],
-		["socketHidden", "Hidden sockets"],
-		["socketOther", "Other sockets"]
-	]
-];
-function socketRole(slot) {
-	if (slot?.hidden === true || slot?.isHidden === true) return "socketHidden";
-	return {
-		MODEL: "socketModel",
-		CLIP: "socketClip",
-		VAE: "socketVae",
-		LATENT: "socketLatent",
-		MASK: "socketMask",
-		CONDITIONING: "socketConditioning",
-		HIDDEN: "socketHidden"
-	}[String(slot?.type ?? "").trim().toUpperCase()] || "socketOther";
-}
-var roleIds = new Set(roles.map(([id]) => id));
-var valid$1 = /* @__PURE__ */ __name((value) => typeof value === "string" && /^#[0-9a-f]{6}([0-9a-f]{2})?$/i.test(value), "valid");
-var overrides$1 = /* @__PURE__ */ __name((node) => Object.fromEntries(roles.map(([id]) => [id, node?.properties?.[key]?.colors?.[id]]).filter(([, v]) => valid$1(v))), "overrides");
-var resolveColor = (node, id) => {
-	const value = roleIds.has(id) ? node?.properties?.[key]?.colors?.[id] : null;
-	return valid$1(value) ? value : window.__comfierThemeStudio?.getAssignedColor?.(id) || null;
-};
-function color(node, id) {
-	return resolveColor(node, id);
-}
-var dialog = null;
-let nodeAppearanceChoice = null;
-function close() {
-	nodeAppearanceChoice?.remove(); nodeAppearanceChoice = null;
-	if (!dialog) return false;
-	dialog.close();
-	dialog.remove();
-	dialog = null;
-	return true;
-}
-function save(node, colors) {
-	const graph = node.graph;
-	graph?.beforeChange?.();
-	node.properties ||= {};
-	if (Object.keys(colors).length) node.properties[key] = {
-		version: 1,
-		colors: { ...colors }
-	};
-	else delete node.properties[key];
-	graph?.afterChange?.();
-	node.setDirtyCanvas?.(true, true);
-	window.app?.canvas?.setDirty?.(true, true);
-}
-function open(node) {
-	close();
-	const studio = window.__comfierThemeStudio;
-	if (!studio?.createPicker) return false;
-	const draft = overrides$1(node);
-	const d = document.createElement("dialog");
-	dialog = d;
-	d.className = "comfier-node-appearance";
-	d.setAttribute("aria-label", "Node appearance");
-	d.setAttribute("role", "dialog");
-	if (!document.getElementById("comfier-node-dialog-style")) {
-		const style = document.createElement("style");
-		style.id = "comfier-node-dialog-style";
-		style.textContent = ".comfier-node-appearance{box-sizing:border-box;background:#111!important;color:#fff!important;border:1px solid #fff!important;border-radius:12px;width:min(390px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow-y:auto;padding:18px;font:14px/1.45 Arial,sans-serif}\n.comfier-node-appearance::backdrop{background:#0008}\n.comfier-node-appearance h3{margin:0 0 14px;color:#fff;font-size:19px;line-height:1.35}\n.comfier-node-appearance p{margin:0 0 16px;color:#fff}\n.comfier-node-appearance select,.comfier-node-appearance button,.comfier-node-appearance input[type=text]{box-sizing:border-box;background:#fff!important;color:#000!important;border:1px solid #ccc!important;border-radius:5px;font:inherit;min-height:34px;padding:7px 10px}\n.comfier-node-appearance select{width:100%;margin-bottom:16px}\n.comfier-node-appearance .theme-picker{display:flex;flex-direction:column;gap:16px;margin-bottom:18px}\n.comfier-node-appearance .theme-wheel{display:block;width:min(220px,100%);height:auto;aspect-ratio:1;align-self:center;touch-action:none}\n.comfier-node-appearance .theme-picker label{display:grid;grid-template-columns:98px minmax(0,1fr);gap:10px;align-items:center;color:#fff}\n.comfier-node-appearance input[type=range]{width:100%;min-width:0;margin:0;accent-color:#fff}\n.comfier-node-appearance input[type=text]{width:100%;min-width:0}\n.comfier-node-appearance .node-color-actions,.comfier-node-appearance .node-dialog-footer{display:grid;grid-template-columns:1fr 1fr;gap:10px}\n.comfier-node-appearance .node-color-actions button:last-child{grid-column:1/-1}\n.comfier-node-appearance [role=status]{margin:16px 0;min-height:20px}\n.comfier-node-appearance button:focus-visible,.comfier-node-appearance select:focus-visible,.comfier-node-appearance input:focus-visible{outline:2px solid #fff;outline-offset:3px}\n";
-		document.head.appendChild(style);
-	}
-	const title = document.createElement("h3");
-	title.textContent = "Node appearance — " + (node.title || node.type || "Node");
-	d.appendChild(title);
-	const note = document.createElement("p");
-	note.textContent = "Unset colors follow the global theme. Overrides are saved with this workflow.";
-	d.appendChild(note);
-	const select = document.createElement("select");
-	select.setAttribute("aria-label", "Node appearance target");
-	for (const [id, label] of roles) {
-		const o = document.createElement("option");
-		o.value = id;
-		o.textContent = label;
-		select.appendChild(o);
-	}
-	nodeAppearanceChoice = createInlineSettingsChoice(select);
-	d.appendChild(nodeAppearanceChoice.element);
-	const host = document.createElement("div");
-	d.appendChild(host);
-	let picker;
-	const status = document.createElement("p");
-	status.setAttribute("role", "status");
-	function render() {
-		host.replaceChildren();
-		picker = studio.createPicker(draft[select.value] || studio.getAssignedColor?.(select.value) || "#aaaaaa");
-		host.appendChild(picker.element);
-		status.textContent = draft[select.value] ? "Individual override" : "Following global theme";
-	}
-	select.onchange = render;
-	const actions = document.createElement("div");
-	actions.className = "node-color-actions";
-	d.appendChild(actions);
-	let buttons = actions;
-	function button(label, fn) {
-		const b = document.createElement("button");
-		b.type = "button";
-		b.textContent = label;
-		b.onclick = fn;
-		buttons.appendChild(b);
-		return b;
-	}
-	button("Set color", () => {
-		draft[select.value] = picker.value();
-		render();
-	});
-	button("Use global color", () => {
-		delete draft[select.value];
-		render();
-	});
-	button("Reset all to global", () => {
-		for (const id of Object.keys(draft)) delete draft[id];
-		render();
-	});
-	d.appendChild(status);
-	const footer = document.createElement("div");
-	footer.className = "node-dialog-footer";
-	d.appendChild(footer);
-	buttons = footer;
-	button("Save", () => {
-		save(node, draft);
-		close();
-	});
-	button("Cancel", close);
-	d.addEventListener("cancel", (e) => {
-		e.preventDefault();
-		close();
-	});
-	document.body.appendChild(d);
-	d.showModal();
-	render();
-	return true;
-}
-var nodeAppearance = {
-	color,
-	overrides: overrides$1,
-	socketRole,
-	open,
-	close,
-	save
-};
-//#endregion
 //#region src/lib/litegraph/src/ContextMenu.ts
 var ALLOWED_TAGS = [
 	"span",
@@ -8233,7 +8078,7 @@ var ContextMenu = class ContextMenu {
 		root.style.left = `${left}px`;
 		root.style.top = `${top}px`;
 		if (LiteGraph.context_menu_scaling && options.scale) root.style.transform = `scale(${Math.round(options.scale * 4) * .25})`;
-		window.__comfierDropdownOpened?.(options.event);
+		notifyCanvasMenuOpened(options.event);
 		if (options.className === "dark" && !this.parentMenu) {
 			this.fitComboViewport();
 			window.addEventListener("resize", () => this.fitComboViewport(), { signal });
@@ -8882,6 +8727,7 @@ function applyViewport(viewport, fg, bg, consumer) {
 	if (consumer) {
 		consumer.dpr = viewport.dpr;
 		consumer.ds.setViewportSize(viewport.cssWidth, viewport.cssHeight);
+		window.__comfierDeviceInput?.overlayViewportChanged?.(consumer.ds);
 	}
 	return viewport;
 }
@@ -8909,6 +8755,7 @@ var DragAndScale = class {
 	dragging;
 	viewport;
 	viewportSize;
+	lastNonzeroViewportSize;
 	get offset() {
 		return this.state.offset;
 	}
@@ -8948,6 +8795,7 @@ var DragAndScale = class {
 		if (this._stateHasChanged()) {
 			this.onChanged?.(scale, offset);
 			copyState(this.state, this.lastState);
+			window.__comfierDeviceInput?.overlayViewportChanged?.(this);
 		}
 		let [width, height] = this.getViewportSize();
 		let startx = -offset[0];
@@ -8965,10 +8813,20 @@ var DragAndScale = class {
 		visible_area.resizeBottomRight(endx, endy);
 	}
 	setViewportSize(width, height) {
-		this.viewportSize = width > 0 && height > 0 && Number.isFinite(width) && Number.isFinite(height) ? [width, height] : void 0;
+		const next = width > 0 && height > 0 && Number.isFinite(width) && Number.isFinite(height) ? [width, height] : void 0;
+		const previous = this.lastNonzeroViewportSize;
+		// Keep the current graph center through each logical-size change. Current
+		// offset/scale include any intervening user pan or zoom, in every view.
+		if (next && previous && Number.isFinite(this.scale) && this.scale > 0) {
+			this.offset[0] += (next[0] - previous[0]) / (2 * this.scale);
+			this.offset[1] += (next[1] - previous[1]) / (2 * this.scale);
+		}
+		this.viewportSize = next;
+		if (next) this.lastNonzeroViewportSize = next;
 	}
 	invalidateViewportSize() {
 		this.viewportSize = void 0;
+		this.lastNonzeroViewportSize = void 0;
 	}
 	getViewportSize() {
 		const cached = this.viewportSize;
@@ -9380,19 +9238,195 @@ function litegraph() {
 	return instance;
 }
 //#endregion
+//#region src/comfier/graphPerformance.js
+// Source-owned, opt-in capture. Normal rendering has no sampling loop or HUD.
+var graphPerformanceCapture = null;
+var graphPerfBasePhases=['background','foreground','nodes','layout','connections','domWidgets'];
+var graphPerfDetailPhases=['backgroundCopy','canvasOnRender','canvasForegroundHook','canvasOverlayHook','canvasBackgroundHook','canvasRenderBackground','foregroundExtras','nodeShape','nodeTitleText','nodeSlots','nodeWidgets','nodeBackgroundHook','nodeForegroundHook','nodeTitleHook','nodeCollapsedHook','nodeChrome','slotPreparation','widgetCustom','widgetNative'];
+var graphPerfOperationFields=['nodePasses','widgetRows','suppressedWidgetRows','customWidgetRows','nativeWidgetRows'];
+function graphPerfStamp(frame){frame.timingClockReads++;return performance.now();}
+function beginGraphPerfDetail(frame,key){frame.detailCalls[key]++;return graphPerfStamp(frame);}
+function endGraphPerfDetail(frame,key,start){frame.details[key]+=graphPerfStamp(frame)-start;}
+var graphPerfFields=['start','moving','callbackGapMs','cpuMs','paintGapMs','visibleNodes','renderedPaths','cacheEntries','textRequests','textMisses','textUncached','layoutCalls','domWidgets','visibleDomWidgets','backgroundPaints','foregroundPaints','failed','detailed','timingClockReads','recorderTailMs'];
+function newGraphPerfSample(){
+ const sample={details:{},detailCalls:{},operations:{},phases:{background:0,foreground:0,nodes:0,layout:0,connections:0,domWidgets:0},
+  viewport:{scale:0,dpr:0,width:0,height:0,lowQuality:false,linkMode:0,totalNodes:0,totalLinks:0,sharedCanvas:false},capture:null};
+ for(const key of graphPerfFields)sample[key]=0;
+ for(const key of graphPerfDetailPhases){sample.details[key]=0;sample.detailCalls[key]=0;}
+ for(const key of graphPerfOperationFields)sample.operations[key]=0;
+ return sample;
+}
+var graphPerformance = {
+ last:null,
+ get active(){return graphPerformanceCapture!==null;},
+ get frame(){return graphPerformanceCapture?.current||null;},
+ stamp:graphPerfStamp,
+ start(canvas=window.app?.canvas,onStop=null){
+  if(!canvas)throw Error('The graph canvas is not ready.');
+  this.stop('Restarted');
+  const now=performance.now();
+  graphPerformanceCapture={canvas,onStop,started:now,ended:null,reason:null,current:null,previous:{},hasPrevious:false,lastPaint:{},hasLastPaint:false,
+   ring:Array.from({length:2048},newGraphPerfSample),working:newGraphPerfSample(),index:0,retained:0,
+   first:Array.from({length:120},newGraphPerfSample),firstCount:0,motionFrames:0,paintFrames:0,idleCallbacks:0,failedFrames:0,
+   buckets:[],memory:[],lastMemory:-Infinity,
+   domClip:{scheduled:0,canceled:0,executed:0,pending:0,peakPending:0,totalMs:0,maxMs:0},domClipSeconds:[],
+   mode:location.pathname.startsWith('/__comfier_cloud__/')?'cloud':window.ComfierApp?'hosted-app':'desktop'};
+  this.last=graphPerformanceCapture;
+  return true;
+ },
+ stop(reason='Stopped'){
+  const capture=graphPerformanceCapture;if(!capture)return false;
+  graphPerformanceCapture=null;capture.ended=performance.now();capture.reason=reason;
+  capture.current=null;capture.canvas=null;capture.previous=null;capture.lastPaint=null;this.last=capture;
+  if(capture.onStop){try{capture.onStop();}catch(error){console.warn('Performance capture UI could not update',error);}}
+  capture.onStop=null;return true;
+ },
+ reset(){this.stop('Reset');this.last=null;},
+ isCapture(capture){return !!capture&&capture===graphPerformanceCapture;},
+ scheduleDomClip(){const c=graphPerformanceCapture;if(!c)return null;const d=c.domClip;d.scheduled++;d.pending++;d.peakPending=Math.max(d.peakPending,d.pending);return c;},
+ cancelDomClip(c){if(!this.isCapture(c))return;c.domClip.canceled++;c.domClip.pending--;},
+ finishDomClip(c,ms){
+  if(!this.isCapture(c))return;
+  const d=c.domClip;d.pending--;d.executed++;d.totalMs+=ms;d.maxMs=Math.max(d.maxMs,ms);
+  const second=Math.floor((performance.now()-c.started)/1000);let bucket=c.domClipSeconds.at(-1);
+  if(!bucket||bucket.second!==second){bucket={second,callbacks:0,totalMs:0,maxMs:0};if(c.domClipSeconds.length>=91)c.domClipSeconds.shift();c.domClipSeconds.push(bucket);}
+  bucket.callbacks++;bucket.totalMs+=ms;bucket.maxMs=Math.max(bucket.maxMs,ms);
+ },
+ snapshot(){
+  const c=this.last;if(!c)return {schemaVersion:2,active:false,status:'No capture yet'};
+  const frames=c.retained<c.ring.length?c.ring.slice(0,c.retained):c.ring.slice(c.index).concat(c.ring.slice(0,c.index));
+  const motion=frames.filter(f=>f.moving);
+  function stats(values){const a=values.filter(Number.isFinite).sort((x,y)=>x-y);return a.length?{samples:a.length,mean:a.reduce((x,y)=>x+y,0)/a.length,p50:a[Math.floor((a.length-1)*.5)],p95:a[Math.floor((a.length-1)*.95)],max:a.at(-1)}:null;}
+  function summarize(a){
+   const gaps=a.map(f=>f.paintGapMs).filter(Number.isFinite),gap=stats(gaps);
+   const detail=a.filter(f=>f.detailed);
+   return {frames:a.length,detailFrames:detail.length,cpuWithoutDetailMs:stats(a.filter(f=>!f.detailed).map(f=>f.cpuMs)),cpuWithDetailMs:stats(detail.map(f=>f.cpuMs)),
+    timingClockReads:stats(a.map(f=>f.timingClockReads)),recorderTailMs:stats(a.map(f=>f.recorderTailMs)),
+    detailPhasesMs:Object.fromEntries(graphPerfDetailPhases.map(k=>[k,stats(detail.map(f=>f.details[k]))])),
+    detailCalls:Object.fromEntries(graphPerfDetailPhases.map(k=>[k,stats(detail.map(f=>f.detailCalls[k]))])),
+    sampledOperations:Object.fromEntries(graphPerfOperationFields.map(k=>[k,stats(detail.map(f=>f.operations[k]))])),
+    paintCadenceFps:gap?.mean>0?1000/gap.mean:null,paintGapMs:gap,
+    callbackGapMs:stats(a.map(f=>f.callbackGapMs)),cpuMs:stats(a.map(f=>f.cpuMs)),
+    phasesMs:Object.fromEntries(graphPerfBasePhases.map(k=>[k,stats(a.map(f=>f.phases[k]))])),
+    textRequests:stats(a.map(f=>f.textRequests)),textMisses:stats(a.map(f=>f.textMisses)),textUncached:stats(a.map(f=>f.textUncached)),
+    layoutCalls:stats(a.map(f=>f.layoutCalls)),visibleNodes:stats(a.map(f=>f.visibleNodes)),renderedPaths:stats(a.map(f=>f.renderedPaths)),
+    domWidgets:stats(a.map(f=>f.domWidgets)),visibleDomWidgets:stats(a.map(f=>f.visibleDomWidgets)),cacheEntries:stats(a.map(f=>f.cacheEntries)),
+    scale:stats(a.map(f=>f.viewport.scale)),canvasPixels:stats(a.map(f=>f.viewport.width*f.viewport.height)),
+    textVisibleFrames:a.filter(f=>!f.viewport.lowQuality).length,sharedCanvasFrames:a.filter(f=>f.viewport.sharedCanvas).length,linkModes:[...new Set(a.map(f=>f.viewport.linkMode))]};
+  }
+  return {schemaVersion:2,active:this.active,status:c.reason||'Recording',mode:c.mode,build:'0.99.21',detailSampleEvery:8,
+   elapsedSeconds:((c.ended??performance.now())-c.started)/1000,paintFrames:c.paintFrames,movementFrames:c.motionFrames,
+   idleCallbacks:c.idleCallbacks,failedFrames:c.failedFrames,retainedFrames:frames.length,frameCapacity:c.ring.length,
+   movement:summarize(motion),firstMovement:summarize(c.first.slice(0,c.firstCount)),lastMovement:summarize(motion.slice(-120)),allPainted:summarize(frames),
+   seconds:c.buckets.map(b=>({second:b.second,frames:b.frames,detailFrames:b.detailFrames,
+    meanPhasesMs:Object.fromEntries(graphPerfBasePhases.map(k=>[k,b.phases[k]/b.frames])),
+    meanTextRequests:b.textRequests/b.frames,meanVisibleNodes:b.visibleNodes/b.frames,meanRenderedPaths:b.renderedPaths/b.frames,
+    minTextRequests:b.minTextRequests,maxTextRequests:b.maxTextRequests,minVisibleNodes:b.minVisibleNodes,maxVisibleNodes:b.maxVisibleNodes,
+    minScale:b.minScale,maxScale:b.maxScale,textVisibleFrames:b.textVisibleFrames,
+    paintCadenceFps:b.gaps?1000/(b.gapMs/b.gaps):null,meanCpuMs:b.frames?b.cpuMs/b.frames:0,meanCpuWithoutDetailMs:b.plainFrames?b.plainCpuMs/b.plainFrames:null,meanCpuWithDetailMs:b.detailFrames?b.detailCpuMs/b.detailFrames:null})),
+   domClipping:{...c.domClip},domClippingSeconds:c.domClipSeconds.map(b=>({...b})),
+   memory:c.memory.slice(),lastViewport:frames.length?frames.at(-1).viewport:null,
+   limits:'Fine phases and operation counts sample one in eight painted frames; detail statistics include only those frames. CPU-with/without-detail statistics expose sampled probe cost but are not a controlled benchmark. NodeShape contains title/background hooks; nodeWidgets contains custom/native widget paths; foreground contains nodes, extras and foreground hooks; foreground hook may contain DOM widget updates. Hook counts describe timed source dispatches, including empty optional hooks; widget row counts do not count extension-internal canvas commands. RecorderTailMs measures post-paint recording work only, excludes nested timer/guard costs and is outside cpuMs. TimingClockReads counts profiler clocks within the canvas callback, not asynchronous clipping/start/stop. Per-second workload ranges identify changing visible work. CPU timings include JavaScript/canvas command submission and measurement overhead. Phase times overlap: shared-canvas foreground also contains background; foreground contains nodes/DOM; nodes contain layout; connections may be in either canvas pass. Paint cadence is not presented/GPU FPS. DOM clipping timings cover its existing queued callbacks, including geometry reads; other later browser style/layout/raster/compositor work is outside these phases. Heap data is browser-dependent; GPU temperature and throttling are not measured. Capture stops after90seconds on the next canvas callback. No workflow, prompt, URL, credential or per-node text is recorded.'};
+ },
+ report(){
+  const r=this.snapshot();
+  if(!this.last)return 'GRAPH PERFORMANCE\n\nSet zoom with text visible before Start Capture, then pan the same area for20–30seconds without zooming. Reopen Diag to stop and view results. Copy sends the report through the existing clipboard action.\n\nNo capture yet.';
+  const n=v=>Number.isFinite(v)?v.toFixed(2):'n/a';
+  const row=(name,w)=>name+': '+n(w.paintCadenceFps)+' paint callbacks/s; CPU p50 '+n(w.cpuMs?.p50)+'ms / p95 '+n(w.cpuMs?.p95)+'ms';
+  return ['GRAPH PERFORMANCE — '+r.status+' [0.99.21]','Movement frames: '+r.movementFrames+' | painted: '+r.paintFrames+' | elapsed: '+n(r.elapsedSeconds)+'s',
+   row('First movement window',r.firstMovement),row('Last movement window',r.lastMovement),
+   'CPU without fine probes: first p50 '+n(r.firstMovement.cpuWithoutDetailMs?.p50)+'ms; last p50 '+n(r.lastMovement.cpuWithoutDetailMs?.p50)+'ms.',
+   'Fine detail: one in eight painted frames. Compare CPU without detail probes and the per-second workload ranges.',
+   'Paint cadence is not display/GPU FPS. CPU and nested phase timings explain submitted render work; browser/GPU work may finish later.',
+   'Use Start Capture for a fresh run. Reopening Diag stops recording. Turning Diagnostic Mode off stops recording.',
+   '\nDETAILS (safe to copy):\n'+JSON.stringify(r,null,2)].join('\n');
+ }
+};
+function beginGraphPerformanceFrame(canvas){
+ const c=graphPerformanceCapture;
+ if(!c||canvas!==c.canvas||c.current||!canvas.graphVisible||!canvas.canvas.width||!canvas.canvas.height)return null;
+ const now=performance.now();
+ if(now-c.started>=90000||document.visibilityState==='hidden'){graphPerformance.stop(document.visibilityState==='hidden'?'Page hidden':'90-second limit');return null;}
+ const ds=canvas.ds,previous=c.previous;
+ const moving=!!(canvas.dragging_canvas||canvas.isDragging||c.hasPrevious&&(previous.x!==ds.offset[0]||previous.y!==ds.offset[1]||previous.scale!==ds.scale));
+ const frame=c.working;
+ frame.start=now;frame.timingClockReads=1;frame.recorderTailMs=0;frame.detailed=c.paintFrames%8===0;frame.moving=moving;frame.callbackGapMs=moving&&c.hasPrevious&&previous.moving?now-previous.time:null;
+ frame.phases.background=frame.phases.foreground=frame.phases.nodes=frame.phases.layout=frame.phases.connections=frame.phases.domWidgets=0;
+ frame.textRequests=frame.textMisses=frame.textUncached=frame.layoutCalls=frame.domWidgets=frame.visibleDomWidgets=frame.backgroundPaints=frame.foregroundPaints=0;
+ if(frame.detailed){for(const key of graphPerfDetailPhases){frame.details[key]=0;frame.detailCalls[key]=0;}
+ for(const key of graphPerfOperationFields)frame.operations[key]=0;}
+ frame.failed=false;frame.capture=c;
+ previous.x=ds.offset[0];previous.y=ds.offset[1];previous.scale=ds.scale;previous.time=now;previous.moving=moving;c.hasPrevious=true;
+ c.current=frame;return frame;
+}
+function endGraphPerformanceFrame(canvas,frame){
+ const c=frame.capture;if(c.current!==frame)return;
+ c.current=null;
+ if(frame.failed)c.failedFrames++;
+ if(!frame.backgroundPaints&&!frame.foregroundPaints){c.idleCallbacks++;c.hasLastPaint=false;frame.capture=null;return;}
+ const end=graphPerfStamp(frame);frame.cpuMs=end-frame.start;
+ frame.paintGapMs=frame.moving&&Number.isFinite(frame.callbackGapMs)&&c.hasLastPaint&&c.lastPaint.moving?frame.start-c.lastPaint.start:null;
+ c.lastPaint.start=frame.start;c.lastPaint.moving=frame.moving;c.hasLastPaint=true;
+ frame.visibleNodes=canvas.visible_nodes?.length||0;frame.renderedPaths=canvas.renderedPaths?.size||0;frame.cacheEntries=cache$1.size;
+ const viewport=frame.viewport;
+ viewport.scale=canvas.ds.scale;viewport.dpr=canvas.dpr;viewport.width=canvas.canvas.width;viewport.height=canvas.canvas.height;viewport.lowQuality=canvas.low_quality;
+ viewport.sharedCanvas=canvas.bgcanvas===canvas.canvas;viewport.linkMode=canvas.links_render_mode;viewport.totalNodes=canvas.graph?.nodes?.length??canvas.graph?._nodes?.length??0;viewport.totalLinks=canvas.graph?.links?.size??null;
+ frame.capture=null;
+ c.paintFrames++;
+ c.working=c.ring[c.index];c.ring[c.index]=frame;c.index=(c.index+1)%c.ring.length;c.retained=Math.min(c.retained+1,c.ring.length);
+ if(frame.moving){
+  c.motionFrames++;if(c.firstCount<c.first.length){const first=c.first[c.firstCount++];for(const key of graphPerfFields)first[key]=frame[key];Object.assign(first.phases,frame.phases);Object.assign(first.viewport,frame.viewport);Object.assign(first.details,frame.details);Object.assign(first.detailCalls,frame.detailCalls);Object.assign(first.operations,frame.operations);}
+  const second=Math.floor((frame.start-c.started)/1000);
+  let bucket=c.buckets.at(-1);
+  if(!bucket||bucket.second!==second){bucket={second,frames:0,cpuMs:0,gaps:0,gapMs:0,phases:{background:0,foreground:0,nodes:0,layout:0,connections:0,domWidgets:0},
+    detailFrames:0,plainFrames:0,detailCpuMs:0,plainCpuMs:0,textRequests:0,visibleNodes:0,renderedPaths:0,
+    minTextRequests:Infinity,maxTextRequests:0,minVisibleNodes:Infinity,maxVisibleNodes:0,minScale:Infinity,maxScale:0,textVisibleFrames:0};c.buckets.push(bucket);}
+  for(const key of graphPerfBasePhases)bucket.phases[key]+=frame.phases[key];
+  if(frame.detailed){bucket.detailFrames++;bucket.detailCpuMs+=frame.cpuMs;}else{bucket.plainFrames++;bucket.plainCpuMs+=frame.cpuMs;}
+  bucket.textRequests+=frame.textRequests;bucket.visibleNodes+=frame.visibleNodes;bucket.renderedPaths+=frame.renderedPaths;
+  bucket.minTextRequests=Math.min(bucket.minTextRequests,frame.textRequests);bucket.maxTextRequests=Math.max(bucket.maxTextRequests,frame.textRequests);
+  bucket.minVisibleNodes=Math.min(bucket.minVisibleNodes,frame.visibleNodes);bucket.maxVisibleNodes=Math.max(bucket.maxVisibleNodes,frame.visibleNodes);
+  bucket.minScale=Math.min(bucket.minScale,frame.viewport.scale);bucket.maxScale=Math.max(bucket.maxScale,frame.viewport.scale);
+  if(!frame.viewport.lowQuality)bucket.textVisibleFrames++;
+  bucket.frames++;bucket.cpuMs+=frame.cpuMs;if(Number.isFinite(frame.paintGapMs)){bucket.gaps++;bucket.gapMs+=frame.paintGapMs;}
+ }
+ if(end-c.lastMemory>=1000){
+  c.lastMemory=end;const bytes=performance.memory?.usedJSHeapSize;
+  if(Number.isFinite(bytes))c.memory.push({seconds:(end-c.started)/1000,usedJSHeapBytes:bytes});
+ }
+ frame.recorderTailMs=graphPerfStamp(frame)-end;
+ if(frame.moving&&c.motionFrames<=c.first.length){const first=c.first[c.motionFrames-1];first.timingClockReads=frame.timingClockReads;first.recorderTailMs=frame.recorderTailMs;}
+}
+//#endregion
+
 //#region src/lib/litegraph/src/utils/textMeasureCache.ts
-var cache$1 = /* @__PURE__ */ new Map();
+// Widths are in CSS/font units, independent of canvas zoom and DPR.
+var cache$1 = new Map();
+var TEXT_MEASURE_LIMIT = 8192;
+function textMetricsKey(ctx) {
+ return [ctx.font, ctx.direction, ctx.fontKerning, ctx.fontStretch,
+  ctx.fontVariantCaps, ctx.letterSpacing, ctx.wordSpacing, ctx.textRendering,
+  ctx.lang || ctx.canvas?.lang || document.documentElement.lang || ''].join('\0');
+}
 function cachedMeasureText(ctx, text) {
-	const key = `${ctx.font}\0${text}`;
-	const cached = cache$1.get(key);
-	if (cached !== void 0) return cached;
-	const width = ctx.measureText(text).width;
-	cache$1.set(key, width);
-	return width;
+ const perf=graphPerformanceCapture?.current;if(perf)perf.textRequests++;
+ // Very long/changing prompts and fonts still loading do not enter the cache.
+ if (text.length > 2048 || document.fonts?.status === 'loading'){if(perf)perf.textUncached++;return ctx.measureText(text).width;}
+ const key = textMetricsKey(ctx) + '\0' + text;
+ const cached = cache$1.get(key);
+ if (cached !== undefined) return cached;
+ if(perf)perf.textMisses++;
+ const width = ctx.measureText(text).width;
+ if (cache$1.size >= TEXT_MEASURE_LIMIT) cache$1.delete(cache$1.keys().next().value);
+ cache$1.set(key, width);
+ return width;
 }
 function clearTextMeasureCache() {
-	cache$1.clear();
+ cache$1.clear();
 }
+// One module-lifetime font lifecycle subscription; no polling or observer.
+document.fonts?.addEventListener('loadingdone', clearTextMeasureCache);
+document.fonts?.addEventListener('loadingerror', clearTextMeasureCache);
 //#endregion
 //#region src/lib/litegraph/src/draw.ts
 var ELLIPSIS = "…";
@@ -9477,9 +9511,9 @@ function strokeShape(ctx, area, { shape = RenderShape.BOX, round_radius, title_h
 * @param maxWidth The maximum width the text (plus ellipsis) can occupy.
 * @returns The truncated text, or the original text if it fits.
 */
-function truncateTextToWidth(ctx, text, maxWidth) {
+function truncateTextToWidth(ctx, text, maxWidth, measuredWidth) {
 	if (!(maxWidth > 0)) return "";
-	if (cachedMeasureText(ctx, text) <= maxWidth) return text;
+	if ((measuredWidth ?? cachedMeasureText(ctx, text)) <= maxWidth) return text;
 	const ellipsisWidth = cachedMeasureText(ctx, ELLIPSIS) * .75;
 	if (ellipsisWidth > maxWidth) {
 		if (cachedMeasureText(ctx, TWO_DOT_LEADER) * .75 < maxWidth) return TWO_DOT_LEADER;
@@ -9504,15 +9538,16 @@ function truncateTextToWidth(ctx, text, maxWidth) {
 /**
 * Draws text within an area, truncating it and adding an ellipsis if necessary.
 */
-function drawTextInArea({ ctx, text, area, align = "left" }) {
+function drawTextInArea({ ctx, text, area, align = "left", measuredWidth }) {
 	const { left, right, bottom, width, centreX } = area;
-	if (cachedMeasureText(ctx, text) <= width) {
+	const textWidth=measuredWidth ?? cachedMeasureText(ctx,text);
+	if (textWidth <= width) {
 		ctx.textAlign = align;
 		const x = align === "left" ? left : align === "right" ? right : centreX;
 		ctx.fillText(text, x, bottom);
 		return;
 	}
-	const truncated = truncateTextToWidth(ctx, text, width);
+	const truncated = truncateTextToWidth(ctx, text, width, textWidth);
 	if (truncated.length === 0) return;
 	ctx.textAlign = "left";
 	ctx.fillText(truncated.slice(0, -1), left, bottom);
@@ -9853,6 +9888,11 @@ var Rectangle = class Rectangle extends Float64Array {
 	}
 };
 //#endregion
+// Native Android documents receive ComfierApp before page scripts run.
+// Keep desktop decorations and saved preferences unchanged.
+function graphDecorationsEnabled() {
+    return !(window.ComfierApp || window.__comfierDeviceInput);
+}
 //#region src/lib/litegraph/src/widgets/BaseWidget.ts
 var rawOptionsByShim = /* @__PURE__ */ new WeakMap();
 /**
@@ -10209,10 +10249,11 @@ var BaseWidget = class BaseWidget {
 		ctx.strokeStyle = this.getOutlineColor();
 		ctx.fillStyle = this.background_color;
 		ctx.beginPath();
-		if (showText) ctx.roundRect(margin, y, width - margin * 2, height, [height * .5]);
+		const decorations = showText && graphDecorationsEnabled();
+		if (decorations) ctx.roundRect(margin, y, width - margin * 2, height, [height * .5]);
 		else ctx.rect(margin, y, width - margin * 2, height);
 		ctx.fill();
-		if (showText && !this.computedDisabled) ctx.stroke();
+		if (decorations && !this.computedDisabled) ctx.stroke();
 	}
 	/**
 	* Draws a placeholder for widgets that only have a Vue implementation.
@@ -10271,6 +10312,7 @@ var BaseWidget = class BaseWidget {
 		if (requiredWidth <= totalWidth) drawTextInArea({
 			ctx,
 			text: displayName,
+            measuredWidth: labelWidth,
 			area,
 			align: "left"
 		});
@@ -10280,6 +10322,7 @@ var BaseWidget = class BaseWidget {
 			drawTextInArea({
 				ctx,
 				text: displayName,
+            measuredWidth: labelWidth,
 				area,
 				align: "left"
 			});
@@ -10291,6 +10334,7 @@ var BaseWidget = class BaseWidget {
 			drawTextInArea({
 				ctx,
 				text: displayName,
+            measuredWidth: labelWidth,
 				area,
 				align: "left"
 			});
@@ -10302,6 +10346,7 @@ var BaseWidget = class BaseWidget {
 			drawTextInArea({
 				ctx,
 				text: displayName,
+            measuredWidth: labelWidth,
 				area,
 				align: "left"
 			});
@@ -10312,6 +10357,7 @@ var BaseWidget = class BaseWidget {
 		drawTextInArea({
 			ctx,
 			text: _displayValue,
+            measuredWidth: valueWidth,
 			area,
 			align: "right"
 		});
@@ -10458,7 +10504,7 @@ var ButtonWidget = class extends BaseWidget {
 			this.clicked = false;
 		}
 		ctx.fillRect(margin, y, width - margin * 2, height);
-		if (showText && !this.computedDisabled) {
+		if (showText && !this.computedDisabled && graphDecorationsEnabled()) {
 			ctx.strokeStyle = this.getOutlineColor();
 			ctx.strokeRect(margin, y, width - margin * 2, height);
 		}
@@ -10534,7 +10580,8 @@ var ColorWidget = class extends BaseWidget {
 		const swatchX = width - margin - 10 - swatchWidth;
 		const swatchY = y + 3;
 		ctx.beginPath();
-		ctx.roundRect(swatchX, swatchY, swatchWidth, swatchHeight, swatchRadius);
+		if(graphDecorationsEnabled())ctx.roundRect(swatchX, swatchY, swatchWidth, swatchHeight, swatchRadius);
+        else ctx.rect(swatchX,swatchY,swatchWidth,swatchHeight);
 		ctx.fillStyle = this.hexValue;
 		ctx.fill();
 		ctx.fillStyle = this.secondary_text_color;
@@ -10835,7 +10882,7 @@ var GradientSliderWidget = class extends BaseWidget {
 		nvalue = clamp(nvalue, 0, 1);
 		ctx.fillStyle = "#678";
 		ctx.fillRect(margin, y, nvalue * (width - margin * 2), height);
-		if (showText && !this.computedDisabled) {
+		if (showText && !this.computedDisabled && graphDecorationsEnabled()) {
 			ctx.strokeStyle = this.outline_color;
 			ctx.strokeRect(margin, y, width - margin * 2, height);
 		}
@@ -11012,7 +11059,7 @@ var KnobWidget = class extends BaseWidget {
 		ctx.arc(arc_center.x, arc_center.y, arc_size, arc.start_angle, value_end_angle, false);
 		ctx.stroke();
 		ctx.closePath();
-		if (showText && !this.computedDisabled) {
+		if (showText && !this.computedDisabled && graphDecorationsEnabled()) {
 			ctx.strokeStyle = this.getOutlineColor();
 			ctx.beginPath();
 			ctx.strokeStyle = this.getOutlineColor();
@@ -11202,7 +11249,7 @@ var SliderWidget = class extends BaseWidget {
 		nvalue = clamp(nvalue, 0, 1);
 		ctx.fillStyle = this.options.slider_color ?? "#678";
 		ctx.fillRect(margin, y, nvalue * (width - margin * 2), height);
-		if (showText && !this.computedDisabled) {
+		if (showText && !this.computedDisabled && graphDecorationsEnabled()) {
 			ctx.strokeStyle = this.getOutlineColor();
 			ctx.strokeRect(margin, y, width - margin * 2, height);
 		}
@@ -12565,6 +12612,7 @@ var layoutStore = new class LayoutStoreImpl {
 		if (previous?.width === size.width && previous.height === size.height) return;
 		this.contentSizes.set(key, size);
 		this._contentSizeVersion++;
+		window.__comfierDeviceInput?.overlayContentChanged?.(rootGraphId, nodeId);
 	}
 	clearContentSize(rootGraphId, nodeId) {
 		const key = makeScopedLayoutKey(rootGraphId, nodeId);
@@ -12573,6 +12621,7 @@ var layoutStore = new class LayoutStoreImpl {
 		this.suppressedContentSizes.set(key, previous);
 		this.contentSizes.delete(key);
 		this._contentSizeVersion++;
+		window.__comfierDeviceInput?.overlayContentChanged?.(rootGraphId, nodeId);
 	}
 	/**
 	* Get current version for change detection
@@ -14059,10 +14108,16 @@ var useSelectionStore = defineStore("selection", () => {
 		}
 	}
 	function apply(scope, command) {
-		if (applyCommand(scope, command)) revision.value++;
+		if (applyCommand(scope, command)) {
+			revision.value++;
+			window.__comfierDeviceInput?.overlaySelectionChanged?.(void 0, scope);
+		}
 	}
 	function clearRoot(rootGraphId) {
-		if (roots.delete(rootGraphId)) revision.value++;
+		if (roots.delete(rootGraphId)) {
+			revision.value++;
+			window.__comfierDeviceInput?.overlaySelectionChanged?.();
+		}
 	}
 	function getRevision() {
 		return revision.value;
@@ -16500,13 +16555,13 @@ var LitegraphLinkAdapter = class {
 			},
 			colors: {
 				default: String(context.defaultLinkColor),
-				byType: this.convertColorMap(context.linkTypeColors),
+				byType: context.linkTypeColors,
 				highlighted: "#FFF"
 			},
 			patterns: { disabled: context.disabledPattern },
 			animation: { time: LiteGraph.getTime() * .001 },
 			scale: context.scale,
-			highlightedIds: new Set(Array.from(context.highlightedLinks).map(String))
+			highlightedIds: context.highlightedLinks
 		};
 	}
 	/**
@@ -16529,14 +16584,6 @@ var LitegraphLinkAdapter = class {
 			case LinkMarkerShape.Arrow:
 			default: return "triangle";
 		}
-	}
-	/**
-	* Convert color map to ensure all values are strings
-	*/
-	convertColorMap(colors) {
-		const result = {};
-		for (const [key, value] of Object.entries(colors)) result[key] = String(value);
-		return result;
 	}
 	/**
 	* Apply spline offset to a point, mimicking original #addSplineOffset behavior
@@ -16820,7 +16867,7 @@ function calculateOutputSlotPos(context, slot) {
 * @returns Position of the slot center in graph coordinates
 */
 function getSlotPosition(node, slotIndex, isInput) {
-	if (LiteGraph.vueNodesMode) return getVueSlotPosition(node, slotIndex, isInput);
+
 	const context = {
 		nodeX: node.pos[0],
 		nodeY: node.pos[1],
@@ -18049,7 +18096,8 @@ var LGraphBadge = class {
 		this._boundingRect.splice(0, 4, x, y, badgeWidth, this.height);
 		ctx.fillStyle = this.bgColor;
 		ctx.beginPath();
-		ctx.roundRect(x + badgeX, y, badgeWidth, this.height, this.cornerRadius);
+		if(graphDecorationsEnabled())ctx.roundRect(x + badgeX, y, badgeWidth, this.height, this.cornerRadius);
+        else ctx.rect(x + badgeX,y,badgeWidth,this.height);
 		ctx.fill();
 		let drawX = x + badgeX + this.padding;
 		const centerY = y + this.height / 2;
@@ -18209,18 +18257,26 @@ var LGraphButton = class extends LGraphBadge {
 };
 //#endregion
 //#region src/constants/slotColors.ts
-function getSlotColor(type) {
-	if (!type) return "#AAA";
-	return `var(--color-datatype-${String(type).toUpperCase()}, #AAA)`;
+function getSlotColor(type, name, fallback='#AAA') {
+    if(type===undefined||type===null)return fallback;
+    const key=slotPaletteType(type,name);
+    return `var(${slotColorVariable(key)}, ${fallback})`;
 }
 //#endregion
 //#region src/lib/litegraph/src/node/SlotBase.ts
 /** Base class for all input & output slots. */
+var slotPaletteDescriptors;
 var SlotBase = class {
-	name;
+    _name;
+    _type;
+    paletteType;
+    get name() { return this._name; }
+    set name(value) { this._name = value; this.paletteType = slotPaletteType(this._type, value); }
+    get type() { return this._type; }
+    set type(value) { this._type = value; this.paletteType = slotPaletteType(value, this._name); }
 	localized_name;
 	label;
-	type;
+
 	dir;
 	removable;
 	shape;
@@ -18231,13 +18287,16 @@ var SlotBase = class {
 	widget;
 	hasErrors;
 	boundingRect;
-	constructor(name, type, boundingRect) {
-		this.name = name;
+    constructor(name,type,boundingRect) {
+        slotPaletteDescriptors ||= Object.fromEntries(['name','type'].map(key=>[key,{...Object.getOwnPropertyDescriptor(SlotBase.prototype,key),enumerable:true}]));
+        Object.defineProperties(this,slotPaletteDescriptors);
+        for(const key of ['_name','_type','paletteType'])Object.defineProperty(this,key,{enumerable:false});
+        this.name = name;
 		this.type = type;
 		this.boundingRect = boundingRect ?? new Rectangle();
 	}
 	renderingColor(colorContext) {
-		return this.isConnected ? this.color_on || colorContext.getConnectedColor(this.type) : this.color_off || colorContext.getDisconnectedColor(this.type);
+		return this.isConnected ? this.color_on || colorContext.getConnectedColor(this.paletteType) : this.color_off || colorContext.getDisconnectedColor(this.paletteType);
 	}
 };
 //#endregion
@@ -18251,12 +18310,7 @@ var NodeSlot = class extends SlotBase {
 		const nodePos = this.node.pos;
 		const { boundingRect } = this;
 		const diameter = boundingRect[3];
-		return getCentre([
-			boundingRect[0] - nodePos[0],
-			boundingRect[1] - nodePos[1],
-			diameter,
-			diameter
-		]);
+return [boundingRect[0]-nodePos[0]+diameter*.5,boundingRect[1]-nodePos[1]+diameter*.5];
 	}
 	_node;
 	get node() {
@@ -18283,7 +18337,8 @@ var NodeSlot = class extends SlotBase {
 	renderingColor(colorContext) {
 		return super.renderingColor(colorContext);
 	}
-	draw(ctx, { colorContext, labelPosition = LabelPosition.Right, lowQuality = false, highlight = false, doStroke = false }) {
+	draw(ctx, { colorContext, labelPosition = LabelPosition.Right, lowQuality = false, highlight = false, doStroke = false }, forcedLabelPosition = labelPosition, forcedDoStroke = doStroke) {
+        labelPosition=forcedLabelPosition;doStroke=forcedDoStroke;
 		const originalFillStyle = ctx.fillStyle;
 		const originalStrokeStyle = ctx.strokeStyle;
 		const originalLineWidth = ctx.lineWidth;
@@ -18291,13 +18346,20 @@ var NodeSlot = class extends SlotBase {
 		const pos = this._centreOffset;
 		const slot_type = this.type;
 		const slot_shape = slot_type === SlotType.Array ? SlotShape.Grid : this.shape;
-		if (!window.__comfierDeviceInput) {
+        const deviceSockets=window.__comfierDeviceInput;
+        if(deviceSockets){
+            ctx.beginPath();
+            ctx.arc(pos[0],pos[1],deviceSockets.socketRadius,0,Math.PI*2);
+            ctx.fillStyle=this.renderingColor(colorContext);
+            ctx.lineWidth=1.4;ctx.strokeStyle='#181818';
+            ctx.fill();ctx.stroke();
+        } else {
 			ctx.save();
 			ctx.beginPath();
 			let doFill = true;
 			ctx.fillStyle = this.renderingColor(colorContext);
 			ctx.lineWidth = 1;
-			if (slot_type === SlotType.Event || slot_shape === SlotShape.Box) ctx.rect(pos[0] - 6 + .5, pos[1] - 5 + .5, 14, 10);
+            if (slot_type === SlotType.Event || slot_shape === SlotShape.Box) ctx.rect(pos[0] - 6 + .5, pos[1] - 5 + .5, 14, 10);
 			else if (slot_shape === SlotShape.Arrow) {
 				ctx.moveTo(pos[0] + 8, pos[1] + .5);
 				ctx.lineTo(pos[0] - 4, pos[1] + 6 + .5);
@@ -18389,10 +18451,10 @@ var NodeSlot = class extends SlotBase {
 			boundingRect: [...this.boundingRect]
 		};
 	}
-	drawCollapsed(ctx) {
-		const [x, y] = this.collapsedPos;
-		const { fillStyle } = ctx;
-		ctx.fillStyle = "#686";
+    drawCollapsed(ctx,colorContext) {
+        const [x,y]=this.collapsedPos;
+        const {fillStyle}=ctx;
+        ctx.fillStyle=colorContext?this.renderingColor(colorContext):'#686';
 		ctx.beginPath();
 		if (this.type === SlotType.Event || this.shape === RenderShape.BOX) ctx.rect(x - 7 + .5, y - 4, 14, 8);
 		else if (this.shape === RenderShape.ARROW) {
@@ -18411,6 +18473,7 @@ var NodeSlot = class extends SlotBase {
 		ctx.fillStyle = fillStyle;
 	}
 };
+var nativeSocketDraw=NodeSlot.prototype.draw;
 //#endregion
 //#region src/lib/litegraph/src/Reroute.ts
 function isPointLike(value) {
@@ -20244,7 +20307,8 @@ var NodeInputSlot = class extends NodeSlot {
 	draw(ctx, options) {
 		const { textAlign } = ctx;
 		ctx.textAlign = "left";
-		super.draw(ctx, {
+		if(NodeSlot.prototype.draw===nativeSocketDraw)super.draw(ctx,options,LabelPosition.Right,false);
+        else super.draw(ctx, {
 			...options,
 			labelPosition: LabelPosition.Right,
 			doStroke: false
@@ -20358,7 +20422,8 @@ var NodeOutputSlot = class extends NodeSlot {
 		const { textAlign, strokeStyle } = ctx;
 		ctx.textAlign = "right";
 		ctx.strokeStyle = "black";
-		super.draw(ctx, {
+		if(NodeSlot.prototype.draw===nativeSocketDraw)super.draw(ctx,options,LabelPosition.Left,true);
+        else super.draw(ctx, {
 			...options,
 			labelPosition: LabelPosition.Left,
 			doStroke: true
@@ -20805,6 +20870,16 @@ var NAMED_SHAPES = {
 * @param type a type for the node
 */
 var wireExecutionOrders = /* @__PURE__ */ new WeakMap();
+function syncConcreteNodeSlots(node, source, target, Type) {
+ for(let i=0;i<source.length;i++) {
+  const slot=source[i];
+  if(target[i]===slot)continue;
+  const concrete=toClass(Type,slot,node);
+  if(concrete!==slot)source[i]=concrete;
+  target[i]=concrete;
+ }
+ target.length=source.length;
+}
 var LGraphNode = class LGraphNode {
 	static title;
 	static MAX_CONSOLE;
@@ -20966,15 +21041,19 @@ var LGraphNode = class LGraphNode {
 	}
 	/** The fg color used to render the node. */
 	get renderingColor() {
+        if (LiteGraph.nodeHeaderThemed) return LiteGraph.NODE_DEFAULT_COLOR;
 		const baseColor = this.color || this.constructor.color || LiteGraph.NODE_DEFAULT_COLOR;
 		return adjustColor(baseColor, { lightness: LiteGraph.nodeLightness });
 	}
 	/** The bg color used to render the node. */
 	get renderingBgColor() {
-		const baseBgColor = this.bgcolor || this.constructor.bgcolor || LiteGraph.NODE_DEFAULT_BGCOLOR;
+        const themed = LiteGraph.nodeBodyThemed && this.mode !== LGraphEventMode.BYPASS;
+		const baseBgColor = themed ? LiteGraph.NODE_DEFAULT_BGCOLOR : this.bgcolor || this.constructor.bgcolor || LiteGraph.NODE_DEFAULT_BGCOLOR;
+        if (themed && LiteGraph.nodeOpacity === 1) return baseBgColor;
 		const adjustments = {
-			opacity: LiteGraph.nodeOpacity,
-			lightness: LiteGraph.nodeLightness
+            opacity: LiteGraph.nodeOpacity,
+            multiplyOpacity: true,
+            lightness: themed ? 0 : LiteGraph.nodeLightness
 		};
 		return adjustColor(this.mode === LGraphEventMode.BYPASS ? LiteGraph.NODE_DEFAULT_BYPASS_COLOR : baseBgColor, adjustments);
 	}
@@ -21133,6 +21212,13 @@ var LGraphNode = class LGraphNode {
 	*/
 	setPos(x, y) {
 		this.pos = [x, y];
+	}
+	// Creation-only placement: use the same socket anchor as the link renderer.
+	placeNewSocketAt(isInput, slot, point) {
+		if (!Number.isFinite(point?.canvasX) || !Number.isFinite(point?.canvasY)) return;
+		const anchor = this.getConnectionPos(isInput, slot);
+		if (!Number.isFinite(anchor?.[0]) || !Number.isFinite(anchor?.[1])) return;
+		this.setPos(this.pos[0] + point.canvasX - anchor[0], this.pos[1] + point.canvasY - anchor[1]);
 	}
 	get size() {
 		return nodeSizeView(this);
@@ -21977,7 +22063,7 @@ var LGraphNode = class LGraphNode {
 		const titleHeight = titleMode != TitleMode.TRANSPARENT_TITLE && titleMode != TitleMode.NO_TITLE ? LiteGraph.NODE_TITLE_HEIGHT : 0;
 		out[0] = this.pos[0];
 		out[1] = this.pos[1] + -titleHeight;
-		if (!this.flags.collapsed || LiteGraph.vueNodesMode) {
+		if ((!this.flags.collapsed)) {
 			const size = this.renderingSize;
 			out[2] = size[0];
 			out[3] = size[1] + titleHeight;
@@ -22700,7 +22786,6 @@ var LGraphNode = class LGraphNode {
 		if (MAX_CONSOLE !== void 0 && this.console.length > MAX_CONSOLE) this.console.shift();
 	}
 	setDirtyCanvas(dirty_foreground, dirty_background) {
-		if (dirty_foreground && LiteGraph.vueNodesMode) for (const widget of this.widgets ?? []) widget.syncLiveDisabled?.();
 		this.graph?.canvasAction((c) => c.setDirty(dirty_foreground, dirty_background));
 	}
 	loadImage(url) {
@@ -22798,7 +22883,9 @@ var LGraphNode = class LGraphNode {
 		return this.collapsed ? 0 : this.renderingSize[1];
 	}
 	drawBadges(ctx, { gap = 2 } = {}) {
-		const badgeInstances = [...badgeDrawObjects(this, badgeRows(this)), ...this.badges.map((badge) => badge instanceof LGraphBadge ? badge : badge())];
+		const decorations=graphDecorationsEnabled();
+        const extensionBadges=this.badges.map((badge) => badge instanceof LGraphBadge ? badge : badge());
+        const badgeInstances = [...badgeDrawObjects(this, badgeRows(this)), ...(decorations ? extensionBadges : extensionBadges.filter(badge=>badge.onClick))];
 		let currentX = this.width - badgeInstances.reduce((acc, badge) => acc + badge.getWidth(ctx) + gap, 0);
 		const y = -(LiteGraph.NODE_TITLE_HEIGHT + gap);
 		for (const badge of badgeInstances) {
@@ -22818,7 +22905,7 @@ var LGraphNode = class LGraphNode {
 			return;
 		}
 		if (this.title_mode === TitleMode.TRANSPARENT_TITLE) return;
-		if (this.collapsed) ctx.shadowColor = LiteGraph.DEFAULT_SHADOW_COLOR;
+		if (this.collapsed && graphDecorationsEnabled()) ctx.shadowColor = LiteGraph.DEFAULT_SHADOW_COLOR;
 		ctx.fillStyle = this.constructor.title_color || fgcolor;
 		ctx.beginPath();
 		if (shape == RenderShape.BOX || low_quality) ctx.rect(0, -title_height, size[0], title_height);
@@ -22885,7 +22972,7 @@ var LGraphNode = class LGraphNode {
 		const title = (this.getTitle() ?? `❌ ${this.type}`) + (this.pinned ? "📌" : "");
 		if (title) {
 			if (selected) ctx.fillStyle = LiteGraph.NODE_SELECTED_TITLE_COLOR;
-			else ctx.fillStyle = this.constructor.title_text_color || default_title_color;
+			else ctx.fillStyle = LiteGraph.nodeHeaderFontThemed ? LiteGraph.NODE_TITLE_COLOR : this.constructor.title_text_color || default_title_color;
 			let availableWidth = size[0] - title_height * 2;
 			if (this.title_buttons.length > 0) {
 				let buttonsWidth = 0;
@@ -22998,17 +23085,20 @@ var LGraphNode = class LGraphNode {
 	* subgraph boundary leaves the host visible.
 	*/
 	updateComputedDisabled() {
-		const { widgets } = this;
-		if (!widgets) return;
-		for (const widget of widgets) {
-			const slot = this.getSlotFromWidget(widget);
-			const connected = !!slot && this.isInputConnected(this.inputs.indexOf(slot));
-			widget.computedDisabled = widget.disabled || connected;
-			widget.connectionSuppressed = connected;
-		}
+        const {widgets,inputs}=this;
+        if(!widgets)return;
+        // Custom association/connection owners retain their original callbacks.
+        if(this.getSlotFromWidget!==nativeSlotGeometryOwners.widget) {
+            for(const widget of widgets){const slot=this.getSlotFromWidget(widget);const connected=!!slot&&this.isInputConnected(inputs.indexOf(slot));widget.computedDisabled=widget.disabled||connected;widget.connectionSuppressed=connected;}
+            return;
+        }
+        const byName=new Map();
+        for(let i=0;i<inputs.length;i++){const slot=inputs[i];if(isWidgetInputSlot(slot)&&!byName.has(slot.widget.name))byName.set(slot.widget.name,i);}
+        for(const widget of widgets){const index=byName.get(widget.name);const connected=index!==undefined&&this.isInputConnected(index);widget.computedDisabled=widget.disabled||connected;widget.connectionSuppressed=connected;}
 	}
 	drawWidgets(ctx, { lowQuality = false, editorAlpha = 1 }) {
 		if (!this.widgets) return;
+        const detailFrame=graphPerformanceCapture?.current?.detailed?graphPerformanceCapture.current:null;
 		const nodeWidth = this.renderingSize[0];
 		const { widgets } = this;
 		const H = LiteGraph.NODE_WIDGET_HEIGHT;
@@ -23021,10 +23111,12 @@ var LGraphNode = class LGraphNode {
 			this.updateComputedDisabled();
 			for (const widget of widgets) {
 				if (!this.isWidgetRowVisible(widget)) continue;
+                if(detailFrame)detailFrame.operations.widgetRows++;
 				const { y } = widget;
 				widget.last_y = y;
 				const width = Math.max(40, (widget.width || nodeWidth) - inset * 2);
 				if (widget.connectionSuppressed) {
+                    if(detailFrame)detailFrame.operations.suppressedWidgetRows++;
 					if (showText) {
 						ctx.globalAlpha *= .5;
 						toConcreteWidget(widget, this, false)?.drawSuppressedRowLabel(ctx, { width });
@@ -23036,11 +23128,23 @@ var LGraphNode = class LGraphNode {
 				ctx.fillStyle = "#222";
 				ctx.textAlign = "left";
 				if (widget.computedDisabled) ctx.globalAlpha *= .5;
-				if (typeof widget.draw === "function") widget.draw(ctx, this, width, y, H, lowQuality);
-				else legacyValue(toConcreteWidget(widget, this, false))?.drawWidget(ctx, {
+				if (typeof widget.draw === "function") {
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'widgetCustom'):0;
+ try {
+if(detailFrame)detailFrame.operations.customWidgetRows++;
+widget.draw(ctx, this, width, y, H, lowQuality);
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'widgetCustom',detailStart);}
+}
+				else {
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'widgetNative'):0;
+ try {
+if(detailFrame)detailFrame.operations.nativeWidgetRows++;
+legacyValue(toConcreteWidget(widget, this, false))?.drawWidget(ctx, {
 					width,
 					showText
 				});
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'widgetNative',detailStart);}
+}
 				ctx.globalAlpha = editorAlpha;
 			}
 		} finally {
@@ -23050,30 +23154,38 @@ var LGraphNode = class LGraphNode {
 	/**
 	* When {@link LGraphNode.collapsed} is `true`, this method draws the node's collapsed slots.
 	*/
-	drawCollapsedSlots(ctx) {
-		this._concreteInputs.find((slot) => slot.isConnected)?.drawCollapsed(ctx);
-		this._concreteOutputs.find((slot) => slot.isConnected)?.drawCollapsed(ctx);
-	}
+    drawCollapsedSlots(ctx,colorContext) {
+        this._concreteInputs.find(slot=>slot.isConnected)?.drawCollapsed(ctx,colorContext);
+        this._concreteOutputs.find(slot=>slot.isConnected)?.drawCollapsed(ctx,colorContext);
+    }
 	get slots() {
 		return [...this.inputs, ...this.outputs];
 	}
-	_measureSlot(slot, slotIndex, isInput) {
-		const pos = isInput ? this.getInputPos(slotIndex) : this.getOutputPos(slotIndex);
+	_measureSlot(slot, slotIndex, isInput, position) {
+		const pos = position || (isInput ? this.getInputPos(slotIndex) : this.getOutputPos(slotIndex));
 		slot.boundingRect[0] = pos[0] - LiteGraph.NODE_SLOT_HEIGHT * .5;
 		slot.boundingRect[1] = pos[1] - LiteGraph.NODE_SLOT_HEIGHT * .5;
 		slot.boundingRect[2] = slot.isWidgetInputSlot ? BaseWidget.margin : LiteGraph.NODE_SLOT_HEIGHT;
 		slot.boundingRect[3] = LiteGraph.NODE_SLOT_HEIGHT;
 	}
 	_measureSlots() {
+        const native=(!this.collapsed) && this._measureSlot===nativeSlotGeometryOwners.measure && this.getInputPos===nativeSlotGeometryOwners.input && this.getOutputPos===nativeSlotGeometryOwners.output;
+        const x=native?this.pos[0]:0,y=native?this.pos[1]:0;
+        const height=LiteGraph.NODE_SLOT_HEIGHT,offset=height*.5,startY=this.constructor.slot_start_y||0;
+        const width=native?this.size[0]:0;
+        let inputRow=0,outputRow=0;
+        const position=[0,0];
 		const slots = [];
 		for (const [slotIndex, slot] of this._concreteInputs.entries()) {
 			/** Widget input slots are handled in {@link layoutWidgetInputSlots} */
 			if (this.widgets?.length && isWidgetInputSlot(slot)) continue;
-			this._measureSlot(slot, slotIndex, true);
+            if(native){const custom=slot.pos;position[0]=x+(custom?custom[0]:offset);position[1]=y+(custom?custom[1]:(inputRow+++.7)*height+startY);this._measureSlot(slot,slotIndex,true,position);}
+            else this._measureSlot(slot,slotIndex,true);
 			slots.push(slot);
 		}
 		for (const [slotIndex, slot] of this._concreteOutputs.entries()) {
-			this._measureSlot(slot, slotIndex, false);
+            if(native){const custom=slot.pos;position[0]=x+(custom?custom[0]:width+1-offset);position[1]=y+(custom?custom[1]:(outputRow+++.7)*height+startY);this._measureSlot(slot,slotIndex,false,position);}
+            else this._measureSlot(slot,slotIndex,false);
 			slots.push(slot);
 		}
 		return slots.length ? createBounds(slots, 0) : null;
@@ -23107,13 +23219,15 @@ var LGraphNode = class LGraphNode {
 	/**
 	* Draws the node's input and output slots.
 	*/
-	drawSlots(ctx, { fromSlot, colorContext, editorAlpha, lowQuality }) {
+    drawSlots(ctx, { fromSlot, colorContext, editorAlpha, lowQuality }) {
+        const deviceSockets=window.__comfierDeviceInput;
+        const showWidgets=deviceSockets && (this.selected || fromSlot || window.__comfierTapLink?.isArmed?.());
 		for (const slot of [...this._concreteInputs, ...this._concreteOutputs]) {
 			const isValidTarget = fromSlot && slot.isValidTarget(fromSlot);
 			const isMouseOverSlot = this._isMouseOverSlot(slot);
 			const isValid = !fromSlot || isValidTarget;
 			const highlight = isValid && isMouseOverSlot;
-			if (isMouseOverSlot || isValidTarget || !slot.isWidgetInputSlot || this._isMouseOverWidget(this.getWidgetFromSlot(slot)) || slot.isConnected || slot.alwaysVisible) {
+			if(deviceSockets && slot.isWidgetInputSlot ? slot.isConnected || showWidgets : isMouseOverSlot || isValidTarget || !slot.isWidgetInputSlot || this._isMouseOverWidget(this.getWidgetFromSlot(slot)) || slot.isConnected || slot.alwaysVisible) {
 				ctx.globalAlpha = isValid ? editorAlpha : .4 * editorAlpha;
 				slot.draw(ctx, {
 					colorContext,
@@ -23136,7 +23250,7 @@ var LGraphNode = class LGraphNode {
 		const startY = this.widgets_start_y ?? (this.widgets_up ? 0 : widgetStartY) + 2;
 		let freeSpace = bodyHeight - startY;
 		let fixedWidgetHeight = 0;
-		const growableWidgets = [];
+		let growableWidgets;
 		const visibleWidgets = this.getLayoutWidgets();
 		for (const w of visibleWidgets) if (w.computeSize) {
 			const height = w.computeSize()[1] + 4;
@@ -23144,7 +23258,7 @@ var LGraphNode = class LGraphNode {
 			fixedWidgetHeight += height;
 		} else if (w.computeLayoutSize) {
 			const { minHeight, maxHeight } = w.computeLayoutSize(this);
-			growableWidgets.push({
+			(growableWidgets??=[]).push({
 				minHeight,
 				prefHeight: maxHeight,
 				w
@@ -23156,19 +23270,21 @@ var LGraphNode = class LGraphNode {
 		}
 		freeSpace -= fixedWidgetHeight;
 		this.freeWidgetSpace = freeSpace;
+		if(growableWidgets){
 		const spaceRequests = growableWidgets.map((d) => ({
 			minSize: d.minHeight,
 			maxSize: d.prefHeight
 		}));
 		const allocations = distributeSpace(Math.max(0, freeSpace), spaceRequests);
 		for (const [i, d] of growableWidgets.entries()) d.w.computedHeight = allocations[i];
+        }
 		let y = startY;
 		for (const w of visibleWidgets) {
 			w.y = y;
 			y += w.computedHeight ?? 0;
 		}
 		if (!this.graph) throw new NullGraphError();
-		if (!LiteGraph.vueNodesMode && y > bodyHeight) {
+		if ((y > bodyHeight)) {
 			this.setSize([this.size[0], y]);
 			this.graph.setDirtyCanvas(false, true);
 		}
@@ -23178,10 +23294,10 @@ var LGraphNode = class LGraphNode {
 	*/
 	_arrangeWidgetInputSlots() {
 		if (!this.widgets?.length) return;
-		const widgetByName = /* @__PURE__ */ new Map();
-		for (const w of this.widgets) widgetByName.set(w.name, w);
+		let widgetByName;
 		for (const [i, slot] of this._concreteInputs.entries()) {
 			if (!isWidgetInputSlot(slot)) continue;
+            if(!slot._widget && !widgetByName){widgetByName=new Map();for(const w of this.widgets)widgetByName.set(w.name,w);}
 			const widget = slot._widget ?? widgetByName.get(slot.widget.name);
 			if (!widget) continue;
 			const offset = LiteGraph.NODE_SLOT_HEIGHT * .5;
@@ -23199,27 +23315,23 @@ var LGraphNode = class LGraphNode {
 	* invalidate slot-array subscribers.
 	*/
 	_setConcreteSlots() {
-		const { inputs, outputs } = this;
-		this._concreteInputs = inputs.map((slot, i) => {
-			const concrete = toClass(NodeInputSlot, slot, this);
-			if (concrete !== slot) inputs[i] = concrete;
-			return concrete;
-		});
-		this._concreteOutputs = outputs.map((slot, i) => {
-			const concrete = toClass(NodeOutputSlot, slot, this);
-			if (concrete !== slot) outputs[i] = concrete;
-			return concrete;
-		});
+        syncConcreteNodeSlots(this,this.inputs,this._concreteInputs,NodeInputSlot);
+        syncConcreteNodeSlots(this,this.outputs,this._concreteOutputs,NodeOutputSlot);
 	}
 	/**
 	* Arranges node elements in preparation for rendering (slots & widgets).
 	*/
 	arrange() {
+        const perfFrame=graphPerformanceCapture?.current;
+        const perfStart=perfFrame?graphPerfStamp(perfFrame):0;
+        if(perfFrame)perfFrame.layoutCalls++;
+        try {
 		const slotsBounds = this._measureSlots();
 		const widgetStartY = slotsBounds ? slotsBounds[1] + slotsBounds[3] - this.pos[1] : 0;
 		this._arrangeWidgets(widgetStartY);
 		this._arrangeWidgetInputSlots();
 		this._widgetSlotsDirty = false;
+        } finally {if(perfFrame)perfFrame.phases.layout+=graphPerfStamp(perfFrame)-perfStart;}
 	}
 	/**
 	* Draws a progress bar on the node.
@@ -23233,6 +23345,7 @@ var LGraphNode = class LGraphNode {
 		ctx.fillStyle = originalFillStyle;
 	}
 };
+var nativeSlotGeometryOwners={measure:LGraphNode.prototype._measureSlot,input:LGraphNode.prototype.getInputPos,output:LGraphNode.prototype.getOutputPos,widget:LGraphNode.prototype.getSlotFromWidget};
 //#endregion
 //#region src/lib/litegraph/src/LGraphGroup.ts
 var LGraphGroup = class LGraphGroup {
@@ -24613,7 +24726,7 @@ var LinkConnector = class {
 	* @param node The node that the links are being dropped on
 	* @param event Contains the drop location, in canvas space
 	*/
-	connectToNode(node, event) {
+	connectToNode(node, event, placeNewNode = false) {
 		const { state: { connectingTo } } = this;
 		if (!this.events.dispatch("dropped-on-node", {
 			node,
@@ -24627,6 +24740,7 @@ var LinkConnector = class {
 				console.warn(`Could not find slot for link type: [${firstLink.fromSlot.type}].`);
 				return;
 			}
+			if (placeNewNode) node.placeNewSocketAt(false, output, event);
 			this._dropOnOutput(node, output);
 		} else if (connectingTo === "input") {
 			const input = node.findInputByType(firstLink.fromSlot.type)?.slot;
@@ -24634,6 +24748,7 @@ var LinkConnector = class {
 				console.warn(`Could not find slot for link type: [${firstLink.fromSlot.type}].`);
 				return;
 			}
+			if (placeNewNode) node.placeNewSocketAt(true, input, event);
 			this._dropOnInput(node, input);
 		}
 	}
@@ -24930,18 +25045,18 @@ function getLinkEndpointPositions(graph, link) {
 	const { subgraphInput, inputNode, input } = resolved;
 	if (subgraphInput) {
 		if (!inputNode || !input || !subgraphInput.linkIds.includes(link.id)) return;
-		const endPos = LiteGraph.vueNodesMode ? getSlotPosition(inputNode, link.target_slot, true) : inputNode.getInputPos(link.target_slot);
+		const endPos = (inputNode.getInputPos(link.target_slot));
 		return [subgraphInput.pos, endPos];
 	}
 	const { subgraphOutput, outputNode, output } = resolved;
 	if (subgraphOutput) {
 		if (!outputNode || !output || subgraphOutput.linkIds[0] !== link.id) return;
-		return [LiteGraph.vueNodesMode ? getSlotPosition(outputNode, link.origin_slot, false) : outputNode.getOutputPos(link.origin_slot), subgraphOutput.pos];
+		return [(outputNode.getOutputPos(link.origin_slot)), subgraphOutput.pos];
 	}
 	if (!inputNode || !input || inputLinkId(graph, inputNode.id, link.target_slot) !== link.id) return;
 	if (!outputNode || !output) return;
-	const endPos = LiteGraph.vueNodesMode ? getSlotPosition(inputNode, link.target_slot, true) : inputNode.getInputPos(link.target_slot);
-	return [LiteGraph.vueNodesMode ? getSlotPosition(outputNode, link.origin_slot, false) : outputNode.getOutputPos(link.origin_slot), endPos];
+	const endPos = (inputNode.getInputPos(link.target_slot));
+	return [(outputNode.getOutputPos(link.origin_slot)), endPos];
 }
 //#endregion
 //#region src/lib/litegraph/src/canvas/linkBadgeRenderer.ts
@@ -26223,6 +26338,50 @@ function resolveConnectingLinkColor(type) {
 	return type === LiteGraph.EVENT ? LiteGraph.EVENT_LINK_COLOR : LiteGraph.CONNECTING_LINK_COLOR;
 }
 //#endregion
+//#region src/comfier/nodes3.ts
+var nodes3NativeTitleBackground=LGraphNode.prototype.drawTitleBarBackground;
+var nodes3NativeTitleBox=LGraphNode.prototype.drawTitleBox;
+
+function drawNodes3Frame(canvas, node, ctx, size, headerColor, bodyColor) {
+ const titleHeight=LiteGraph.NODE_TITLE_HEIGHT;
+ const hasTitle=node.title_mode!==TitleMode.NO_TITLE&&node.title_mode!==TitleMode.TRANSPARENT_TITLE;
+ const showTitle=node.title_mode!==TitleMode.NO_TITLE;
+ const top=hasTitle?-titleHeight:0;
+ const height=(node.collapsed?0:size[1])+(hasTitle?titleHeight:0);
+ const width=size[0],radius=Math.min(8,width*.5,height*.5);
+ const frame=LiteGraph.COMFIER_NODE_FRAME_WIDTH,alpha=ctx.globalAlpha;
+ ctx.shadowColor='transparent';
+ ctx.beginPath();ctx.roundRect(0,top,width,height,radius);ctx.fillStyle=bodyColor;ctx.fill();
+ node.onDrawBackground?.(ctx);
+ if(showTitle){
+  if(node.drawTitleBarBackground!==nodes3NativeTitleBackground||node.onDrawTitleBar)node.drawTitleBarBackground(ctx,{scale:canvas.ds.scale,low_quality:canvas.low_quality});
+  else if(hasTitle){ctx.beginPath();ctx.roundRect(0,top,width,titleHeight,node.collapsed?[radius]:[radius,radius,0,0]);ctx.fillStyle=headerColor;ctx.fill();}
+  ctx.globalAlpha=alpha;
+  if(node.drawTitleBox!==nodes3NativeTitleBox||node.onDrawTitleBox)node.drawTitleBox(ctx,{scale:canvas.ds.scale,low_quality:canvas.low_quality,box_size:10});
+  else {
+   const x=titleHeight*.5,y=-titleHeight*.5,r=4;
+   ctx.strokeStyle=LiteGraph.NODE_TITLE_COLOR;ctx.lineWidth=1.5;ctx.beginPath();
+   if(node.collapsed){ctx.moveTo(x-r*.5,y-r);ctx.lineTo(x+r*.5,y);ctx.lineTo(x-r*.5,y+r);}
+   else {ctx.moveTo(x-r,y-r*.5);ctx.lineTo(x,y+r*.5);ctx.lineTo(x+r,y-r*.5);}
+   ctx.stroke();
+  }
+  node.drawTitleText(ctx,{scale:canvas.ds.scale,default_title_color:canvas.node_title_color,low_quality:canvas.low_quality});
+  node.onDrawTitle?.(ctx);
+ }
+ if(frame>0){
+  ctx.beginPath();ctx.roundRect(0,top,width,height,radius);
+  if(hasTitle&&!node.collapsed){ctx.moveTo(0,0);ctx.lineTo(width,0);}
+  ctx.strokeStyle=LiteGraph.COMFIER_NODE_FRAME_COLOR;ctx.lineWidth=frame;ctx.globalAlpha=alpha;ctx.stroke();
+ }
+ // Functional selection/error/extension outlines remain independent of frame width.
+ const area=tmp_area;area[0]=0;area[1]=top;area[2]=width;area[3]=height;
+ for(const key in node.strokeStyles){const style=node.strokeStyles[key].call(node);if(style)strokeShape(ctx,area,{shape:RenderShape.ROUND,round_radius:8,title_height:titleHeight,title_mode:TitleMode.NORMAL_TITLE,collapsed:node.collapsed,...style});}
+ node.drawProgressBar(ctx);
+ if(node.execute_triggered>0)node.execute_triggered--;
+ if(node.action_triggered>0)node.action_triggered--;
+ ctx.globalAlpha=alpha;
+}
+//#endregion
 //#region src/lib/litegraph/src/LGraphCanvas.ts
 var cursors = {
 	NE: "nesw-resize",
@@ -26780,7 +26939,10 @@ var LGraphCanvas = class LGraphCanvas {
 		this.ds = new DragAndScale(canvas);
 		this.pointer = new CanvasPointer(canvas);
 		this.ds.onChanged = (scale, _offset) => {
-			if (this._lowQualityZoomThreshold > 0) this._isLowQuality = scale < this._lowQualityZoomThreshold;
+			if (this._lowQualityZoomThreshold > 0) {
+                const threshold=this._lowQualityZoomThreshold;
+                this._isLowQuality=this._isLowQuality ? scale < threshold*1.03 : scale < threshold*.97;
+            }
 			this.setDirty(true, true);
 		};
 		this.linkRenderer = new LitegraphLinkAdapter(false);
@@ -26894,7 +27056,7 @@ var LGraphCanvas = class LGraphCanvas {
 			const { font } = ctx;
 			try {
 				ctx.font = fontStyle;
-				return ctx.measureText(text).width;
+				return cachedMeasureText(ctx,text);
 			} finally {
 				ctx.font = font;
 			}
@@ -27341,6 +27503,7 @@ var LGraphCanvas = class LGraphCanvas {
 		this.onClear?.();
 	}
 	resetTransientState() {
+		window.__comfierDeviceInput?.overlaySelectionChanged?.(this);
 		this.frame = 0;
 		this.last_draw_time = 0;
 		this.render_time = 0;
@@ -27453,7 +27616,7 @@ var LGraphCanvas = class LGraphCanvas {
 			configurable: true,
 			enumerable: false
 		});
-		this.bgcanvas = document.createElement("canvas");
+		this.bgcanvas = graphDecorationsEnabled() || this.viewport ? document.createElement("canvas") : element;
 		this.bgcanvas.width = this.canvas.width;
 		this.bgcanvas.height = this.canvas.height;
 		this.dpr = readBrowserDpr();
@@ -27463,6 +27626,7 @@ var LGraphCanvas = class LGraphCanvas {
 			throw "This browser doesn't support Canvas";
 		}
 		this.ctx = ctx;
+        this.bgctx = this.bgcanvas === element ? ctx : void 0;
 		if (!skip_events) this.bindEvents();
 	}
 	/** Captures an event and prevents default - returns false. */
@@ -27695,14 +27859,7 @@ var LGraphCanvas = class LGraphCanvas {
 		const y = e.clientY;
 		this.ds.viewport = this.viewport;
 		if (!(!this.viewport || isInRect(x, y, this.viewport))) return;
-		let node = window.__comfierDeviceInput?.vuePointerNode?.(this, e) ?? graph.getNodeOnPos(e.canvasX, e.canvasY, this.visible_nodes) ?? void 0;
-		if (!node && LiteGraph.vueNodesMode) {
-			const slotLayout = getSlotLayoutAtPoint(graph, {
-				x: e.canvasX,
-				y: e.canvasY
-			});
-			if (slotLayout) node = graph.getNodeById(slotLayout.nodeId) ?? void 0;
-		}
+		let node = graph.getNodeOnPos(e.canvasX, e.canvasY, this.visible_nodes) ?? void 0;
 		this.mouse[0] = x;
 		this.mouse[1] = y;
 		this.graph_mouse[0] = e.canvasX;
@@ -27768,7 +27925,7 @@ var LGraphCanvas = class LGraphCanvas {
 			this.processSelectOnlyPrimaryButton(e, node);
 			return;
 		}
-		if (!LiteGraph.vueNodesMode && LiteGraph.alt_drag_do_clone_nodes && e.altKey && !e.ctrlKey && node && this.allow_interaction) {
+		if ((LiteGraph.alt_drag_do_clone_nodes) && e.altKey && !e.ctrlKey && node && this.allow_interaction) {
 			const cloned = this._deserializeItems(this._serializeItems([node]), { position: node.pos })?.created[0];
 			if (!cloned) return;
 			cloned.setPos(cloned.pos[0] + 5, cloned.pos[1] + 5);
@@ -27939,18 +28096,7 @@ var LGraphCanvas = class LGraphCanvas {
 	* @param node The node to process a click event for
 	*/
 	_processNodeClick(e, ctrlOrMeta, node) {
-		if (LiteGraph.vueNodesMode) {
-			if (window.__comfierDeviceInput && !window.__comfierDeviceInput.allowBodyDrag()) {
-				this.pointer.onClick = (upEvent) => {
-					if (window.__comfierDeviceInput.ownsSelection(upEvent)) return;
-					if (!window.__comfierDeviceInput.selectVueNode?.(this, node, upEvent, false)) this.processSelect(node, upEvent);
-				};
-				this.pointer.onDragStart = () => this.dragging_canvas = true;
-				this.pointer.finally = () => this.dragging_canvas = false;
-				if (node instanceof SubgraphNode && window.__comfierDeviceInput.allowSubgraphEntry?.()) this.pointer.onDoubleClick = () => this.openSubgraph(node.subgraph, node);
-			}
-			return;
-		}
+
 		const { pointer, graph, linkConnector } = this;
 		if (!graph) throw new NullGraphError();
 		const x = e.canvasX;
@@ -28273,7 +28419,7 @@ var LGraphCanvas = class LGraphCanvas {
 		}
 		const firstLink = linkConnector.renderLinks.at(0);
 		const isSubgraphIOLink = linkConnector.isConnecting && firstLink?.isIoNodeLink;
-		const node = LiteGraph.vueNodesMode && !isSubgraphIOLink ? null : hoveredBadge !== void 0 ? nodeAtPoint : graph.getNodeOnPos(x, y, this.visible_nodes);
+		const node = (hoveredBadge !== void 0 ? nodeAtPoint : graph.getNodeOnPos(x, y, this.visible_nodes));
 		const dragRect = this.dragging_rectangle;
 		if (dragRect) {
 			dragRect[2] = x - dragRect[0];
@@ -28298,23 +28444,7 @@ var LGraphCanvas = class LGraphCanvas {
 				const pos = [0, 0];
 				let inputId = -1;
 				let outputId = -1;
-				if (LiteGraph.vueNodesMode) {
-					const slotLayout = getSlotLayoutAtPoint(graph, {
-						x,
-						y
-					}, node);
-					if (slotLayout) {
-						if (slotLayout.type === "input") {
-							inputId = slotLayout.index;
-							pos[0] = slotLayout.position.x;
-							pos[1] = slotLayout.position.y;
-						} else {
-							outputId = slotLayout.index;
-							pos[0] = slotLayout.position.x;
-							pos[1] = slotLayout.position.y;
-						}
-					}
-				} else {
+				{
 					inputId = isOverNodeInput(node, x, y, pos);
 					outputId = isOverNodeOutput(node, x, y, pos);
 				}
@@ -28344,10 +28474,7 @@ var LGraphCanvas = class LGraphCanvas {
 								const slot = node.getSlotFromWidget(overWidget);
 								if (slot && linkConnector.isInputValidDrop(node, slot)) {
 									highlightInput = slot;
-									if (LiteGraph.vueNodesMode) {
-										const idx = node.inputs.indexOf(slot);
-										highlightPos = idx !== -1 ? getSlotPosition(node, idx, true) : node.getInputSlotPos(slot);
-									} else highlightPos = node.getInputSlotPos(slot);
+									highlightPos = node.getInputSlotPos(slot);
 									linkConnector.overWidget = overWidget;
 								}
 							}
@@ -28356,7 +28483,7 @@ var LGraphCanvas = class LGraphCanvas {
 									const result = node.findInputByType(firstLink.fromSlot.type);
 									if (result) {
 										highlightInput = result.slot;
-										highlightPos = LiteGraph.vueNodesMode ? getSlotPosition(node, result.index, true) : node.getInputSlotPos(result.slot);
+										highlightPos = (node.getInputSlotPos(result.slot));
 									}
 								} else if (inputId != -1 && node.inputs[inputId] && LiteGraph.isValidConnection(firstLink.fromSlot.type, node.inputs[inputId].type)) {
 									highlightPos = pos;
@@ -28365,10 +28492,10 @@ var LGraphCanvas = class LGraphCanvas {
 									const result = node.findInputByType(firstLink.fromSlot.type);
 									if (result && result.slot.link == null) {
 										highlightInput = result.slot;
-										highlightPos = LiteGraph.vueNodesMode ? getSlotPosition(node, result.index, true) : node.getInputSlotPos(result.slot);
+										highlightPos = (node.getInputSlotPos(result.slot));
 									}
 								}
-								if (highlightInput && !LiteGraph.vueNodesMode) {
+								if ((highlightInput)) {
 									const widget = node.getWidgetFromSlot(highlightInput);
 									if (widget) linkConnector.overWidget = widget;
 								}
@@ -28376,7 +28503,7 @@ var LGraphCanvas = class LGraphCanvas {
 						} else if (linkConnector.state.connectingTo === "output") {
 							if (inputId === -1 && outputId === -1) {
 								const result = node.findOutputByType(firstLink.fromSlot.type);
-								if (result) highlightPos = LiteGraph.vueNodesMode ? getSlotPosition(node, result.index, false) : node.getOutputPos(result.index);
+								if (result) highlightPos = (node.getOutputPos(result.index));
 							} else if (outputId != -1 && node.outputs[outputId] && LiteGraph.isValidConnection(firstLink.fromSlot.type, node.outputs[outputId].type)) highlightPos = pos;
 						}
 						this._highlight_pos = highlightPos;
@@ -29144,6 +29271,8 @@ var LGraphCanvas = class LGraphCanvas {
 	setGraphVisible(visible) {
 		if (this.graphVisible === visible) return;
 		this.graphVisible = visible;
+		window.__comfierDeviceInput?.overlaySelectionChanged?.(this);
+        if(!visible && graphPerformanceCapture?.canvas===this)graphPerformance.stop('Graph hidden');
 		if (!visible) {
 			this.resumeAfterAppMode = !!this.is_rendering;
 			this.stopRendering();
@@ -29151,7 +29280,6 @@ var LGraphCanvas = class LGraphCanvas {
 			this.setDirty(true, true);
 			if (this.resumeAfterAppMode) this.startRendering();
 			this.resumeAfterAppMode = false;
-			window.__comfierDeviceInput?.refresh();
 		}
 	}
 	adjustMouseEvent(e) {
@@ -29239,6 +29367,8 @@ var LGraphCanvas = class LGraphCanvas {
 	* renders the whole canvas content, by rendering in two separated canvas, one containing the background grid and the connections, and one containing the nodes)
 	*/
 	draw(force_canvas, force_bgcanvas) {
+        const perfFrame=graphPerformanceCapture?beginGraphPerformanceFrame(this):null;
+        try {
 		if (!this.graphVisible) return;
 		if (this.canvas.width == 0 || this.canvas.height == 0) return;
 		const now = LiteGraph.getTime();
@@ -29274,16 +29404,21 @@ var LGraphCanvas = class LGraphCanvas {
 		}
 		if (this.dirty_canvas || force_canvas) {
 			this.drawFrontCanvas(nodesForFrontPass, graphForFrontPass);
-			window.__comfierDeviceInput?.refresh();
 		}
 		this.fps = this.render_time ? 1 / this.render_time : 0;
 		this.frame++;
+        } catch(error){if(perfFrame)perfFrame.failed=true;throw error;}
+        finally {if(perfFrame)endGraphPerformanceFrame(this,perfFrame);}
 	}
 	/**
 	* draws the front canvas (the one containing all the nodes)
 	*/
 	drawFrontCanvas(nodesInFrameOrder, nodesGraph = this.graph) {
-		clearTextMeasureCache();
+        const perfFrame=graphPerformanceCapture?.current;
+        const detailFrame=perfFrame?.detailed?perfFrame:null;
+        const perfStart=perfFrame?graphPerfStamp(perfFrame):0;
+        if(perfFrame)perfFrame.foregroundPaints++;
+        try {
 		this.dirty_canvas = false;
 		const { ctx, canvas } = this;
 		if ("start2D" in ctx && typeof ctx.start2D === "function" && !this.viewport) {
@@ -29299,7 +29434,7 @@ var LGraphCanvas = class LGraphCanvas {
 			ctx.clip();
 		}
 		this._snapToGrid = this._shiftDown || LiteGraph.alwaysSnapToGrid ? this.graph?.getSnapToGridSize() : void 0;
-		if (this.clear_background) {
+		if (this.clear_background && this.bgcanvas !== this.canvas) {
 			if (area) ctx.clearRect(area[0], area[1], area[2], area[3]);
 			else ctx.clearRect(0, 0, canvas.width, canvas.height);
 		}
@@ -29308,10 +29443,20 @@ var LGraphCanvas = class LGraphCanvas {
 			this.drawBackCanvas(false, nodesInFrameOrder, nodesGraph);
 		} else {
 			const { dpr } = this;
-			ctx.drawImage(this.bgcanvas, 0, 0, this.bgcanvas.width / dpr, this.bgcanvas.height / dpr);
+			{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'backgroundCopy'):0;
+ try {
+ctx.drawImage(this.bgcanvas, 0, 0, this.bgcanvas.width / dpr, this.bgcanvas.height / dpr);
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'backgroundCopy',detailStart);}
+}
 		}
 		const graphAfterBackground = this.graph;
-		this.onRender?.(canvas, ctx);
+		{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'canvasOnRender'):0;
+ try {
+this.onRender?.(canvas, ctx);
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'canvasOnRender',detailStart);}
+}
 		const graphForContent = this.graph === graphAfterBackground ? graphAfterBackground : null;
 		if (graphAfterBackground !== nodesGraph && graphForContent) {
 			nodesInFrameOrder = nodesInRenderOrder(graphForContent);
@@ -29328,27 +29473,46 @@ var LGraphCanvas = class LGraphCanvas {
 			this.ds.toCanvasContext(ctx);
 			const { visible_nodes, selectedItems } = this;
 			const drawSnapGuides = this._snapToGrid && (this.isDragging || layoutStore.isDraggingVueNodes.value);
+            const nodesPerfStart=perfFrame?graphPerfStamp(perfFrame):0;
+            try {
 			for (const node of visible_nodes) {
+                if(detailFrame)detailFrame.operations.nodePasses++;
 				ctx.save();
 				if (drawSnapGuides && selectedItems.has(node)) this.drawSnapGuide(ctx, node);
 				ctx.translate(node.pos[0], node.pos[1]);
 				this.drawNode(node, ctx);
 				ctx.restore();
 			}
+            } finally {if(perfFrame)perfFrame.phases.nodes+=graphPerfStamp(perfFrame)-nodesPerfStart;}
+{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'foregroundExtras'):0;
+ try {
 			this.subgraph?.draw(ctx, this.colourGetter, this.linkConnector.renderLinks[0]?.fromSlot, this.editor_alpha);
 			if (this.render_execution_order) this.drawExecutionOrder(ctx);
 			if (graphForContent.config.links_ontop) {
 				nodesInFrameOrder ??= nodesInRenderOrder(graphForContent);
 				this.drawConnections(ctx, nodesInFrameOrder, graphForContent);
 			}
-			if (!LiteGraph.vueNodesMode || !this.overlayCtx) this._drawConnectingLinks(ctx);
-			else this._drawOverlayLinks();
+			this._drawConnectingLinks(ctx);
 			this._drawLinkTooltip(ctx);
-			this.onDrawForeground?.(ctx, this.visible_area);
+			
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'foregroundExtras',detailStart);}
+}{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'canvasForegroundHook'):0;
+ try {
+this.onDrawForeground?.(ctx, this.visible_area);
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'canvasForegroundHook',detailStart);}
+}
 			ctx.restore();
 		}
-		this.onDrawOverlay?.(ctx);
+		{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'canvasOverlayHook'):0;
+ try {
+this.onDrawOverlay?.(ctx);
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'canvasOverlayHook',detailStart);}
+}
 		if (area) ctx.restore();
+        } finally {if(perfFrame)perfFrame.phases.foreground+=graphPerfStamp(perfFrame)-perfStart;}
 	}
 	_getLinkCentreOnPos(e) {
 		if (this.linkMarkerShape === LinkMarkerShape.None) return;
@@ -29367,7 +29531,7 @@ var LGraphCanvas = class LGraphCanvas {
 			const { fromSlot, fromPos: pos, fromDirection, dragDirection } = renderLink;
 			const connShape = fromSlot.shape;
 			const connType = fromSlot.type;
-			const colour = resolveConnectingLinkColor(connType);
+			const colour = fromSlot.renderingColor?.(this.colourGetter) || resolveConnectingLinkColor(connType);
 			if (this.linkRenderer) this.linkRenderer.renderDraggingLink(ctx, pos, highlightPos, colour, fromDirection, dragDirection, {
 				...this.buildLinkRenderContext(),
 				linkMarkerShape: LinkMarkerShape.None
@@ -29509,6 +29673,11 @@ var LGraphCanvas = class LGraphCanvas {
 	* draws the back canvas (the one containing the background and the connections)
 	*/
 	drawBackCanvas(redrawFrontCanvas = true, nodesInFrameOrder, nodesGraph = this.graph) {
+        const perfFrame=graphPerformanceCapture?.current;
+        const detailFrame=perfFrame?.detailed?perfFrame:null;
+        const perfStart=perfFrame?graphPerfStamp(perfFrame):0;
+        if(perfFrame)perfFrame.backgroundPaints++;
+        try {
 		const canvas = this.bgcanvas;
 		if (canvas.width != this.canvas.width || canvas.height != this.canvas.height) {
 			canvas.width = this.canvas.width;
@@ -29517,6 +29686,10 @@ var LGraphCanvas = class LGraphCanvas {
 		if (!this.bgctx) this.bgctx = this.bgcanvas.getContext("2d");
 		const ctx = this.bgctx;
 		if (!ctx) throw new TypeError("Background canvas context was null.");
+        const sharedSurface=canvas===this.canvas;
+        let sharedGraphSave=false;
+        if(sharedSurface)ctx.save();
+        try {
 		this.dirty_bgcanvas = false;
 		const viewport = this.viewport || [
 			0,
@@ -29525,17 +29698,24 @@ var LGraphCanvas = class LGraphCanvas {
 			ctx.canvas.height
 		];
 		if (this.clear_background) ctx.clearRect(viewport[0], viewport[1], viewport[2], viewport[3]);
-		const bg_already_painted = this.onRenderBackground ? this.onRenderBackground(canvas, ctx) : false;
+		let bg_already_painted;
+{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'canvasRenderBackground'):0;
+ try {
+bg_already_painted = this.onRenderBackground ? this.onRenderBackground(canvas, ctx) : false;
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'canvasRenderBackground',detailStart);}
+}
 		if (!this.viewport) {
 			const { dpr } = this;
-			ctx.restore();
+			if(!sharedSurface)ctx.restore();
 			ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 		}
 		if (this.graph) {
 			ctx.save();
+            sharedGraphSave=sharedSurface;
 			this.ds.toCanvasContext(ctx);
 			if (this.ds.scale < 1.5 && !bg_already_painted && this.clear_background_color) {
-				ctx.fillStyle = this.clear_background_color === "transparent" ? "transparent" : nodeAppearance.color(null, "canvasBg") || this.clear_background_color;
+				ctx.fillStyle = this.clear_background_color;
 				ctx.fillRect(this.visible_area[0], this.visible_area[1], this.visible_area[2], this.visible_area[3]);
 			}
 			if (this.background_image && this.ds.scale > .5 && !bg_already_painted) {
@@ -29570,12 +29750,17 @@ var LGraphCanvas = class LGraphCanvas {
 				ctx.fillStyle = "transparent";
 			}
 			if (this.graph._groups.length) this.drawGroups(canvas, ctx);
-			this.onDrawBackground?.(ctx, this.visible_area);
-			if (this.render_canvas_border) {
+			{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'canvasBackgroundHook'):0;
+ try {
+this.onDrawBackground?.(ctx, this.visible_area);
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'canvasBackgroundHook',detailStart);}
+}
+			if (graphDecorationsEnabled() && this.render_canvas_border) {
 				ctx.strokeStyle = "#235";
 				ctx.strokeRect(0, 0, canvas.width, canvas.height);
 			}
-			if (this.render_connections_shadows) {
+			if (graphDecorationsEnabled() && this.render_connections_shadows) {
 				ctx.shadowColor = "#000";
 				ctx.shadowOffsetX = 0;
 				ctx.shadowOffsetY = 0;
@@ -29584,30 +29769,35 @@ var LGraphCanvas = class LGraphCanvas {
 			this.drawConnections(ctx, nodesInFrameOrder, nodesGraph);
 			ctx.shadowColor = "rgba(0,0,0,0)";
 			ctx.restore();
+            sharedGraphSave=false;
 		}
 		if (redrawFrontCanvas) this.dirty_canvas = true;
+        } finally {if(sharedSurface){if(sharedGraphSave)ctx.restore();ctx.restore();}}
+        } finally {if(perfFrame)perfFrame.phases.background+=graphPerfStamp(perfFrame)-perfStart;}
 	}
 	/**
 	* draws the given node inside the canvas
 	*/
 	drawNode(node, ctx) {
+		const detailFrame=graphPerformanceCapture?.current?.detailed?graphPerformanceCapture.current:null;
 		this.current_node = node;
-		if (LiteGraph.vueNodesMode) {
-			node._setConcreteSlots();
-			if (!node.collapsed) node.arrange();
-			return;
-		}
+
 		const color = node.renderingColor;
 		const bgcolor = node.mode === 4 ? node.renderingBgColor : node.renderingBgColor;
 		ctx.globalAlpha = this.getNodeModeAlpha(node);
-		if (this.render_shadows && !this.low_quality) {
+		if (graphDecorationsEnabled() && this.render_shadows && !this.low_quality) {
 			ctx.shadowColor = LiteGraph.DEFAULT_SHADOW_COLOR;
 			ctx.shadowOffsetX = 2 * this.ds.scale;
 			ctx.shadowOffsetY = 2 * this.ds.scale;
 			ctx.shadowBlur = 3 * this.ds.scale;
 		} else ctx.shadowColor = "transparent";
-		if (node.flags.collapsed && node.onDrawCollapsed?.(ctx, this) == true) return;
-		const shape = node.renderingShape;
+		{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'nodeCollapsedHook'):0;
+ try {
+if (node.flags.collapsed && node.onDrawCollapsed?.(ctx, this) == true) return;
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'nodeCollapsedHook',detailStart);}
+}
+		const shape = (RenderShape.CARD);
 		const size = temp_vec2;
 		size[0] = node.renderingSize[0];
 		size[1] = node.renderingSize[1];
@@ -29625,7 +29815,15 @@ var LGraphCanvas = class LGraphCanvas {
 			else if (shape == RenderShape.CIRCLE) ctx.arc(size[0] * .5, size[1] * .5, size[0] * .5, 0, Math.PI * 2);
 			ctx.clip();
 		}
-		this.drawNodeShape(node, ctx, size, color, bgcolor, node.selected);
+		{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'nodeShape'):0;
+ try {
+this.drawNodeShape(node, ctx, size, color, bgcolor, node.selected);
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'nodeShape',detailStart);}
+}
+{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'nodeChrome'):0;
+ try {
 		if (!node.flags.collapsed) {
 			const title_height = LiteGraph.NODE_TITLE_HEIGHT;
 			let current_x = size[0];
@@ -29640,24 +29838,50 @@ var LGraphCanvas = class LGraphCanvas {
 			}
 		}
 		if (!this.low_quality) node.drawBadges(ctx);
-		ctx.shadowColor = "transparent";
+
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'nodeChrome',detailStart);}
+}		ctx.shadowColor = "transparent";
 		ctx.strokeStyle = LiteGraph.NODE_BOX_OUTLINE_COLOR;
-		node.onDrawForeground?.(ctx, this, this.canvas);
+		{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'nodeForegroundHook'):0;
+ try {
+node.onDrawForeground?.(ctx, this, this.canvas);
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'nodeForegroundHook',detailStart);}
+}
 		ctx.font = this.inner_text_font;
-		node._setConcreteSlots();
+		{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'slotPreparation'):0;
+ try {
+node._setConcreteSlots();
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'slotPreparation',detailStart);}
+}
 		if (!node.collapsed) {
 			node.arrange();
+{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'nodeSlots'):0;
+ try {
 			node.drawSlots(ctx, {
 				fromSlot: this.linkConnector.renderLinks[0]?.fromSlot,
 				colorContext: this.colourGetter,
 				editorAlpha: this.editor_alpha,
 				lowQuality: this.low_quality
 			});
-			window.__comfierDeviceInput?.drawSockets(node, ctx);
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'nodeSlots',detailStart);}
+}
 			ctx.textAlign = "left";
 			ctx.globalAlpha = 1;
-			this.drawNodeWidgets(node, null, ctx);
-		} else if (this.render_collapsed_slots) node.drawCollapsedSlots(ctx);
+			{
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'nodeWidgets'):0;
+ try {
+this.drawNodeWidgets(node, null, ctx);
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'nodeWidgets',detailStart);}
+}
+		} else if (this.render_collapsed_slots) {
+ const detailStart=detailFrame?beginGraphPerfDetail(detailFrame,'nodeSlots'):0;
+ try {
+node.drawCollapsedSlots(ctx,this.colourGetter);
+ } finally {if(detailFrame)endGraphPerfDetail(detailFrame,'nodeSlots',detailStart);}
+}
 		if (node.clip_area) ctx.restore();
 		ctx.globalAlpha = 1;
 	}
@@ -29723,67 +29947,7 @@ var LGraphCanvas = class LGraphCanvas {
 	* @param _selected Whether to render the node as selected.  Likely to be removed in future, as current usage is simply the selected property of the node.
 	*/
 	drawNodeShape(node, ctx, size, fgcolor, bgcolor, _selected) {
-		ctx.strokeStyle = fgcolor;
-		ctx.fillStyle = bgcolor;
-		const title_height = LiteGraph.NODE_TITLE_HEIGHT;
-		const { low_quality } = this;
-		const { collapsed } = node.flags;
-		const shape = node.renderingShape;
-		const { title_mode } = node;
-		const render_title = title_mode == TitleMode.TRANSPARENT_TITLE || title_mode == TitleMode.NO_TITLE ? false : true;
-		const area = tmp_area;
-		area.set(node.boundingRect);
-		area[0] -= node.pos[0];
-		area[1] -= node.pos[1];
-		const old_alpha = ctx.globalAlpha;
-		ctx.beginPath();
-		if (shape == RenderShape.BOX || low_quality) ctx.rect(area[0], area[1], area[2], area[3]);
-		else if (shape == RenderShape.ROUND || shape == RenderShape.CARD) ctx.roundRect(area[0], area[1], area[2], area[3], shape == RenderShape.CARD ? [
-			LiteGraph.ROUND_RADIUS,
-			LiteGraph.ROUND_RADIUS,
-			0,
-			0
-		] : [LiteGraph.ROUND_RADIUS]);
-		else if (shape == RenderShape.CIRCLE) ctx.arc(size[0] * .5, size[1] * .5, size[0] * .5, 0, Math.PI * 2);
-		ctx.fill();
-		if (!collapsed && render_title) {
-			ctx.shadowColor = "transparent";
-			ctx.fillStyle = "rgba(0,0,0,0.2)";
-			ctx.fillRect(0, -1, area[2], 2);
-		}
-		ctx.shadowColor = "transparent";
-		node.onDrawBackground?.(ctx);
-		if (render_title || title_mode == TitleMode.TRANSPARENT_TITLE) {
-			node.drawTitleBarBackground(ctx, {
-				scale: this.ds.scale,
-				low_quality
-			});
-			node.drawTitleBox(ctx, {
-				scale: this.ds.scale,
-				low_quality,
-				box_size: 10
-			});
-			ctx.globalAlpha = old_alpha;
-			node.drawTitleText(ctx, {
-				scale: this.ds.scale,
-				default_title_color: this.node_title_color,
-				low_quality
-			});
-			node.onDrawTitle?.(ctx);
-		}
-		for (const getStyle of Object.values(node.strokeStyles)) {
-			const strokeStyle = getStyle.call(node);
-			if (strokeStyle) strokeShape(ctx, area, {
-				shape,
-				title_height,
-				title_mode,
-				collapsed,
-				...strokeStyle
-			});
-		}
-		node.drawProgressBar(ctx);
-		if (node.execute_triggered != null && node.execute_triggered > 0) node.execute_triggered--;
-		if (node.action_triggered != null && node.action_triggered > 0) node.action_triggered--;
+        return drawNodes3Frame(this,node,ctx,size,fgcolor,bgcolor);
 	}
 	/**
 	* Draws a snap guide for a {@link Positionable} item.
@@ -29825,6 +29989,12 @@ var LGraphCanvas = class LGraphCanvas {
 		ctx.globalAlpha = globalAlpha;
 	}
 	drawConnections(ctx, nodesInFrameOrder, nodesGraph = this.graph) {
+        const perfFrame=graphPerformanceCapture?.current;
+        const perfStart=perfFrame?graphPerfStamp(perfFrame):0;
+        try {
+        const previousContext=this._connectionRenderContext;
+        this._connectionRenderContext=this.buildLinkRenderContext();
+        try {
 		this.renderedPaths.clear();
 		clearLinkBadgeHitAreas(this);
 		if (this.links_render_mode === LinkRenderType.HIDDEN_LINK) return;
@@ -29851,23 +30021,23 @@ var LGraphCanvas = class LGraphCanvas {
 		}
 		const hiddenLinkLayouts = layoutGraphLinkBadges(this, ctx, graph, LGraphCanvas.link_type_colors, this.default_link_color);
 		const renderedRerouteSegments = /* @__PURE__ */ new Set();
-		const renderConnection = (link, startPos, endPos, startDirection, endDirection) => {
+		const renderConnection = (link, startPos, endPos, startDirection, endDirection, paletteType) => {
 			const hiddenLayout = hiddenLinkLayouts.get(link.id);
 			if (hiddenLayout && !isLinkRevealed(graphScope.rootGraphId, link.id)) return;
-			this._renderAllLinkSegments(ctx, link, hiddenLayout?.outputTip ?? startPos, hiddenLayout?.inputTip ?? endPos, visibleReroutes, renderedRerouteSegments, now, startDirection, endDirection, false, hiddenLayout !== void 0);
+			this._renderAllLinkSegments(ctx, link, hiddenLayout?.outputTip ?? startPos, hiddenLayout?.inputTip ?? endPos, visibleReroutes, renderedRerouteSegments, now, startDirection, endDirection, false, hiddenLayout !== void 0, paletteType);
 		};
 		for (const node of nodes) for (const [inputSlot, input] of node.inputs.entries()) {
 			const topology = linkStore.getInputSlotLink(graphScope, node.id, inputSlot);
 			const link = topology ? graph.getLink(topology.id) : void 0;
 			if (!link) continue;
-			const endPos = LiteGraph.vueNodesMode ? getSlotPosition(node, inputSlot, true) : node.getInputPos(inputSlot);
+			const endPos = (node.getInputPos(inputSlot));
 			const start_node = graph.getNodeById(link.origin_id);
 			if (start_node == null) continue;
 			const outputId = link.origin_slot;
-			const startPos = outputId === -1 ? [start_node.pos[0] + 10, start_node.pos[1] + 10] : LiteGraph.vueNodesMode ? getSlotPosition(start_node, outputId, false) : start_node.getOutputPos(outputId);
+			const startPos = outputId === -1 ? [start_node.pos[0] + 10, start_node.pos[1] + 10] : (start_node.getOutputPos(outputId));
 			const output = outputId === -1 ? void 0 : start_node.outputs[outputId];
 			if (!output) continue;
-			renderConnection(link, startPos, endPos, output.dir, input.dir);
+			renderConnection(link, startPos, endPos, output.dir, input.dir, input.paletteType || output.paletteType);
 		}
 		if (subgraph) {
 			for (const output of subgraph.inputNode.slots) {
@@ -29877,8 +30047,8 @@ var LGraphCanvas = class LGraphCanvas {
 					if (!resolved) continue;
 					const { link, inputNode, input } = resolved;
 					if (!inputNode || !input) continue;
-					const endPos = LiteGraph.vueNodesMode ? getSlotPosition(inputNode, link.target_slot, true) : inputNode.getInputPos(link.target_slot);
-					renderConnection(link, output.pos, endPos, input.dir, input.dir);
+					const endPos = (inputNode.getInputPos(link.target_slot));
+					renderConnection(link, output.pos, endPos, input.dir, input.dir, input.paletteType || output.paletteType);
 				}
 			}
 			for (const input of subgraph.outputNode.slots) {
@@ -29887,7 +30057,7 @@ var LGraphCanvas = class LGraphCanvas {
 				if (!resolved) continue;
 				const { link, outputNode, output } = resolved;
 				if (!outputNode || !output) continue;
-				renderConnection(link, LiteGraph.vueNodesMode ? getSlotPosition(outputNode, link.origin_slot, false) : outputNode.getOutputPos(link.origin_slot), input.pos, output.dir, input.dir);
+				renderConnection(link, (outputNode.getOutputPos(link.origin_slot)), input.pos, output.dir, input.dir, input.paletteType || output.paletteType);
 			}
 		}
 		if (graph.floatingLinks.size > 0) this._renderFloatingLinks(ctx, graph, visibleReroutes, renderedRerouteSegments, now);
@@ -29920,7 +30090,11 @@ var LGraphCanvas = class LGraphCanvas {
 		});
 		for (const layout of hiddenLinkLayouts.values()) drawHiddenLinkBadges(ctx, layout, margin_area);
 		ctx.globalAlpha = 1;
-	}
+	
+        } finally { this._connectionRenderContext=previousContext; }
+        } finally {if(perfFrame)perfFrame.phases.connections+=graphPerfStamp(perfFrame)-perfStart;}
+    }
+
 	getNodeModeAlpha(node) {
 		if (node.flags.ghost) return .3;
 		return node.mode === LGraphEventMode.BYPASS ? .2 : node.mode === LGraphEventMode.NEVER ? .4 : this.editor_alpha;
@@ -29937,24 +30111,25 @@ var LGraphCanvas = class LGraphCanvas {
 				const node = graph.getNodeById(link.target_id);
 				if (!node) continue;
 				const startPos = firstReroute.pos;
-				const endPos = LiteGraph.vueNodesMode ? getSlotPosition(node, link.target_slot, true) : node.getInputPos(link.target_slot);
+				const endPos = (node.getInputPos(link.target_slot));
 				const endDirection = node.inputs[link.target_slot]?.dir;
 				firstReroute._dragging = true;
-				this._renderAllLinkSegments(ctx, link, startPos, endPos, visibleReroutes, renderedRerouteSegments, now, LinkDirection.CENTER, endDirection, true);
+				this._renderAllLinkSegments(ctx, link, startPos, endPos, visibleReroutes, renderedRerouteSegments, now, LinkDirection.CENTER, endDirection, true, false, node.inputs[link.target_slot]?.paletteType);
 			} else {
 				const node = graph.getNodeById(link.origin_id);
 				if (!node) continue;
-				const startPos = LiteGraph.vueNodesMode ? getSlotPosition(node, link.origin_slot, false) : node.getOutputPos(link.origin_slot);
+				const startPos = (node.getOutputPos(link.origin_slot));
 				const endPos = reroute.pos;
 				const startDirection = node.outputs[link.origin_slot]?.dir;
 				link._dragging = true;
-				this._renderAllLinkSegments(ctx, link, startPos, endPos, visibleReroutes, renderedRerouteSegments, now, startDirection, LinkDirection.CENTER, true);
+				this._renderAllLinkSegments(ctx, link, startPos, endPos, visibleReroutes, renderedRerouteSegments, now, startDirection, LinkDirection.CENTER, true, false, node.outputs[link.origin_slot]?.paletteType);
 			}
 		}
 		ctx.globalAlpha = globalAlpha;
 	}
-	_renderAllLinkSegments(ctx, link, startPos, endPos, visibleReroutes, renderedRerouteSegments, now, startDirection, endDirection, disabled = false, startsAtBadge = false) {
+	_renderAllLinkSegments(ctx, link, startPos, endPos, visibleReroutes, renderedRerouteSegments, now, startDirection, endDirection, disabled = false, startsAtBadge = false, paletteType = slotTypeKey(link.type)) {
 		const { graph, renderedPaths } = this;
+        const linkColor = link.color || LGraphCanvas.link_type_colors[paletteType] || null;
 		if (!graph) return;
 		const reroutes = LLink.getReroutes(graph, link);
 		const points = [
@@ -29982,11 +30157,11 @@ var LGraphCanvas = class LGraphCanvas {
 					if (!renderedPaths.has(reroute)) {
 						renderedPaths.add(reroute);
 						visibleReroutes.push(reroute);
-						reroute._colour = link.color || LGraphCanvas.link_type_colors[slotTypeKey(link.type)] || this.default_link_color;
+						reroute._colour = linkColor || this.default_link_color;
 					}
 					const rerouteStartPos = graph.getReroute(reroute.parentId)?.pos ?? startPos;
 					reroute.calculateAngle(this.last_draw_time, graph, rerouteStartPos);
-					if (!reroute._dragging) this.renderLink(ctx, rerouteStartPos, reroute.pos, link, false, 0, null, startControl === void 0 ? start_dir : LinkDirection.CENTER, LinkDirection.CENTER, {
+					if (!reroute._dragging) this.renderLink(ctx, rerouteStartPos, reroute.pos, link, false, 0, linkColor, startControl === void 0 ? start_dir : LinkDirection.CENTER, LinkDirection.CENTER, {
 						startControl,
 						endControl: reroute.controlPoint,
 						reroute: badgeEntry ? void 0 : reroute,
@@ -30002,11 +30177,11 @@ var LGraphCanvas = class LGraphCanvas {
 			}
 			if (link._dragging) return;
 			const segmentStartPos = points.at(-2) ?? startPos;
-			this.renderLink(ctx, segmentStartPos, endPos, link, false, 0, null, LinkDirection.CENTER, end_dir, {
+			this.renderLink(ctx, segmentStartPos, endPos, link, false, 0, linkColor, LinkDirection.CENTER, end_dir, {
 				startControl,
 				disabled
 			});
-		} else if (!link._dragging) this.renderLink(ctx, startPos, endPos, link, false, 0, null, start_dir, end_dir);
+		} else if (!link._dragging) this.renderLink(ctx, startPos, endPos, link, false, 0, linkColor, start_dir, end_dir);
 		renderedPaths.add(link);
 		if (link._last_time && now - link._last_time < 1e3) {
 			const f = 2 - (now - link._last_time) * .002;
@@ -30024,7 +30199,7 @@ var LGraphCanvas = class LGraphCanvas {
 		return {
 			renderMode: this.links_render_mode,
 			connectionWidth: this.connections_width,
-			renderBorder: this.render_connections_border,
+			renderBorder: graphDecorationsEnabled() && this.render_connections_border,
 			lowQuality: this.low_quality,
 			highQualityRender: this.highquality_render,
 			scale: this.ds.scale,
@@ -30050,7 +30225,7 @@ var LGraphCanvas = class LGraphCanvas {
 	*/
 	renderLink(ctx, a, b, link, skip_border, flow, color, start_dir, end_dir, { startControl, endControl, reroute, num_sublines = 1, disabled = false } = {}) {
 		if (this.linkRenderer) {
-			const context = this.buildLinkRenderContext();
+			const context = this._connectionRenderContext || this.buildLinkRenderContext();
 			this.linkRenderer.renderLinkDirect(ctx, a, b, link, skip_border, flow, color, start_dir, end_dir, context, {
 				reroute,
 				startControl,
@@ -30392,10 +30567,13 @@ var LGraphCanvas = class LGraphCanvas {
 						if (!node) return;
 						if (isFrom) {
 							if (!opts.nodeFrom) throw new TypeError("Cannot add node to SubgraphInputNode: nodeFrom was null");
-							if (!opts.nodeFrom.connectByType(iSlotConn, node, fromSlotType, { afterRerouteId })) console.warn("Failed to make new connection.");
+							const link = opts.nodeFrom.connectByType(iSlotConn, node, fromSlotType, { afterRerouteId });
+							if (link) node.placeNewSocketAt(true, link.target_slot, opts.e);
+							else console.warn("Failed to make new connection.");
 						} else {
 							if (!opts.nodeTo) throw new TypeError("Cannot add node to SubgraphInputNode: nodeTo was null");
-							opts.nodeTo.connectByTypeOutput(iSlotConn, node, fromSlotType, { afterRerouteId });
+							const link = opts.nodeTo.connectByTypeOutput(iSlotConn, node, fromSlotType, { afterRerouteId });
+							if (link) node.placeNewSocketAt(false, link.origin_slot, opts.e);
 						}
 					});
 					break;
@@ -34687,29 +34865,15 @@ var LiteGraphGlobal = class {
 	NODE_TEXT_COLOR = "#AAA";
 	NODE_TEXT_HIGHLIGHT_COLOR = "#EEE";
 	NODE_SUBTEXT_SIZE = 12;
-	nativeNodeDefaultColor = "#333";
-	get NODE_DEFAULT_COLOR() {
-		return this.nativeNodeDefaultColor;
-	}
-	set NODE_DEFAULT_COLOR(value) {
-		this.nativeNodeDefaultColor = value;
-	}
-	nativeNodeDefaultBgcolor = "#353535";
-	get NODE_DEFAULT_BGCOLOR() {
-		return this.nativeNodeDefaultBgcolor;
-	}
-	set NODE_DEFAULT_BGCOLOR(value) {
-		this.nativeNodeDefaultBgcolor = value;
-	}
+	NODE_DEFAULT_COLOR = "#333";
+	NODE_DEFAULT_BGCOLOR = "#353535";
 	NODE_DEFAULT_BOXCOLOR = "#666";
 	NODE_DEFAULT_SHAPE = RenderShape.ROUND;
-	nativeNodeBoxOutlineColor = "#FFF";
-	get NODE_BOX_OUTLINE_COLOR() {
-		return nodeAppearance.color(null, "icons") || this.nativeNodeBoxOutlineColor;
-	}
-	set NODE_BOX_OUTLINE_COLOR(value) {
-		this.nativeNodeBoxOutlineColor = value;
-	}
+	NODE_BOX_OUTLINE_COLOR = "#FFF";
+	get comfierNodes3() { return true; }
+    set comfierNodes3(_value) {}
+	COMFIER_NODE_FRAME_WIDTH = 2;
+	COMFIER_NODE_FRAME_COLOR = "#4e4e4e";
 	NODE_ERROR_COLOUR = "#E00";
 	NODE_FONT = "Inter";
 	NODE_DEFAULT_BYPASS_COLOR = "#FF00FF";
@@ -34966,9 +35130,13 @@ var LiteGraphGlobal = class {
 	* This should be set by the frontend when the Vue nodes feature is enabled.
 	* @default false
 	*/
-	vueNodesMode = false;
+	get vueNodesMode() { return false; }
+    set vueNodesMode(_value) {}
 	nodeOpacity = 1;
 	nodeLightness = void 0;
+	nodeBodyThemed = false;
+	nodeHeaderThemed = false;
+	nodeHeaderFontThemed = false;
 	LGraph = LGraph;
 	LLink = LLink;
 	LGraphNode = LGraphNode;
@@ -37674,7 +37842,7 @@ var BaseDOMWidgetImpl = class BaseDOMWidgetImpl extends LegacyWidget {
 		if (this.options.hideOnZoom && lowQuality && isVisible) {
 			const originalFillStyle = ctx.fillStyle;
 			ctx.beginPath();
-			ctx.fillStyle = LiteGraph.WIDGET_BGCOLOR;
+			ctx.fillStyle = isDOMWidget(this) && this.element.classList.contains('comfy-multiline-input') ? LiteGraph.NODE_TEXTAREA_BGCOLOR || LiteGraph.WIDGET_BGCOLOR : LiteGraph.WIDGET_BGCOLOR;
 			ctx.rect(this.margin, y + this.margin, widget_width - this.margin * 2, (this.computedHeight ?? widget_height) - 2 * this.margin);
 			ctx.fill();
 			ctx.fillStyle = originalFillStyle;
@@ -37718,10 +37886,11 @@ var DOMWidgetImpl = class extends BaseDOMWidgetImpl {
 			maxHeight: 0,
 			minWidth: 0
 		};
-		const styles = getComputedStyle(this.element);
-		let minHeight = this.options.getMinHeight?.() ?? parseInt(styles.getPropertyValue("--comfy-widget-min-height"));
-		const maxHeight = this.options.getMaxHeight?.() ?? parseInt(styles.getPropertyValue("--comfy-widget-max-height"));
-		const prefHeight = this.options.getHeight?.() ?? styles.getPropertyValue("--comfy-widget-height");
+		let styles;
+        const property=name=>(styles??=getComputedStyle(this.element)).getPropertyValue(name);
+		let minHeight = this.options.getMinHeight?.() ?? parseInt(property("--comfy-widget-min-height"));
+		const maxHeight = this.options.getMaxHeight?.() ?? parseInt(property("--comfy-widget-max-height"));
+		const prefHeight = this.options.getHeight?.() ?? property("--comfy-widget-height");
 		if (!(typeof prefHeight === "string" && prefHeight.endsWith("%")) && isNaN(minHeight)) minHeight = typeof prefHeight === "number" ? prefHeight : parseInt(prefHeight);
 		return {
 			minHeight: isNaN(minHeight) ? 50 : minHeight,
@@ -38745,15 +38914,7 @@ var useNodeOutputStore = defineStore("nodeOutput", () => {
 		app.nodeOutputs = {};
 		revokeAllPreviews();
 	}
-	function syncLegacyNodeImgs(nodeId, element, activeIndex = 0) {
-		if (!LiteGraph.vueNodesMode) return;
-		const node = resolveNode(nodeId);
-		if (!node) return;
-		node.imgs = [element];
-		node.imageIndex = activeIndex;
-		const outputs = getNodeOutputs(node);
-		if (outputs?.images) node.images = outputs.images;
-	}
+	function syncLegacyNodeImgs(_nodeId, _element, _activeIndex = 0) {}
 	return {
 		getNodeOutputs,
 		getNodeImageUrls,
@@ -40181,6 +40342,10 @@ var useWorkflowTemplateSelectorDialog = () => {
 		panels.remove("comfier-templates");
 	}
 	function show(source = "command", options) {
+		if (source === "command" && panels.isOpen("comfier-templates")) {
+			hide();
+			return;
+		}
 		useTelemetry()?.trackTemplateLibraryOpened({ source });
 		panels.templateCategory = options?.initialCategory ?? (newUserService.isNewUser() ? "popular" : "all");
 		panels.select("comfier-templates", panels.sideFor("comfier-templates"), options?.afterClose);
@@ -40750,6 +40915,8 @@ html body #comfier-apps-panel .comfier-lite-manage{width:100%;min-height:48px;fo
 
 
 html:root body #comfier-apps-panel#comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager,.comfier-lite-header,.comfier-lite-footer) button{font-family:system-ui,sans-serif!important;font-size:20px!important;font-weight:500!important;line-height:1.3!important;text-align:center!important;justify-content:center!important;background:var(--comfier-control-background,var(--comfier-button-bg,transparent))!important;background-image:none!important;color:var(--comfier-ui-font,#fff)!important;-webkit-text-fill-color:var(--comfier-ui-font,#fff)!important;border:1px solid var(--comfier-button-frame,#aaa)!important;border-radius:6px!important;box-shadow:none!important}
+html:root body #comfier-apps-panel#comfier-apps-panel,html:root body #comfier-apps-panel#comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager,fieldset,legend,input,select,textarea){background:transparent!important}
+html:root body #comfier-apps-panel#comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager) button{background:rgb(from var(--comfier-button-bg,transparent) r g b / calc(alpha * var(--comfier-panelBg-opacity,1)))!important}
 html:root body #comfier-apps-panel#comfier-apps-panel .comfier-lite-form button:is(.comfier-lite-generate,.comfier-lite-canvas){font-size:25px!important}
 html:root body #comfier-apps-panel#comfier-apps-panel :is(.comfier-lite-form,.comfier-lite-manager,.comfier-lite-header,.comfier-lite-footer) button :is(span,i,svg){color:inherit!important;-webkit-text-fill-color:inherit!important}
 
@@ -40855,83 +41022,58 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 				input.dataset.fitHeight = input.dataset.manualHeight;
 			}
 		});
-		const observer = new ResizeObserver(() => {
-			const width = input.getBoundingClientRect().width;
-			if (input.dataset.fitWidth !== String(width)) {
-				input.dataset.fitWidth = String(width);
-				fit();
-			}
-		});
-		observer.observe(input);
-		active?.promptObservers?.push(observer);
+		active?.promptFits?.push(fit);
 		requestAnimationFrame(fit);
 	}
 	async function field(binding, category, form, status, valid) {
 		const { widget } = binding, label = el("label"), caption = el("span", friendly(binding));
 		label.append(caption);
-		let input;
 		const opts = await values(widget);
 		if (!valid()) return;
-		if (category === "prompt") {
-			input = el("textarea");
-			input.value = String(widget.value ?? "");
-		} else if (Array.isArray(opts) && opts.length) {
-			input = el("select");
-			for (const option of opts) {
-				const o = el("option", String(option));
-				o.value = String(option);
-				input.append(o);
-			}
-			if (!opts.map(String).includes(String(widget.value))) {
-				const o = el("option", String(widget.value ?? ""));
-				o.value = String(widget.value ?? "");
-				input.append(o);
-			}
-			input.value = String(widget.value ?? "");
-		} else if (typeof widget.value === "boolean") {
-			input = el("input");
-			input.type = "checkbox";
-			input.checked = widget.value;
-		} else {
-			input = el("input");
-			const numeric = typeof widget.value === "number";
-			input.type = numeric ? "number" : "text";
-			input.value = String(widget.value ?? "");
-			if (numeric) {
-				input.step = Number.isFinite(widget.options?.step2) ? String(widget.options.step2) : Number.isFinite(widget.options?.step) ? String(widget.options.step / 10) : Number.isInteger(widget.value) ? "1" : "any";
-				if (Number.isFinite(widget.options?.min)) input.min = widget.options.min;
-				if (Number.isFinite(widget.options?.max)) input.max = Math.min(widget.options.max, Number.MAX_SAFE_INTEGER);
-			}
+		let input = null;
+		let choice = null;
+		let refreshSource = () => {};
+		function currentValue() { return choice ? choice.value : input.type === "checkbox" ? input.checked : input.value; }
+		function setValue(value) {
+			if (choice) choice.update({value: String(value)});
+			else if (input.type === "checkbox") input.checked = Boolean(value);
+			else input.value = String(value ?? "");
 		}
-		input.dataset.controlKey = binding.control.key;
-		input.setAttribute("aria-label", friendly(binding));
-		const update = (event) => {
+		function update(value, event) {
 			const numeric = typeof widget.value === "number";
-			const v = typeof widget.value === "boolean" ? input.type === "checkbox" ? input.checked : input.value === "true" : numeric ? Number(input.value) : input.value;
-			if (numeric && (input.value === "" || !Number.isFinite(v) || !input.checkValidity())) {
-				status.textContent = "Enter a valid " + widget.name;
-				return;
-			}
-			try {
-				markChanged(binding, v, event);
-				status.textContent = "";
-			} catch (e) {
-				status.textContent = e.message;
-			}
-		};
-		input.addEventListener(category === "prompt" ? "input" : "change", update);
-		if (input.tagName === "SELECT") {
-			const choice = createInlineSettingsChoice(input);
+			const next = typeof widget.value === "boolean" ? value === true || value === "true" : numeric ? Number(value) : value;
+			if (numeric && (value === "" || !Number.isFinite(next) || input && !input.checkValidity())) { status.textContent = "Enter a valid " + widget.name; return; }
+			try { markChanged(binding, next, event); status.textContent = ""; }
+			catch (error) { status.textContent = error.message; }
+			refreshSource();
+		}
+		if (category !== "prompt" && Array.isArray(opts) && opts.length) {
+			const options = opts.map(value => ({value: String(value), label: String(value)}));
+			if (!options.some(option => option.value === String(widget.value))) options.push({value: String(widget.value ?? ""), label: String(widget.value ?? "")});
+			choice = createInlineSettingsChoice({label: friendly(binding), options, value: String(widget.value ?? ""), onChange: update});
 			choice.element.classList.add("comfier-app-field-choice");
-			active.fieldChoices ||= [];
-			active.fieldChoices.push({choice, input});
 			label.append(choice.element);
-		} else label.append(input);
+		} else {
+			input = el(category === "prompt" ? "textarea" : "input");
+			if (category !== "prompt") {
+				input.type = typeof widget.value === "boolean" ? "checkbox" : typeof widget.value === "number" ? "number" : "text";
+				if (input.type === "number") {
+					input.step = Number.isFinite(widget.options?.step2) ? String(widget.options.step2) : Number.isFinite(widget.options?.step) ? String(widget.options.step / 10) : Number.isInteger(widget.value) ? "1" : "any";
+					if (Number.isFinite(widget.options?.min)) input.min = widget.options.min;
+					if (Number.isFinite(widget.options?.max)) input.max = Math.min(widget.options.max, Number.MAX_SAFE_INTEGER);
+				}
+			}
+			setValue(widget.value);
+			input.dataset.controlKey = binding.control.key;
+			input.setAttribute("aria-label", friendly(binding));
+			input.addEventListener(category === "prompt" ? "input" : "change", event => update(currentValue(), event));
+			label.append(input);
+		}
+		active.fields ||= new Map();
+		active.fields.set(binding.control.key, {setValue, remove: () => choice?.remove()});
 		if (category === "file") {
-			const previews = ["img", "video", "audio"].map((tag) => {
-				const view = el(tag);
-				view.className = "comfier-lite-source-image";
-				view.hidden = true;
+			const previews = ["img", "video", "audio"].map(tag => {
+				const view = el(tag); view.className = "comfier-lite-source-image"; view.hidden = true;
 				view.setAttribute("aria-label", "Source " + tag + " · " + friendly(binding));
 				if (tag === "img") view.alt = "Source image · " + friendly(binding);
 				else { view.controls = true; view.preload = "metadata"; }
@@ -40942,7 +41084,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 				view.addEventListener("error", () => { view.hidden = true; });
 				return view;
 			});
-			const refreshSource = () => {
+			refreshSource = () => {
 				const file = sourceMediaFile(widget.value);
 				for (const view of previews) {
 					view.hidden = true;
@@ -40951,67 +41093,47 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 					else view.removeAttribute("src");
 				}
 			};
-			input.addEventListener("change", refreshSource);
-			label.append(...previews);
-			refreshSource();
+			label.append(...previews); refreshSource();
 		}
 		if (category === "seed" && typeof widget.value === "number") label.append(button("New seed", () => {
 			const max = Math.min(widget.options?.max ?? Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
 			const min = Math.max(0, widget.options?.min ?? 0);
-			const random = /* @__PURE__ */ new Uint32Array(2);
-			crypto.getRandomValues(random);
+			const random = new Uint32Array(2); crypto.getRandomValues(random);
 			const value = Math.floor(min + (random[0] * 2097152 + (random[1] >>> 11)) / 9007199254740992 * (max - min));
-			input.value = String(value);
-			update(new Event("change"));
+			setValue(value); update(String(value), new Event("change"));
 		}));
 		if (category === "file") {
-			const upload = el("input");
-			upload.type = "file";
+			const upload = el("input"); upload.type = "file";
 			const hint = (binding.control.name + " " + binding.control.nodeType).toLowerCase();
 			upload.accept = /audio/.test(hint) ? "audio/*" : /video/.test(hint) ? "video/*" : "image/*,video/*,audio/*";
 			upload.setAttribute("aria-label", "Upload " + friendly(binding));
 			upload.addEventListener("change", async () => {
-				const file = upload.files?.[0];
-				if (!file) return;
-				upload.disabled = true;
-				status.textContent = "Uploading " + file.name + "…";
+				const file = upload.files?.[0]; if (!file) return;
+				upload.disabled = true; status.textContent = "Uploading " + file.name + "…";
 				try {
-					const data = new FormData();
-					data.append("image", file);
-					data.append("type", "input");
-					const response = await getApi().fetchApi("/upload/image", {
-						method: "POST",
-						body: data
-					});
+					const data = new FormData(); data.append("image", file); data.append("type", "input");
+					const response = await getApi().fetchApi("/upload/image", {method: "POST", body: data});
 					if (!response.ok) throw Error("Upload failed (" + response.status + ")");
-					const result = await response.json();
-					if (!valid()) return;
+					const result = await response.json(); if (!valid()) return;
 					const name = (result.subfolder ? result.subfolder + "/" : "") + result.name;
 					if (Array.isArray(widget.options?.values) && !widget.options.values.includes(name)) widget.options.values.push(name);
-					if (input.tagName === "SELECT" && ![...input.options].some((o) => o.value === name)) {
-						const o = el("option", name);
-						o.value = name;
-						input.append(o);
-					}
-					input.value = name;
-					input.dispatchEvent(new Event("change"));
-					status.textContent = "Uploaded " + file.name;
-				} catch (e) {
-					if (valid()) status.textContent = e.message;
-				} finally {
-					upload.disabled = false;
-				}
+					if (choice && !choice.options.some(option => option.value === name)) choice.update({options: [...choice.options, {value: name, label: name}], value: name});
+					setValue(name); update(name, new Event("change")); status.textContent = "Uploaded " + file.name;
+				} catch (error) { if (valid()) status.textContent = error.message; }
+				finally { upload.disabled = false; }
 			});
 			label.append(upload);
 		}
 		form.append(label);
 		if (category === "prompt") autoPrompt(input, promptRole(binding.control));
 	}
-	function clearPromptObservers() {
-		for (const entry of active?.fieldChoices || []) entry.choice.remove();
-		if (active) active.fieldChoices = [];
-		for (const observer of active?.promptObservers || []) observer.disconnect();
-		if (active) active.promptObservers = [];
+	function clearFields() {
+		for (const field of active?.fields?.values() || []) field.remove();
+		active?.fields?.clear();
+		if (active) active.promptFits = [];
+	}
+	function refreshPrompts() {
+		for (const fit of active?.promptFits || []) fit();
 	}
 	function pauseSourcePlayers(state) {
 		for (const player of state?.form?.querySelectorAll("video.comfier-lite-source-image,audio.comfier-lite-source-image") || []) player.pause();
@@ -41030,7 +41152,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 	function fullCanvas() {
 		closeManager(active, false);
 		showGraph();
-		clearPromptObservers();
+		clearFields();
 		pauseSourcePlayers(active);
 		active = null;
 		clearMedia();
@@ -41073,7 +41195,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		});
 		if (stopped || seq !== requestId) return false;
 		closeManager(active, false);
-		clearPromptObservers();
+		clearFields();
 		clearMedia();
 		const state = {
 			...s,
@@ -41081,7 +41203,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 			seq,
 			media: [],
 			seedInputs: [],
-			promptObservers: []
+			promptFits: []
 		};
 		state.groups = initialGroups(state);
 		pauseSourcePlayers(active);
@@ -41161,7 +41283,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		const host = state.controlsHost;
 		if (!host) return;
 		const epoch = state.fieldEpoch = (state.fieldEpoch || 0) + 1;
-		clearPromptObservers();
+		clearFields();
 		pauseSourcePlayers(state);
 		host.replaceChildren();
 		const valid = () => active === state && state.form.isConnected && epoch === state.fieldEpoch;
@@ -41453,6 +41575,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		if (!valid()) return;
 		const run = button("Generate", async () => {
 			run.disabled = true;
+			clearGenerationOutput(state);
 			status.textContent = "Queuing…";
 			try {
 				const action = window.__comfierActionbarOwner;
@@ -41499,12 +41622,10 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		bindApi();
 	}
 	function refreshSeeds(state, form) {
-		for (const control of state.groups.flatMap((g) => g.controls).filter((c) => c.kind === "seed")) {
+		for (const control of state.groups.flatMap(group => group.controls).filter(control => control.kind === "seed")) {
 			const binding = state.bindings.get(control.key);
-			const input = [...form.querySelectorAll("[data-control-key]"), ...(state.fieldChoices || []).map(entry => entry.input)].find((i) => i.dataset.controlKey === control.key);
-			if (binding && input) input.value = String(binding.widget.value ?? "");
+			if (binding) state.fields?.get(control.key)?.setValue(binding.widget.value ?? "");
 		}
-		for (const entry of state.fieldChoices || []) entry.choice.refresh();
 	}
 	function sourceImageFile(value) {
 		const file = sourceMediaFile(value);
@@ -41574,6 +41695,14 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		}
 		state.output.hidden = !state.output.childElementCount;
 	}
+	function clearGenerationOutput(state) {
+		state.media = [];
+		state.output?.replaceChildren();
+		if (state.output) state.output.hidden = true;
+		if (state.preview) { state.preview.hidden = true; state.preview.removeAttribute("src"); }
+		if (state.previewGroup) state.previewGroup.hidden = true;
+		clearMedia();
+	}
 	function restoreOutput(state) {
 		for (const key of state.plan.outputs) {
 			const node = state.outputBindings.get(key);
@@ -41597,12 +41726,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 		};
 		bind("execution_start", (e) => {
 			if (active?.output) {
-				active.media = [];
-				active.output.replaceChildren();
-				active.output.hidden = true;
-				active.preview.hidden = true;
-				active.previewGroup.hidden = true;
-				clearMedia();
+				clearGenerationOutput(active);
 				active.runningPrompt = e.detail?.prompt_id || null;
 				host.onPreview?.("start", {jobId: active.runningPrompt});
 				active.progress.textContent = "Generating…";
@@ -41662,6 +41786,7 @@ html body #comfier-apps-panel input[type=file]::file-selector-button{font:inheri
 	bindApi();
 	return {
 		openCurrent,
+		refreshPrompts,
 		fullCanvas,
 		curate,
 		kind,
@@ -41751,6 +41876,7 @@ var useComfierAppModeStore = defineStore("comfierAppMode", () => {
 		dismissPreview: () => previewController.dismiss(),
 		graphVisible,
 		renderer,
+		refreshPrompts: () => controller?.refreshPrompts(),
 		preference,
 		start,
 		stop,
@@ -48273,7 +48399,7 @@ function createAssetService() {
 	* no category tag are dropped with a warning rather than hidden silently.
 	*/
 	async function buildModelBuckets(modelTypeMode) {
-		const assets = await getAllAssetsByTag(MODELS_TAG, false);
+		const assets = await getAllAssetsByTag(MODELS_TAG, true);
 		const buckets = /* @__PURE__ */ new Map();
 		for (const asset of assets) {
 			const folders = [...new Set(getAssetCategories(asset, modelTypeMode))];
@@ -48838,6 +48964,7 @@ var SearchInput_default = /* @__PURE__ */ defineComponent({
 				class: normalizeClass(__props.class)
 			}, {
 				default: withCtx(() => [createVNode(unref(ComboboxAnchor_default), {
+					"data-comfier-panel-search": "",
 					class: normalizeClass(unref(cn)(unref(searchInputVariants)({
 						size: __props.size,
 						invalid: __props.invalid
@@ -51354,7 +51481,7 @@ var TransitionCollapse_default = /* @__PURE__ */ defineComponent({
 });
 //#endregion
 //#region src/components/rightSidePanel/layout/PropertiesAccordionItem.vue?vue&type=script&setup=true&lang.ts
-var _hoisted_1$37 = { class: "sticky top-0 z-10 flex items-center justify-between bg-inherit backdrop-blur-xl" };
+var _hoisted_1$37 = { "data-comfier-overview-header": "", class: "sticky top-0 z-10 flex items-center justify-between bg-inherit backdrop-blur-xl" };
 var _hoisted_2$33 = ["disabled"];
 var _hoisted_3$21 = { class: "line-clamp-2 flex-1 text-sm font-semibold" };
 var _hoisted_4$17 = {
@@ -51393,7 +51520,7 @@ var PropertiesAccordionItem_default = /* @__PURE__ */ defineComponent({
 		});
 		return (_ctx, _cache) => {
 			const _directive_tooltip = resolveDirective("tooltip");
-			return openBlock(), createElementBlock("div", { class: normalizeClass(unref(cn)("flex flex-col bg-comfy-menu-bg", __props.class)) }, [createBaseVNode("div", _hoisted_1$37, [withDirectives((openBlock(), createElementBlock("button", {
+			return openBlock(), createElementBlock("div", { "data-comfier-overview-surface": "", class: normalizeClass(unref(cn)("flex flex-col bg-comfy-menu-bg", __props.class)) }, [createBaseVNode("div", _hoisted_1$37, [withDirectives((openBlock(), createElementBlock("button", {
 				type: "button",
 				class: normalizeClass(unref(cn)("group flex w-full items-center justify-between border-0 bg-transparent pr-3 pl-4 text-left ring-0 outline-0", __props.size === "lg" ? "min-h-16" : "min-h-12", !__props.disabled && "cursor-pointer")),
 				disabled: __props.disabled,
@@ -59084,7 +59211,7 @@ var scheduleEvaluation = (node, rule, ctx, sig) => {
 	}).finally(() => {
 		const cur = inflight.get(node);
 		if (cur && cur.sig === sig) inflight.delete(node);
-		if (LiteGraph.vueNodesMode) getNodeRevisionRef(node.id).value++;
+
 		pricingTick.value++;
 	});
 	inflight.set(node, {
@@ -59190,13 +59317,13 @@ function badgeTextVisible(nodeDef, badgeMode) {
 }
 /** Projects a node's core and credits badge rows from their sources. */
 function computeBadges(sources) {
-	const { nodeId, nodeDef, badgeModes, colors, pricing } = sources;
+	const { nodeId, nodeDef, badgeModes, colors, pricing, decorations = true } = sources;
 	const corePartsByPart = {
 		id: [badgeModes.id, `#${nodeId}`],
 		lifecycle: [badgeModes.lifecycle, nodeDef?.lifecycleText ?? ""],
 		source: [badgeModes.source, nodeDef?.sourceText ?? ""]
 	};
-	const rows = CORE_PART_ORDER.map((part) => [part, ...corePartsByPart[part]]).filter(([, mode, text]) => badgeTextVisible(nodeDef, mode) && text.length > 0).map(([part, , text]) => ({
+	const rows = (decorations ? CORE_PART_ORDER : []).map((part) => [part, ...corePartsByPart[part]]).filter(([, mode, text]) => badgeTextVisible(nodeDef, mode) && text.length > 0).map(([part, , text]) => ({
 		kind: "core",
 		part,
 		text,
@@ -59298,6 +59425,7 @@ function gatherSources(node) {
 	const showApiPricing = settingStore.get("Comfy.NodeBadge.ShowApiPricing");
 	return {
 		nodeId: node.id,
+        decorations: graphDecorationsEnabled(),
 		nodeDef: def ? {
 			isCoreNode: def.isCoreNode,
 			lifecycleText: def.nodeLifeCycleBadgeText,
@@ -73149,7 +73277,6 @@ var useAppModeStore = defineStore("appMode", () => {
 	const workflowStore = useWorkflowStore();
 	const { mode, setMode, isAppMode, isBuilderMode, isSelectMode } = useAppMode();
 	const emptyWorkflowDialog = useEmptyWorkflowDialog();
-	const showVueNodeSwitchPopup = ref(false);
 	const viewMode = computed(() => isAppMode.value ? "app" : "graph");
 	/**
 	* Frame-lagged mirror of {@link viewMode} driving the view-mode toggle's
@@ -73288,16 +73415,9 @@ var useAppModeStore = defineStore("appMode", () => {
 		unwatchReadOnly?.();
 		if (inSelect) unwatchReadOnly = watch(() => canvas.read_only, () => canvas.read_only = true);
 	}
-	function autoEnableVueNodes(inSelect) {
-		if (!inSelect) return;
-		if (!settingStore.get("Comfy.VueNodes.Enabled")) {
-			settingStore.set("Comfy.VueNodes.Enabled", true);
-			if (!settingStore.get("Comfy.AppBuilder.VueNodeSwitchDismissed")) showVueNodeSwitchPopup.value = true;
-		}
-	}
+
 	watch(isSelectMode, (inSelect) => {
 		enforceReadOnly(inSelect);
-		autoEnableVueNodes(inSelect);
 	});
 	function enterBuilder() {
 		if (!hasNodes.value) {
@@ -73348,7 +73468,6 @@ var useAppModeStore = defineStore("appMode", () => {
 		selectedInputs,
 		selectedOutputs,
 		updateInputConfig,
-		showVueNodeSwitchPopup,
 		viewMode,
 		displayViewMode
 	};
@@ -73538,6 +73657,56 @@ objectType({
 	colors: colorsSchema
 }).passthrough();
 //#endregion
+// Palette composition happens only when a theme value or the native palette changes.
+// Canvas renderers read their normal LiteGraph fields and slot/link color tables.
+var nativeGraphTheme = {
+ base: null, paletteId: null, apply: null, revision: 0,
+ paints: shallowReactive({body:undefined,header:undefined}),
+ compose(base) {
+  const studio = window.__comfierThemeStudio;
+  const assigned = studio?.assignedPaints?.() || {};
+  const node_slot = {...base.colors.node_slot};
+  const litegraph_base = {...base.colors.litegraph_base};
+  for (const [id, color] of Object.entries(assigned)) {
+   if (id.startsWith('socket:')) node_slot[decodeURIComponent(id.slice(7))] = color;
+  }
+  for (const type of ['CONDITIONING_POSITIVE','CONDITIONING_NEGATIVE'])
+   node_slot[type] ||= node_slot.CONDITIONING || '#AAA';
+  litegraph_base.COMFIER_NODE_FRAME_COLOR=assigned.nodeFrame || assigned.panelFrame || base.colors.comfy_base?.['border-color'] || '#4e4e4e';
+  litegraph_base.COMFIER_NODE_FRAME_WIDTH=studio?.getNodeFrameWidth?.() ?? 2;
+  if (assigned.nodeBg) litegraph_base.NODE_DEFAULT_BGCOLOR = assigned.nodeBg;
+  if (assigned.nodeLabel) litegraph_base.NODE_DEFAULT_COLOR = assigned.nodeLabel;
+  if (assigned.nodeHeaderFont) for(const key of ['NODE_TITLE_COLOR','NODE_SELECTED_TITLE_COLOR'])litegraph_base[key]=assigned.nodeHeaderFont;
+  if (assigned.nodeFont) for(const key of ['NODE_TEXT_COLOR','NODE_TEXT_HIGHLIGHT_COLOR','WIDGET_TEXT_COLOR','WIDGET_SECONDARY_TEXT_COLOR'])litegraph_base[key]=assigned.nodeFont;
+  if (assigned.icons) litegraph_base.NODE_BOX_OUTLINE_COLOR = assigned.icons;
+  if (assigned.canvasBg) litegraph_base.CLEAR_BACKGROUND_COLOR = assigned.canvasBg;
+  return {...base, colors:{...base.colors, node_slot, litegraph_base}};
+ },
+ defaultPaint(id) {
+  const colors = this.base?.colors;
+  if (id === 'nodeFrame') return colors?.comfy_base?.['border-color'] || '#4e4e4e';
+  if (id === 'nodeBg') return colors?.litegraph_base.NODE_DEFAULT_BGCOLOR || '#353535';
+  if (id === 'nodeLabel') return colors?.litegraph_base.NODE_DEFAULT_COLOR || '#333';
+  if (id === 'nodeFont') return colors?.litegraph_base.NODE_TEXT_COLOR || '#AAA';
+  if (id === 'nodeHeaderFont') return colors?.litegraph_base.NODE_TITLE_COLOR || '#999';
+  if (id === 'canvasBg') return colors?.litegraph_base.CLEAR_BACKGROUND_COLOR || '#222';
+  if (id.startsWith('socket:')) {
+   const type = decodeURIComponent(id.slice(7));
+   return colors?.node_slot[type] || (type.startsWith('CONDITIONING_') ? colors?.node_slot.CONDITIONING : null) || '#AAA';
+  }
+  return null;
+ }
+};
+// Positive/negative are semantic CONDITIONING inputs, not different backend types.
+function slotColorVariable(type) { return '--comfier-slot-'+Array.from(String(type),c=>c.codePointAt(0).toString(16)).join('-'); }
+function slotPaletteType(type, name) {
+ if (type !== 'CONDITIONING') return type;
+ const key = String(name || '').toLowerCase().replace(/[\s-]+/g, '_');
+ if (key === 'positive' || key === 'pos' || key === 'positive_conditioning' || key === 'positive_prompt') return 'CONDITIONING_POSITIVE';
+ if (key === 'negative' || key === 'neg' || key === 'negative_conditioning' || key === 'negative_prompt') return 'CONDITIONING_NEGATIVE';
+ return type;
+}
+
 //#region src/services/colorPaletteService.ts
 var THEME_PROPERTY_MAP = {
 	NODE_BOX_OUTLINE_COLOR: "component-node-border",
@@ -73592,8 +73761,9 @@ var useColorPaletteService = () => {
 	* @param linkColorPalette - The palette to set.
 	*/
 	const loadLinkColorPalette = (linkColorPalette) => {
-		const types = Object.fromEntries(Array.from(nodeDefStore.nodeDataTypes).map((type) => [type, ""]));
+		const types = Object.fromEntries([...nodeDefStore.nodeDataTypes, ...Object.keys(LGraphCanvas.link_type_colors)].map((type) => [type, ""]));
 		Object.assign(app.canvas.default_connection_color_byType, types, linkColorPalette);
+        Object.assign(app.canvas.default_connection_color_byTypeOff, types, linkColorPalette);
 		Object.assign(LGraphCanvas.link_type_colors, types, linkColorPalette);
 	};
 	function validThemeProp(propertyMaybe) {
@@ -73601,9 +73771,11 @@ var useColorPaletteService = () => {
 	}
 	function loadLinkColorPaletteForVueNodes(linkColorPalette) {
 		const rootStyle = document.documentElement.style;
-		for (const dataType of nodeDefStore.nodeDataTypes) {
-			const cssVar = `color-datatype-${dataType}`;
-			const valueMaybe = linkColorPalette[dataType];
+		for (const dataType of new Set([...nodeDefStore.nodeDataTypes, ...Object.keys(LGraphCanvas.link_type_colors), ...Object.keys(linkColorPalette)])) {
+            const cssVar = `color-datatype-${dataType}`;
+            const valueMaybe = linkColorPalette[dataType];
+            const safeVar=slotColorVariable(dataType);
+            if(valueMaybe)rootStyle.setProperty(safeVar,valueMaybe);else rootStyle.removeProperty(safeVar);
 			if (valueMaybe) rootStyle.setProperty(`--${cssVar}`, valueMaybe);
 			else rootStyle.removeProperty(`--${cssVar}`);
 		}
@@ -73667,20 +73839,63 @@ var useColorPaletteService = () => {
 	* @param comfyColorPalette - The palette to set.
 	*/
 	const loadComfyColorPalette = (comfyColorPalette, isLightTheme) => {
+        LiteGraph.NODE_TEXTAREA_BGCOLOR=comfyColorPalette['comfy-input-bg'];
 		const rootStyle = document.documentElement.style;
 		for (const [key, value] of Object.entries(comfyColorPalette)) rootStyle.setProperty("--" + key, value);
 		for (const optionalKey of optionalComfyBaseKeys) if (!(optionalKey in comfyColorPalette)) rootStyle.setProperty("--" + optionalKey, `var(--palette-${optionalKey})`);
 		const backgroundImage = settingStore.get("Comfy.Canvas.BackgroundImage");
-		document.documentElement.toggleAttribute("data-comfier-canvas-image",!!backgroundImage);
-		if (backgroundImage) rootStyle.setProperty("--bg-img", `url('${backgroundImage}')`);
-		else rootStyle.removeProperty("--bg-img");
-		window.__comfierCanvasImage?.sync?.(backgroundImage);
+        if(window.__comfierCanvasImage)window.__comfierCanvasImage.sync(backgroundImage)?.catch(error=>console.warn('Canvas background could not load',error));
+        else {
+            document.documentElement.toggleAttribute('data-comfier-canvas-image',!!backgroundImage);
+            if(backgroundImage)rootStyle.setProperty('--bg-img',`url('${backgroundImage}')`);else rootStyle.removeProperty('--bg-img');
+        }
 		try {
 			const splashBg = isLightTheme ? "#FFFFFF" : comfyColorPalette["bg-color"];
 			localStorage.setItem("comfy-splash-bg", splashBg);
 			localStorage.setItem("comfy-splash-fg", comfyColorPalette["fg-color"]);
 		} catch (_) {}
 	};
+    nativeGraphTheme.background = () => {
+        if(!app.canvas||!nativeGraphTheme.base)return Promise.resolve();
+        const palette=nativeGraphTheme.base.colors.litegraph_base;
+        const canvasColor=window.__comfierThemeStudio?.assignedPaints?.().canvasBg || palette.CLEAR_BACKGROUND_COLOR;
+        const url=settingStore.get('Comfy.Canvas.BackgroundImage')||'';
+        app.canvas.clear_background_color=url?'transparent':canvasColor;
+        app.canvas.background_image=url?null:palette.BACKGROUND_IMAGE;
+        app.canvas._pattern=undefined;
+        if(window.__comfierCanvasImage)return window.__comfierCanvasImage.sync(url);
+        app.canvas.setDirty(false,true);
+        return Promise.resolve();
+    };
+    nativeGraphTheme.apply = () => {
+        if (!nativeGraphTheme.base || !app.canvas) return false;
+        const palette = nativeGraphTheme.compose(nativeGraphTheme.base);
+        loadLinkColorPalette(palette.colors.node_slot);
+        loadLiteGraphColorPalette(palette.colors.litegraph_base);
+        loadLitegraphForVueNodes(palette.colors.litegraph_base, nativeGraphTheme.paletteId);
+        const assigned = window.__comfierThemeStudio?.assignedPaints?.() || {};
+        const style=document.documentElement.style;
+        style.setProperty("--comfier-node-frame",LiteGraph.COMFIER_NODE_FRAME_COLOR);
+        style.setProperty("--comfier-node-control-bg",LiteGraph.WIDGET_BGCOLOR);
+        LiteGraph.nodeBodyThemed=!!assigned.nodeBg;
+        LiteGraph.nodeHeaderThemed=!!assigned.nodeLabel;
+        LiteGraph.nodeHeaderFontThemed=!!assigned.nodeHeaderFont;
+        nativeGraphTheme.paints.body=assigned.nodeBg || undefined;
+        nativeGraphTheme.paints.header=assigned.nodeLabel || undefined;
+        for(const [role,names]of [
+            ['nodeBg',['component-node-background']],
+            ['nodeLabel',['node-component-header-surface']],
+            ['nodeHeaderFont',['node-component-header']],
+            ['nodeFont',['node-component-slot-text','node-component-widget-input','component-node-foreground','component-node-foreground-secondary','comfier-node-font']],
+            ['icons',['component-node-border','node-component-outline']]
+        ]) for(const name of names){
+            const key=Object.keys(THEME_PROPERTY_MAP).find(k=>THEME_PROPERTY_MAP[k]===name);
+            const color=assigned[role] || (nativeGraphTheme.paletteId!=='dark'&&nativeGraphTheme.paletteId!=='light'&&key ? palette.colors.litegraph_base[key] : null);
+            if(color)style.setProperty('--'+name,color);else style.removeProperty('--'+name);
+        }
+        loadLinkColorPaletteForVueNodes(palette.colors.node_slot);
+        return true;
+    };
 	/**
 	* Loads the color palette.
 	*
@@ -73692,11 +73907,11 @@ var useColorPaletteService = () => {
 			toastErrorHandler(/* @__PURE__ */ new Error(`Color palette ${colorPaletteId} not found`));
 			return;
 		}
-		const completedPalette = colorPaletteStore.completePalette(colorPalette);
-		loadLinkColorPalette(completedPalette.colors.node_slot);
-		loadLiteGraphColorPalette(completedPalette.colors.litegraph_base);
-		loadLitegraphForVueNodes(completedPalette.colors.litegraph_base, colorPaletteId);
-		loadLinkColorPaletteForVueNodes(completedPalette.colors.node_slot);
+		nativeGraphTheme.base = colorPaletteStore.completePalette(colorPalette);
+        nativeGraphTheme.paletteId = colorPaletteId;
+        nativeGraphTheme.revision++;
+        const completedPalette = nativeGraphTheme.base;
+        nativeGraphTheme.apply();
 		loadComfyColorPalette(completedPalette.colors.comfy_base, completedPalette.light_theme === true);
 		app.canvas.setDirty(true, true);
 		colorPaletteStore.activePaletteId = colorPaletteId;
@@ -73729,6 +73944,7 @@ var useColorPaletteService = () => {
 		getActiveColorPalette: () => colorPaletteStore.completedActivePalette,
 		addCustomColorPalette: wrapWithErrorHandlingAsync(addCustomColorPalette),
 		deleteCustomColorPalette: wrapWithErrorHandlingAsync(deleteCustomColorPalette),
+        loadCanvasBackground: () => nativeGraphTheme.background?.(),
 		loadColorPalette: wrapWithErrorHandlingAsync(loadColorPalette),
 		exportColorPalette: wrapWithErrorHandling(exportColorPalette),
 		importColorPalette: wrapWithErrorHandlingAsync(importColorPalette)
@@ -83875,9 +84091,10 @@ function getWebpMetadata(file) {
 	return new Promise((r) => {
 		const reader = new FileReader();
 		reader.onload = (event) => {
+			try {
 			const webp = new Uint8Array(event.target?.result);
 			const dataView = new DataView(webp.buffer);
-			if (dataView.getUint32(0) !== 1380533830 || dataView.getUint32(8) !== 1464156752) {
+			if (webp.length < 12 || dataView.getUint32(0) !== 1380533830 || dataView.getUint32(8) !== 1464156752) {
 				console.error("Not a valid WEBP file");
 				r({});
 				return;
@@ -83885,7 +84102,9 @@ function getWebpMetadata(file) {
 			let offset = 12;
 			const txt_chunks = {};
 			while (offset < webp.length) {
+				if (offset + 8 > webp.length) throw Error("Truncated WebP chunk.");
 				const chunk_length = dataView.getUint32(offset + 4, true);
+				if (chunk_length > webp.length - offset - 8) throw Error("Truncated WebP chunk.");
 				if (String.fromCharCode(...webp.slice(offset, offset + 4)) === "EXIF") {
 					let exifOffset = offset + 8;
 					let exifLength = chunk_length;
@@ -83906,6 +84125,7 @@ function getWebpMetadata(file) {
 				offset += 8 + chunk_length + chunk_length % 2;
 			}
 			r(txt_chunks);
+			} catch (_) { r({}); }
 		};
 		reader.onerror = () => r({});
 		reader.onabort = () => r({});
@@ -86622,6 +86842,7 @@ var ComfyApp = class ComfyApp {
 		this.positionConversion = useCanvasPositionConversion(this.canvasContainer, this.canvas);
 	}
 	resizeCanvas(canvas) {
+		window.__comfierLayoutEditor?.refreshWorkspace();
 		applyViewport(measureViewportFromElement(canvas), canvas, this.canvas.bgcanvas, this.canvas);
 		window.__comfierCanvasImage?.refresh?.(false);
 		useCanvasScheduler().flush();
@@ -87884,103 +88105,114 @@ function snapshotViewport() {
 		mode: (outer ? "outer" : "inner") + (height >= width ? "Portrait" : "Landscape")
 	};
 }
-function createInlineSettingsChoice(select, signal) {
+function createInlineSettingsChoice(config, signal) {
+	// The inline control owns its state and events from creation. No backing select.
 	const events = new AbortController();
 	let optionEvents = new AbortController();
 	const wrapper = document.createElement("div");
-	wrapper.className = "comfier-inline-choice";
+	wrapper.className = config.className || "comfier-inline-choice";
 	const trigger = document.createElement("button");
 	trigger.type = "button";
-	trigger.setAttribute("aria-label", select.getAttribute("aria-label") || "Select option");
+	if (config.id) trigger.id = config.id;
 	trigger.setAttribute("aria-haspopup", "listbox");
 	trigger.setAttribute("aria-expanded", "false");
 	const options = document.createElement("div");
-	options.className = "comfier-inline-options";
+	options.className = config.optionsClass || "comfier-inline-options";
 	options.setAttribute("role", "listbox");
-	options.setAttribute("aria-label", select.getAttribute("aria-label") || "Options");
 	options.hidden = true;
 	wrapper.append(trigger, options);
+	const state = { label: "Select option", options: [], value: "", disabled: false, hidden: false, ...config };
 	let releaseBack;
 	let removed = false;
 	let outsideGesture = null;
-	const buttons = [];
 	let optionSignature = "";
+	const buttons = [];
 	function refresh() {
 		if (removed) return;
-		const signature = JSON.stringify(Array.from(select.options, o => [o.value, o.textContent, o.disabled]));
+		const signature = JSON.stringify(state.options);
 		if (signature !== optionSignature) {
 			optionSignature = signature;
 			optionEvents.abort(); optionEvents = new AbortController();
 			buttons.length = 0;
 			options.replaceChildren();
-			for (const option of Array.from(select.options)) {
+			for (const option of state.options) {
 				const button = document.createElement("button");
-				button.type = "button"; button.textContent = option.textContent; button.disabled = select.disabled || option.disabled;
+				button.type = "button"; button.textContent = option.label;
+				if (option.title) button.title = option.title;
 				button.setAttribute("role", "option");
-				button.addEventListener("click", (e) => {
-					e.preventDefault(); if (removed || select.disabled || option.disabled) return;
-					select.value = option.value;
-					select.dispatchEvent(new Event("change", {bubbles: true}));
+				button.addEventListener("click", event => {
+					event.preventDefault();
+					if (removed || state.disabled || option.disabled) return;
+					state.value = option.value;
+					config.onChange?.(option.value, event);
 					refresh(); close(true);
 				}, {signal: optionEvents.signal});
 				buttons.push(button); options.appendChild(button);
 			}
 		}
-		wrapper.hidden = select.hidden;
-		trigger.setAttribute("aria-label", select.getAttribute("aria-label") || "Select option");
-		options.setAttribute("aria-label", select.getAttribute("aria-label") || "Options");
-		trigger.textContent = (Array.from(select.options).find((o) => o.value === select.value)?.textContent || "Select") + " ▾";
-		trigger.disabled = select.disabled || !select.options.length;
-		for (let i = 0; i < buttons.length; i++) buttons[i].disabled = select.disabled || select.options[i].disabled;
-		for (let i = 0; i < buttons.length; i++) buttons[i].setAttribute("aria-selected", String(select.options[i].value === select.value));
+		wrapper.hidden = Boolean(state.hidden);
+		trigger.setAttribute("aria-label", state.label);
+		options.setAttribute("aria-label", state.label);
+		trigger.textContent = (state.options.find(option => option.value === state.value)?.label || "Select") + " ▾";
+		trigger.disabled = Boolean(state.disabled || !state.options.length);
+		for (let i = 0; i < buttons.length; i++) {
+			buttons[i].disabled = Boolean(state.disabled || state.options[i].disabled);
+			buttons[i].setAttribute("aria-selected", String(state.options[i].value === state.value));
+		}
+	}
+	function update(next) {
+		Object.assign(state, next);
+		if (next.options && !next.options.some(option => option.value === state.value)) state.value = next.options[0]?.value || "";
+		if (state.hidden || state.disabled) close();
+		refresh();
 	}
 	function close(focus = false) {
 		if (options.hidden) return false;
-		options.hidden = true;
-		outsideGesture = null;
+		options.hidden = true; outsideGesture = null;
 		trigger.setAttribute("aria-expanded", "false");
 		releaseBack?.(); releaseBack = null;
-		if (focus) trigger.focus();
+		if (focus && !removed) trigger.focus();
 		return true;
 	}
 	function open() {
 		if (removed || trigger.disabled) return;
 		refresh(); options.hidden = false;
 		trigger.setAttribute("aria-expanded", "true");
-		releaseBack = window.__comfierBack?.register("inline-settings-choice", 250, () => close(true));
+		releaseBack = registerBackDismiss(() => close(true));
 		wrapper.scrollIntoView({block: "nearest", inline: "nearest", behavior: "smooth"});
 	}
-	trigger.addEventListener("click", (e) => { e.preventDefault(); if (!close()) open(); }, {signal: events.signal});
-	wrapper.addEventListener("keydown", (e) => {
-		if (e.key === "Escape") { if (close(true)) { e.preventDefault(); e.stopPropagation(); } return; }
-		if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) return;
-		e.preventDefault();
-		if (options.hidden) { open(); buttons.find((b) => b.getAttribute("aria-selected") === "true")?.focus(); return; }
-		const index = buttons.indexOf(document.activeElement);
-		const next = e.key === "Home" ? 0 : e.key === "End" ? buttons.length - 1 : (index + (e.key === "ArrowDown" ? 1 : -1) + buttons.length) % buttons.length;
-		buttons[next]?.focus();
+	trigger.addEventListener("click", event => { event.preventDefault(); if (!close()) open(); }, {signal: events.signal});
+	wrapper.addEventListener("keydown", event => {
+		if (event.key === "Escape") { if (close(true)) { event.preventDefault(); event.stopPropagation(); } return; }
+		if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
+		event.preventDefault();
+		if (options.hidden) { open(); buttons.find(button => !button.disabled && button.getAttribute("aria-selected") === "true")?.focus(); return; }
+		const enabled = buttons.filter(button => !button.disabled);
+		const index = enabled.indexOf(document.activeElement);
+		const next = event.key === "Home" ? 0 : event.key === "End" ? enabled.length - 1 : (index + (event.key === "ArrowDown" ? 1 : -1) + enabled.length) % enabled.length;
+		enabled[next]?.focus();
 	}, {signal: events.signal});
-	wrapper.addEventListener("focusout", (e) => { if (!outsideGesture && !wrapper.contains(e.relatedTarget)) close(); }, {signal: events.signal});
-	window.addEventListener("pointerdown", (e) => {
-		if (options.hidden || wrapper.contains(e.target)) return;
-		outsideGesture = {id: e.pointerId, x: e.clientX, y: e.clientY, moved: false};
+	wrapper.addEventListener("focusout", event => { if (!outsideGesture && !wrapper.contains(event.relatedTarget)) close(); }, {signal: events.signal});
+	window.addEventListener("pointerdown", event => {
+		if (options.hidden || wrapper.contains(event.target)) return;
+		outsideGesture = {id: event.pointerId, x: event.clientX, y: event.clientY, moved: false};
 	}, {signal: events.signal, capture: true});
-	window.addEventListener("pointermove", (e) => {
-		if (outsideGesture?.id === e.pointerId && Math.hypot(e.clientX - outsideGesture.x, e.clientY - outsideGesture.y) >= 10) outsideGesture.moved = true;
+	window.addEventListener("pointermove", event => {
+		if (outsideGesture?.id === event.pointerId && Math.hypot(event.clientX - outsideGesture.x, event.clientY - outsideGesture.y) >= 10) outsideGesture.moved = true;
 	}, {signal: events.signal, capture: true});
 	window.addEventListener("scroll", () => { if (outsideGesture) outsideGesture.moved = true; }, {signal: events.signal, capture: true});
-	window.addEventListener("pointerup", (e) => {
-		if (outsideGesture?.id !== e.pointerId) return;
-		const tap = !outsideGesture.moved && Math.hypot(e.clientX - outsideGesture.x, e.clientY - outsideGesture.y) < 10;
+	window.addEventListener("pointerup", event => {
+		if (outsideGesture?.id !== event.pointerId) return;
+		const tap = !outsideGesture.moved && Math.hypot(event.clientX - outsideGesture.x, event.clientY - outsideGesture.y) < 10;
 		outsideGesture = null;
-		if (tap && !wrapper.contains(e.target)) close();
+		if (tap && !wrapper.contains(event.target)) close();
 	}, {signal: events.signal, capture: true});
-	window.addEventListener("pointercancel", (e) => { if (outsideGesture?.id === e.pointerId) outsideGesture = null; }, {signal: events.signal, capture: true});
-	select.addEventListener("change", refresh, {signal: events.signal});
+	window.addEventListener("pointercancel", event => { if (outsideGesture?.id === event.pointerId) outsideGesture = null; }, {signal: events.signal, capture: true});
 	function remove() { if (removed) return; removed = true; close(); events.abort(); optionEvents.abort(); wrapper.remove(); }
 	signal?.addEventListener("abort", remove, {once: true});
-	refresh();
-	return {element: wrapper, refresh, close, remove};
+	update(state);
+	if (signal?.aborted) remove();
+	return { element: wrapper, trigger, update, close, remove, get value() { return state.value; }, get options() { return state.options; } };
 }
 window.__comfierInlineSettingsChoice = createInlineSettingsChoice;
 function installViewport() {
@@ -88330,6 +88562,12 @@ function createNativeRuntime() {
 	const overlays = /* @__PURE__ */ new Map();
 	const counters = /* @__PURE__ */ new Map();
 	let overlayFrame = 0;
+	let overlayCanvas = null;
+	let overlayTargets = [];
+	let overlayDirty = new Set();
+	let overlayAll = false;
+	let overlaySelection = false;
+	let releaseOverlayGeometry = null;
 	const runtime = {
 		count(name, amount = 1) {
 			counters.set(name, (counters.get(name) || 0) + amount);
@@ -88391,20 +88629,47 @@ function createNativeRuntime() {
 			scopes.set(owner, scope);
 			return scope;
 		},
-		requestOverlays() {
-			if (overlayFrame || !overlays.size || document.hidden || window.app?.canvas?.graphVisible === false) return;
+		setOverlaySelection(canvas, targets) {
+			cancelAnimationFrame(overlayFrame);
+			overlayFrame = 0;
+			releaseOverlayGeometry?.();
+			releaseOverlayGeometry = null;
+			overlayCanvas = canvas;
+			overlayTargets = canvas?.graphVisible !== false && !document.hidden ? targets : [];
+			overlayDirty.clear();
+			overlayAll = false;
+			overlaySelection = true;
+			if (!overlayTargets.length) {
+				for (const fn of overlays.values()) fn(void 0, overlayTargets, overlayTargets, true);
+				overlaySelection = false;
+				return;
+			}
+			releaseOverlayGeometry = layoutStore.onChange(change => window.__comfierDeviceInput?.overlayLayoutChanged?.(change));
+			runtime.requestOverlays();
+		},
+		requestOverlays(target) {
+			if (!overlayTargets.length || !overlays.size || document.hidden || overlayCanvas?.graphVisible === false) return;
+			if (target?.pos && target?.size) {
+				if (!overlayTargets.includes(target)) return;
+				overlayDirty.add(target);
+			} else overlayAll = true;
+			if (overlayFrame) return;
 			overlayFrame = requestAnimationFrame(() => {
 				overlayFrame = 0;
+				const targets = overlayTargets;
+				const changed = overlayAll ? targets : [...overlayDirty];
+				const selectionChanged = overlaySelection;
+				overlayDirty.clear();
+				overlayAll = overlaySelection = false;
+				if (document.hidden || overlayCanvas?.graphVisible === false) return;
 				let rectangle;
-				const geometry = () => rectangle || (rectangle = window.app?.canvas?.canvas.getBoundingClientRect());
-				for (const [name, fn] of overlays) {
-					fn(geometry);
-				}
+				const geometry = () => rectangle || (rectangle = overlayCanvas?.canvas.getBoundingClientRect());
+				for (const fn of overlays.values()) fn(geometry, targets, changed, selectionChanged);
 			});
 		},
 		addOverlay(name, fn) {
 			overlays.set(name, fn);
-			runtime.requestOverlays();
+			window.__comfierDeviceInput?.overlaySelectionChanged?.();
 		},
 		removeOverlay(name) {
 			overlays.delete(name);
@@ -88416,6 +88681,11 @@ function createNativeRuntime() {
 		}),
 		remove() {
 			cancelAnimationFrame(overlayFrame);
+			runtime.setOverlaySelection(null, []);
+			window.__comfierDeviceInput?.overlayDetached?.();
+			overlayTargets = [];
+			overlayDirty.clear();
+			overlayCanvas = null;
 			scopes.forEach((scope) => scope.dispose());
 			overlays.clear();
 			delete window.__comfierRuntime;
@@ -88495,6 +88765,8 @@ function createNativeRuntime() {
 	};
 	window.__comfierRuntime = runtime;
 	const events = runtime.scope("viewport-overlays");
+	events.listen(document, "visibilitychange", () => window.__comfierDeviceInput?.overlaySelectionChanged?.());
+	events.listen(window, "comfier-layout-editor-change", runtime.requestOverlays);
 	events.listen(window, "resize", runtime.requestOverlays, { passive: true });
 	events.listen(window.visualViewport, "resize", runtime.requestOverlays, { passive: true });
 	events.listen(window.visualViewport, "scroll", runtime.requestOverlays, { passive: true });
@@ -88506,13 +88778,15 @@ function installEditorModel() {
 	"use strict";
 	if (window.__comfierUiEditorModel) return;
 	const ranges = {
-		length: [26, 4096],
-		thickness: [42, 4096],
+		length: [1, 4096],
+		thickness: [1, 4096],
 		frame: [0, 6],
 		curve: [0, 8],
 		iconSize: [8, 64],
-		height: [26, 96],
-		width: [26, 640]
+		height: [1, 96],
+		width: [1, 640],
+		minWidth: [1, 640],
+		minHeight: [1, 96]
 	};
 	const colors = [
 		"frameColor",
@@ -88625,10 +88899,12 @@ function installEditorModel() {
 		const raw = localStorage.getItem("comfier.ui.dimensions.v1");
 		if (raw) global = dimensions(JSON.parse(raw));
 	} catch (_) {}
+    let globalRevision = 0;
 	function setGlobal(v) {
 		const next = dimensions(v);
 		localStorage.setItem("comfier.ui.dimensions.v1", JSON.stringify(next));
-		global = next;
+        global = next;
+        globalRevision++;
 		window.__comfierLayoutEditor?.refresh();
 		return clone(global);
 	}
@@ -88669,6 +88945,7 @@ function installEditorModel() {
 		dimensions,
 		resolve,
 		setGlobal,
+        get revision() { return globalRevision; },
 		getGlobal: () => clone(global),
 		base: clone(base),
 		ranges,
@@ -88783,20 +89060,63 @@ function installThemeManifest() {
 		success: "var(--color-success-background,#22c55e)"
 	};
 	Object.assign(nativeSwatches, {
-		canvasBg: "#222222",
-		nodeBg: "var(--component-node-background,#353535)",
-		nodeLabel: "var(--node-component-header-surface,#333333)"
+		canvasBg: "#222222"
 	});
-	Object.assign(nativeSwatches, {
-		socketModel: "var(--color-datatype-MODEL,#aaaaaa)",
-		socketClip: "var(--color-datatype-CLIP,#aaaaaa)",
-		socketVae: "var(--color-datatype-VAE,#aaaaaa)",
-		socketLatent: "var(--color-datatype-LATENT,#aaaaaa)",
-		socketMask: "var(--color-datatype-MASK,#aaaaaa)",
-		socketConditioning: "var(--color-datatype-CONDITIONING,#aaaaaa)",
-		socketHidden: "var(--color-datatype-HIDDEN,#aaaaaa)",
-		socketOther: "var(--color-datatype-OTHER,#aaaaaa)"
-	});
+    const nodeRoles = [
+        {id:'nodeBg',label:'Node Background',defaultColor:'#353535',nodeRole:true},
+        {id:'nodeFrame',label:'Node Frame',defaultColor:'#4e4e4e',nodeRole:true},
+        {id:'nodeLabel',label:'Node Labels',defaultColor:'#333333',nodeRole:true},
+        {id:'nodeHeaderFont',label:'Header Font',defaultColor:'#999999',nodeRole:true},
+        {id:'nodeFont',label:'Body Font',defaultColor:'#aaaaaa',nodeRole:true}
+    ];
+    const socketOrder = ['MODEL','CLIP','VAE','LATENT','IMAGE','MASK','CONDITIONING_POSITIVE','CONDITIONING_NEGATIVE'];
+    const socketLabels = {CONDITIONING_POSITIVE:'Positive',CONDITIONING_NEGATIVE:'Negative',CONDITIONING:'Conditioning','*':'Any Type','-1':'Event',INT:'Integer',FLOAT:'Float',BOOLEAN:'Boolean',STRING:'String',COMBO:'Combo'};
+    const socketTypes = new Set();
+    function addSocketTypes(types) {
+        for (const raw of types) {
+            if (typeof raw !== 'string' && typeof raw !== 'number') continue;
+            for (const type of String(raw).split(',').map(v=>v.trim())) {
+                if (!type || type.length>128 || /[\x00-\x1f]/.test(type) || socketTypes.has(type)) continue;
+                socketTypes.add(type);
+                nodeRoles.push({id:'socket:'+encodeURIComponent(type),label:socketLabels[type]||type.replaceAll('_',' '),defaultColor:'#aaaaaa',socketType:type,nodeRole:true});
+            }
+        }
+        nodeRoles.sort((a,b)=> {
+            const rank=r=>r.id==='nodeBg'?-5:r.id==='nodeFrame'?-4:r.id==='nodeLabel'?-3:r.id==='nodeHeaderFont'?-2:r.id==='nodeFont'?-1:socketOrder.includes(r.socketType)?socketOrder.indexOf(r.socketType):socketOrder.length;
+            return rank(a)-rank(b)||a.label.localeCompare(b.label);
+        });
+        for (const role of nodeRoles) if (!roles.some(r=>r.id===role.id)) roles.push(role);
+    }
+    addSocketTypes(socketOrder);
+    // Called only when the theme panel is opened/refreshed; never from drawing.
+    function workflowNodeRoles() {
+        const types=new Set(socketOrder),seen=new Set();
+        const root=window.app?.graph?.rootGraph || window.app?.graph;
+        function add(type,name) {
+            if(Array.isArray(type)){types.add('COMBO');return;}
+            if(typeof type!=='string'&&typeof type!=='number')return;
+            for(const item of String(type).split(',').map(v=>v.trim()))if(item){types.add(item);types.add(slotPaletteType(item,name));}
+        }
+        function visit(graph){
+            if(!graph||seen.has(graph))return;seen.add(graph);
+            for(const node of graph.nodes||graph._nodes||[]){
+                for(const slot of node.inputs||[])add(slot.type,slot.name);
+                for(const slot of node.outputs||[])add(slot.type,slot.name);
+                const data=node.constructor.nodeData;
+                const definitions=data?.input;
+                for(const widget of node.widgets||[]){
+                    const spec=definitions?.required?.[widget.name] || definitions?.optional?.[widget.name];
+                    const v2=data?.inputs?.find?.(input=>input.name===widget.name);
+                    const type=v2?.type ?? spec?.[0] ?? (widget.type==='number'?'FLOAT':widget.type==='toggle'?'BOOLEAN':widget.type==='combo'?'COMBO':widget.type==='text'||widget.type==='customtext'?'STRING':null);
+                    if(type!==null)add(type,widget.name);
+                }
+                if(node.subgraph)visit(node.subgraph);
+            }
+        }
+        visit(root);
+        addSocketTypes(types);
+        return nodeRoles.filter(role=>!role.socketType||types.has(role.socketType));
+    }
 	const groups = [];
 	const add = (id, selectors, bindings, source, extra = {}) => groups.push({
 		id,
@@ -88829,10 +89149,11 @@ function installThemeManifest() {
 		paintExpression: nativeAlpha(family + "Bg", base)
 	});
 	surface("panel-app-mode", [
-		"#comfier-apps-panel",
-		".comfier-lite-form",
-		".comfier-lite-manager"
+		"#comfier-apps-panel"
 	], "panel", "var(--comfy-menu-bg,#171717)", "comfier_workflow_apps.js");
+	surface("panel-media-assets", [".comfier-media-assets", ".comfier-media-assets-menu"], "panel", "var(--comfy-menu-bg,#171717)", "AssetsSidebarTab.vue and its portaled menus");
+	add("media-assets-text", [".comfier-media-assets", ".comfier-media-assets-menu", ".comfier-media-assets-menu :is(span,label,p)"], [paint("uiText"),paint("uiText","-webkit-text-fill-color")], "AssetsSidebarTab.vue and media menus");
+	add("media-assets-selection", [".comfier-media-assets [data-testid=\"assets-selection-bar\"]"], [paint("panelBg","background-color"),paint("panelFrame","border-color"),paint("uiText"),paint("uiText","-webkit-text-fill-color")], "MediaAssetSelectionBar.vue");
 	surface("panel-owned-minimap", [".comfier-minimap-view", ".comfier-minimap-options"], "panel", "var(--comfy-menu-bg,#171717)", "Owned MiniMap.vue and MiniMapPanel.vue");
 	add("icons-owned-minimap", [".comfier-owned-minimap :is(i,svg)"], [paint("icons"), paint("icons", "-webkit-text-fill-color")], "Owned minimap toolbar/options icons");
 	const rootPanel = ".comfier-early-floating-panel:not(:has(.comfier-app-settings-native-panel))";
@@ -88844,7 +89165,11 @@ function installThemeManifest() {
 		".side-tool-bar-container .floating-panel"
 	], "container", "var(--color-interface-panel-surface,var(--comfy-menu-bg,#171717))", "src/components/sidebar/SideToolbar.vue; comfier_unified_sidebar.js");
 	surface("container-workflow-tabs", ["[data-testid=\"workflow-tab\"] [role=\"tab\"]"], "container", "var(--color-interface-panel-surface,var(--comfy-menu-bg,#171717))", "src/components/topbar/WorkflowTab.vue");
-	add("container-workflow-tabs-wireframe", ["[data-testid=\"workflow-tab\"] [role=\"tab\"]"], [binding("containerFrame", "box-shadow", "inset 0 0 0 1px var(--comfier-container-frame)")], "src/components/topbar/WorkflowTab.vue");
+	for (const b of groups.at(-1).bindings) if (b.role === "containerFrame") {
+		b.role = "buttonFrame";
+		b.value = b.value.replaceAll("--comfier-container-frame", "--comfier-button-frame");
+	}
+	add("container-workflow-tabs-wireframe", ["[data-testid=\"workflow-tab\"] [role=\"tab\"]"], [binding("buttonFrame", "box-shadow", "inset 0 0 0 1px var(--comfier-button-frame)")], "src/components/topbar/WorkflowTab.vue");
 	surface("container-workflow-menu", ["[data-testid=\"view-mode-toggle\"][role=\"group\"]"], "container", "var(--comfy-menu-bg,#171717)", "src/components/common/WorkflowActionsDropdown.vue; comfier_accent_theme.js");
 	add("container-workflow-dock-frame", ["#comfier-workflow-actions-floating-dock"], [binding("containerFrame", "outline", "1px solid var(--comfier-container-frame)"), binding("containerFrame", "border-radius", "8px")], "comfier_workflow_floating_trigger.js");
 	add("container-workflow-inner-frame-released", ["#comfier-workflow-actions-floating-dock > [data-testid=\"view-mode-toggle\"][role=\"group\"]"], [binding("containerFrame", "border-color", "transparent"), binding("containerFrame", "box-shadow", "none")], "src/components/common/WorkflowActionsDropdown.vue; comfier_workflow_floating_trigger.js");
@@ -88870,16 +89195,27 @@ function installThemeManifest() {
 	surface("panel-queue-progress", ["[data-testid=\"queue-progress-overlay\"]"], "panel", "var(--color-interface-panel-surface,var(--comfy-menu-bg,#171717))", "src/components/queue/QueueProgressOverlay.vue");
 	add("panel-native-content-tokens", [
 		rootPanel,
+		".comfier-media-assets",
+		".comfier-media-assets-menu",
 		".comfier-early-floating-bottom",
 		"#comfier-ltx-precision-panel",
 		".p-dialog:not(:has(#comfier-ui-zoom-test))"
 	], [
+		binding("panelBg", "--color-modal-panel-background", "var(--comfier-panel-paint,var(--comfy-menu-bg,#171717))"),
 		binding("panelBg", "--color-base-background", "var(--comfier-panel-paint,var(--comfy-menu-bg,#171717))"),
 		binding("panelBg", "--color-interface-panel-surface", "var(--comfier-panel-paint,var(--comfy-menu-bg,#171717))"),
 		paint("panelFrame", "--color-interface-stroke", "var(--interface-stroke,#3b4554)"),
 		paint("uiText", "--color-base-foreground", "#000"),
 		paint("uiText", "--color-muted-foreground", "#000")
 	], "src/components/sidebar/tabs/SidebarTabTemplate.vue; packages/design-system/src/css/style.css");
+	const panelSearchScope = ":is(.comfier-early-floating-panel:not(:has(.comfier-app-settings-native-panel)),.comfier-early-floating-bottom,.comfier-extensions-panel,#comfier-lora-manager-panel,#comfier-ltx-precision-panel,.comfier-media-assets,.p-dialog)";
+	const searchSurface = panelSearchScope + " [data-comfier-panel-search]";
+	add("panel-search-background", [searchSurface,searchSurface+" input"], [binding("panelBg","background-color","transparent")], "Shared panel searches reveal the already-painted panel shell; no stacked alpha");
+	add("panel-search-text", [searchSurface+" input",searchSurface+" input::placeholder"], [binding("uiText","color","var(--comfier-ui-text-paint,var(--comfier-ui-font,#fff))"),binding("uiText","-webkit-text-fill-color","var(--comfier-ui-text-paint,var(--comfier-ui-font,#fff))")], "Shared panel search text, including Templates");
+	add("panel-overview-header", [rootPanel+" [data-comfier-overview-surface]",rootPanel+" [data-comfier-overview-header]"], [binding("panelBg","background-color","transparent")], "PropertiesAccordionItem root and sticky header reveal the panel shell");
+	add("panel-overview-header-filter", [rootPanel+" [data-comfier-overview-header]"], [binding("panelBg","backdrop-filter","none"),binding("panelBg","-webkit-backdrop-filter","none")], "PropertiesAccordionItem sticky header: disable native backdrop-blur-xl when panel themed");
+	add("active-settings-category", [rootPanel+" [data-nav-id].bg-interface-menu-component-surface-selected"], [paint("active","background-color")], "SettingDialog.vue NavItem active class");
+	add("active-filtered-combo", [".litecontextmenu [data-comfier-combo-highlight]"], [paint("active","background-color")], "contextMenuFilter.ts selected item");
 	add("panel-downloads-inner", [
 		"#comfier-downloads-bottom-panel .p-tablist",
 		"#comfier-downloads-bottom-panel .comfier-downloads-list",
@@ -88915,6 +89251,7 @@ function installThemeManifest() {
 		"#comfier-lora-manager-panel>header>button",
 		"#comfier-ltx-precision-panel button"
 	], [paint("buttonFrame", "border-color"), paint("buttonBg", "background-color", "var(--color-secondary-background,#242427)")], "comfier_lora_panel.js; comfier_ltx_precision_panel.js; src/components/sidebar/tabs");
+	add("buttons-agent-entry", [".comfier-agent-entry"], [paint("buttonFrame", "border-color"), paint("buttonBg", "background-color", "var(--color-secondary-background,#242427)")], "AgentEntryButton.vue");
 	add("buttons-template-filters", [".comfier-template-filters button"], [paint("buttonFrame", "border-color"), binding("buttonFrame", "box-shadow", "inset 0 0 0 1px var(--comfier-button-frame,#aaa)"), paint("buttonBg", "background-color", "var(--color-secondary-background,#242427)"), paint("uiText"), paint("uiText", "-webkit-text-fill-color")], "src/components/templates/WorkflowTemplateSelectorDialog.vue; TemplateFilterControls.vue");
 	add("icons-template-filters", [".comfier-template-filters button :is(i,svg)"], [paint("icons"), paint("icons", "-webkit-text-fill-color")], "Template filter buttons and dropdown arrows");
 	add("buttons-media-actions", [".comfier-media-actions button"], [paint("panelBg", "background-color", "var(--comfy-menu-bg,#171717)"), paint("icons"), paint("icons", "-webkit-text-fill-color")], "MediaAssetCard.vue overlay actions");
@@ -88953,6 +89290,8 @@ function installThemeManifest() {
 	add("status-error-overlay", ["[data-testid=\"error-overlay\"]"], [paint("error", "border-color")], "src/components/rightSidePanel/errors; comfier_owned_overlay_layers.js");
 	add("status-destructive-buttons", ["button[data-variant=\"destructive\"]:not(.comfier-early-queue-panel button)"], [paint("error", "background-color"), binding("error", "color", "var(--comfier-error-text,#fff)")], "packages/design-system; src/components/actionbar");
 	add("active-precision-edge", ["#comfier-ltx-precision-panel .comfier-ltx-edge.active"], [paint("active", "background-color"), binding("active", "color", "var(--comfier-active-text,#000)")], "comfier_ltx_precision_panel.js");
+	add("switch-thumb", ['[role="switch"] > span > span[data-state]'], [paint("icons", "background-color", "var(--base-background)")], "src/components/ui/switch/Switch.vue");
+	add("active-switch-track", ['[role="switch"][data-state="checked"] > span:has(> span[data-state])'], [paint("active", "background-color", "var(--primary-background)")], "src/components/ui/switch/Switch.vue");
 	add("active-control-surface", ["button:not([role=\"switch\"]):not([data-variant=\"destructive\"]):is([aria-pressed=\"true\"],[aria-selected=\"true\"],[aria-expanded=\"true\"],[data-state=\"active\"],[data-state=\"checked\"])", ".side-bar-button-selected"], [binding("active", "--comfier-control-background", "color-mix(in srgb,var(--comfier-active-color,#fff) 28%,transparent)")], "comfier_accent_theme.js");
 	add("active-rail-surface", [".comfier-unified-floating-rail .side-bar-button-selected", ".side-tool-bar-container .side-bar-button-selected"], [binding("active", "--comfier-control-background", "color-mix(in srgb,var(--comfier-active-color,#fff) 33%,transparent)"), binding("active", "background-color", "var(--comfier-control-background)")], "comfier_accent_theme.js; src/components/sidebar/SidebarIcon.vue");
 	[
@@ -89160,129 +89499,130 @@ html:root body #comfier-multiselect-toggle input[type="checkbox"]:checked{backgr
 html:root body :is([data-testid="view-mode-toggle"][role="group"] button.bg-secondary-background,[data-testid="view-mode-toggle"][role="group"] button[aria-expanded="true"],[data-testid="view-mode-toggle"][aria-haspopup="menu"],#comfier-workflow-actions-floating-dock button,[role="toolbar"][aria-label="Canvas Toolbar"] .bg-interface-panel-selected-surface){box-shadow:inset 0 0 0 1px var(--comfier-button-frame,var(--color-base-foreground,var(--fg-color,#fff)))!important}
 `;
 	const uiFontCss = `
-html:root[data-comfier-theme-uitext] body :where(*):not(:where(canvas,svg,svg *,[class*="icon-["],[class*="fa-"],.pi,.p-icon,.mdi,.comfyui-logo,.comfyui-logo *,[data-slot="icon"],[data-slot="icon"] *))${exclusion}{
-  color:var(--comfier-ui-text-paint)!important;
-  -webkit-text-fill-color:var(--comfier-ui-text-paint)!important;
+html:root[data-comfier-theme-uitext] body :where(*):not(:where(canvas,svg,svg *,[class*="icon-["],[class*="fa-"],.pi,.p-icon,.mdi,.comfyui-logo,.comfyui-logo *,[data-slot="icon"],[data-slot="icon"] *))${exclusion}:not(:where(.lg-node,.lg-node *)){
+  color:var(--comfier-local-text-paint,var(--comfier-ui-text-paint))!important;
+  -webkit-text-fill-color:var(--comfier-local-text-paint,var(--comfier-ui-text-paint))!important;
 }
 html:root[data-comfier-theme-uitext] body{
-  color:var(--comfier-ui-text-paint)!important;
-  -webkit-text-fill-color:var(--comfier-ui-text-paint)!important;
+  color:var(--comfier-local-text-paint,var(--comfier-ui-text-paint))!important;
+  -webkit-text-fill-color:var(--comfier-local-text-paint,var(--comfier-ui-text-paint))!important;
 }
-html:root[data-comfier-theme-uitext] body :is(input,textarea,[contenteditable="true"])${exclusion}::placeholder{
-  color:var(--comfier-ui-text-paint)!important;
-  -webkit-text-fill-color:var(--comfier-ui-text-paint)!important;
+html:root[data-comfier-theme-uitext] body :is(input,textarea,[contenteditable="true"])${exclusion}:not(:where(.lg-node,.lg-node *))::placeholder{
+  color:var(--comfier-local-text-paint,var(--comfier-ui-text-paint))!important;
+  -webkit-text-fill-color:var(--comfier-local-text-paint,var(--comfier-ui-text-paint))!important;
   opacity:.65;
 }
-html:root[data-comfier-theme-uitext] body svg :is(text,text *)${exclusion}{
-  fill:var(--comfier-ui-text-paint)!important;
-  color:var(--comfier-ui-text-paint)!important;
-  -webkit-text-fill-color:var(--comfier-ui-text-paint)!important;
+html:root[data-comfier-theme-uitext] body svg :is(text,text *)${exclusion}:not(:where(.lg-node,.lg-node *)){
+  fill:var(--comfier-local-text-paint,var(--comfier-ui-text-paint))!important;
+  color:var(--comfier-local-text-paint,var(--comfier-ui-text-paint))!important;
+  -webkit-text-fill-color:var(--comfier-local-text-paint,var(--comfier-ui-text-paint))!important;
 }
-html:root[data-comfier-theme-uitext] body :is([class*="icon-["],[class*="fa-"],.pi,.p-icon,.mdi,[data-slot="icon"],.comfyui-logo)${exclusion}{
+html:root[data-comfier-theme-uitext] body :is([class*="icon-["],[class*="fa-"],.pi,.p-icon,.mdi,[data-slot="icon"],.comfyui-logo)${exclusion}:not(:where(.lg-node,.lg-node *)){
   color:var(--comfier-icon-color,var(--comfier-icons-global,currentColor))!important;
   -webkit-text-fill-color:currentColor!important;
 }
-html:root[data-comfier-theme-uitext] body svg:not(:has(text))${exclusion}{
+html:root[data-comfier-theme-uitext] body svg:not(:has(text))${exclusion}:not(:where(.lg-node,.lg-node *)){
   color:var(--comfier-icon-color,var(--comfier-icons-global,currentColor))!important;
   -webkit-text-fill-color:currentColor!important;
 }
 `;
 	const fixedScopes = ".comfier-app-settings-native-panel,.ufu-inspector,.ufu-confirm,.ufu-editor-status,.ufu-toolbar-menu,.comfier-theme-editor,.comfier-theme-profiles,#comfier-ui-zoom-test";
 	const fixed = `html:root body :is(${fixedScopes}):is(${fixedScopes}):is(${fixedScopes})`;
+	const requestedThemeCorrections = `
+html:root body .comfier-early-floating-panel:not(:has(.comfier-app-settings-native-panel)) :is(.bg-comfy-menu-bg,.bg-modal-panel-background,.bg-base-background):not([role="switch"],[role="switch"] *){background-color:transparent!important}
+html:root body dialog.comfier-repository-choice.comfier-repository-choice.comfier-repository-choice{background:var(--comfier-panel-paint,var(--comfy-menu-bg,#171717))!important;border-color:var(--comfier-panel-frame,#777)!important;color:var(--comfier-ui-font,#fff)!important;-webkit-text-fill-color:var(--comfier-ui-font,#fff)!important}
+html:root body .comfier-repository-choice.comfier-repository-choice.comfier-repository-choice :is(h2,label,button,span){color:var(--comfier-ui-font,#fff)!important;-webkit-text-fill-color:var(--comfier-ui-font,#fff)!important}
+html:root body .comfier-repository-choice.comfier-repository-choice.comfier-repository-choice button{background:var(--comfier-button-bg,var(--color-secondary-background,#242427))!important;border-color:var(--comfier-button-frame,#aaa)!important}
+html:root body .comfier-repository-choice.comfier-repository-choice.comfier-repository-choice input[type=checkbox]{appearance:none!important;width:18px!important;height:18px!important;min-width:18px!important;min-height:18px!important;margin:0!important;border:2px solid var(--comfier-ui-font,#fff)!important;border-radius:3px!important;background:transparent!important;accent-color:var(--comfier-ui-font,#fff)!important}
+html:root body .comfier-repository-choice.comfier-repository-choice.comfier-repository-choice input[type=checkbox]:checked{background-color:var(--comfier-ui-font,#fff)!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m3 8 3 3 7-8' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E")!important;background-size:100% 100%!important}
+`;
 	const fixedReadabilityCss = `
-${fixed}{--comfier-ui-font:#fff!important;--comfier-ui-text-paint:#fff!important;--comfier-icon-color:#fff!important;--comfier-button-bg:#fff!important;--comfier-control-background:#fff!important;--comfier-button-frame:#aaa!important;--comfier-active-color:#20DFF3!important;background:#111!important;background-image:none!important;border-color:#fff!important;color:#fff!important;-webkit-text-fill-color:#fff!important;color-scheme:dark;opacity:1!important}
+${fixed}{--comfier-ui-font:#fff!important;--comfier-ui-text-paint:#fff!important;--comfier-icon-color:#fff!important;--comfier-button-bg:#fff!important;--comfier-control-background:#fff!important;--comfier-button-frame:#aaa!important;--comfier-active-color:#20DFF3!important;background:var(--comfier-fixed-background,#111)!important;background-image:none!important;border-color:#fff!important;color:#fff!important;-webkit-text-fill-color:#fff!important;color-scheme:dark;opacity:1!important}
 html:root body .comfier-early-floating-panel:has(.comfier-app-settings-native-panel){background:#111!important;background-image:none!important;border-color:#fff!important;opacity:1!important}
 ${fixed} :is(h2,h3,label,legend,p,small,strong,span,output){color:#fff!important;-webkit-text-fill-color:#fff!important}
-${fixed} :is(button:not(.theme-recent):not(.theme-back),select,textarea,input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=hidden])){background:#fff!important;background-image:none!important;border-color:#aaa!important;color:#111!important;-webkit-text-fill-color:#111!important;color-scheme:light;--comfier-control-background:#fff!important;--comfier-icon-color:#111!important}
+${fixed} :is(button:not(.theme-color-swatch),select,textarea,input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]):not([type=hidden])){background:#fff!important;background-image:none!important;border-color:#aaa!important;color:#111!important;-webkit-text-fill-color:#111!important;color-scheme:light;--comfier-control-background:#fff!important;--comfier-icon-color:#111!important}
 ${fixed} :is(button,select) :is(span,i,svg){color:#111!important;-webkit-text-fill-color:#111!important}
 ${fixed} :is(input,textarea)::placeholder{color:#666!important;-webkit-text-fill-color:#666!important;opacity:1!important}
 ${fixed} input:is([type=checkbox],[type=radio]){accent-color:#fff!important}
-${fixed} button:is([aria-pressed=true],[aria-selected=true],[aria-expanded=true],[data-state=active],[data-state=checked]),${fixed} :is(input,select,textarea,button):focus-visible{outline:2px solid #20DFF3!important;outline-offset:2px!important;box-shadow:none!important}
-${fixed} :is(.picker-hex,.theme-hex){width:calc(6ch + 24px)!important;min-width:calc(6ch + 24px)!important;max-width:calc(6ch + 24px)!important;flex:0 0 calc(6ch + 24px)!important;box-sizing:content-box!important;font-family:monospace!important}
+${fixed} button:is([aria-pressed=true],[aria-selected=true],[aria-expanded=true],[data-state=active],[data-state=checked]),${fixed} :is(input,select,textarea,button):focus-visible{outline:2px solid #20DFF3!important;outline-offset:var(--comfier-selection-offset,2px)!important;box-shadow:none!important}
 `;
-	function compile() {
-		return refinementDefaults + groups.filter((g) => g.bindings.length).map((g) => g.bindings.map((b) => {
-			const gate = optionalRoles.includes(b.role) ? `[data-comfier-theme-${b.role.toLowerCase()}]` : "";
-			const selectors = g.selectors.map((s) => {
-				const i = s.indexOf("::");
-				return "html:root" + gate + " body " + (i < 0 ? s + exclusion : s.slice(0, i) + exclusion + s.slice(i));
-			});
-			return `/* ${g.id}: ${b.role} */\n${selectors.join(",\n")}{${b.property}:${b.value}!important}`;
-		}).join("\n")).join("\n") + uiFontCss + fixedReadabilityCss;
-	}
-	function nativeLegacyCss(css) {
-		return css.replace(/([^{}]+)\{([^{}]*)\}/g, (all, selector, body) => {
-			if (selector.trim().startsWith("@")) return all;
-			const kept = [];
-			const gated = [];
-			for (const declaration of body.split(";")) {
-				const colon = declaration.indexOf(":");
-				if (colon < 0) {
-					kept.push(declaration);
-					continue;
-				}
-				const property = declaration.slice(0, colon).trim();
-				const value = declaration.slice(colon + 1);
-				const role = roles.find((r) => value.includes(r.variable));
-				if (role && ![
-					"box-shadow",
-					"border",
-					"border-top",
-					"border-bottom",
-					"outline"
-				].includes(property) && !(selector.includes("::before") && value.includes("--comfier-icon-color"))) {
-					const pseudo = selector.trim().match(/(::[a-z-]+)$/i);
-					const tail = pseudo ? pseudo[1] : "";
-					const target = tail ? selector.trim().slice(0, -tail.length) : selector.trim();
-					gated.push(`:root[data-comfier-theme-${role.id.toLowerCase()}] :is(${target})${tail}{${declaration};}`);
-				} else kept.push(declaration);
-			}
-			return `${selector}{${kept.join(";")}}${gated.join("")}`;
-		});
-	}
+    function compile() {
+        return refinementDefaults + groups.filter(g=>g.bindings.length).map(g=>{
+            const byRole=new Map();
+            for(const b of g.bindings){if(!byRole.has(b.role))byRole.set(b.role,[]);byRole.get(b.role).push(b);}
+            return [...byRole].map(([role,bindings])=>{
+                const gate=optionalRoles.includes(role)?`[data-comfier-theme-${role.toLowerCase()}]`:'';
+                const selectors=g.selectors.map(s=>{const i=s.indexOf('::');return 'html:root'+gate+' body '+(i<0?s+exclusion:s.slice(0,i)+exclusion+s.slice(i));});
+                return `/* ${g.id}: ${role} */\n${selectors.join(',\n')}{${bindings.map(b=>`${b.property}:${b.value}!important`).join(';')}}`;
+            }).join('\n');
+        }).join('\n') + uiFontCss + fixedReadabilityCss + requestedThemeCorrections;
+    }
+
 	window.__comfierThemeManifest = {
 		schemaVersion: 1,
 		upstreamRevision: "ca35810a393789af3389b4e4681ea98bba677e49",
 		roles,
+        nodeRoles, addSocketTypes, workflowNodeRoles,
 		groups,
 		optionalRoles,
 		nativeSwatches,
-		compile,
-		nativeLegacyCss
+		compile
 	};
 }
 //#endregion
 //#region src/comfier/theme_studio.js
-function compactComfierHexFields(root) {
-	if (!root) return;
-	for (const input of root.querySelectorAll(".picker-hex,.theme-hex")) {
-		if (input.dataset.comfierCompactHex || !input.isConnected || !input.offsetWidth) continue;
-		const width = input.offsetWidth - (input.classList.contains("picker-hex") ? 20 : 32);
-		const height = input.offsetHeight - 20;
-		input.dataset.comfierCompactHex = "true";
-		for (const [key, value] of Object.entries({width: width + "px", minWidth: width + "px", maxWidth: width + "px", height: height + "px", minHeight: height + "px", maxHeight: height + "px", flex: "0 0 " + width + "px", boxSizing: "border-box", padding: "0px 4px", lineHeight: "1"})) {
-			input.style.setProperty(key.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase()), value, "important");
-		}
-	}
+function dismissEditorTextSelection(root) {
+	const field = document.activeElement;
+	if (root?.contains(field) && field?.matches?.("input,textarea,[contenteditable=true]")) field.blur();
+	const selection = window.getSelection?.();
+	if (root?.contains(selection?.anchorNode)) selection.removeAllRanges();
+	window.ComfyRemoteKeyboard?.dismissTextSelection?.();
 }
 function installThemeStudio() {
 	"use strict";
+function validatedNodeFrameWidth(value) {
+ if (value === undefined) return 2;
+ if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 12) throw Error('Node frame width must be between 0 and 12 px.');
+ return value;
+}
+
 	if (window.__comfierThemeStudio) {
 		window.__comfierThemeStudio.refresh();
 		return;
 	}
 	const manifest = window.__comfierThemeManifest;
 	if (!manifest) return;
-	const ROOT = "comfier-ui-zoom-test";
 	const STORE = "comfier.theme.test1.";
-	const RECENTS = STORE + "recents";
+    function splitFontProfile(value){
+        if(!value||value.fontRolesVersion>=2||!value.colors?.nodeFont||value.colors.nodeHeaderFont)return value;
+        return {...value,fontRolesVersion:2,colors:{...value.colors,nodeHeaderFont:value.colors.nodeFont},transparency:{...value.transparency,nodeHeaderFont:value.transparency?.nodeFont||0}};
+    }
+    try {
+        if(localStorage.getItem(STORE+'fontRoles.v2')!=='2'){
+            const saved=JSON.parse(localStorage.getItem(STORE+'assigned.v1')||'null');
+            if(Array.isArray(saved)&&saved.includes('nodeFont')&&!saved.includes('nodeHeaderFont')){
+                const color=localStorage.getItem(STORE+'nodeFont');
+                if(color){localStorage.setItem(STORE+'nodeHeaderFont',color);localStorage.setItem(STORE+'nodeHeaderFont.transparency',localStorage.getItem(STORE+'nodeFont.transparency')||'0');saved.push('nodeHeaderFont');localStorage.setItem(STORE+'assigned.v1',JSON.stringify(saved));}
+            }
+            localStorage.setItem(STORE+'fontRoles.v2','2');
+        }
+    }catch(error){console.warn('Node font migration could not save',error);}
 	const roles = manifest.roles;
-	const defaults = Object.fromEntries(roles.map((r) => [r.id, r.defaultColor]));
+    function registerSocketRoles(keys) {
+        const types=[];
+        for(const key of keys) if(key.startsWith('socket:')) {try {const type=decodeURIComponent(key.slice(7));if('socket:'+encodeURIComponent(type)===key)types.push(type);}catch(_) {}}
+        manifest.addSocketTypes(types);
+    }
+    try {
+        const saved=JSON.parse(localStorage.getItem(STORE+'assigned.v1')||'[]');
+        registerSocketRoles([...saved,...Object.keys(window.__comfierDefaultProfile?.colors||{})]);
+    } catch(_) {}
+    const defaults = Object.fromEntries(roles.map((r) => [r.id, r.defaultColor]));
 	const normalize = (v) => {
 		const x = String(v || "").trim().replace(/^#/, "");
 		return /^[0-9a-f]{6}$/i.test(x) ? "#" + x.toLowerCase() : null;
 	};
-	const profile = window.__comfierDefaultProfile || {};
+	const profile = splitFontProfile(window.__comfierDefaultProfile || {});
 	const profileColorsDefault = profile.colors || {};
 	const profileTransparency = profile.transparency || {};
 	const BASELINE = STORE + "baseline.v1";
@@ -89291,7 +89631,7 @@ function installThemeStudio() {
 	let storedAssignment = null;
 	try {
 		const saved = localStorage.getItem(BASELINE);
-		if (saved) baseline = JSON.parse(saved);
+		if (saved) baseline = splitFontProfile(JSON.parse(saved));
 		else if (roles.some(({ id }) => localStorage.getItem(STORE + id) !== null)) baseline = {
 			colors: {
 				icons: "#ffffff",
@@ -89303,6 +89643,7 @@ function installThemeStudio() {
 		};
 		storedAssignment = JSON.parse(localStorage.getItem(ASSIGNED) || "null");
 		if (!saved) localStorage.setItem(BASELINE, JSON.stringify({
+            fontRolesVersion:2,
 			colors: baseline.colors || {},
 			transparency: baseline.transparency || {}
 		}));
@@ -89327,7 +89668,8 @@ function installThemeStudio() {
 	}));
 	function persistAssignment() {
 		try {
-			localStorage.setItem(ASSIGNED, JSON.stringify([...assigned]));
+			const json=JSON.stringify([...assigned]);
+            if(json!==assignmentJson){localStorage.setItem(ASSIGNED,json);assignmentJson=json;}
 		} catch (_) {}
 	}
 	let selectedTransparency = 0;
@@ -89343,7 +89685,8 @@ function installThemeStudio() {
 	}
 	const optional = new Set(manifest.optionalRoles);
 	let page = null;
-	let editorHost = null;
+	let canvasDialog = null;
+	let dimensionsDialog = null;
 	let selected = state.icons;
 	let previous = selected;
 	let hsv = {
@@ -89354,7 +89697,23 @@ function installThemeStudio() {
 	let backOff = null;
 	let wheelPointer = null;
 	let wheelCache = null;
-	let lastActive = void 0;
+	let activeTab = 'colors';
+    let paintRevision = 0;
+    let assignedPaints = {};
+    let nativeSignature = null;
+    let activeColorsCache = null;
+    let assignmentJson = null;
+    let lastPaintState = null;
+    let nodeFrameWidth=2;
+    try { const saved=localStorage.getItem(STORE+'nodeFrameWidth');nodeFrameWidth=validatedNodeFrameWidth(saved===null?profile.nodeFrameWidth:Number(saved)); } catch(_) {}
+    function writeNodeFrameWidth(value) {
+        const next=validatedNodeFrameWidth(value);
+        if(next===nodeFrameWidth)return false;
+        nodeFrameWidth=next;localStorage.setItem(STORE+'nodeFrameWidth',String(next));return true;
+    }
+    function setNodeFrameWidth(value) {
+        return edit(()=>{if(!writeNodeFrameWidth(value))return false;paintRoles();renderRoles();return true;});
+    }
 	const hexRgb = (hex) => [
 		1,
 		3,
@@ -89414,38 +89773,31 @@ function installThemeStudio() {
 		});
 		return c[0] * .2126 + c[1] * .7152 + c[2] * .0722 > .179 ? "#000000" : "#ffffff";
 	}
-	function recents() {
-		try {
-			const values = JSON.parse(localStorage.getItem(RECENTS) || "[]");
-			return Array.isArray(values) ? values.map(normalize).filter(Boolean).slice(0, 8) : [];
-		} catch (_) {
-			return [];
-		}
-	}
-	function remember(value) {
-		try {
-			localStorage.setItem(RECENTS, JSON.stringify([value, ...recents().filter((v) => v !== value)].slice(0, 8)));
-		} catch (_) {}
-		renderRecents();
-	}
 	let lastUiFont;
-	function paintRoles() {
-		persistAssignment();
-		document.documentElement.style.setProperty("--comfier-icons-global", colorPaint("icons"));
+    function paintRoles() {
+        const snapshot=JSON.stringify([state,transparency,[...assigned],roles.length,nodeFrameWidth,true]);
+        if(snapshot===lastPaintState)return;
+        lastPaintState=snapshot;
+        persistAssignment();
 		const style = document.documentElement.style;
-		roles.forEach(({ id, variable }) => {
-			style.setProperty("--comfier-" + id + "-opacity", String(1 - transparency[id] / 100));
+        const setProperty=(key,value)=>{if(style.getPropertyValue(key)!==value)style.setProperty(key,value);};
+        const removeProperty=key=>{if(style.getPropertyValue(key))style.removeProperty(key);};
+        setProperty('--comfier-icons-global',colorPaint('icons'));
+        assignedPaints = Object.fromEntries(roles.filter(r=>assigned.has(r.id)).map(({id})=>[id,colorPaint(id)]));
+        roles.forEach(({ id, variable }) => {
+            if (!variable) return;
+			setProperty("--comfier-" + id + "-opacity", String(1 - transparency[id] / 100));
 			if (optional.has(id)) {
 				document.documentElement.toggleAttribute("data-comfier-theme-" + id.toLowerCase(), assigned.has(id));
 				if (!assigned.has(id)) {
-					style.removeProperty(variable);
+					removeProperty(variable);
 					return;
 				}
 			}
-			style.setProperty(variable, colorPaint(id));
+			setProperty(variable, colorPaint(id));
 		});
-		if (assigned.has("uiText")) style.setProperty("--comfier-ui-text-paint", colorPaint("uiText"));
-		else style.removeProperty("--comfier-ui-text-paint");
+		if (assigned.has("uiText")) setProperty("--comfier-ui-text-paint", colorPaint("uiText"));
+		else removeProperty("--comfier-ui-text-paint");
 		const uiFont = assigned.has("uiText") ? colorPaint("uiText") : null;
 		if (uiFont !== lastUiFont) {
 			lastUiFont = uiFont;
@@ -89463,30 +89815,31 @@ function installThemeStudio() {
 			const rgb = "--comfier-" + family + "-bg-rgb";
 			const paint = "--comfier-" + family + "-paint";
 			if (assigned.has(role)) {
-				style.setProperty(rgb, hexRgb(state[role]).join(" "));
-				style.setProperty(paint, `rgb(from ${base} var(${rgb}) / calc(alpha * var(--comfier-${role}-opacity,1)))`);
+				setProperty(rgb, hexRgb(state[role]).join(" "));
+				setProperty(paint, `rgb(from ${base} var(${rgb}) / calc(alpha * var(--comfier-${role}-opacity,1)))`);
 			} else {
-				style.removeProperty(rgb);
-				style.removeProperty(paint);
+				removeProperty(rgb);
+				removeProperty(paint);
 			}
 		}
 		manifest.groups.filter((g) => g.paintVariable).forEach((g) => {
 			const role = g.bindings[0].role;
-			if (assigned.has(role)) style.setProperty(g.paintVariable, g.paintExpression);
-			else style.removeProperty(g.paintVariable);
+			if (assigned.has(role)) setProperty(g.paintVariable, g.paintExpression);
+			else removeProperty(g.paintVariable);
 		});
 		for (const [role, name] of [
 			["icons", "icon"],
 			["active", "active"],
 			["error", "error"]
-		]) style.setProperty("--comfier-" + name + "-text", contrast(state[role]));
-		style.setProperty("--comfier-active-drag", rgbHex(...hexRgb(state.active).map((v) => v * .4)));
-		const outline = assigned.has("icons") ? colorPaint("icons") : null;
-		if (lastActive !== outline) {
-			lastActive = outline;
-			window.app?.canvas?.setDirty(true, true);
-		}
-		window.app?.canvas?.setDirty(true, true);
+		]) setProperty("--comfier-" + name + "-text", contrast(state[role]));
+		setProperty("--comfier-active-drag", rgbHex(...hexRgb(state.active).map((v) => v * .4)));
+        paintRevision++;
+        activeColorsCache=null;
+        const next=JSON.stringify([nodeFrameWidth,...roles.filter(r=>r.nodeRole||r.id==='icons'||r.id==='canvasBg'||(r.id==='panelFrame')).map(({id})=>assignedPaints[id]||null)]);
+        if(next!==nativeSignature){
+            nativeSignature=next;
+            if(nativeGraphTheme.apply?.()) window.app?.canvas?.setDirty(true,true);
+        }
 	}
 	function setSelected(value, redraw = true) {
 		value = normalize(value);
@@ -89499,6 +89852,7 @@ function installThemeStudio() {
 			selectTransparency(selectedTransparency);
 			page.querySelector(".theme-previous").style.background = previous;
 			page.querySelector(".theme-value").value = String(Math.round(hsv.v * 100));
+			page.querySelector(".theme-brightness-value").textContent = Math.round(hsv.v * 100) + "%";
 			if (redraw) drawWheel();
 		}
 		return true;
@@ -89519,8 +89873,8 @@ function installThemeStudio() {
 			localStorage.setItem(STORE + key + ".transparency", String(selectedTransparency));
 		} catch (_) {}
 		paintRoles();
-		remember(selected);
 		renderRoles();
+        if (key === 'canvasBg') return themePng.apply(null).then(()=>true);
 		return true;
 	}
 	function reset() {
@@ -89529,7 +89883,7 @@ function installThemeStudio() {
 	function doReset() {
 		themePng.apply(null)?.catch(e=>console.warn("Canvas reset failed",e));
 		roles.forEach(({ id }) => {
-			state[id] = defaults[id];
+			state[id] = defaults[id] || roles.find(r=>r.id===id).defaultColor;
 			transparency[id] = profileTransparency[id] || 0;
 			try {
 				localStorage.removeItem(STORE + id);
@@ -89564,16 +89918,76 @@ const themePng = (() => {
  function chunks(bytes){if(bytes.length<20||!sig.every((b,i)=>bytes[i]===b))throw Error('Invalid PNG image.');const out=[];let p=8;while(p<bytes.length){if(p+12>bytes.length)throw Error('Truncated PNG.');const n=new DataView(bytes.buffer,bytes.byteOffset+p,4).getUint32(0);if(n>bytes.length-p-12)throw Error('Truncated PNG chunk.');const type=String.fromCharCode(...bytes.subarray(p+4,p+8));if(crc(bytes.subarray(p+4,p+8+n))!==new DataView(bytes.buffer,bytes.byteOffset+p+8+n,4).getUint32(0))throw Error('Invalid PNG checksum.');out.push({type,data:bytes.subarray(p+8,p+8+n),raw:bytes.subarray(p,p+12+n)});p+=12+n;if(type==='IEND'){if(p!==bytes.length)throw Error('Unexpected PNG trailing data.');return out}}throw Error('PNG has no end chunk.')}
  function ours(c){return c.type==='iTXt'&&c.data.length>=KEY.length+5&&KEY.split('').every((s,i)=>c.data[i]===s.charCodeAt(0))&&c.data[KEY.length]===0}
  function readMetadata(bytes){for(const c of chunks(bytes))if(ours(c)){const d=c.data,k=KEY.length;if(d[k+1]!==0||d[k+2]!==0)throw Error('Unsupported compressed theme metadata.');let p=k+3;for(let n=0;n<2;n++){while(p<d.length&&d[p]!==0)p++;if(p===d.length)throw Error('Invalid theme metadata.');p++}if(d.length-p>262144)throw Error('Theme metadata exceeds 256 KB.');return JSON.parse(dec.decode(d.subarray(p)))}return null}
+ async function readWorkflow(bytes){
+  for(const c of chunks(bytes)){
+   if(!['tEXt','iTXt','zTXt'].includes(c.type))continue;
+   const d=c.data,k=d.indexOf(0);if(k<0)throw Error('Invalid PNG text chunk.');
+   if(!['workflow','Workflow'].includes(dec.decode(d.subarray(0,k))))continue;
+   let p=k+1,compressed=false;
+   if(c.type==='zTXt'){if(d[p++]!==0)throw Error('Unsupported PNG compression.');compressed=true;}
+   if(c.type==='iTXt'){
+    const flag=d[p++],method=d[p++];if((flag!==0&&flag!==1)||method!==0)throw Error('Unsupported PNG compression.');compressed=flag===1;
+    for(let n=0;n<2;n++){const end=d.indexOf(0,p);if(end<0)throw Error('Invalid PNG text chunk.');p=end+1;}
+   }
+   const body=compressed?await decompressZlib(d.subarray(p)):d.subarray(p);
+   if(body.length>6*1024*1024)throw Error('Workflow metadata exceeds 6 MiB.');
+   return JSON.parse(dec.decode(body));
+  }
+  return null;
+ }
  function strip(bytes){return new Blob([bytes.subarray(0,8),...chunks(bytes).filter(c=>!ours(c)).map(c=>c.raw)],{type:'image/png'})}
- function embed(bytes,profile){const body=enc.encode(JSON.stringify(profile));if(body.length>262144)throw Error('Theme metadata exceeds 256 KB.');const data=new Uint8Array(KEY.length+5+body.length);data.set(enc.encode(KEY));data.set(body,KEY.length+5);const chunk=new Uint8Array(data.length+12),v=new DataView(chunk.buffer);v.setUint32(0,data.length);chunk.set(enc.encode('iTXt'),4);chunk.set(data,8);v.setUint32(data.length+8,crc(chunk.subarray(4,data.length+8)));const list=chunks(bytes);return new Blob([bytes.subarray(0,8),...list.filter(c=>!ours(c)).flatMap(c=>c.type==='IEND'?[chunk,c.raw]:[c.raw])],{type:'image/png'})}
- async function dataUrl(blob){return await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(Error('Unable to read PNG.'));r.readAsDataURL(blob)})}
- function validate(value){if(value!==null&&value!==undefined&&(typeof value!=='string'||!/^data:image\/png;base64,[A-Za-z0-9+/]+=*$/.test(value)||value.length>Math.ceil(MAX*4/3)+32))throw Error('Invalid canvas PNG (maximum 4 MiB).');return value||null}
+ function webpChunks(bytes){
+  if(bytes.length<12||dec.decode(bytes.subarray(0,4))!=='RIFF'||dec.decode(bytes.subarray(8,12))!=='WEBP')throw Error('Invalid WebP image.');
+  const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength),end=view.getUint32(4,true)+8;
+  if(end!==bytes.length)throw Error('Invalid WebP length.');const list=[];
+  for(let p=12;p<end;){if(p+8>end)throw Error('Truncated WebP.');const n=view.getUint32(p+4,true),next=p+8+n+(n%2);if(next>end)throw Error('Truncated WebP chunk.');list.push({type:dec.decode(bytes.subarray(p,p+4)),data:bytes.slice(p+8,p+8+n)});p=next;}
+  return list;
+ }
+ function embedWebp(bytes,profile,width,height){
+  if(!Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1||width>16777216||height>16777216)throw Error('Invalid WebP dimensions.');
+  const snapshot={...profile};delete snapshot.canvasImage;
+  const text=JSON.stringify(snapshot);if(enc.encode(text).length>262144)throw Error('Theme metadata exceeds 256 KB.');
+  // ASCII JSON in the same workflow EXIF convention used by ComfyUI WebP savers.
+  const workflow=JSON.stringify({extra:{comfierTheme:snapshot}}).replace(/[\u007f-\uffff]/g,c=>'\\u'+c.charCodeAt(0).toString(16).padStart(4,'0'));
+  const body=enc.encode('workflow:'+workflow+'\0'),tiff=new Uint8Array(26+body.length),v=new DataView(tiff.buffer);
+  tiff.set([73,73,42,0]);v.setUint32(4,8,true);v.setUint16(8,1,true);v.setUint16(10,0x110,true);v.setUint16(12,2,true);v.setUint32(14,body.length,true);v.setUint32(18,26,true);tiff.set(body,26);
+  const list=webpChunks(bytes).filter(c=>c.type!=='EXIF');let header=list.find(c=>c.type==='VP8X');
+  if(header){if(header.data.length!==10)throw Error('Invalid WebP extended header.');header.data[0]|=8;}
+  else{const data=new Uint8Array(10);data[0]=8|(list.some(c=>c.type==='ALPH'||(c.type==='VP8L'&&c.data.length>=5&&(c.data[4]&16)))?16:0);for(let i=0;i<3;i++){data[4+i]=((width-1)>>>(i*8))&255;data[7+i]=((height-1)>>>(i*8))&255;}list.unshift({type:'VP8X',data});}
+  const exif={type:'EXIF',data:tiff},xmp=list.findIndex(c=>c.type==='XMP ');if(xmp<0)list.push(exif);else list.splice(xmp,0,exif);
+  const total=12+list.reduce((n,c)=>n+8+c.data.length+(c.data.length%2),0),out=new Uint8Array(total),dv=new DataView(out.buffer);out.set(enc.encode('RIFF'));dv.setUint32(4,total-8,true);out.set(enc.encode('WEBP'),8);let offset=12;
+  for(const c of list){out.set(enc.encode(c.type),offset);dv.setUint32(offset+4,c.data.length,true);out.set(c.data,offset+8);offset+=8+c.data.length+(c.data.length%2);}
+  return new Blob([out],{type:'image/webp'});
+ }
+ async function webpImage(value){
+  const original=typeof value==='string'?(await fetch(value)).blob():Promise.resolve(value),input=await original;
+  const image=new Image(),url=URL.createObjectURL(input);
+  try{
+   await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(Error('Image could not be decoded.'));image.src=url;});
+   let blob=input;
+   if(input.type!=='image/webp'){
+    const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;canvas.getContext('2d').drawImage(image,0,0);
+    blob=await new Promise((resolve,reject)=>canvas.toBlob(v=>v&&v.type==='image/webp'?resolve(v):reject(Error('WebP encoding is unavailable in this browser.')),'image/webp',0.95));
+   }
+   if(blob.size>MAX)throw Error('Reusable canvas images support up to 4 MiB.');
+   return {blob,width:image.naturalWidth,height:image.naturalHeight};
+  }finally{URL.revokeObjectURL(url);}
+ }
+ async function toWebp(value){if(!value)return value;const image=await webpImage(value);return dataUrl(image.blob);}
+ async function profileFile(profile){
+  if(!profile.canvasImage)return new Blob([JSON.stringify(profile,null,2)],{type:'application/json'});
+  const image=await webpImage(profile.canvasImage);profile.canvasImage=await dataUrl(image.blob);
+  return embedWebp(new Uint8Array(await image.blob.arrayBuffer()),profile,image.width,image.height);
+ }
+ async function dataUrl(blob){return await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(Error('Unable to read image.'));r.readAsDataURL(blob)})}
+ function validate(value){if(value!==null&&value!==undefined&&(typeof value!=='string'||!/^data:image\/(?:png|webp);base64,[A-Za-z0-9+/]+=*$/.test(value)||value.length>Math.ceil(MAX*4/3)+32))throw Error('Invalid canvas image (PNG/WebP, maximum 4 MiB).');return value||null}
  let source=null,activePath=null;
  const settings=useSettingStore(), SETTING='Comfy.Canvas.BackgroundImage';
  async function prepare(value){
   value=validate(value);if(!value)return '';
   const blob=await (await fetch(value)).blob();
-  const file=new File([blob], 'comfier-theme-'+(crypto.randomUUID?.()||Date.now())+'.png',{type:'image/png'});
+  const type=value.startsWith('data:image/webp;')?'image/webp':'image/png';
+  const file=new File([blob], 'comfier-theme-'+(crypto.randomUUID?.()||Date.now())+(type==='image/webp'?'.webp':'.png'),{type});
   const body=new FormData();body.append('image',file);body.append('subfolder','backgrounds');
   const response=await api.fetchApi('/upload/image',{method:'POST',body});
   if(response.status!==200)throw Error('Canvas upload failed: '+response.status);
@@ -89583,7 +89997,7 @@ const themePng = (() => {
   appendCloudResParam(params,file.name);
   return api.apiURL('/view?'+params.toString());
  }
- async function apply(value,path){
+ async function apply(value,path,options={}){
   value=validate(value);
   // Use the same uploaded-file URL as native Appearance settings.
   let url=path===undefined ? (value ? settings.get(SETTING)||'' : '') : path;
@@ -89592,40 +90006,37 @@ const themePng = (() => {
   else if(value)localStorage.setItem(STORE,value);else localStorage.removeItem(STORE);
   source=value;
   activePath=url;
-  const displaySource=url;
-  document.documentElement.toggleAttribute('data-comfier-canvas-image',!!url);
-  if(url)document.documentElement.style.setProperty('--bg-img',`url('${displaySource}')`);
-  else document.documentElement.style.removeProperty('--bg-img');
-  if(app.canvas && url){app.canvas.clear_background_color='transparent';app.canvas.background_image=null;}
   return settings.set(SETTING,url).then(async()=>{
-    // Decode the actual picture before requesting its visible frame.
-    let decoded=null;
-    if(displaySource)decoded=await new Promise((resolve,reject)=>{
-      const image=new Image();
-      image.onload=()=>resolve(image);image.onerror=()=>reject(Error('Canvas image could not be decoded.'));
-      image.src=displaySource;
-    });
     if(source!==value || activePath!==url)return;
-    document.documentElement.toggleAttribute('data-comfier-canvas-image',!!url);
-    if(url)document.documentElement.style.setProperty('--bg-img',`url('${displaySource}')`);
-    else document.documentElement.style.removeProperty('--bg-img');
-    if(app.canvas && url){app.canvas.clear_background_color='transparent';app.canvas.background_image=null;}
-    window.__comfierCanvasImage?.setImage?.(url,decoded?.naturalWidth,decoded?.naturalHeight,false);
-    app.canvas?.setDirty(true,true);
-    app.canvas?.draw(true,true);
-    window.ComfierApp?.repaintWorkspace?.();
+    await nativeGraphTheme.background?.();
+    if(source!==value || activePath!==url)return;
+    if(options.warnGallery && url && window.__comfierCanvasPreview?.enabled) warnGallery();
   });
+ }
+ let warningDialog=null;
+ function warnGallery(){
+  warningDialog?.close();
+  const dialog=document.createElement('dialog');dialog.className='ufu-confirm comfier-gallery-canvas-warning';
+  dialog.setAttribute('aria-label','Canvas Live Gallery is enabled');
+  const text=document.createElement('p');
+  text.textContent='Your canvas image has been applied. Check Canvas Live Gallery in ComfierUI Settings before leaving settings: turn it off to keep your chosen image, or the next completed generation will overwrite it.';
+  const footer=document.createElement('footer');footer.style.cssText='display:flex;justify-content:center;padding:12px';
+  const ok=document.createElement('button');ok.type='button';ok.textContent='OK';ok.style.cssText='min-width:96px;min-height:40px;padding:8px 24px';footer.append(ok);dialog.append(text,footer);
+  let release;const close=()=>dialog.close();
+  ok.addEventListener('click',close);
+  dialog.addEventListener('cancel',event=>{event.preventDefault();close();});
+  dialog.addEventListener('close',()=>{release?.();if(warningDialog===dialog)warningDialog=null;dialog.remove();},{once:true});
+  document.body.append(dialog);warningDialog=dialog;dialog.showModal();release=registerBackDismiss(close);
  }
  const read=()=>window.ComfierApp?.getCanvasThemeImage ? window.ComfierApp.getCanvasThemeImage() || localStorage.getItem(STORE) : localStorage.getItem(STORE);
  try{const saved=read();if(saved)apply(saved,settings.get(SETTING)||undefined)?.catch(e=>console.warn('Canvas theme could not restore',e));}catch(e){console.warn('Canvas theme image could not load',e)}
- return {MAX,read:readMetadata,strip,embed,dataUrl,validate,prepare,apply,get:()=>source,url:()=>settings.get(SETTING)||''};
+ return {MAX,read:readMetadata,readWorkflow,strip,embedWebp,webpImage,toWebp,profileFile,dataUrl,validate,prepare,apply,get:()=>source,url:()=>settings.get(SETTING)||''};
 })();
 window.__comfierThemePng=themePng;
 // Per-view canvas image framing. Direct editor owners and viewport/image callbacks only.
 window.__comfierCanvasImage = (() => {
  const KEY='comfier.canvas-image-frames.v1';
  const MODES=['outerPortrait','outerLandscape','innerPortrait','innerLandscape'];
- const NAMES={outerPortrait:'Phone Portrait',outerLandscape:'Phone Landscape',innerPortrait:'Tablet Portrait',innerLandscape:'Tablet Landscape / Desktop'};
  const copy=value=>JSON.parse(JSON.stringify(value));
  const view=()=>{const value=window.__comfierViewport?.mode?.();return MODES.includes(value)?value:'innerLandscape';};
  function validate(value){
@@ -89641,7 +90052,7 @@ window.__comfierCanvasImage = (() => {
   return result;
  }
  let frames={};try{frames=validate(JSON.parse(localStorage.getItem(KEY)||'{}'));}catch(_){}
- let activeUrl='',width=0,height=0,imageRequest=0,session=null;
+ let activeUrl='',width=0,height=0,imageRequest=0,session=null,pendingImage=null,lastPaint=null;
  const host=()=>document.querySelector?.('#graph-canvas-container');
  const current=()=>copy((session?.frames||frames)[view()]||{x:50,y:50,zoom:1});
  function geometry(w,h,frame=current()){
@@ -89650,26 +90061,37 @@ window.__comfierCanvasImage = (() => {
  }
  function paint(redraw=true){
   const root=document.documentElement.style,box=host()?.getBoundingClientRect();
-  const url=session?.url||activeUrl;
+  const url=session?.url||activeUrl,frame=current();
+  const size=box&&box.width>0&&box.height>0&&width&&height?geometry(box.width,box.height,frame):null;
+  const key=JSON.stringify([url,frame,size,url?'transparent':app.canvas?.clear_background_color]);
+  session?.update?.();
+  if(key===lastPaint)return;
+  lastPaint=key;
   if(url)root.setProperty('--bg-img',`url(${JSON.stringify(url)})`);else root.removeProperty('--bg-img');
   document.documentElement.toggleAttribute('data-comfier-canvas-image',!!url);
   if(url&&app.canvas){app.canvas.clear_background_color='transparent';app.canvas.background_image=null;}
-  const frame=current();
   root.setProperty('--comfier-canvas-image-position',`${frame.x}% ${frame.y}%`);
-  const size=box&&box.width>0&&box.height>0&&width&&height?geometry(box.width,box.height,frame):null;
   root.setProperty('--comfier-canvas-image-size',size?`${size.width}px ${size.height}px`:'cover');
-  session?.update?.();
   if(redraw){app.canvas?.setDirty(true,true);app.canvas?.draw(true,true);}
  }
  function setImage(url,w,h,redraw=true){imageRequest++;activeUrl=url||'';width=w||0;height=h||0;paint(redraw);}
  function sync(url){
-  if(session)return paint();
-  if(url===activeUrl&&width&&height)return paint();
-  activeUrl=url||'';width=height=0;const request=++imageRequest;paint();
-  if(!url)return;
-  const image=new Image();image.onload=()=>{if(request===imageRequest&&!session)setImage(url,image.naturalWidth,image.naturalHeight);};image.src=url;
+  url=url||'';
+  if(session){paint();return Promise.resolve();}
+  if(pendingImage?.url===url&&pendingImage.request===imageRequest)return pendingImage.promise;
+  if(url===activeUrl&&(!url||width&&height)){if(pendingImage){imageRequest++;pendingImage=null;}paint();return Promise.resolve();}
+  const request=++imageRequest;
+  if(!url){pendingImage=null;setImage('',0,0);return Promise.resolve();}
+  const promise=new Promise((resolve,reject)=>{
+   const image=new Image();
+   image.onload=()=>{if(pendingImage?.request===request)pendingImage=null;if(request===imageRequest&&!session)setImage(url,image.naturalWidth,image.naturalHeight);resolve();};
+   image.onerror=()=>{if(pendingImage?.request===request)pendingImage=null;reject(Error('Canvas image could not be decoded.'));};
+   image.src=url;
+  });
+  pendingImage={url,promise,request};
+  return promise;
  }
- function importFrames(value){frames=validate(value);localStorage.setItem(KEY,JSON.stringify(frames));paint();}
+ function importFrames(value,redraw=true){frames=validate(value);localStorage.setItem(KEY,JSON.stringify(frames));if(redraw)paint();else lastPaint=null;}
  function cancel(){
   if(!session)return;
   const previous=session;session=null;imageRequest++;
@@ -89677,71 +90099,55 @@ window.__comfierCanvasImage = (() => {
   sync(previous.previousUrl);previous.cancel?.();previous.close?.();
  }
  async function portable(url){
-  const existing=themePng.get();if(existing&&url===themePng.url())return existing;
+  const existing=themePng.get();if(existing&&url===themePng.url())return themePng.toWebp(existing);
   const response=await fetch(url);if(!response.ok)throw Error('Could not read the canvas image.');
-  let blob=await response.blob();
-  const bytes=new Uint8Array(await blob.arrayBuffer());
-  if(bytes[0]===137&&bytes[1]===80&&bytes[2]===78&&bytes[3]===71)blob=themePng.strip(bytes);
-  else {
-   const image=new Image();const objectUrl=URL.createObjectURL(blob);
-   try{await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(Error('Image could not be decoded.'));image.src=objectUrl;});
-    const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;
-    canvas.getContext('2d').drawImage(image,0,0);
-    blob=await new Promise((resolve,reject)=>canvas.toBlob(value=>value?resolve(value):reject(Error('Could not save canvas image.')),'image/png'));
-   }finally{URL.revokeObjectURL(objectUrl);}
-  }
-  if(blob.size>themePng.MAX)throw Error('Reusable canvas images support up to 4 MiB.');
-  return themePng.dataUrl(blob);
+  return themePng.toWebp(await response.blob());
  }
  function mount(panel,options={}){
   cancel();
   const url=options.url||themePng.url();
-  panel.replaceChildren();panel.setAttribute('data-canvas-image-editor','true');panel.hidden=false;
-  const header=document.createElement('header'),title=document.createElement('strong');title.textContent='Canvas Image';header.append(title);panel.append(header);
-  const body=document.createElement('div');body.className='ufu-inspector-body';panel.append(body);
+  panel.replaceChildren();panel.classList.add('comfier-canvas-view');panel.hidden=false;
+  const header=document.createElement('header'),title=document.createElement('strong');title.textContent='Canvas View';header.append(title);panel.append(header);
+  const body=document.createElement('div');body.className='comfier-canvas-view-body';panel.append(body);
   const status=document.createElement('p');status.setAttribute('role','status');body.append(status);
-  const close=document.createElement('button');close.type='button';close.textContent='Close';close.onclick=()=>{cancel();options.close?.();};header.append(close);
-  if(window.__comfierCanvasPreview?.enabled){status.textContent='Turn off Canvas Live Gallery in ComfierUI Settings to edit the current image.';return;}
-  if(!url){status.textContent='Upload a PNG through Global Theme > Themes > Profiles to add a canvas image.';return;}
+  if(!url){
+   status.textContent='Upload a PNG or WebP through Global Theme > Themes > Profiles to add a canvas image.';
+   const footer=document.createElement('footer');panel.append(footer);
+   for(const name of ['Center','Reset View','Cancel','Apply To This View']){
+    const button=document.createElement('button');button.type='button';button.textContent=name;
+    button.disabled=name!=='Cancel';if(name==='Cancel')button.onclick=()=>options.close?.();footer.append(button);
+   }
+   return;
+  }
   const previousUrl=themePng.url();
   const draft={previousClear:app.canvas?.clear_background_color,previousBackground:app.canvas?.background_image,frames:validate(options.frames===undefined?frames:options.frames),url,previousUrl,cancel:options.cancel,close:options.close,source:options.source||null,ready:false};session=draft;
   status.textContent='Loading image…';
-  const label=document.createElement('p');body.append(label);
   const preview=document.createElement('div');preview.className='comfier-canvas-crop-preview';preview.setAttribute('aria-label','Drag to position the canvas image; pinch or scroll to zoom.');body.append(preview);
-  const fields={};
-  for(const [key,name,min,max,step]of [['x','Horizontal position',0,100,.1],['y','Vertical position',0,100,.1],['zoom','Zoom',1,4,.01]]){
-   const row=document.createElement('label'),text=document.createElement('span'),input=document.createElement('input'),output=document.createElement('output');text.textContent=name;
-   input.type='range';input.min=min;input.max=max;input.step=step;input.setAttribute('aria-label',name);
-   row.append(text,input,output);body.append(row);fields[key]={input,output};
-   input.oninput=()=>{if(session!==draft)return;draft.frames[view()]={...current(),[key]:Number(input.value)};paint();};
-  }
   const buttons=document.createElement('footer');panel.append(buttons);
   const action=(name,fn)=>{const button=document.createElement('button');button.type='button';button.textContent=name;button.onclick=fn;buttons.append(button);return button;};
   action('Center',()=>{draft.frames[view()]={...current(),x:50,y:50};paint();});
-  action('Reset view',()=>{draft.frames[view()]={x:50,y:50,zoom:1};paint();});
+  action('Reset View',()=>{draft.frames[view()]={x:50,y:50,zoom:1};paint();});
   action('Cancel',()=>{cancel();options.close?.();});
-  const apply=action('Apply to this view',async()=>{
+  const apply=action('Apply To This View',async()=>{
    if(session!==draft||!draft.ready)return;
-   apply.disabled=true;status.textContent='Applying…';
+   apply.disabled=true;status.hidden=false;status.textContent='Applying…';
    try{
     const source=draft.source||await portable(url);
     if(session!==draft)return;
     const result=copy(draft.frames);session=null;
     if(options.commit)options.commit(result,source);
     else {
-     const commit=()=>{importFrames(result);return themePng.apply(source,url);};
+     const commit=()=>{importFrames(result,false);return themePng.apply(source,url,{warnGallery:true});};
      await (window.__comfierLayoutEditor?.changeGlobal?window.__comfierLayoutEditor.changeGlobal(commit):commit());
     }
     options.close?.();
-   }catch(error){status.textContent=error.message;apply.disabled=false;}
+   }catch(error){status.hidden=false;status.textContent=error.message;apply.disabled=false;}
   });apply.disabled=true;
   draft.update=()=>{
-   label.textContent=NAMES[view()]+' — drag the preview or use the controls. Other views keep their own framing.';
-   for(const [key,field]of Object.entries(fields)){const value=current()[key];field.input.value=value;field.output.textContent=key==='zoom'?value.toFixed(2)+'×':Math.round(value)+'%';}
    const box=host()?.getBoundingClientRect()||{width:240,height:240};
-   const available=preview.parentElement?.getBoundingClientRect().width||240;
-   const portalHeight=Math.min(200,available*box.height/Math.max(1,box.width));
-   preview.style.width=portalHeight*box.width/Math.max(1,box.height)+'px';preview.style.height=portalHeight+'px';
+   const available=body.getBoundingClientRect();
+   const scale=Math.min(Math.max(1,available.width)/Math.max(1,box.width),Math.max(1,available.height)/Math.max(1,box.height));
+   preview.style.width=box.width*scale+'px';preview.style.height=box.height*scale+'px';
    const bounds=preview.getBoundingClientRect();const size=geometry(bounds.width||240,bounds.height||240);
    preview.style.backgroundImage=`url(${JSON.stringify(url)})`;preview.style.backgroundSize=`${size.width}px ${size.height}px`;preview.style.backgroundPosition=`${size.x}% ${size.y}%`;
   };
@@ -89764,13 +90170,14 @@ window.__comfierCanvasImage = (() => {
   preview.onpointerup=preview.onpointercancel=preview.onlostpointercapture=release;
   preview.onwheel=e=>{if(session!==draft||!draft.ready)return;e.preventDefault();draft.frames[view()]={...current(),zoom:Math.max(1,Math.min(4,current().zoom*(e.deltaY>0?.9:1.1)))};paint();};
   const image=new Image();image.onload=()=>{
-   if(session!==draft)return;width=image.naturalWidth;height=image.naturalHeight;draft.ready=true;apply.disabled=false;status.textContent='Preview only until Apply. The full original image is preserved.';paint();
+   if(session!==draft)return;width=image.naturalWidth;height=image.naturalHeight;draft.ready=true;apply.disabled=false;status.textContent='';status.hidden=true;paint();
   };image.onerror=()=>{if(session===draft)status.textContent='The canvas image could not load.';};image.src=url;
  }
  window.addEventListener?.('resize',paint,{passive:true});
  window.addEventListener?.('comfier-native-view-mode',paint);
- return {validate,export:()=>copy(frames),import:importFrames,current,geometry,refresh:paint,sync,setImage,mount,cancel};
+ return {validate,export:()=>copy(frames),import:importFrames,current,geometry,refresh:paint,sync,setImage,mount,cancel,portable};
 })();
+window.__comfierCanvasImage.sync(themePng.url()).catch(error=>console.warn('Canvas background could not load',error));
 
 // Canvas Live Gallery follows completed images through the native background setting.
 window.__comfierCanvasPreview = (() => {
@@ -89813,7 +90220,10 @@ window.__comfierCanvasPreview = (() => {
 	let profileDialog = null;
 	let profileSelection = null;
 	let profileRequest = 0;
-	function profileColors(value) {
+    function profileColors(value) {
+        value=splitFontProfile(value);
+        validatedNodeFrameWidth(value?.nodeFrameWidth);
+        if(value?.colors && typeof value.colors==='object') registerSocketRoles(Object.keys(value.colors));
 		if (!value || value.schemaVersion !== 1 || !value.colors || typeof value.colors !== "object" || Array.isArray(value.colors)) throw Error("Unsupported theme profile.");
 		if (value.transparency !== void 0 && (!value.transparency || typeof value.transparency !== "object" || Array.isArray(value.transparency))) throw Error("Invalid theme transparency.");
 		if (value.transparency) for (const { id } of roles) {
@@ -89872,11 +90282,14 @@ window.__comfierCanvasPreview = (() => {
 		while (list.some((p) => nameKey(p) === out.toLowerCase())) out = name.slice(0, 68) + " (" + n++ + ")";
 		return out;
 	}
-	function persistLibrary() {
+	function persistLibrary(artifact = null) {
 		const raw = JSON.stringify(library);
 		if (raw !== persistedLibrary) {
 			if (new Blob([raw]).size > 67108864 || library.profiles.length > 256) throw Error("Theme library storage limit reached.");
-			if (nativeLibrary) window.ComfierApp.setThemeLibrary(raw);
+			if (nativeLibrary) {
+				if (artifact && window.ComfierApp.setThemeLibraryWithProfile) window.ComfierApp.setThemeLibraryWithProfile(raw, artifact.id, artifact.filename, artifact.data);
+				else window.ComfierApp.setThemeLibrary(raw);
+			}
 		}
 		const profiles = JSON.stringify(library.profiles);
 		const sync = JSON.stringify(library.sync);
@@ -89928,21 +90341,6 @@ window.__comfierCanvasPreview = (() => {
 			}
 			library.sync[migration] = true;
 		}
-		if (nativeLibrary && window.ComfierApp.getBundledThemes) {
-			const revision = window.ComfierApp.getBundledThemeRevision?.() || "legacy-v1";
-			if (library.sync.bundledPresetRevision !== revision) {
-				for (const preset of validProfiles(JSON.parse(window.ComfierApp.getBundledThemes()))) {
-					const marker = "bundled-theme:v1:" + nameKey(preset);
-					if (library.sync[marker]) continue;
-					if (!library.profiles.some((p) => nameKey(p) === nameKey(preset))) library.profiles.push({
-						...preset,
-						id: identity()
-					});
-					library.sync[marker] = true;
-				}
-				library.sync.bundledPresetRevision = revision;
-			}
-		}
 		persistLibrary();
 	} catch (e) {
 		throw Error("Theme library initialization failed: " + e.message);
@@ -89950,12 +90348,12 @@ window.__comfierCanvasPreview = (() => {
 	function localProfiles() {
 		return JSON.parse(JSON.stringify(library.profiles));
 	}
-	function writeProfiles(list) {
+	function writeProfiles(list, artifact = null) {
 		if (syncing) throw Error("Themes are syncing. Please try again when refresh finishes.");
 		const previous = library.profiles;
 		library.profiles = validProfiles(list);
 		try {
-			persistLibrary();
+			persistLibrary(artifact);
 		} catch (e) {
 			library.profiles = previous;
 			throw e;
@@ -90139,6 +90537,8 @@ window.__comfierCanvasPreview = (() => {
 	function exportProfile(name) {
 		return {
 			schemaVersion: 1,
+            fontRolesVersion:2,
+            nodeFrameWidth,
 			canvasImage: themePng.get(),
 			canvasFrames: window.__comfierCanvasImage?.export?.()||{},
 			name,
@@ -90156,20 +90556,36 @@ window.__comfierCanvasPreview = (() => {
         "colors-layout": [true,true,false], "colors-canvas": [true,false,true], "layout-canvas": [false,true,true],
         all: [true,true,true], both: [true,true,false]
     };
+    function profileParts(kind) {
+        const parts=Array.isArray(kind) ? kind : PROFILE_PARTS[kind];
+        if(!parts || !parts.some(Boolean))throw Error("Choose at least one part.");
+        return parts;
+    }
     async function loadProfile(profile, kind = "colors", crop = false) {
-        const parts=PROFILE_PARTS[kind];if(!parts)throw Error("Invalid profile parts.");
+        profile=splitFontProfile(profile);
+        const parts=profileParts(kind);
         // Complete the upload before making any theme/layout changes.
         const initiatingDialog=profileDialog;
         const path=parts[2] ? await themePng.prepare(profile.canvasImage) : undefined;
         if(initiatingDialog && profileDialog!==initiatingDialog)throw Error("Theme load canceled.");
-        if(crop && parts[2] && profile.canvasImage && window.__comfierLayoutEditor?.openCanvasImage){
-          const framed=await window.__comfierLayoutEditor.openCanvasImage({source:profile.canvasImage,url:path,frames:profile.canvasFrames||{}});
+        const view = window.__comfierViewport?.mode?.() || "innerLandscape";
+        if((crop || !profile.canvasFrames?.[view]) && parts[2] && profile.canvasImage && window.__comfierThemeStudio?.openCanvasImage){
+          const framed=await window.__comfierThemeStudio.openCanvasImage({source:profile.canvasImage,url:path,frames:profile.canvasFrames||{}});
           profile.canvasFrames=framed.frames;
         }
-        return await edit(() => doLoadProfile(profile,kind,path));
+        if(parts[3]) {
+          if(!profile.workflow)throw Error("This file has no workflow.");
+          await app.loadGraphData(JSON.parse(JSON.stringify(profile.workflow)), true, true, profile.name || "Imported workflow");
+        }
+        const result = await edit(() => doLoadProfile(profile,kind,path));
+        if(parts[2] && profile.id) {
+          const saved = localProfiles(); const index = saved.findIndex(p=>p.id===profile.id);
+          if(index>=0) {saved[index].canvasFrames=profile.canvasFrames||{};writeProfiles(saved);}
+        }
+        return result;
     }
     function doLoadProfile(profile, kind = "colors", path) {
-        const parts=PROFILE_PARTS[kind];if(!parts)throw Error("Invalid profile parts.");
+        const parts=profileParts(kind);
         const [withColors,withLayout,withCanvas]=parts;
         const colors=profileColors(profile);
         if(withCanvas)themePng.validate(profile.canvasImage);
@@ -90178,6 +90594,7 @@ window.__comfierCanvasPreview = (() => {
         if(withColors && profile.dimensions)window.__comfierUiEditorModel?.dimensions(profile.dimensions);
         if(withLayout && profile.layout)window.__comfierLayoutEditor?.importLayout(profile.layout);
         if(withColors) {
+            writeNodeFrameWidth(validatedNodeFrameWidth(profile.nodeFrameWidth));
 			if (profile.appearance) window.__comfierLayoutEditor?.importAppearance(profile.appearance);
 			if (profile.dimensions) window.__comfierUiEditorModel?.setGlobal(profile.dimensions);
 			roles.forEach(({ id }) => {
@@ -90187,15 +90604,15 @@ window.__comfierCanvasPreview = (() => {
 			});
 			assigned.clear();
 			roles.forEach(({ id }) => {
-				state[id] = colors[id] || defaults[id];
+				state[id] = colors[id] || defaults[id] || roles.find(r=>r.id===id).defaultColor;
 				transparency[id] = colors[id] ? profile.transparency?.[id] || 0 : 0;
 				if (colors[id]) assigned.add(id);
 			});
 			paintRoles();
 			renderRoles();
 		}
-        if(withCanvas)window.__comfierCanvasImage?.import?.(profile.canvasFrames||{});
-        const canvasResult=withCanvas ? themePng.apply(profile.canvasImage,path) : null;
+        if(withCanvas)window.__comfierCanvasImage?.import?.(profile.canvasFrames||{},false);
+        const canvasResult=withCanvas ? themePng.apply(profile.canvasImage,path,{warnGallery:true}) : null;
         if(profile.id)localStorage.setItem("comfier.theme.active.v1",profile.id);
         else localStorage.removeItem("comfier.theme.active.v1");
         return canvasResult ? canvasResult.then(()=>true) : true;
@@ -90209,13 +90626,16 @@ window.__comfierCanvasPreview = (() => {
 		profileSelection = null;
 		return true;
 	}
-	function profileShell(title) {
+	function profileShell(title, applyTheme = false) {
 		dismissProfiles();
+		const appDialog = !!window.ComfierApp;
+		const simpleHeader = applyTheme || appDialog;
 		const d = document.createElement("dialog");
 		d.className = "comfier-theme-profiles";
-		d.innerHTML = "<header><strong></strong><button type=\"button\" aria-label=\"Close profiles\">×</button></header><div class=\"theme-profile-body\"></div><p class=\"theme-profile-status\" role=\"status\"></p><footer></footer>";
-		d.querySelector("strong").textContent = title;
-		d.querySelector("header button").onclick = dismissProfiles;
+		d.innerHTML = "<header><strong></strong>" + (simpleHeader ? "" : "<button type=\"button\" aria-label=\"Close profiles\">×</button>") + "</header><div class=\"theme-profile-body\"></div><p class=\"theme-profile-status\" role=\"status\"></p><footer></footer>";
+		d.querySelector("strong").textContent = appDialog && title !== "Are you sure?" ? title.replace(/\b[a-z]/g, c => c.toUpperCase()) : title;
+		if (simpleHeader) d.querySelector("header").style.cssText = "justify-content:center;font-size:18px;";
+		else d.querySelector("header button").onclick = dismissProfiles;
 		d.addEventListener("cancel", (e) => {
 			e.preventDefault();
 			dismissProfiles();
@@ -90225,6 +90645,12 @@ window.__comfierCanvasPreview = (() => {
 		d.showModal();
 		return d;
 	}
+	function confirmReset() {
+		const d = profileShell("Are you sure?", true);
+		const foot = d.querySelector("footer");
+		action(foot, "Yes", () => { dismissProfiles(); reset(); });
+		action(foot, "No", dismissProfiles);
+	}
 	function action(host, label, fn) {
 		const b = document.createElement("button");
 		b.type = "button";
@@ -90233,8 +90659,8 @@ window.__comfierCanvasPreview = (() => {
 		host.appendChild(b);
 		return b;
 	}
-	function saveAs(existing = null) {
-		const d = profileShell(existing ? "Rename theme" : "Save theme as");
+	function renameProfile(existing) {
+		const d = profileShell("Rename theme");
 		const body = d.querySelector(".theme-profile-body");
 		const foot = d.querySelector("footer");
 		const status = d.querySelector(".theme-profile-status");
@@ -90243,105 +90669,25 @@ window.__comfierCanvasPreview = (() => {
 		input.maxLength = 80;
 		input.placeholder = "Theme name";
 		input.setAttribute("aria-label", "Theme name");
-		input.value = existing?.name || "";
+		input.value = existing.name;
 		body.appendChild(input);
-		let pending = null;
-		const choices = [];
-		const confirmation = document.createElement("section");
-		confirmation.className = "theme-overwrite-confirm";
-		confirmation.hidden = true;
-		confirmation.setAttribute("role", "alertdialog");
-		confirmation.setAttribute("aria-label", "Overwrite saved theme");
-		const message = document.createElement("p");
-		confirmation.appendChild(message);
-		function lock(value) {
-			input.disabled = value;
-			saveButton.disabled = value;
-			for (const b of choices) b.disabled = value;
-		}
-		function cancelOverwrite() {
-			pending = null;
-			confirmation.hidden = true;
-			lock(false);
-			input.focus();
-		}
-		function persist(name, target = null, expected = null) {
-			const list = localProfiles();
-			const index = target ? list.findIndex((p) => p.id === target.id) : -1;
-			if (target && (index < 0 || JSON.stringify(list[index]) !== expected)) throw Error("The saved theme changed. Cancel and select it again before overwriting.");
-			if (list.some((p) => p.name.trim().toLowerCase() === name.toLowerCase() && p.id !== target?.id)) throw Error("That name is already saved.");
-			const saved = {
-				...exportProfile(name),
-				id: target?.id || globalThis.crypto?.randomUUID?.() || Date.now() + "-" + Math.random().toString(36).slice(2),
-				savedAt: (/* @__PURE__ */ new Date()).toISOString()
-			};
-			if (target) list[index] = saved;
-			else list.push(saved);
-			writeProfiles(list);
-			localStorage.setItem("comfier.theme.active.v1", saved.id);
-			dismissProfiles();
-		}
-		action(confirmation, "Overwrite", () => {
-			if (!pending) return;
-			try {
-				persist(pending.name, pending.target, pending.expected);
-			} catch (e) {
-				status.textContent = e.message;
-			}
-		});
-		action(confirmation, "Cancel overwrite", cancelOverwrite);
 		function save() {
-			if (pending) return;
 			try {
 				const name = input.value.trim();
 				if (!name) throw Error("Enter a theme name.");
 				const list = localProfiles();
-				const target = list.find((p) => p.name.trim().toLowerCase() === name.toLowerCase());
-				if (existing) {
-					if (target && target.id !== existing.id) throw Error("That name is already saved.");
-					const p = list.find((p) => p.id === existing.id);
-					if (!p) throw Error("Theme no longer exists.");
-					p.name = name;
-					writeProfiles(list);
-					showProfiles();
-					return;
-				}
-				if (target) {
-					pending = {
-						name,
-						target,
-						expected: JSON.stringify(target)
-					};
-					message.textContent = "Overwrite “" + target.name + "” with the current theme?";
-					confirmation.hidden = false;
-					status.textContent = "";
-					lock(true);
-					confirmation.scrollIntoView({ block: "nearest" });
-					return;
-				}
-				persist(name);
+				if (list.some((p) => nameKey(p) === name.toLowerCase() && p.id !== existing.id)) throw Error("That name is already saved.");
+				const profile = list.find((p) => p.id === existing.id);
+				if (!profile) throw Error("Theme no longer exists.");
+				profile.name = name;
+				writeProfiles(list);
+				showProfiles();
 			} catch (e) {
 				status.textContent = e.message;
 			}
 		}
-		const saveButton = action(foot, "Save", save);
-		if (!existing) {
-			action(foot, "Share", () => shareProfile(input.value, d));
-			const heading = document.createElement("h3");
-			heading.textContent = "Saved themes";
-			body.appendChild(heading);
-			for (const profile of localProfiles()) {
-				const b = action(body, profile.name, () => {
-					input.value = profile.name;
-					status.textContent = "Save replaces this name after confirmation.";
-					input.focus();
-				});
-				b.dataset.themeSaveChoice = profile.id;
-				choices.push(b);
-			}
-		}
-		body.appendChild(confirmation);
-		action(foot, "Cancel", () => existing ? showProfiles() : dismissProfiles());
+		action(foot, "Save", save);
+		action(foot, "Cancel", showProfiles);
 		input.addEventListener("keydown", (e) => {
 			if (e.key === "Enter") {
 				e.preventDefault();
@@ -90353,13 +90699,16 @@ window.__comfierCanvasPreview = (() => {
 	const MAX_THEME_BYTES = 6 * 1024 * 1024;
 	async function importProfile(text, fallback = "Imported theme", kind = "colors", crop = false) {
 		if (new Blob([text]).size > MAX_THEME_BYTES) throw Error("Theme file is too large (maximum 6 MiB).");
-		const value = JSON.parse(text);
+		const value = splitFontProfile(JSON.parse(text));
 		const colors = profileColors(value);
 		themePng.validate(value.canvasImage);
-		if (PROFILE_PARTS[kind]?.[1] && value.layout) window.__comfierLayoutEditor?.validate(value.layout);
+		if (value.canvasImage) value.canvasImage = await themePng.toWebp(value.canvasImage);
+		if (profileParts(kind)[1] && value.layout) window.__comfierLayoutEditor?.validate(value.layout);
 		const name = (typeof value.name === "string" && value.name.trim() ? value.name.trim() : fallback).slice(0, 80);
 		const profile = {
 			schemaVersion: 1,
+            fontRolesVersion:2,
+            nodeFrameWidth:validatedNodeFrameWidth(value.nodeFrameWidth),
 			name,
 			colors,
 			canvasImage: value.canvasImage || null,
@@ -90380,29 +90729,117 @@ window.__comfierCanvasPreview = (() => {
 			window.__comfierLayoutEditor.validate(value.layout);
 			profile.layout = value.layout;
 		}
+		const workflow = profileWorkflow(value.workflow);
+		if (workflow) profile.workflow = JSON.parse(JSON.stringify(workflow));
 		await loadProfile(profile, kind, crop);
 		writeProfiles([...list, profile]);
 		return profile;
 	}
     function chooseProfileParts(profile, apply) {
-        const d=profileShell("Apply theme");
-        d.querySelector(".theme-profile-body").textContent="Choose which parts to apply.";
+        const d=profileShell("Apply Theme", true);
+        d.querySelector(".theme-profile-body").textContent="Select parts to load.";
         const footer=d.querySelector("footer");footer.classList.add("theme-profile-parts");
-        for(const [title,kind] of [
-            ["Colors Only","colors"],["Layout Only","layout"],["Canvas Only","canvas"],
-            ["Co & L","colors-layout"],["Co & Ca","colors-canvas"],["L & Ca","layout-canvas"],
-            ["Load All","all"]
-        ]) action(footer,title,async()=>{
-            const buttons=footer.querySelectorAll("button");buttons.forEach(b=>b.disabled=true);
-            d.querySelector(".theme-profile-status").textContent="Loading…";
-            try {await apply(kind);if(profileDialog===d)dismissProfiles();}
-            catch(e){if(profileDialog===d){d.querySelector(".theme-profile-status").textContent=e.message;buttons.forEach(b=>b.disabled=false);}}
+        const available=[true,!!profile.layout,!!profile.canvasImage,!!profileWorkflow(profile.workflow)];
+        const selected=available.map((enabled,i)=>enabled && i===0);
+        const choices=[];let busy=false;
+        function update(){
+          choices.forEach((b,i)=>{
+            b.disabled=busy||!available[i];b.setAttribute("aria-pressed",String(selected[i]));
+            const check=b.querySelector(".theme-part-check");check.textContent=selected[i]?"✓":"";
+            check.style.setProperty("background",selected[i]?"#20DFF3":"transparent","important");
+            for(const [key,value] of Object.entries({background:"#555",color:"#aaa","-webkit-text-fill-color":"#aaa","border-color":"#777",opacity:"1"})) {
+              if(!available[i]) b.style.setProperty(key,value,"important");else b.style.removeProperty(key);
+            }
+          });
+          load.disabled=busy||!selected.some(Boolean);all.disabled=busy;
+        }
+        async function run(parts){
+            busy=true;update();d.querySelector(".theme-profile-status").textContent="Loading…";
+            try{await apply(parts);if(profileDialog===d)dismissProfiles();}
+            catch(e){if(profileDialog===d){d.querySelector(".theme-profile-status").textContent=e.message;busy=false;update();}}
+        }
+        ["Colors","Layout","Canvas","Workflow"].forEach((title,i)=>{
+          const b=action(footer,title,()=>{selected[i]=!selected[i];update();});
+          b.style.position="relative";b.title=available[i]?title:"No "+title.toLowerCase()+" available in this profile";
+          const check=document.createElement("span");check.className="theme-part-check";check.setAttribute("aria-hidden","true");
+          for(const [key,value] of Object.entries({position:"absolute",top:"3px",right:"3px",width:"13px",height:"13px",border:"1px solid #111","border-radius":"2px",color:"#111","-webkit-text-fill-color":"#111","font-size":"12px","line-height":"11px","text-align":"center","box-sizing":"border-box","pointer-events":"none"}))check.style.setProperty(key,value,"important");
+          b.appendChild(check);choices.push(b);
         });
+        const load=action(footer,"Load Selected",()=>run([...selected]));
+        const all=action(footer,"Load All",()=>run([...available]));
+        update();
     }
+
+	function withWorkflowTheme(workflow) {
+		if (!workflow || typeof workflow !== "object" || Array.isArray(workflow)) return workflow;
+		const result = {...workflow, extra: {...workflow.extra}};
+		delete result.extra.comfierTheme;
+		try {
+			const profile = exportProfile("ComfierUI Theme");
+			delete profile.canvasImage;
+			const text = JSON.stringify(profile);
+			if (new TextEncoder().encode(text).length > 262144) throw Error("Theme metadata exceeds 256 KB.");
+			result.extra.comfierTheme = JSON.parse(text);
+		} catch (error) { console.warn("Theme metadata unavailable; queuing original workflow", error); }
+		return result;
+	}
+	function themeFromWorkflow(value) {
+		if (typeof value === "string") value = JSON.parse(value);
+		let workflow = value?.extra_data?.extra_pnginfo?.workflow ?? value?.workflow ?? value;
+		if (typeof workflow === "string") workflow = JSON.parse(workflow);
+		const profile = workflow?.extra?.comfierTheme;
+		if (profile === undefined) return null;
+		const text = JSON.stringify(profile);
+		if (new TextEncoder().encode(text).length > 262144) throw Error("Theme metadata exceeds 256 KB.");
+		profileColors(profile);
+		return JSON.parse(text);
+	}
+	function profileWorkflow(value) {
+		if (typeof value === "string") value = JSON.parse(value);
+		let graph = value?.extra_data?.extra_pnginfo?.workflow ?? value?.workflow ?? value;
+		if (typeof graph === "string") graph = JSON.parse(graph);
+		return graph && typeof graph === "object" && Array.isArray(graph.nodes) ? graph : null;
+	}
+	async function readProfileFile(file) {
+		if (file.size > MAX_THEME_BYTES) throw Error("Theme file is too large (maximum 6 MiB).");
+		const png = /\.png$/i.test(file.name) || file.type === "image/png";
+		const webp = /\.webp$/i.test(file.name) || file.type === "image/webp";
+		if (!png && !webp) {
+			const text = await file.text();
+			const value = JSON.parse(text);
+			const workflow = profileWorkflow(value);
+			const profile = themeFromWorkflow(value) || (workflow ? exportProfile(file.name.replace(/\.json$/i,"")) : value);
+			if (workflow) profile.workflow = workflow;
+			return profile;
+		}
+		let value, image;
+		if (png) {
+			if (file.size > themePng.MAX + 262200) throw Error("PNG exceeds 4 MiB plus theme metadata.");
+			const bytes = new Uint8Array(await file.arrayBuffer());
+			image = themePng.strip(bytes);
+			value = themePng.read(bytes);
+			const workflow = profileWorkflow(await themePng.readWorkflow(bytes));
+			if (!value) value = themeFromWorkflow(workflow);
+			if (workflow) { value ||= exportProfile(file.name.replace(/\.png$/i,"")); value.workflow = workflow; }
+			if (image.size > themePng.MAX) throw Error("PNG image exceeds 4 MiB.");
+			if (!value) value = exportProfile(file.name.replace(/\.(png|webp)$/i, ""));
+			value.canvasImage = await themePng.dataUrl(image);
+		} else {
+			const metadata = await getWebpMetadata(file);
+			const raw = metadata.workflow || metadata.Workflow;
+			value = themeFromWorkflow(raw) || exportProfile(file.name.replace(/\.webp$/i, ""));
+			const workflow = profileWorkflow(raw);
+			if (workflow) value.workflow = workflow;
+			const url = URL.createObjectURL(file);
+			try { value.canvasImage = await window.__comfierCanvasImage.portable(url); }
+			finally { URL.revokeObjectURL(url); }
+		}
+		return value;
+	}
 	function uploadProfile(d) {
 		const input = document.createElement("input");
 		input.type = "file";
-		input.accept = ".json,.png,application/json,image/png";
+		input.accept = ".json,.png,.webp,application/json,image/png,image/webp";
 		input.hidden = true;
 		d.appendChild(input);
 		input.addEventListener("cancel", () => input.remove(), { once: true });
@@ -90410,21 +90847,11 @@ window.__comfierCanvasPreview = (() => {
 			try {
 				const file = input.files?.[0];
 				if (!file) return;
-				if (file.size > MAX_THEME_BYTES) throw Error("Theme file is too large (maximum 6 MiB).");
-				let text;
-                if (/\.png$/i.test(file.name) || file.type === "image/png") {
-                    if (file.size > themePng.MAX + 262200) throw Error("PNG exceeds 4 MiB plus theme metadata.");
-                    const bytes = new Uint8Array(await file.arrayBuffer());
-                    const value = themePng.read(bytes) || exportProfile(file.name.replace(/\.png$/i,""));
-                    const image = themePng.strip(bytes);
-                    if (image.size > themePng.MAX) throw Error("PNG image exceeds 4 MiB.");
-                    value.canvasImage = await themePng.dataUrl(image);
-                    text = JSON.stringify(value);
-                } else text = await file.text();
+                const value = await readProfileFile(file);
+                const text = JSON.stringify(value);
 				if (profileDialog !== d) return;
-				const value = JSON.parse(text);
 				profileColors(value);
-				chooseProfileParts(value, (kind) => importProfile(text, file.name.replace(/\.(json|png)$/i, ""), kind, !!value.canvasImage));
+				chooseProfileParts(value, (kind) => importProfile(text, file.name.replace(/\.(json|png|webp)$/i, ""), kind, !!value.canvasImage));
 			} catch (e) {
 				if (profileDialog === d) d.querySelector(".theme-profile-status").textContent = e.message;
 			} finally {
@@ -90437,14 +90864,13 @@ window.__comfierCanvasPreview = (() => {
 	async function shareProfile(name, d) {
 		try {
 			const profile = exportProfile(name.trim() || "ComfierUI Theme");
+            if (!profile.canvasImage && themePng.url()) profile.canvasImage = await window.__comfierCanvasImage.portable(themePng.url());
             if (profile.canvasImage) {
-                const bytes = new Uint8Array(await (await fetch(profile.canvasImage)).arrayBuffer());
-                delete profile.canvasImage;
-                const blob = themePng.embed(bytes,profile);
-                const filename = profile.name.replace(/[\\/:*?"<>|\x00-\x1f]/g,"_").slice(0,80)+".png";
+                const blob = await themePng.profileFile(profile);
+                const filename = profile.name.replace(/[\\/:*?"<>|\x00-\x1f]/g,"_").slice(0,80)+".webp";
                 const url=URL.createObjectURL(blob);
                 try {
-                    if (window.ComfyRemoteDownloads?.saveBlobDownload) window.ComfyRemoteDownloads.saveBlobDownload(url,filename,"image/png");
+                    if (window.ComfyRemoteDownloads?.saveBlobDownload) window.ComfyRemoteDownloads.saveBlobDownload(url,filename,"image/webp");
                     else { const a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove(); }
                 } finally { releaseThemeExport(url); }
                 return;
@@ -90467,12 +90893,51 @@ window.__comfierCanvasPreview = (() => {
 			d.querySelector(".theme-profile-status").textContent = e.message;
 		}
 	}
+	function saveCurrentProfile() {
+		const d = profileShell("Save current theme");
+		const body = d.querySelector(".theme-profile-body");
+		const footer = d.querySelector("footer");
+		const status = d.querySelector(".theme-profile-status");
+		const name = document.createElement("input");
+		name.type = "text"; name.maxLength = 80; name.placeholder = "Theme name";
+		name.setAttribute("aria-label", "Theme name");
+		body.appendChild(name);
+		const cancel = action(footer, "Cancel", showProfiles);
+		const save = action(footer, "Save", async () => {
+			if (save.disabled) return;
+			const title = name.value.trim();
+			if (!title) { status.textContent = "Enter a theme name."; return; }
+			if (localProfiles().some((p) => nameKey(p) === title.toLowerCase())) { status.textContent = "That name is already saved."; return; }
+			save.disabled = true; name.disabled = true;
+			status.textContent = "Saving…";
+			try {
+				const profile = exportProfile(title);
+				if (!profile.canvasImage && themePng.url()) profile.canvasImage = await window.__comfierCanvasImage.portable(themePng.url());
+				let blob, extension;
+				if (profile.canvasImage) {
+					blob = await themePng.profileFile(profile); extension = ".webp";
+				} else { blob = new Blob([JSON.stringify(profile, null, 2)], {type: "application/json"}); extension = ".json"; }
+				const filename = title.replace(/[\\/:*?"<>|\x00-\x1f]/g, "_").slice(0, 80) + extension;
+				const data = window.ComfierApp?.setThemeLibraryWithProfile ? String(await themePng.dataUrl(blob)).split(",")[1] : null;
+				if (profileDialog !== d) return;
+				const list = localProfiles();
+				if (list.some((p) => nameKey(p) === title.toLowerCase())) throw Error("That name is already saved.");
+				profile.id = identity(); profile.savedAt = new Date().toISOString();
+				writeProfiles([...list, profile], data ? {id: profile.id, filename, data} : null);
+				showProfiles();
+			} catch (e) { if (profileDialog === d) status.textContent = e.message; }
+			finally { save.disabled = false; name.disabled = false; }
+		});
+		name.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); save.click(); } });
+		name.focus();
+	}
 	async function showProfiles() {
 		const d = profileShell("Theme profiles");
 		const body = d.querySelector(".theme-profile-body");
 		const foot = d.querySelector("footer");
 		const status = d.querySelector(".theme-profile-status");
 		const token = ++profileRequest;
+		foot.classList.add("theme-profile-actions");
 		const load = action(foot, "Load", () => {
 			try {
 				if (profileSelection) {
@@ -90484,7 +90949,7 @@ window.__comfierCanvasPreview = (() => {
 			}
 		});
 		const rename = action(foot, "Rename", () => {
-			if (profileSelection?.source === "device") saveAs(profileSelection.profile);
+			if (profileSelection?.source === "device") renameProfile(profileSelection.profile);
 		});
 		const del = action(foot, "Delete", () => {
 			if (profileSelection?.source !== "device") return;
@@ -90501,10 +90966,25 @@ window.__comfierCanvasPreview = (() => {
 			});
 			action(confirm.querySelector("footer"), "Cancel", showProfiles);
 		});
-		const extra = document.createElement("div");
-		extra.className = "theme-profile-extra";
-		foot.after(extra);
-		action(extra, "Upload", () => uploadProfile(d));
+		action(foot, "Upload", () => uploadProfile(d));
+		action(foot, "Save", saveCurrentProfile);
+		action(foot, "Share", () => {
+			const saveDialog = profileShell("Save current theme");
+			const saveBody = saveDialog.querySelector(".theme-profile-body");
+			const name = document.createElement("input");
+			name.type = "text"; name.maxLength = 80; name.value = "ComfierUI Theme";
+			name.setAttribute("aria-label", "Theme filename"); saveBody.append(name);
+			const description = document.createElement("p");
+			description.textContent = "With a canvas image, saves WebP with theme and crop settings. Without an image, saves JSON.";
+			saveBody.append(description);
+			const saveFooter = saveDialog.querySelector("footer");
+			const saveButton = action(saveFooter, "Save", async () => {
+				saveButton.disabled = true;
+				try { await shareProfile(name.value, saveDialog); }
+				finally { saveButton.disabled = false; }
+			});
+			action(saveFooter, "Cancel", showProfiles);
+		});
 		load.disabled = rename.disabled = del.disabled = true;
 		function section(label, profiles, source) {
 			const h = document.createElement("h3");
@@ -90603,7 +91083,9 @@ window.__comfierCanvasPreview = (() => {
 		setSelected(hsvHex(hsv.h, hsv.s, hsv.v));
 	}
 	const paletteHandlers = /* @__PURE__ */ new WeakMap();
-	function activeColors() {
+    function activeColors() {
+        const key=paintRevision+':'+nativeGraphTheme.revision+':'+roles.length;
+        if(activeColorsCache?.key===key)return activeColorsCache.colors;
 		const found = /* @__PURE__ */ new Map();
 		const probe = document.createElement("span");
 		probe.setAttribute("data-comfier-theme-probe", "");
@@ -90613,9 +91095,10 @@ window.__comfierCanvasPreview = (() => {
 		canvas.width = canvas.height = 1;
 		const ctx = canvas.getContext("2d");
 		for (const { id, label } of roles) {
-			let color = assigned.has(id) ? colorPaint(id) : null;
-			if (!color) {
-				probe.style.background = manifest.nativeSwatches[id] || defaults[id];
+            let color = assigned.has(id) ? colorPaint(id) : nativeGraphTheme.defaultPaint(id);
+            if(color && /^#[0-9a-f]{3,4}$/i.test(color))color='#'+[...color.slice(1)].map(c=>c+c).join('');
+            if (!color) {
+				probe.style.background = nativeGraphTheme.defaultPaint(id) || manifest.nativeSwatches[id] || defaults[id] || "#aaaaaa";
 				const paint = getComputedStyle(probe).backgroundColor;
 				if (ctx) {
 					ctx.clearRect(0, 0, 1, 1);
@@ -90630,8 +91113,9 @@ window.__comfierCanvasPreview = (() => {
 			if (!found.has(color)) found.set(color, []);
 			found.get(color).push(label);
 		}
-		probe.remove();
-		return found;
+        probe.remove();
+        activeColorsCache={key,colors:found};
+        return found;
 	}
 	function renderPalette(host, colors = activeColors()) {
 		const choose = paletteHandlers.get(host);
@@ -90640,7 +91124,7 @@ window.__comfierCanvasPreview = (() => {
 		for (const [color, labels] of colors) {
 			const b = document.createElement("button");
 			b.type = "button";
-			b.className = "theme-recent theme-active-color";
+			b.className = "theme-color-swatch theme-active-color";
 			b.style.setProperty("background", color, "important");
 			b.dataset.color = color;
 			b.title = labels.join(", ") + " · " + color;
@@ -90664,63 +91148,83 @@ window.__comfierCanvasPreview = (() => {
 		const colors = activeColors();
 		hosts.forEach((host) => renderPalette(host, colors));
 	}
-	function renderRecents() {
-		const host = page?.querySelector(".theme-recents");
-		if (!host) return;
-		host.replaceChildren();
-		const list = recents();
-		if (!list.length) {
-			host.innerHTML = "<span class=\"theme-empty\">Assigned colors appear here</span>";
-			return;
-		}
-		list.forEach((color) => {
-			const b = document.createElement("button");
-			b.type = "button";
-			b.className = "theme-recent";
-			b.style.background = color;
-			b.setAttribute("aria-label", "Select recent color " + color);
-			b.addEventListener("click", () => setSelected(color));
-			host.appendChild(b);
-		});
-	}
+    function syncWorkflowRoles() {
+        const visible=manifest.workflowNodeRoles();
+        for(const {id,defaultColor} of roles)if(!(id in state)){
+            defaults[id]=defaultColor;
+            state[id]=normalize(localStorage.getItem(STORE+id))||defaultColor;
+            transparency[id]=Math.max(0,Math.min(100,Number(localStorage.getItem(STORE+id+'.transparency'))||0));
+        }
+        return visible;
+    }
 	function renderRoles() {
+        const visibleNodes=syncWorkflowRoles();
+        const widthRow=page?.querySelector('.theme-node-frame-controls');
+        if(widthRow){widthRow.hidden=activeTab!=='nodes';widthRow.querySelector('input').value=String(nodeFrameWidth);widthRow.querySelector('output').textContent=nodeFrameWidth+' px';}
 		refreshActiveColors();
 		const host = page?.querySelector(".theme-roles");
 		if (!host) return;
-		if (!host.children.length) {
-			roles.forEach(({ id, label }) => {
+        const roleKey=JSON.stringify(visibleNodes.map(role=>role.id));
+        if(host.dataset.tab!==activeTab || host.dataset.roleCount!==String(roles.length) || host.dataset.workflowRoles!==roleKey) {
+            host.replaceChildren();host.dataset.tab=activeTab;host.dataset.roleCount=String(roles.length);host.dataset.workflowRoles=roleKey;
+            const colors=roles.filter(r=>!r.nodeRole);
+            const cells=activeTab==='nodes' ? [...visibleNodes,{action:'Reset Nodes',run:resetNodes},{action:'Profiles',run:showProfiles}] : [...colors.slice(0,-1),{action:'Reset',run:confirmReset},colors.at(-1),{action:'Profiles',run:showProfiles}];
+			cells.forEach(({ id, label, action: title, run }) => {
 				const b = document.createElement("button");
 				b.type = "button";
 				b.className = "theme-role";
+				if (title) {
+					b.dataset.themeAction = title.toLowerCase(); b.textContent = title;
+					if (title === "Reset") b.setAttribute("aria-label", "Reset theme to stock settings");
+					b.addEventListener("click", run); host.appendChild(b); return;
+				}
 				b.dataset.themeRole = id;
-				b.innerHTML = "<span class=\"theme-role-swatch\" aria-hidden=\"true\"></span><span>" + label + "</span>";
+				const text = document.createElement("span");
+				text.className = "theme-role-label";
+                if(activeTab==='nodes'){text.textContent=label;text.classList.add('theme-node-label');}
+                else for (const word of label.split(/\s+/)) {
+					const line = document.createElement("span");
+					line.textContent = word;
+					text.appendChild(line);
+				}
+				const bar = document.createElement("span");
+				bar.className = "theme-role-color";
+				bar.setAttribute("aria-hidden", "true");
+				b.append(text, bar);
 				b.addEventListener("click", () => applyRole(id));
 				host.appendChild(b);
 			});
-			for (const [label, fn] of [["Profiles", showProfiles], ["Save", () => saveAs()]]) {
-				const b = document.createElement("button");
-				b.type = "button";
-				b.className = "theme-role";
-				b.dataset.themeAction = label.toLowerCase();
-				b.textContent = label;
-				b.addEventListener("click", fn);
-				host.appendChild(b);
-			}
-			const b = document.createElement("button");
-			b.type = "button";
-			b.className = "theme-role theme-reset";
-			b.textContent = "Reset";
-			b.setAttribute("aria-label", "Reset theme to stock settings");
-			b.addEventListener("click", reset);
-			host.appendChild(b);
+
 		}
 		host.querySelectorAll("[data-theme-role]").forEach((b) => {
 			const id = b.dataset.themeRole;
-			b.querySelector(".theme-role-swatch").style.background = assigned.has(id) ? colorPaint(id) : manifest.nativeSwatches[id];
+			b.querySelector(".theme-role-color").style.background = assigned.has(id) ? colorPaint(id) : nativeGraphTheme.defaultPaint(id) || manifest.nativeSwatches[id];
 			b.title = assigned.has(id) ? state[id] : "ComfyUI default";
 			b.setAttribute("aria-label", roles.find((r) => r.id === id).label + ", current " + (assigned.has(id) ? state[id] : "ComfyUI default"));
 		});
 	}
+    function resetNodes() {
+        return edit(()=>{
+            writeNodeFrameWidth(2);
+            for(const {id,defaultColor} of manifest.nodeRoles){assigned.delete(id);state[id]=defaultColor;transparency[id]=0;localStorage.removeItem(STORE+id);localStorage.removeItem(STORE+id+'.transparency');}
+            paintRoles();renderRoles();return true;
+        });
+    }
+    function switchThemeTab(tab) {
+        if(tab==='canvas')return openCanvasImage({},true).catch(error=>window.alert(error.message));
+        activeTab=tab==='nodes'?'nodes':'colors';
+        if(!page)build();
+        page.querySelectorAll('.theme-tabs button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.themeTab===activeTab)));
+        renderRoles();setSelected(selected);
+    }
+    function themeTabs(current, choose=switchThemeTab) {
+        const tabs=document.createElement('div');tabs.className='theme-tabs';
+        for(const [tab,label]of [['colors','Colors'],['nodes','Nodes'],['canvas','Canvas']]){
+            const button=action(tabs,label,()=>{if(button.getAttribute('aria-pressed')!=='true')choose(tab);});
+            button.dataset.themeTab=tab;button.setAttribute('aria-pressed',String(current===tab));
+        }
+        return tabs;
+    }
 	function releaseWheel() {
 		if (wheelPointer !== null) {
 			try {
@@ -90729,7 +91233,7 @@ window.__comfierCanvasPreview = (() => {
 			wheelPointer = null;
 		}
 	}
-	function createPicker(initial = "#ffffff", onChange = null) {
+	function createPicker(initial = "#ffffff", onChange = null, inspector = false) {
 		let color = normalize(String(initial).slice(0, 7)) || "#ffffff";
 		let value = rgbHsv(color);
 		let alpha = /^#[0-9a-f]{8}$/i.test(initial) ? Math.round((1 - parseInt(initial.slice(7), 16) / 255) * 100) : 0;
@@ -90748,6 +91252,7 @@ window.__comfierCanvasPreview = (() => {
 		const canvas = el.querySelector("canvas");
 		const bright = el.querySelector(".picker-value");
 		const hex = el.querySelector(".picker-hex");
+		if (inspector) hex.style.cssText = "width:60.572265625px!important;min-width:60.572265625px!important;max-width:60.572265625px!important;flex:0 0 60.572265625px!important;box-sizing:border-box!important;font-family:'Comfier Field Mono'!important;font-size:14px!important;font-weight:400!important;font-style:normal!important;letter-spacing:0!important;font-kerning:none!important;font-variant:normal!important;padding:0 4px!important;border-width:1px!important;text-align:center!important;height:28px!important;min-height:28px!important;max-height:28px!important;line-height:26px!important;";
 		function draw() {
 			const px = 220;
 			const dpr = Math.min(2, devicePixelRatio || 1);
@@ -90857,10 +91362,8 @@ window.__comfierCanvasPreview = (() => {
 				["frame", "Frame thickness (px)"],
 				["curve", "Corner curve (px)"],
 				...kind === "button" ? [
-					["height", "Height (px)"],
-					["width", "Default width (px)"],
 					["iconSize", "Icon size (px)"]
-				] : [["length", "Connected bar length (px)"], ["thickness", "Connected bar thickness (px)"]]
+				] : []
 			]) {
 				const row = document.createElement("label");
 				row.textContent = label;
@@ -90921,16 +91424,55 @@ window.__comfierCanvasPreview = (() => {
 		Object.assign(p, exportProfile(p.name), { savedAt: (/* @__PURE__ */ new Date()).toISOString() });
 		writeProfiles(list);
 	}
+	function openCanvasImage(options = {}, editCurrent = false) {
+		if (!(options?.url || themePng.url())) return Promise.reject(Error("No canvas image is available."));
+		dismissProfiles();
+		if (canvasDialog) window.__comfierCanvasImage.cancel();
+		const dialog = document.createElement("dialog");
+		dialog.className = "comfier-theme-editor theme-canvas-dialog";
+		document.body.appendChild(dialog); canvasDialog = dialog;
+		dialog.showModal();
+		return new Promise((resolve, reject) => {
+			const close = () => { dialog.remove(); if (canvasDialog === dialog) canvasDialog = null; if (editCurrent) resolve(null); };
+			dialog.addEventListener("cancel", (event) => { event.preventDefault(); window.__comfierCanvasImage.cancel(); });
+			window.__comfierCanvasImage.mount(dialog, {...options, close,
+				...(!editCurrent ? {commit: (frames, source) => resolve({frames, source})} : {}),
+                cancel: () => editCurrent ? resolve(null) : reject(Error("Canvas image edit canceled."))});
+            dialog.querySelector('header').after(themeTabs('canvas', tab=>{window.__comfierCanvasImage.cancel();switchThemeTab(tab);}));
+		});
+	}
+	function closeDimensions() {
+		if (!dimensionsDialog) return false;
+		dismissEditorTextSelection(dimensionsDialog);
+		dimensionsDialog.close();
+		dimensionsDialog.remove();
+		dimensionsDialog = null;
+		return true;
+	}
+	function openDimensions() {
+		if (dimensionsDialog) return;
+		const dialog = document.createElement("dialog");
+		dialog.className = "comfier-theme-editor theme-global-dimensions";
+		dialog.setAttribute("aria-label", "Global Dimensions");
+		const heading = document.createElement("h3"); heading.textContent = "Global Dimensions";
+		const body = document.createElement("div"); body.className = "theme-dimensions-tab";
+		dialog.append(heading, body);
+		dialog.addEventListener("cancel", event => { event.preventDefault(); closeDimensions(); });
+		document.body.appendChild(dialog);
+		dimensionsDialog = dialog;
+		renderDimensions(body);
+		dialog.showModal();
+	}
 	function build() {
 		const el = document.createElement("section");
 		el.className = "comfier-theme-studio";
 		el.hidden = true;
-		el.innerHTML = `<header><button type="button" class="theme-back" aria-label="Back to UI Editor">‹</button><strong>Global Theme</strong></header><div class="theme-picker"><canvas class="theme-wheel" aria-label="Color wheel"></canvas><label>Brightness <input class="theme-value" type="range" min="0" max="100" value="100"></label><label>Transparency <input class="theme-transparency" aria-label="Transparency" type="range" min="0" max="100" value="0"><output class="theme-transparency-value">0%</output></label><div class="theme-exact"><span class="theme-previous" title="Previous color"></span><span class="theme-current" title="Current color"></span><label>#<input class="theme-hex" type="text" inputmode="text" maxlength="6" pattern="[0-9a-fA-F]{6}" aria-label="Selected color hex"></label></div></div><h3>Recent colors</h3><div class="theme-recents"></div><h3>Apply selected color</h3><p class="theme-note">Tap a group to assign the selected color.</p><div class="theme-roles"></div>`;
-		requestAnimationFrame(() => compactComfierHexFields(el));
+		el.innerHTML = `<header><strong>Global Theme</strong></header><div class="theme-picker"><canvas class="theme-wheel" aria-label="Color wheel"></canvas><label><span>Brightness</span><input class="theme-value" aria-label="Brightness" type="range" min="0" max="100" value="100"><output class="theme-brightness-value">100%</output></label><label><span>Transparency</span><input class="theme-transparency" aria-label="Transparency" type="range" min="0" max="100" value="0"><output class="theme-transparency-value">0%</output></label><div class="theme-exact"><span class="theme-previous" title="Previous color"></span><span class="theme-current" title="Current color"></span><label>#<input class="theme-hex" type="text" inputmode="text" maxlength="6" pattern="[0-9a-fA-F]{6}" aria-label="Selected color hex"></label><button class="theme-sampler" type="button" aria-label="Sample Canvas Color" title="Sample Canvas Color"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M21.0303 2.96997C19.6329 1.57251 17.3671 1.57251 15.9697 2.96997L14 4.93966L13.9874 4.9271C13.304 4.24368 12.196 4.24368 11.5125 4.92709L10.9268 5.51288C10.2433 6.1963 10.2433 7.30434 10.9268 7.98776L10.9394 8.00039L4.15914 14.7806C3.73719 15.2026 3.50013 15.7749 3.50013 16.3716V17.0591L2.21981 19.4063C1.38379 20.939 3.06141 22.6167 4.59412 21.7806L6.94138 20.5003H7.62881C8.22555 20.5003 8.79785 20.2633 9.2198 19.8413L16.0001 13.0611L16.0125 13.0735C16.696 13.757 17.804 13.757 18.4874 13.0735L19.0732 12.4878C19.7566 11.8043 19.7566 10.6963 19.0732 10.0129L19.0606 10.0003L21.0303 8.03063C22.4278 6.63317 22.4278 4.36744 21.0303 2.96997ZM12.0001 9.06105L14.9394 12.0004L8.15914 18.7806C8.01849 18.9213 7.82773 19.0003 7.62881 19.0003H6.75013C6.62465 19.0003 6.50116 19.0318 6.391 19.0919L3.87584 20.4638C3.80671 20.5015 3.75536 20.5032 3.717 20.4964C3.67227 20.4885 3.62232 20.4641 3.57935 20.4211C3.53638 20.3781 3.51196 20.3282 3.50405 20.2834C3.49726 20.2451 3.49895 20.1937 3.53665 20.1246L4.90856 17.6095C4.96865 17.4993 5.00014 17.3758 5.00014 17.2503V16.3716C5.00014 16.1727 5.07915 15.982 5.21981 15.8413L12.0001 9.06105Z"/></svg></button></div></div><h3 class="theme-apply-heading">Tap To Apply Selected Color</h3><div class="theme-roles"></div>`;
 		el.querySelector(".theme-wheel").after(activePalette((color) => {
 			setSelected(color.slice(0, 7));
 			selectTransparency(color.length === 9 ? Math.round((1 - parseInt(color.slice(7), 16) / 255) * 100) : 0);
 		}));
+		el.querySelector(".theme-sampler").addEventListener("click", beginSampling);
 		const canvas = el.querySelector(".theme-wheel");
 		canvas.addEventListener("pointerdown", (e) => {
 			wheelPointer = e.pointerId;
@@ -90951,6 +91493,7 @@ window.__comfierCanvasPreview = (() => {
 		});
 		el.querySelector(".theme-transparency").addEventListener("input", (e) => selectTransparency(e.target.value));
 		const input = el.querySelector(".theme-hex");
+		input.style.cssText = "width:60.572265625px!important;min-width:60.572265625px!important;max-width:60.572265625px!important;flex:0 0 60.572265625px!important;box-sizing:border-box!important;font-family:'Comfier Field Mono'!important;font-size:14px!important;font-weight:400!important;font-style:normal!important;letter-spacing:0!important;font-kerning:none!important;font-variant:normal!important;padding:0 4px!important;border-width:1px!important;text-align:center!important;height:32px!important;min-height:32px!important;max-height:32px!important;line-height:30px!important;";
 		input.addEventListener("input", () => {
 			input.value = input.value.replace(/[^0-9a-f]/gi, "").slice(0, 6).toUpperCase();
 			const v = /^[0-9a-f]{6}$/i.test(input.value) ? normalize(input.value) : null;
@@ -90965,34 +91508,24 @@ window.__comfierCanvasPreview = (() => {
 				else input.reportValidity();
 			}
 		});
-		el.querySelector(".theme-back").addEventListener("click", close);
 		const colors = document.createElement("div");
 		colors.className = "theme-colors-tab";
 		for (const child of [...el.children].slice(1)) colors.appendChild(child);
-		const dimensions = document.createElement("div");
-		dimensions.className = "theme-dimensions-tab";
-		dimensions.hidden = true;
-		const tabs = document.createElement("div");
-		tabs.className = "theme-tabs";
-		const colorsButton = action(tabs, "Themes", () => switchTab(false));
-		const dimensionsButton = action(tabs, "Dimensions", () => switchTab(true));
-		function switchTab(value) {
-			colors.hidden = value;
-			dimensions.hidden = !value;
-			colorsButton.setAttribute("aria-pressed", String(!value));
-			dimensionsButton.setAttribute("aria-pressed", String(value));
-			if (value) renderDimensions(dimensions);
-		}
-		colorsButton.setAttribute("aria-pressed", "true");
-		el.append(tabs, colors, dimensions);
+        const widthRow=document.createElement('div');widthRow.className='theme-picker theme-node-frame-controls';
+        widthRow.innerHTML='<label><span>Frame width · Nodes 3.0</span><input type="range" min="0" max="12" step="1" aria-label="Nodes 3.0 frame width"><output>2 px</output></label>';
+        widthRow.querySelector('input').oninput=event=>setNodeFrameWidth(Number(event.target.value));
+        colors.querySelector('.theme-roles').before(widthRow);
+        const tabs = themeTabs(activeTab);
+		el.append(tabs, colors);
 		page = el;
 		setSelected(selected, false);
-		renderRecents();
 		renderRoles();
 		return el;
 	}
 	function capture() {
 		return {
+            fontRolesVersion:2,
+            nodeFrameWidth,
 			colors: Object.fromEntries(roles.filter((r) => assigned.has(r.id)).map(({ id }) => [id, state[id]])),
 			transparency: Object.fromEntries(roles.filter((r) => assigned.has(r.id)).map(({ id }) => [id, transparency[id]])),
 			dimensions: window.__comfierUiEditorModel?.getGlobal(),
@@ -91002,12 +91535,15 @@ window.__comfierCanvasPreview = (() => {
 			active: localStorage.getItem("comfier.theme.active.v1")
 		};
 	}
-	function restore(value) {
-		window.__comfierCanvasImage?.import?.(value.canvasFrames||{});
+    function restore(value) {
+        value=splitFontProfile(value);
+        writeNodeFrameWidth(validatedNodeFrameWidth(value.nodeFrameWidth));
+        registerSocketRoles(Object.keys(value.colors||{}));
+		window.__comfierCanvasImage?.import?.(value.canvasFrames||{},false);
 		themePng.apply(value.canvasImage,value.canvasBackgroundUrl)?.catch(e=>console.warn("Canvas restore failed",e));
 		assigned.clear();
 		roles.forEach(({ id }) => {
-			state[id] = value.colors[id] || defaults[id];
+			state[id] = value.colors[id] || defaults[id] || roles.find(r=>r.id===id).defaultColor;
 			transparency[id] = value.colors[id] ? value.transparency[id] || 0 : profileTransparency[id] || 0;
 			if (value.colors[id]) {
 				assigned.add(id);
@@ -91023,100 +91559,105 @@ window.__comfierCanvasPreview = (() => {
 		else localStorage.removeItem("comfier.theme.active.v1");
 		paintRoles();
 		renderRoles();
-		const host = page?.querySelector(".theme-dimensions-tab");
+		const host = dimensionsDialog?.querySelector(".theme-dimensions-tab");
 		if (host && !host.hidden) renderDimensions(host);
 	}
-	function appearanceBounds() {
-		const editor = window.__comfierLayoutEditor;
-		const snapshot = editor?.snapshot?.();
-		const view = snapshot?.mode || window.__comfierViewport?.mode?.() || "innerLandscape";
-		const portrait = view === "outerPortrait";
-		const landscape = view === "outerLandscape";
-		let left = 4;
-		let right = innerWidth - 4;
-		let top = 4;
-		let bottom = innerHeight - 4;
-		for (const el of document.querySelectorAll(".ufu-editor-status,#topbar-workflow-tabs,[data-testid=\"topbar-workflow-tabs\"]")) {
-			const b = el.getBoundingClientRect();
-			if (b.width && b.height) top = Math.max(top, b.bottom + 4);
-		}
-		for (const b of snapshot?.boxes || []) {
-			const selected = !![...document.querySelectorAll(".ufu-shell")].find((el) => el.dataset.container === b.id)?.querySelector(".ufu-selection-chrome");
-			if ((b.track || 1) !== 1 && !(landscape && selected)) continue;
-			if (b.edge === "left" && !portrait) left = Math.max(left, b.right + 4);
-			else if (b.edge === "right" && !portrait) right = Math.min(right, b.left - 4);
-			else if (b.edge === "top" && (!landscape || selected)) top = Math.max(top, b.bottom + 4);
-			else if (b.edge === "bottom" && (!landscape || selected)) bottom = Math.min(bottom, b.top - 4);
-		}
-		const physical = editor?.physicalSpace?.();
-		if (!portrait && physical) {
-			left = Math.max(left, physical.left);
-			right = Math.min(right, physical.right);
-		}
-		return {
-			left,
-			top,
-			width: Math.max(1, right - left),
-			height: Math.max(1, bottom - top)
-		};
-	}
-	function placeAppearance() {
-		if (!editorHost?.open) return;
-		const b = appearanceBounds();
-		for (const [key, value] of Object.entries(b)) editorHost.style.setProperty(key, value + "px", "important");
-		for (const [key, value] of Object.entries({
-			position: "fixed",
-			margin: "0",
-			inset: "auto",
-			maxWidth: "none",
-			maxHeight: "none",
-			boxSizing: "border-box"
-		})) editorHost.style.setProperty(key.replace(/[A-Z]/g, (c) => "-" + c.toLowerCase()), value, "important");
-		editorHost.style.setProperty("left", b.left + "px", "important");
-		editorHost.style.setProperty("top", b.top + "px", "important");
-	}
-	window.addEventListener("resize", placeAppearance);
-	window.addEventListener("comfier-layout-editor-change", placeAppearance);
-	function open() {
-		if (!window.__comfierLayoutEditor?.isEditing?.()) return false;
-		if (!page) build();
-		if (!editorHost) {
-			editorHost = document.createElement("dialog");
-			editorHost.className = "comfier-theme-editor";
-			editorHost.setAttribute("aria-label", "Global Theme");
-			editorHost.addEventListener("cancel", (e) => {
-				e.preventDefault();
-				close();
-			});
-			document.body.appendChild(editorHost);
-		}
-		if (page.parentElement !== editorHost) editorHost.appendChild(page);
-		page.hidden = false;
-		if (!editorHost.open) editorHost.showModal();
-		placeAppearance();
-		setSelected(selected);
+	let sampling = null;
+	let samplingVisibility = null;
+	let sampleSequence = Date.now();
+	function finishSampling(color, error) {
+		if (!sampling) return false;
+		const session = sampling;
+		sampling = null;
+		session.abort.abort();
+		session.overlay?.remove();
+		window.removeEventListener("keydown", session.keydown, true);
+		window.removeEventListener("resize", session.cancel);
+		window.removeEventListener("pagehide", session.cancel);
+		samplingVisibility?.(false);
+		if (color) { selectTransparency(0); setSelected(color); }
+		if (error) window.alert(error);
 		return true;
+	}
+	function sampleResult(id, color, error) {
+		if (!sampling || sampling.id !== id) return;
+		const value = normalize(color);
+		finishSampling(value, error || (!value ? "The canvas color could not be sampled." : null));
+	}
+	async function beginSampling() {
+		if (sampling || !page || page.hidden) return;
+		const native = typeof window.ComfierApp?.sampleCanvasColor === "function";
+		if (!native && typeof window.EyeDropper !== "function") {
+			window.alert("Color sampling is available in the Android app or a browser with eyedropper support over HTTPS or localhost.");
+			return;
+		}
+		const session = {id: "theme-" + (++sampleSequence), abort: new AbortController(), overlay: null};
+		session.cancel = () => finishSampling();
+		session.keydown = event => {
+			if (event.key !== "Escape") return;
+			event.preventDefault(); event.stopImmediatePropagation(); finishSampling();
+		};
+		sampling = session;
+		document.activeElement?.blur?.();
+		window.addEventListener("keydown", session.keydown, true);
+		window.addEventListener("resize", session.cancel);
+		window.addEventListener("pagehide", session.cancel);
+		try {
+			// The panel owner hides its paint without unmounting or changing geometry.
+			await samplingVisibility?.(true);
+			if (sampling !== session) return;
+			if (!native) {
+				const result = await new window.EyeDropper().open({signal: session.abort.signal});
+				if (sampling === session) sampleResult(session.id, result.sRGBHex);
+				return;
+			}
+			const overlay = document.createElement("div");
+			session.overlay = overlay;
+			overlay.setAttribute("aria-label", "Tap a canvas color. Back cancels.");
+			overlay.style.cssText = "position:fixed;inset:0;z-index:2147483647;background:transparent;touch-action:none;cursor:crosshair;";
+			const consume = event => { event.preventDefault(); event.stopImmediatePropagation(); };
+			for (const type of ["pointerdown", "pointermove", "pointerup", "pointercancel", "wheel", "contextmenu", "dblclick"]) overlay.addEventListener(type, consume, {passive:false});
+			let pending = false;
+			overlay.addEventListener("click", event => {
+				consume(event);
+				if (pending) return;
+				const rect = document.querySelector("#graph-canvas-container")?.getBoundingClientRect();
+				if (!rect || event.clientX < rect.left || event.clientX >= rect.right || event.clientY < rect.top || event.clientY >= rect.bottom) return;
+				pending = true;
+				try { window.ComfierApp.sampleCanvasColor(event.clientX, event.clientY, window.innerWidth, window.innerHeight, session.id); }
+				catch (_) { sampleResult(session.id, null, "The canvas color could not be sampled."); }
+			});
+			document.body.appendChild(overlay);
+		} catch (error) {
+			if (sampling === session) finishSampling(null, error?.name === "AbortError" ? null : "The canvas color could not be sampled.");
+		}
+	}
+	let settingsClose = null;
+	function open(onClose, onSampling) {
+		if (!page) build();
+		settingsClose = onClose;
+		samplingVisibility = onSampling;
+        page.hidden = false;
+        renderRoles();
+		setSelected(selected);
+		return page;
 	}
 	function close() {
+		if (finishSampling()) return true;
+		if (closeDimensions()) return true;
+		if (canvasDialog) { window.__comfierCanvasImage.cancel(); return true; }
 		if (dismissProfiles()) return true;
 		if (!page || page.hidden) return false;
+		dismissEditorTextSelection(page);
 		releaseWheel();
+		window.__comfierCanvasImage.cancel();
 		page.hidden = true;
-		editorHost?.close();
+		const onClose = settingsClose;
+		settingsClose = null;
+		onClose?.();
 		return true;
 	}
-	function closeAll() {
-		dismissProfiles();
-		close();
-		editorHost?.remove();
-		editorHost = null;
-	}
-	function mount() {
-		const next = document.getElementById(ROOT)?.querySelector(".ui-zoom-panel");
-		next?.querySelectorAll(".ui-theme-launch-row").forEach((el) => el.remove());
-		next?.querySelectorAll(".ui-accent-row,.ui-font-row").forEach((row) => row.hidden = true);
-		return !!next;
-	}
+	function closeAll() { closeDimensions(); finishSampling(); if (canvasDialog) window.__comfierCanvasImage.cancel(); dismissProfiles(); close(); }
 	const style = document.createElement("style");
 	style.id = "comfier-theme-studio-style";
 	style.textContent = `
@@ -91124,30 +91665,34 @@ html:root body dialog:is(.comfier-theme-profiles,.comfier-theme-editor){--comfie
 .comfier-theme-profiles[open]{display:flex;flex-direction:column;gap:10px}
 :is(.comfier-theme-profiles,.comfier-theme-editor)::backdrop{background:rgba(0,0,0,.45)}
 .comfier-theme-profiles header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0}
-.comfier-theme-profiles .theme-profile-body{overflow:auto;min-height:0;overscroll-behavior:contain;display:flex;flex-direction:column;gap:8px}
+.comfier-theme-profiles .theme-profile-body{--comfier-selection-offset:-2px;overflow:auto;min-height:0;overscroll-behavior:contain;display:flex;flex-direction:column;gap:8px}
 .comfier-theme-profiles footer{display:flex;gap:8px;flex-shrink:0}
 .comfier-theme-profiles footer button{flex:1}
-.comfier-theme-profiles footer.theme-profile-parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%}
+.comfier-theme-profiles footer.theme-profile-parts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%}
 .comfier-theme-profiles footer.theme-profile-parts button{width:100%;min-height:40px;padding:8px;white-space:normal}
-.comfier-theme-profiles footer.theme-profile-parts button:last-child{grid-column:1/-1}
+.comfier-theme-profiles footer.theme-profile-parts button[aria-pressed=true]{outline:2px solid #20DFF3;outline-offset:-2px;--comfier-selection-offset:-2px}
 html:root[data-comfier-canvas-image] #graph-canvas-container{background-color:transparent!important;background-image:var(--bg-img)!important;background-position:var(--comfier-canvas-image-position,center)!important;background-size:var(--comfier-canvas-image-size,cover)!important;background-repeat:no-repeat!important}
-.comfier-theme-profiles .theme-profile-extra{display:flex;justify-content:center;gap:8px;flex-shrink:0}
-.comfier-theme-profiles .theme-profile-extra button{flex:0 1 calc((100% - 16px)/3)}
-html:root body dialog:is(.comfier-theme-profiles,.comfier-theme-editor) :is(button:not(.theme-recent),input){background:var(--comfier-button-bg,#fff)!important;color:var(--comfier-ui-text-paint,#000)!important;-webkit-text-fill-color:var(--comfier-ui-text-paint,#000)!important;border:1px solid #fff!important;border-radius:6px;padding:8px;min-width:0;font:inherit}
+.comfier-theme-profiles footer.theme-profile-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:40px;gap:8px}
+.comfier-theme-profiles footer.theme-profile-actions button{width:100%;height:40px;min-height:40px;box-sizing:border-box}
+html:root body dialog:is(.comfier-theme-profiles,.comfier-theme-editor) :is(button:not(.theme-color-swatch),input){background:var(--comfier-button-bg,#fff)!important;color:var(--comfier-ui-text-paint,#000)!important;-webkit-text-fill-color:var(--comfier-ui-text-paint,#000)!important;border:1px solid #fff!important;border-radius:6px;padding:8px;min-width:0;font:inherit}
 html:root body dialog:is(.comfier-theme-profiles,.comfier-theme-editor) :is(p,h3,strong,div,span,label,output):not(:where(button *)){color:#fff!important;-webkit-text-fill-color:#fff!important}
 html:root body dialog.comfier-theme-profiles button:disabled{opacity:1!important;color:#555!important;-webkit-text-fill-color:#555!important}
 html:root body dialog.comfier-theme-profiles input::placeholder{color:#555!important;-webkit-text-fill-color:#555!important;opacity:1!important}
-.comfier-theme-profiles button[aria-pressed="true"]{outline:2px solid #20DFF3;outline-offset:2px}
+.comfier-theme-profiles button[aria-pressed="true"]{outline:2px solid #20DFF3;outline-offset:-2px}
 .theme-profile-status{font-size:12px;margin:0;flex-shrink:0}
-.ui-accent-row[hidden],.ui-font-row[hidden]{display:none!important}
-.ui-zoom-panel.comfier-theme-studio-open>:not(.comfier-theme-studio){display:none!important;visibility:hidden!important;pointer-events:none!important}
-.comfier-theme-editor{overflow:auto;overscroll-behavior:contain;touch-action:pan-y}.comfier-theme-editor .theme-back{flex:none}.comfier-theme-editor .theme-tabs button{width:auto;height:auto;min-height:36px}
-.comfier-theme-studio{grid-column:1/-1!important;width:100%;min-width:0;box-sizing:border-box;touch-action:pan-y}
+.comfier-theme-editor{overflow:auto;overscroll-behavior:contain;touch-action:pan-y}.comfier-theme-editor .theme-tabs button{width:auto;height:auto;min-height:36px}
+.comfier-theme-studio{display:flex;flex-direction:column;gap:8px;width:100%;height:auto;min-height:0;min-width:0;overflow:visible;box-sizing:border-box;touch-action:pan-y}
+.comfier-theme-studio>*{flex-shrink:0}
+.comfier-theme-studio .theme-picker{display:grid;grid-template-columns:max-content minmax(0,1fr) max-content;gap:9px;width:min(260px,100%);margin-inline:auto}
+.comfier-theme-studio .theme-picker>:not(label){grid-column:1/-1;justify-self:center}
+.comfier-theme-studio .theme-picker>label{display:grid;grid-template-columns:subgrid;grid-column:1/-1;width:100%;gap:8px;align-items:center}
+.comfier-theme-studio .theme-picker>label>input[type=range]{width:100%;min-width:0;margin:0;box-sizing:border-box}
+.comfier-theme-studio .theme-picker output{min-width:4ch;text-align:right;font-size:11px}
 .comfier-theme-studio[hidden]{display:none!important}
-.comfier-theme-studio>header{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:16px}
-.theme-back{width:38px;height:38px;border:1px solid #fff;border-radius:8px;font-size:28px;line-height:1}
+.comfier-theme-studio>header{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+.comfier-theme-studio>header,.comfier-theme-studio .theme-apply-heading{font-size:16px;text-align:center}
 .theme-picker{display:flex;flex-direction:column;align-items:center;gap:9px}
-.theme-tabs{display:flex;gap:8px;margin-bottom:12px}.theme-tabs button{flex:1}.theme-tabs [aria-pressed=true]{outline:2px solid #20DFF3;outline-offset:2px}.theme-colors-tab[hidden],.theme-dimensions-tab[hidden]{display:none!important}.theme-dimensions-tab{display:flex;flex-direction:column;gap:10px}.theme-dimensions-tab button{width:auto;min-height:36px;padding:8px;background:#fff!important;color:#000!important;-webkit-text-fill-color:#000!important}.theme-dimensions-tab label{display:flex;justify-content:space-between;align-items:center;gap:8px}.theme-dimensions-tab input[type=number]{width:7ch;background:white;color:black!important;-webkit-text-fill-color:black!important;padding:6px;border:1px solid white;border-radius:4px}
+.theme-tabs{display:flex;justify-content:space-between;gap:8px;margin-bottom:12px;--comfier-selection-offset:-2px}.theme-tabs button{width:calc((100% - 16px)/3);min-width:0;text-align:center}.theme-tabs [aria-pressed=true]{outline:2px solid #20DFF3;outline-offset:-2px}.theme-colors-tab[hidden],.theme-dimensions-tab[hidden],.theme-node-frame-controls[hidden]{display:none!important}.theme-dimensions-tab{display:flex;flex-direction:column;gap:10px}.theme-dimensions-tab button{width:auto;min-height:36px;padding:8px;background:#fff!important;color:#000!important;-webkit-text-fill-color:#000!important}.theme-dimensions-tab label{display:flex;justify-content:space-between;align-items:center;gap:8px}.theme-dimensions-tab input[type=number]{width:7ch;background:white;color:black!important;-webkit-text-fill-color:black!important;padding:6px;border:1px solid white;border-radius:4px}
 .theme-wheel{display:block;width:min(220px,100%);height:auto;max-width:100%;touch-action:none}
 .theme-picker>label{display:flex;align-items:center;gap:8px;width:min(260px,100%)}
 .theme-picker input[type="range"]{flex:1;min-width:0}
@@ -91155,28 +91700,40 @@ html:root body dialog.comfier-theme-profiles input::placeholder{color:#555!impor
 .theme-exact{display:flex;align-items:center;justify-content:center;gap:8px}
 .theme-current,.theme-previous{display:block;width:30px;height:30px;border:1px solid #888;border-radius:6px}
 .theme-exact label{display:flex;align-items:center}
+html:root body .theme-exact>button.theme-sampler{display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;max-width:32px!important;max-height:32px!important;flex:0 0 32px!important;padding:0!important;border:1px solid #888!important;border-radius:6px!important;background:#fff!important;color:#000!important;touch-action:manipulation}
+.theme-sampler>svg{display:block;flex:none;pointer-events:none}
 .theme-hex{width:6.5ch;min-width:6.5ch;max-width:6.5ch;box-sizing:content-box;padding:6px;border:1px solid #fff;border-radius:6px;font:14px monospace;text-transform:uppercase}
 .comfier-theme-studio h3{margin:12px 0 6px;font-size:12px;text-transform:uppercase}
+.comfier-theme-studio .theme-apply-heading{text-transform:none}
 .theme-active-colors{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;width:100%;min-width:0;box-sizing:border-box}
 html:root body .theme-active-colors>button.theme-active-color{width:32px!important;height:32px!important;min-width:32px!important;min-height:32px!important;max-height:32px!important;flex:0 0 32px!important;padding:0!important;border:1px solid #888!important;border-radius:6px!important}
 .ufu-inspector[data-editor-view=outerLandscape] .theme-picker>.theme-active-colors{grid-column:1;grid-row:4;max-width:132px;justify-self:center}
-.theme-recents{display:flex;gap:8px;min-height:34px;align-items:center;overflow-x:auto}
-.theme-recent{flex:0 0 32px;width:32px;height:32px;border:1px solid #888;border-radius:6px}
-.theme-empty{font-size:12px}
-.theme-roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
-.theme-role{display:flex;width:auto!important;height:auto!important;white-space:normal!important;align-items:center;gap:4px;min-width:0;min-height:40px;padding:5px 5px;font-size:11px;overflow-wrap:normal;word-break:normal;border:1px solid #fff;border-radius:7px;text-align:left;touch-action:manipulation}
-.theme-reset{grid-column:1/-1;justify-content:center}
-.theme-role>span:not(.theme-role-swatch){min-width:0;flex:1 1 auto}.theme-role-swatch{flex:0 0 14px;width:14px;height:14px;border:1px solid #888;border-radius:4px}
-.theme-note{font-size:11px;line-height:1.35;margin:6px 0 10px}
+.theme-canvas-dialog{height:calc(100dvh - 8px);overflow:hidden!important}
+.comfier-canvas-view{display:flex;flex-direction:column;min-height:0;gap:8px;box-sizing:border-box}
+.comfier-canvas-view>header{display:flex;justify-content:center;align-items:center;flex:none;font-size:16px;text-align:center}
+.comfier-canvas-view-body{display:flex;flex:1 1 0;min-height:0;min-width:0;align-items:center;justify-content:center;overflow:hidden}
+.comfier-canvas-view-body>[hidden]{display:none}
+.comfier-canvas-view>footer{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;flex:none;margin-top:auto}
+.comfier-canvas-view>footer button{width:100%;min-width:0;white-space:normal}
+.comfier-canvas-crop-preview{max-width:100%;max-height:100%;min-height:0;box-sizing:border-box;background-color:#222!important;background-repeat:no-repeat;border:1px solid #fff;touch-action:none;cursor:grab;flex:none}
+.theme-color-swatch{flex:0 0 32px;width:32px;height:32px;border:1px solid #888;border-radius:6px}
+.theme-roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:1fr;gap:7px}
+.theme-role{position:relative;display:flex;justify-content:center;box-sizing:border-box;width:auto!important;height:40px!important;white-space:normal!important;align-items:center;gap:4px;min-width:0;min-height:40px;max-height:40px;padding:5px 5px;font-size:11px;overflow-wrap:normal;word-break:normal;border:1px solid #fff;border-radius:7px;text-align:center;touch-action:manipulation}
+.theme-role[data-theme-role]{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:24px 5px;row-gap:4px}
+.theme-role-label{display:flex;flex-direction:column;justify-content:center;min-width:0;height:24px;line-height:12px;text-align:center}
+.theme-role-label>span{display:block;white-space:nowrap}
+.theme-node-label{display:block;align-content:center;white-space:normal;overflow:hidden;overflow-wrap:anywhere}
+.theme-role-color{display:block;box-sizing:content-box;width:calc(100% - 2px);height:3px;border:1px solid #000000;border-radius:0;pointer-events:none}
 html:root body :is(#comfier-ui-zoom-test,.comfier-app-settings-native-panel){--comfier-accent:#fff!important;--comfier-accent-text:#000!important;--comfier-icon-color:#000!important;--comfier-button-frame:#fff!important;color:#fff!important}
 html:root body .comfier-early-floating-panel:is(.comfier-app-settings-native-panel,:has(.comfier-app-settings-native-panel)){background:rgba(0,0,0,.75)!important;border-color:rgba(255,255,255,.3)!important}
 html:root body .comfier-app-settings-native-panel,html:root body #comfier-ui-zoom-test .ui-zoom-panel{background:transparent!important}
 html:root body #comfier-ui-zoom-test .ui-zoom-panel :is(label,span,div,strong,h3,p){color:#fff!important;-webkit-text-fill-color:#fff!important}
-html:root body #comfier-ui-zoom-test .ui-zoom-panel button:not(.theme-recent){background:var(--comfier-button-bg,#fff)!important;color:var(--comfier-ui-text-paint,#000)!important;-webkit-text-fill-color:var(--comfier-ui-text-paint,#000)!important;border-color:#fff!important;box-shadow:none!important}
+html:root body #comfier-ui-zoom-test .ui-zoom-panel button:not(.theme-color-swatch){background:var(--comfier-button-bg,#fff)!important;color:var(--comfier-ui-text-paint,#000)!important;-webkit-text-fill-color:var(--comfier-ui-text-paint,#000)!important;border-color:#fff!important;box-shadow:none!important}
 html:root body #comfier-ui-zoom-test .ui-zoom-panel button :is(span,i,svg){color:#000!important;-webkit-text-fill-color:#000!important}
 html:root body #comfier-ui-zoom-test .ui-zoom-panel input[type="text"]{background:var(--comfier-button-bg,#fff)!important;color:var(--comfier-ui-text-paint,#000)!important;-webkit-text-fill-color:var(--comfier-ui-text-paint,#000)!important;border-color:#fff!important}
 html:root body #comfier-ui-zoom-test .ui-zoom-panel :is(input[type="range"],input[type="checkbox"]){accent-color:#fff!important}
 `;
+
 	(document.head || document.documentElement).appendChild(style);
 	const semanticStyle = document.createElement("style");
 	semanticStyle.id = "comfier-theme-semantic-style";
@@ -91187,21 +91744,16 @@ html:root body #comfier-ui-zoom-test .ui-zoom-panel :is(input[type="range"],inpu
 		backOff = window.__comfierBack.register("theme-settings", 55, close);
 	}
 	function refresh() {
-		placeAppearance();
 		paintRoles();
 		refreshActiveColors();
-		mount();
 		installBack();
 	}
 	window.__comfierThemeStudio = {
 		remove() {
 			closeAll();
 			page?.remove();
-			editorHost?.remove();
 			semanticStyle.remove();
 			style.remove();
-			window.removeEventListener("resize", placeAppearance);
-			window.removeEventListener("comfier-layout-editor-change", placeAppearance);
 			backOff?.();
 			delete window.__comfierThemeStudio;
 		},
@@ -91210,25 +91762,32 @@ html:root body #comfier-ui-zoom-test .ui-zoom-panel :is(input[type="range"],inpu
 		open,
 		close,
 		closeAll,
-		mount,
 		refresh,
 		reset,
 		applyRole,
 		createPicker,
 		updateActiveProfile,
 		exportProfile,
+		withWorkflowTheme,
+		themeFromWorkflow,
+		readProfileFile,
 		loadProfile,
 		importProfile,
 		localProfiles,
 		syncProfiles,
 		showProfiles,
-		saveAs,
+		openCanvasImage,
+		openDimensions,
+		sampleResult,
 		setCompanionProvider(provider) {
 			provider && provider.list;
 		},
 		selectTransparency,
 		getTransparency: () => ({ ...transparency }),
-		getAssignedColor: (key) => assigned.has(key) ? colorPaint(key) : null,
+        assignedPaints: () => assignedPaints,
+        getAssignedColor: (key) => assignedPaints[key] || null,
+        getNodeFrameWidth:()=>nodeFrameWidth,
+        setNodeFrameWidth,
 		getState: () => ({ ...state }),
 		isAssigned: (key) => assigned.has(key),
 		setSelected
@@ -91352,7 +91911,7 @@ function createLayoutEditor(host) {
 	let inspector = null;
 	let inspectorChoices = [];
 	function clearInspectorChoices() { for (const choice of inspectorChoices) choice.remove(); inspectorChoices = []; }
-	function inspectorChoice(select) { const choice = createInlineSettingsChoice(select); inspectorChoices.push(choice); return choice.element; }
+	function inspectorChoice(config) { const choice = createInlineSettingsChoice(config); inspectorChoices.push(choice); return choice.element; }
 	let report = null;
 	let boxes = [];
 	let lastMode = "";
@@ -91445,7 +92004,7 @@ function createLayoutEditor(host) {
 				if (g.hidden != null && (!Array.isArray(g.hidden) || g.hidden.length > 100)) throw Error("Invalid hidden controls.");
 				const hidden = [...new Set((g.hidden || []).map(canonical))].filter((id) => !OBSOLETE_ACTION_ITEMS.has(id) && !retiredSettingsId(id));
 				if (hidden.some((id) => typeof id !== "string" || !items.includes(id))) throw Error("Hidden controls must belong to their container.");
-				for (const key of ["widthScale", "heightScale"]) if (g[key] != null && (!Number.isFinite(g[key]) || g[key] < .05 || g[key] > 16)) throw Error("Invalid container stretch.");
+				for (const key of ["widthScale", "heightScale"]) if (g[key] != null && (!Number.isFinite(g[key]) || g[key] < 1 / 4096 || g[key] > 16)) throw Error("Invalid container stretch.");
 				const extras = validateExtras(g);
 				extras.buttonStyles = Object.fromEntries(Object.entries(extras.buttonStyles).filter(([id]) => items.includes(id)));
 				return {
@@ -91496,7 +92055,7 @@ function createLayoutEditor(host) {
 			out.autofill = g.autofill;
 		}
 		for (const key of ["length", "thickness"]) if (g[key] != null) {
-			if (!Number.isFinite(g[key]) || g[key] < 26 || g[key] > 4096) throw Error("Invalid bar dimensions.");
+			if (!Number.isFinite(g[key]) || g[key] < 1 || g[key] > 4096) throw Error("Invalid bar dimensions.");
 			out[key] = g[key];
 		}
 		if (g.offset != null) {
@@ -91505,15 +92064,21 @@ function createLayoutEditor(host) {
 		}
 		return out;
 	}
-	function resolved(g, id) {
-		return model?.resolve(id ? "button" : "container", g, id ? g.buttonStyles?.[id] : {}) || {
+    const resolvedAppearances = new Map();
+    let resolvedAppearanceKey = null;
+    function resolved(g, id) {
+        const key=g.id+':'+(id||'');
+        if(frameRects && resolvedAppearances.has(key))return resolvedAppearances.get(key);
+        const value = model?.resolve(id ? "button" : "container", g, id ? g.buttonStyles?.[id] : {}) || {
 			frame: 1,
 			curve: 6,
 			height: g.size,
-			iconSize: 18
-		};
-	}
-	function connected(g) {
+            iconSize: 18
+        };
+        if(frameRects)resolvedAppearances.set(key,value);
+        return value;
+    }
+    function connected(g) {
 		return !!g.connected || g.id === "sidebar" && connectedSidebar() && g.connected !== false;
 	}
 	let bundled = {};
@@ -91638,6 +92203,9 @@ function createLayoutEditor(host) {
 					available: true
 				});
 				changed = true;
+			} else if (old.label !== control.label) {
+				old.label = control.label;
+				changed = true;
 			}
 		}
 		for (const [id, control] of controls) {
@@ -91651,8 +92219,7 @@ function createLayoutEditor(host) {
 		return changed;
 	}
 	function workspace() {
-		const tabs = q("#topbar-workflow-tabs") || q("[data-testid=\"topbar-workflow-tabs\"]");
-		let top = tabs ? Math.max(...[tabs, ...tabs.children].map((el) => rect(el)?.bottom || 0)) : rect(q("#graph-canvas-container"))?.top || 0;
+		const top = rect(q("#graph-canvas-container"))?.top ?? 0;
 		let bottom = innerHeight;
 		for (const n of document.querySelectorAll("nav,[role=\"navigation\"],.bottom-nav,.bottom-navigation")) {
 			const r = rect(n);
@@ -91751,10 +92318,10 @@ function createLayoutEditor(host) {
 				};
 				groups.push(top);
 			}
-			top.items = ["topbar:workspace"];
+			top.items = ["topbar:workspace", ...[...controls.values()].filter(c => c.topbarChild && c.available).map(c => c.id)];
 			top.hidden = [];
-			top.edge = "top";
-			top.flow = "horizontal";
+			// The top bar stays its own nonmergeable group, but edge/track/flow
+			// and saved dimensions belong to the four-view layout store.
 			top.connected = false;
 		}
 		for (const g of groups) g.flow = ["top", "bottom"].includes(g.edge) ? "horizontal" : "vertical";
@@ -91774,11 +92341,18 @@ function createLayoutEditor(host) {
 	function neutralize(c) {
 		if (c.el.dataset.ufuControl !== c.id) c.el.dataset.ufuControl = c.id;
 	}
-	function minimumWidth(c) {
+	function buttonDimension(g, id, key) {
+		return g.buttonStyles?.[id]?.[key] ?? g.buttonDefaults?.[key];
+	}
+	function minimumHeight(c, group) {
+		return resolved(group, c.id).minHeight ?? (buttonDimension(group, c.id, "height") != null ? 1 : c.origin === "sidebar" ? sidebarMinimum() : BUTTON_MIN);
+	}
+	function minimumWidth(c, group) {
 		if (!c) return BUTTON_MIN;
-		const own = layouts()?.[mode()]?.find((g) => g.items.includes(c.id));
+		const own = group || layouts()?.[mode()]?.find((g) => g.items.includes(c.id));
+		if (own && resolved(own, c.id).minWidth != null) return resolved(own, c.id).minWidth;
+		if (own && resolved(own, c.id).width != null) return 1;
 		if (c.el?.matches?.(".comfier-owned-run") || c.el?.matches?.(".comfier-owned-active") || /queue-overlay-toggle|View_Job_History/.test(c.id || "")) return 60;
-		if (own && resolved(own, c.id).width && !c.widget) return BUTTON_MIN;
 		if (c.id === "canvas:Zoom" || c.id === "canvas:zoom-controls-button" || c.el?.getAttribute?.("data-comfier-layout-token") === "zoom-controls-button") return 60;
 		if (c.widget) {
 			if (c.el?.id === "comfier-owned-monitors" && resourceAppearance().monitorFlow === "vertical") return 40;
@@ -91803,6 +92377,13 @@ function createLayoutEditor(host) {
 		return c.el?.id === "comfier-owned-monitors" && resourceAppearance().monitorFlow ? resourceAppearance().monitorFlow === "vertical" : g.flow === "vertical";
 	}
 	function dimensions(g, items, space) {
+		if (g.id === "topbar") {
+			const vertical = g.flow === "vertical";
+			const maxLength = vertical ? space.bottom - space.top : space.right - space.left;
+			const length = clamp(g.length || maxLength, 40, Math.max(40, maxLength));
+			const thickness = clamp(g.thickness || 40, 40, Math.max(40, vertical ? space.right - space.left : space.bottom - space.top));
+			return {w: vertical ? thickness : length, h: vertical ? length : thickness, slots: []};
+		}
 		const isConnected = connected(g);
 		const inset = (isConnected ? 4 : 8) * 2;
 		const vertical = g.flow === "vertical";
@@ -91832,11 +92413,11 @@ function createLayoutEditor(host) {
 			{
 				const a = resolved(g, c.id);
 				w = a.width || w;
-				if (!c.widget) h = a.height || h;
+				if (!c.widget || buttonDimension(g, c.id, "height") != null) h = a.height || h;
 			}
 			if (c.id === "run:Batch_Count") w = h;
-			w = Math.max(c.widget && vertical ? 40 : minimumWidth(c), resolved(g, c.id).width ? w : w * sx);
-			h = Math.max(c.origin === "sidebar" ? sidebarMinimum() : BUTTON_MIN, h * sy);
+			w = Math.max(c.widget && vertical ? resolved(g, c.id).minWidth ?? 40 : minimumWidth(c, g), resolved(g, c.id).width ? w : w * sx);
+			h = Math.max(minimumHeight(c, g), buttonDimension(g, c.id, "height") != null ? h : h * sy);
 			let main = vertical ? h : w;
 			let minor = vertical ? w : h;
 			if (c.widget && main > limit) {
@@ -91901,16 +92482,23 @@ function createLayoutEditor(host) {
 		const inset = 8;
 		const vertical = g.flow === "vertical";
 		const main = Math.max(0, (vertical ? b.height : b.width) - inset);
-		const minor = Math.max(BUTTON_MIN, (vertical ? b.width : b.height) - inset);
+		const minorFloor = Math.max(1, ...d.slots.map(slot => vertical ? resolved(g, slot.c.id).minWidth ?? BUTTON_MIN : resolved(g, slot.c.id).minHeight ?? BUTTON_MIN));
+		const minor = Math.max(minorFloor, (vertical ? b.width : b.height) - inset);
 		let cursor = 0;
-		const intrinsic = d.slots.map((slot) => {
-			const n = slot.c.widget ? Math.max(1, meterCells(slot.c.el).filter((c) => c.visible).length) : 1;
-			return vertical ? Math.max(slot.h, slot.c.widget && meterVertical(slot.c, g) ? n * 32 + (n - 1) * 4 : BUTTON_MIN) : Math.max(slot.w, minimumWidth(slot.c));
+		const key = vertical ? "height" : "width";
+		const fixed = d.slots.map(slot => buttonDimension(g, slot.c.id, key) != null);
+		const floors = d.slots.map((slot, i) => {
+			if (!vertical) return minimumWidth(slot.c, g);
+			if (resolved(g, slot.c.id).minHeight != null || fixed[i]) return minimumHeight(slot.c, g);
+			const n = slot.c.widget ? Math.max(1, meterCells(slot.c.el).filter(c => c.visible).length) : 1;
+			return slot.c.widget && meterVertical(slot.c, g) ? n * 32 + (n - 1) * 4 : BUTTON_MIN;
 		});
+		const intrinsic = d.slots.map((slot, i) => Math.max(vertical ? slot.h : slot.w, floors[i]));
 		const used = intrinsic.reduce((a, b) => a + b, 0) + 4 * (intrinsic.length - 1);
-		const extra = Math.max(0, main - used) / intrinsic.length;
+		const flexible = fixed.filter(value => !value).length;
+		const extra = flexible ? Math.max(0, main - used) / flexible : 0;
 		d.slots.forEach((slot, i) => {
-			const length = g.visibleButtons ? Math.max(vertical ? slot.c.widget && meterVertical(slot.c, g) ? Math.max(1, meterCells(slot.c.el).filter((c) => c.visible).length) * 32 + 4 * (Math.max(1, meterCells(slot.c.el).filter((c) => c.visible).length) - 1) : BUTTON_MIN : minimumWidth(slot.c), (main - 4 * (g.visibleButtons - 1)) / g.visibleButtons) : intrinsic[i] + extra;
+			const length = fixed[i] ? intrinsic[i] : g.visibleButtons ? Math.max(floors[i], (main - 4 * (g.visibleButtons - 1)) / g.visibleButtons) : intrinsic[i] + extra;
 			if (vertical) {
 				slot.x = 0;
 				slot.y = cursor;
@@ -92005,7 +92593,7 @@ function createLayoutEditor(host) {
 			]
 		};
 		for (const g of groups) {
-			if (g.id === "topbar") continue;
+			if (g.id === "topbar" && !controls.get("topbar:workspace")?.el?.getClientRects().length) continue;
 			const items = g.items.filter((id) => !g.hidden?.includes(id)).map((id) => controls.get(id)).filter((c) => c?.available !== false && c?.el?.isConnected);
 			if (!items.length) continue;
 			const dim = dimensions(g, items, ws);
@@ -92034,7 +92622,7 @@ function createLayoutEditor(host) {
 		const s = trackSpace(g, space, widths);
 		const rail = railRect();
 		const minorAvailable = Math.max(0, vertical ? s.right - s.left : s.bottom - s.top);
-		const cross = Math.min(minorAvailable, connected(g) ? Math.max(connectedMinimum(g), g.thickness || resolved(g).thickness || (vertical ? d.w : d.h)) : vertical ? d.w : d.h);
+		const cross = Math.min(minorAvailable, g.id === "topbar" ? (vertical ? d.w : d.h) : connected(g) ? Math.max(connectedMinimum(g), g.thickness || resolved(g).thickness || (vertical ? d.w : d.h)) : vertical ? d.w : d.h);
 		const crossStart = vertical ? edge === "left" ? s.left : s.right - cross : edge === "top" ? s.top : s.bottom - cross;
 		const crossEnd = crossStart + cross;
 		const lo = vertical ? s.top : s.left;
@@ -92048,9 +92636,9 @@ function createLayoutEditor(host) {
 			spans = spans.flatMap(([a, b]) => cutHi <= a || cutLo >= b ? [[a, b]] : [...cutLo > a ? [[a, Math.min(b, cutLo)]] : [], ...cutHi < b ? [[Math.max(a, cutHi), b]] : []]);
 		}
 		const ratio = g.offset ?? ALIGN.indexOf(g.align) / 4;
-		const requested = connected(g) ? fullLane(g) ? hi - lo : g.length || resolved(g).length || (vertical ? d.h : d.w) : vertical ? d.h : d.w;
+		const requested = fullLane(g) ? hi - lo : g.id === "topbar" ? (vertical ? d.h : d.w) : connected(g) ? g.length || resolved(g).length || (vertical ? d.h : d.w) : vertical ? d.h : d.w;
 		const target = lo + Math.max(0, hi - lo - requested) * ratio;
-		const full = connected(g) && fullLane(g);
+		const full = fullLane(g);
 		if (!spans.length) spans = [[lo, lo]];
 		const choices = spans.map(([a, b]) => ({
 			a,
@@ -92076,7 +92664,7 @@ function createLayoutEditor(host) {
 			height,
 			track: g.track || 1,
 			placedAt: g.placedAt || 0,
-			blocked: cross <= 0 || length <= 0 || !connected(g) && length < requested
+			blocked: cross <= 0 || length <= 0 || !connected(g) && !full && length < requested
 		};
 	}
 	function controlPaint(slot, g, b) {
@@ -92119,9 +92707,9 @@ function createLayoutEditor(host) {
 			bottom: "auto",
 			width: slot.w + "px",
 			height: slot.h + "px",
-			"min-width": (c.widget && g.flow === "vertical" ? 40 : minimumWidth(c)) + "px",
+			"min-width": (c.widget && g.flow === "vertical" ? resolved(g, c.id).minWidth ?? 40 : minimumWidth(c, g)) + "px",
 			"max-width": "none",
-			"min-height": (c.origin === "sidebar" ? sidebarMinimum() : BUTTON_MIN) + "px",
+			"min-height": minimumHeight(c, g) + "px",
 			"max-height": "none",
 			margin: "0",
 			zoom: "1",
@@ -92245,7 +92833,7 @@ function createLayoutEditor(host) {
 			if (rail.left < innerWidth / 2) left = Math.max(left, rail.right + 4);
 			else right = Math.min(right, rail.left - 4);
 		}
-		for (const b of boxes.filter((b) => (b.track || 1) === 1)) if (b.edge === "left") left = Math.max(left, b.right + 4);
+		for (const b of boxes.filter((b) => (b.track || 1) === 1 && (!landscape || b.id !== "topbar"))) if (b.edge === "left") left = Math.max(left, b.right + 4);
 		else if (b.edge === "right") right = Math.min(right, b.left - 4);
 		else if (!landscape && b.edge === "top") top = Math.max(top, b.bottom + 4);
 		else if (!landscape && b.edge === "bottom") bottom = Math.min(bottom, b.top - 4);
@@ -92253,7 +92841,7 @@ function createLayoutEditor(host) {
 		let rt = landscape ? 4 : w.top;
 		let lb = landscape ? innerHeight - 4 : w.bottom;
 		let rb = landscape ? innerHeight - 4 : w.bottom;
-		for (const b of boxes.filter((b) => (b.track || 1) === 1)) {
+		for (const b of boxes.filter((b) => (b.track || 1) === 1 && (!landscape || b.id !== "topbar"))) {
 			if (landscape || b.edge !== "top" && b.edge !== "bottom") continue;
 			const zone = ALIGN.indexOf(b.align);
 			const hitsLeft = zone <= 2 || panelWidth > 0 && b.left < left + panelWidth && b.right > left;
@@ -92310,16 +92898,19 @@ function createLayoutEditor(host) {
 
 	function render() {
 		if (stopped) return;
+        const mode=detectMode(), views=layouts();
+        const appearanceKey=JSON.stringify([model.revision,mode,views[mode]?.map(g=>[g.id,g.appearance,g.containerStyle,g.buttonDefaults,g.buttonStyles])]);
+        if(appearanceKey!==resolvedAppearanceKey){resolvedAppearances.clear();resolvedAppearanceKey=appearanceKey;}
 		const key = JSON.stringify([
-			detectMode(),
+            mode,
 			host.side(),
 			innerWidth,
 			innerHeight,
 			visualViewport?.width,
 			visualViewport?.height,
 			editing,
-			layouts(),
-			model.getGlobal(),
+            views,
+            model.revision,
 			[...picked],
 			[...selectedGroups],
 			[...scrollOffsets]
@@ -92370,11 +92961,6 @@ function createLayoutEditor(host) {
 				if (inspector) hideInspector();
 				updateStatus();
 			}
-			jobs.burst("mode-settle", refresh, [
-				0,
-				100,
-				300
-			]);
 		}
 		window.__comfierActionbarOwner?.updateMeters?.();
 		discover();
@@ -92398,7 +92984,7 @@ function createLayoutEditor(host) {
 		for (const g of groups) if (!g.placedAt) g.placedAt = nextPlacement(groups);
 		for (const g of orderedGroups(groups)) {
 			if (g.id === "topbar") {
-				paintTopbar(g, placed, ids);
+				paintTopbar(g, placed, ids, space);
 				continue;
 			}
 			const hidden = new Set(g.hidden || []);
@@ -92457,27 +93043,64 @@ function createLayoutEditor(host) {
 			window.dispatchEvent(new Event("comfier-layout-editor-change"));
 		}
 	}
-	function paintTopbar(g, placed, ids) {
+	function paintTopbar(g, placed, ids, space) {
 		const c = controls.get("topbar:workspace");
-		if (!c?.el.isConnected) return;
+		if (!c?.el.isConnected || !c.el.getClientRects().length) return;
 		const a = resolved(g);
-		const b = {
-			...rect(c.el),
-			id: g.id,
-			edge: "top",
-			track: 1,
-			align: "start",
-			fixed: true
-		};
+		const d = dimensions(g, [c], space);
+		const b = position(g, d, space, placed);
+		b.id = g.id;
+		b.edge = physicalEdge(g);
+		b.align = g.align;
 		neutralize(c);
 		c.el.toggleAttribute("data-ufu-tab-color", Boolean(a.tabBackground));
+		c.el.dataset.ufuOrientation = g.flow;
+		c.el.dataset.ufuEdge = physicalEdge(g);
 		put(c.el, "--ufu-tab-background", a.tabBackground || "initial");
 		for (const [key, value] of Object.entries({
-			"background": a.background || "var(--comfier-container-paint,var(--comfier-container-bg,var(--comfy-menu-bg,#171717)))",
+			position: "fixed", left: b.left + "px", top: b.top + "px",
+			right: "auto", bottom: "auto", width: b.width + "px", height: b.height + "px",
+			"min-width": "0", "max-width": "none", "min-height": "0", "max-height": "none",
+			"box-sizing": "border-box", "background": a.background || "var(--comfier-container-paint,var(--comfier-container-bg,var(--comfy-menu-bg,#171717)))",
 			"border-color": a.frameColor || "var(--comfier-container-frame,var(--interface-stroke,#666))",
-			"border-width": a.frame + "px",
-			"border-radius": a.curve + "px"
+			"border-width": a.frame + "px", "border-radius": a.curve + "px"
 		})) put(c.el, key, value);
+		// Preserve the exact stock horizontal Vue layout. Rotate the WHOLE bar, not
+		// its tabs, scroll owner, or action groups independently. The positioned box
+		// is still the lane footprint b; swap the untransformed dimensions so the
+		// post-transform bounding rectangle exactly equals b.
+		const vertical = g.flow === "vertical";
+		if (vertical) {
+			put(c.el, "left", b.left + (b.width - b.height) / 2 + "px");
+			put(c.el, "top", b.top + (b.height - b.width) / 2 + "px");
+			put(c.el, "width", b.height + "px");
+			put(c.el, "height", b.width + "px");
+		} else {
+			put(c.el, "left", b.left + "px");
+			put(c.el, "top", b.top + "px");
+			put(c.el, "width", b.width + "px");
+			put(c.el, "height", b.height + "px");
+		}
+		put(c.el, "transform-origin", "center center");
+		put(c.el, "transform", vertical ? physicalEdge(g) === "right" ? "rotate(90deg)" : "rotate(270deg)" : "none");
+		for (const id of g.items) {
+			const child = controls.get(id);
+			if (!child?.topbarChild || !child.available || !child.el.isConnected) continue;
+			const r = child.el.getBoundingClientRect();
+			slotRects.set(id, {id, container: g.id, left: r.left, right: r.right,
+				top: r.top, bottom: r.bottom, width: r.width, height: r.height});
+			const paint = resolved(g, id);
+			const ownDimensions = g.buttonStyles?.[id] || {};
+			if (Number.isFinite(ownDimensions.width)) put(child.el, "width", ownDimensions.width + "px");
+			if (Number.isFinite(ownDimensions.height)) put(child.el, "height", ownDimensions.height + "px");
+			if (paint.background) put(child.el, "background", paint.background);
+			if (paint.frameColor) put(child.el, "border-color", paint.frameColor);
+			if (Number.isFinite(paint.frame)) put(child.el, "border-width", paint.frame + "px");
+			if (Number.isFinite(paint.curve)) put(child.el, "border-radius", paint.curve + "px");
+			if (paint.iconColor) {put(child.el, "color", paint.iconColor);put(child.el, "--comfier-icon-color", paint.iconColor);}
+			if (editing && picked.has(id)) put(child.el, "outline", "2px solid #20DFF3");
+			else put(child.el, "outline", "none");
+		}
 		placed.push(b);
 		if (editing) {
 			const el = shells.get(g.id) || newShell(g);
@@ -92486,6 +93109,11 @@ function createLayoutEditor(host) {
 			shellStyle(el, "background", "transparent");
 			shellStyle(el, "z-index", "8995");
 		}
+	}
+
+	function refreshWorkspace() {
+		lastRenderKey = null;
+		refresh();
 	}
 	function refresh() {
 		if (!stopped) jobs.frame("layout", render);
@@ -92498,16 +93126,19 @@ function createLayoutEditor(host) {
 	function viewportRefresh() {
 		window.__comfierCanvasImage?.refresh?.();
 		invalidateDiscovery();
-		jobs.burst("viewport-settle", refresh, [
-			60,
-			180,
-			400
-		]);
 	}
 	function button(parent, name, fn) {
 		const b = document.createElement("button");
 		b.type = "button";
 		b.textContent = name;
+		if (parent === toolbarMenu || parent.classList.contains("ufu-copy-options")) {
+			for (const [property, value] of Object.entries({
+				width:"100px", "min-width":"100px", "max-width":"100px",
+				height:"30px", "min-height":"30px", "max-height":"30px", flex:"0 0 30px",
+				padding:"0 4px", "font-size":"13px", "line-height":"13px",
+				"white-space":"normal", "box-sizing":"border-box", margin:"0"
+			})) b.style.setProperty(property, value, "important");
+		}
 		b.onclick = fn;
 		parent.appendChild(b);
 		return b;
@@ -92595,7 +93226,7 @@ function createLayoutEditor(host) {
 		d.showModal();
 	}
 	function detachInspector() {
-		window.__comfierCanvasImage?.cancel?.();
+		dismissEditorTextSelection(inspector);
 		clearTabFrame();
 		inspector?.remove();
 		inspector = null;
@@ -92666,10 +93297,14 @@ function createLayoutEditor(host) {
 		return !!g.autofill || g.autofill == null && g.id === "sidebar" && connectedSidebar();
 	}
 	function connectedMinimum(g) {
-		return g.flow === "vertical" ? Math.max(26, ...g.items.filter((id) => !g.hidden?.includes(id)).map((id) => {
+		const vertical = g.flow === "vertical";
+		const items = g.items.filter(id => !g.hidden?.includes(id));
+		const minima = items.map(id => {
 			const c = controls.get(id);
-			return c?.widget ? 40 : minimumWidth(c);
-		})) + 8 : 34;
+			return vertical ? c?.widget ? resolved(g, id).minWidth ?? 40 : minimumWidth(c, g) : resolved(g, id).minHeight ?? 26;
+		});
+		const fallback = !items.length || items.some(id => resolved(g, id)[vertical ? "minWidth" : "minHeight"] == null) ? 26 : 1;
+		return Math.max(fallback, ...minima) + 8;
 	}
 	function dragShift(c, g) {
 		return "none";
@@ -92752,7 +93387,7 @@ function createLayoutEditor(host) {
 	};
 	function resizeHandles(el, g, b) {
 		const side = b.edge;
-		const keys = g.id === "topbar" || !editing || !selectedGroups.has(g.id) ? [] : connected(g) && fullLane(g) ? [{
+		const keys = !editing || !selectedGroups.has(g.id) ? [] : fullLane(g) ? [{
 			left: "right",
 			right: "left",
 			top: "bottom",
@@ -92820,15 +93455,21 @@ function createLayoutEditor(host) {
 		if (!g) return;
 		const dx = e.clientX - p.x;
 		const dy = e.clientY - p.y;
-		const w = p.box.width + (p.key.includes("w") || p.key === "left" ? -dx : dx);
-		const h = p.box.height + (p.key.includes("n") || p.key === "top" ? -dy : dy);
-		if (connected(g)) {
+		const resizeWidth = !["top", "bottom"].includes(p.key);
+		const resizeHeight = !["left", "right"].includes(p.key);
+		const w = p.box.width + (resizeWidth ? (p.key.includes("w") || p.key === "left" ? -dx : dx) : 0);
+		const h = p.box.height + (resizeHeight ? (p.key.includes("n") || p.key === "top" ? -dy : dy) : 0);
+		if (g.id === "topbar") {
 			const vertical = g.flow === "vertical";
-			g.thickness = clamp(vertical ? w : h, connectedMinimum(g), 4096);
-			if (!fullLane(g)) g.length = clamp(vertical ? h : w, 26, 4096);
+			g.thickness = clamp(vertical ? w : h, 40, 4096);
+			g.length = clamp(vertical ? h : w, 40, 4096);
+		} else if (connected(g)) {
+			const vertical = g.flow === "vertical";
+			if (vertical ? resizeWidth : resizeHeight) g.thickness = clamp(vertical ? w : h, connectedMinimum(g), 4096);
+			if (!fullLane(g) && (vertical ? resizeHeight : resizeWidth)) g.length = clamp(vertical ? h : w, 1, 4096);
 		} else {
-			g.widthScale = clamp((p.source.widthScale || 1) * Math.max(32, w - 16) / Math.max(32, p.box.width - 16), .05, 16);
-			g.heightScale = clamp((p.source.heightScale || 1) * Math.max(32, h - 16) / Math.max(32, p.box.height - 16), .05, 16);
+			if (resizeWidth) g.widthScale = clamp((p.source.widthScale || 1) * Math.max(1, w - 16) / Math.max(1, p.box.width - 16), 1 / 4096, 16);
+			if (resizeHeight) g.heightScale = clamp((p.source.heightScale || 1) * Math.max(1, h - 16) / Math.max(1, p.box.height - 16), 1 / 4096, 16);
 		}
 		refresh();
 		updateStatus();
@@ -93051,32 +93692,24 @@ function createLayoutEditor(host) {
 		});
 	}
 	function closeToolbarMenu() {
-		if (!toolbarMenu || toolbarMenu.hidden) return false;
-		toolbarMenu.hidden = true;
-		const options = toolbarMenu.querySelector(".ufu-copy-options");
-		if (options) options.hidden = true;
+		const options = toolbarMenu?.querySelector(".ufu-copy-options");
+		if (!options || options.hidden) return false;
+		options.hidden = true;
 		toolbarMenu.querySelector("[data-copy-layout]")?.setAttribute("aria-expanded", "false");
-		statusBar?.querySelector("[data-toolbar-menu]")?.setAttribute("aria-expanded", "false");
 		return true;
-	}
-	function toggleToolbarMenu() {
-		if (!toolbarMenu) return;
-		toolbarMenu.hidden = !toolbarMenu.hidden;
-		statusBar.querySelector("[data-toolbar-menu]").setAttribute("aria-expanded", String(!toolbarMenu.hidden));
-		updateStatus();
 	}
 	function fitEditorBar() {
 		if (!statusBar) return;
-		const bottom = (q("#topbar-workflow-tabs") || q("[data-testid=\"topbar-workflow-tabs\"]"))?.getBoundingClientRect().bottom;
-		put(statusBar, "top", "0px");
-		put(statusBar, "height", (Number.isFinite(bottom) && bottom > 0 ? bottom : 50) + "px");
+		const visible = !press?.moving && !selectedGroups.size && !picked.size;
+		statusBar.style.setProperty("display", visible ? "flex" : "none", "important");
 	}
 	function updateStatus() {
 		if (!statusBar) return;
 		fitEditorBar();
-		statusBar.querySelector("[data-undo]").disabled = !history.length;
-		statusBar.querySelector("[data-redo]").disabled = !redoHistory.length;
-		statusBar.querySelector("[data-properties]").disabled = false;
+		const undo = toolbarMenu?.querySelector("[data-undo]");
+		const redo = toolbarMenu?.querySelector("[data-redo]");
+		if (undo) undo.disabled = !history.length;
+		if (redo) redo.disabled = !redoHistory.length;
 	}
 	function clearSelection() {
 		clearTabFrame();
@@ -93126,47 +93759,12 @@ function createLayoutEditor(host) {
 		document.body.appendChild(blocker);
 		statusBar = document.createElement("div");
 		statusBar.className = "ufu-editor-status";
-		const global = button(statusBar, "Global Theme", () => {
-			closeToolbarMenu();
-			if (inspector) hideInspector();
-			window.__comfierThemeStudio?.open();
-		});
-		global.dataset.globalAppearance = "";
-		const properties = button(statusBar, "Properties", () => {
-			closeToolbarMenu();
-			if (inspector.hidden) paintInspector();
-			else hideInspector();
-		});
-		properties.dataset.properties = "";
-		const toggle = button(statusBar, isDesktopBrowser() ? "Menu" : "Menu ▾", () => toggleToolbarMenu());
-		toggle.dataset.toolbarMenu = "";
-		toggle.setAttribute("aria-expanded", "false");
-		toggle.setAttribute("aria-haspopup", "true");
-		toggle.setAttribute("aria-controls", "comfier-editor-menu");
 		toolbarMenu = document.createElement("div");
 		toolbarMenu.id = "comfier-editor-menu";
 		toolbarMenu.className = "ufu-toolbar-menu";
-		toolbarMenu.hidden = true;
+		toolbarMenu.hidden = false;
 		toolbarMenu.setAttribute("aria-label", "Editor actions");
-		button(toolbarMenu, "Help", openEditorHelp);
-		button(toolbarMenu, "Top bar appearance", () => {
-			closeToolbarMenu();
-			picked.clear();
-			selectionKind = "container";
-			selectedGroups = /* @__PURE__ */ new Set(["topbar"]);
-			paintInspector();
-			refresh();
-		});
-		const undoButton = button(toolbarMenu, "Undo", () => {
-			closeToolbarMenu();
-			undo();
-		});
-		undoButton.dataset.undo = "";
-		const redoButton = button(toolbarMenu, "Redo", () => {
-			closeToolbarMenu();
-			redo();
-		});
-		redoButton.dataset.redo = "";
+		button(toolbarMenu, "Global Dimensions", () => window.__comfierThemeStudio?.openDimensions());
 		const copyOptions = document.createElement("div");
 		copyOptions.className = "ufu-copy-options";
 		copyOptions.hidden = true;
@@ -93189,12 +93787,23 @@ function createLayoutEditor(host) {
 			reuse.remove();
 			copyOptions.remove();
 		}
-		button(toolbarMenu, "Exit", () => {
+		button(toolbarMenu, "Help", openEditorHelp);
+		const undoButton = button(toolbarMenu, "Undo", () => {
+			closeToolbarMenu();
+			undo();
+		});
+		undoButton.dataset.undo = "";
+		const redoButton = button(toolbarMenu, "Redo", () => {
+			closeToolbarMenu();
+			redo();
+		});
+		redoButton.dataset.redo = "";
+		button(toolbarMenu, "Save/Exit", () => {
 			closeToolbarMenu();
 			editorBack();
 		});
-		statusBar.appendChild(toolbarMenu);
 		document.body.appendChild(statusBar);
+		statusBar.appendChild(toolbarMenu);
 		inspector = document.createElement("section");
 		inspector.className = "ufu-inspector ufu-unified-inspector";
 		inspector.dataset.comfierSidePanel = "ui-editor";
@@ -93206,9 +93815,9 @@ function createLayoutEditor(host) {
 		refresh();
 	}
 	function finish(commit = false) {
-		window.__comfierCanvasImage?.cancel?.();
 		clearTabFrame();
 		closeToolbarMenu();
+		toolbarMenu?.remove();
 		toolbarMenu = null;
 		window.__comfierThemeStudio?.closeAll?.();
 		if (commit !== true && baselineTheme) window.__comfierThemeStudio?.restore?.(baselineTheme);
@@ -93287,7 +93896,11 @@ function createLayoutEditor(host) {
 			cancelMove();
 			return true;
 		}
-		if(inspector && !inspector.hidden && !selectedGroups.size){hideInspector();return true;}
+		if (inspector && !inspector.hidden) {
+			// Closing properties also clears its selected controls.
+			clearSelection();
+			return true;
+		}
 		if (selectedGroups.size || picked.size) {
 			clearSelection();
 			return true;
@@ -93313,13 +93926,16 @@ function createLayoutEditor(host) {
 			["Connected bars", "Enable Connected scrollable bar for a single row or column. Visible buttons sets how many fit at once; additional buttons scroll. Autofill lane uses the available lane space."],
 			["Themes and dimensions", "Themes controls fills, frames and icon colors. Choose a color, then tap the role you want to change. Dimensions controls widths, icon size, frame thickness and corners. Reset returns that value to its default."],
 			["Global appearance and four views", "Global Theme edits the overall theme. Phone portrait, phone landscape, tablet portrait and tablet landscape have separate layouts and canvas image framing. Apply appearance across all views copies styling, not button order or positions. Desktop uses tablet layouts."],
-			["PNG themes and canvas images", "In Global Theme → Themes → Profiles, upload a theme PNG or JSON. Choose Colors Only, Layout Only, Canvas Only, Co & L, Co & Ca, L & Ca or Load All. PNG imports that include Canvas open a crop preview before applying. Save a profile to reuse it; sharing a PNG preserves the full image and carries the theme metadata."], ["Frame the current canvas", "With nothing selected, open Properties → Canvas Image. Drag to position, pinch or scroll to zoom, or use the sliders. Apply to this view saves framing for the current view; Cancel restores the previous image. UI Editor Save retains changes and Discard restores the baseline."], ["Canvas Live Gallery", "Enable Canvas Live Gallery under Generation preview popup in ComfierUI Settings to show the newest successfully generated image as the canvas. It works on desktop and with automatic downloads disabled. Turn it off to keep and edit the last image using Properties → Canvas Image."],
+			["PNG themes and canvas images", "In Global Theme → Themes → Profiles, upload a theme PNG or JSON. Choose Colors Only, Layout Only, Canvas Only, Co & L, Co & Ca, L & Ca or Load All. PNG imports that include Canvas open a crop preview before applying. Save a profile to reuse it; sharing a PNG preserves the full image and carries the theme metadata."], ["Frame the current canvas", "Open Global Theme → Canvas. Drag to position and pinch or scroll to zoom. Apply to this view saves framing for the current view; Cancel restores the previous image."], ["Canvas Live Gallery", "Enable Canvas Live Gallery under Generation preview popup in ComfierUI Settings to show the newest successfully generated image as the canvas. It works on desktop and with automatic downloads disabled. Turn it off to keep and edit the last image using Global Theme → Canvas."],
 			["Resource monitor", "Select the monitor to choose visible meters, direction, meter order and fill palettes. Its arrow controls change meter order independently of button order."],
 			["Save, undo and exit", "Menu offers Undo and Redo. Use Global Theme to save and load themes. Back first closes a dialog or selection, then offers the editor exit choices. Save your theme to reuse or share its colors and layouts. Hidden controls lets you restore buttons you hid."]
 		]) { const h = document.createElement("h3"); h.textContent = heading; const p = document.createElement("p"); p.textContent = text; d.append(h, p); }
 		button(d, "Close", closeEditorDialog);
 		d.addEventListener("cancel", (e) => { e.preventDefault(); closeEditorDialog(); });
 		document.body.appendChild(d); d.showModal();
+		title.tabIndex = -1;
+		title.focus({preventScroll:true});
+		d.scrollTop = 0;
 	}
 	function confirmDialog(message, yes, labels = ["Confirm", "Cancel"]) {
 		if (!editing) {
@@ -93348,14 +93964,15 @@ function createLayoutEditor(host) {
 	function exitDialog() {
 		closeEditorDialog();
 		const d = document.createElement("dialog");
-		d.className = "ufu-confirm";
+		d.className = "ufu-confirm ufu-editor-exit";
+		d.setAttribute("aria-label", "Exit UI Editor");
 		editorDialog = d;
-		const p = document.createElement("p");
-		p.textContent = "Exit UI Editor? Your live changes remain until you choose.";
-		d.appendChild(p);
-		button(d, "Save changes and exit", save);
-		button(d, "Discard changes and exit", finish);
+		button(d, "Save & Exit", save).setAttribute("aria-label", "Save changes and exit");
+		button(d, "Discard & Exit", finish).setAttribute("aria-label", "Discard changes and exit");
 		button(d, "Keep editing", closeEditorDialog);
+		// Requested geometry belongs to this dialog and outranks shared control skins.
+		for (const [key,value] of Object.entries({display:"grid",width:"110px",padding:"4px",gap:"4px","grid-template-columns":"100px","grid-template-rows":"repeat(3,40px)","box-sizing":"border-box"})) d.style.setProperty(key,value,"important");
+		for (const control of d.children) for (const [key,value] of Object.entries({width:"100px","min-width":"100px","max-width":"100px",height:"40px","min-height":"40px","max-height":"40px",padding:"4px",margin:"0",font:"500 14px/1 system-ui,sans-serif","text-align":"center","box-sizing":"border-box"})) control.style.setProperty(key,value,"important");
 		d.addEventListener("cancel", (e) => {
 			e.preventDefault();
 			closeEditorDialog();
@@ -93363,6 +93980,7 @@ function createLayoutEditor(host) {
 		document.body.appendChild(d);
 		d.showModal();
 	}
+
 	function mergeSelectedContainers() {
 		const view = mode();
 		const ids = [...selectedGroups].filter(id => id !== "topbar" && draft[mode()].some(g => g.id === id));
@@ -93373,6 +93991,15 @@ function createLayoutEditor(host) {
 				const groups = ids.map(id => draft[mode()].find(g => g.id === id)).filter(Boolean);
 				if(groups.length !== ids.length) return;
 				const target = groups[0];
+				const sourceBoxes = groups.map(g => boxes.find(b => b.id === g.id) || previewBox(g));
+				if (sourceBoxes.some(b => !b || !Number.isFinite(b.width) || !Number.isFinite(b.height))) return;
+				const ws = workspace();
+				const vertical = ["left","right"].includes(physicalEdge(target));
+				const mixedOrientation = groups.some(g => ["left","right"].includes(physicalEdge(g)) !== vertical);
+				const length = mixedOrientation ? (vertical ? sourceBoxes[0].height : sourceBoxes[0].width) : sourceBoxes.reduce((sum,b) => sum+(vertical ? b.height : b.width),0)-8*(groups.length-1);
+				const thickness = vertical ? sourceBoxes[0].width : sourceBoxes[0].height;
+				const mergedWidth = Math.min(ws.right-ws.left, vertical ? thickness : length);
+				const mergedHeight = Math.min(ws.bottom-ws.top, vertical ? length : thickness);
 				const items = [], hidden = [], styles = {};
 				for(const group of groups) for(const id of group.items) {
 					if(items.includes(id)) continue;
@@ -93381,6 +94008,10 @@ function createLayoutEditor(host) {
 					styles[id] = {...copy(model.resolve("button", group, group.buttonStyles?.[id] || {})), ...copy(group.buttonStyles?.[id] || {})};
 				}
 				target.items = items; target.hidden = hidden; target.buttonStyles = styles;
+				target.connected = true; target.autofill = false;
+				target.length = Math.max(26,vertical ? mergedHeight : mergedWidth);
+				target.thickness = Math.max(26,vertical ? mergedWidth : mergedHeight);
+				scrollOffsets.set(target.id,0);
 				draft[mode()] = draft[mode()].filter(g => !ids.includes(g.id) || g === target);
 				selectedGroups = new Set([target.id]); picked.clear(); multiContainers = false;
 			});
@@ -93410,7 +94041,7 @@ function createLayoutEditor(host) {
 		});
 		return out;
 	}
-	function property(key, value, defaults = false) {
+	function property(key, value, defaults = false, repaint = true) {
 		change(() => {
 			for (const t of targets()) if (defaults) {
 				const next = { ...t.g.buttonDefaults };
@@ -93424,12 +94055,29 @@ function createLayoutEditor(host) {
 				t.set(next);
 			}
 		});
-		paintInspector();
+		if (repaint) paintInspector();
 	}
 	function mixed(key, defaults = false) {
 		const list = targets().map((t) => defaults ? model.resolve("button", t.g, {}) : resolved(t.g, t.id));
 		const first = list[0]?.[key];
 		return list.every((v) => v[key] === first) ? first : void 0;
+	}
+	function bindDimensionField(field, commit) {
+		if (mode() !== "outerLandscape") { field.onchange = () => commit(true); return; }
+		let committed = String(field.value);
+		let editCheckpoint = null;
+		function apply(report) {
+			if (String(field.value) === committed) return;
+			const before = [...history];
+			if (commit(report) === false) return;
+			const added = history[history.length - 1];
+			if (editCheckpoint && before[before.length - 1] === editCheckpoint && added !== editCheckpoint) history = before;
+			else if (added !== before[before.length - 1]) editCheckpoint = added;
+			committed = String(field.value);
+		}
+		field.oninput = () => apply(false);
+		field.onchange = () => apply(true);
+		field.addEventListener("focus", () => { editCheckpoint = null; });
 	}
 	function numberControl(parent, label, key, min, max, defaults = false) {
 		const row = document.createElement("label");
@@ -93443,19 +94091,19 @@ function createLayoutEditor(host) {
 		field.max = max;
 		field.step = 1;
 		let value = mixed(key, defaults);
-		if (key === "width" && picked.size === 1) value = Math.round(slotRects.get([...picked][0])?.width || value || 26);
-		if (key === "width" && value != null) value = Math.max(min, value);
+		if ((key === "width" || key === "height") && picked.size === 1) value = Math.round(slotRects.get([...picked][0])?.[key] || value || 26);
+		if ((key === "width" || key === "height") && value != null) value = Math.max(min, value);
 		field.value = value ?? "";
-		field.placeholder = value == null ? "Mixed" : "";
+		field.placeholder = value == null ? key === "minWidth" || key === "minHeight" ? "Auto" : "Mixed" : "";
 		field.setAttribute("aria-label", label);
-		field.onchange = () => {
+		bindDimensionField(field, report => {
 			const n = Number(field.value);
-			if (!Number.isFinite(n) || n < min || n > max) {
-				field.reportValidity();
-				return;
+			if ((!report && field.value === "") || !Number.isFinite(n) || n < min || n > max) {
+				if (report) field.reportValidity();
+				return false;
 			}
-			property(key, n, defaults);
-		};
+			property(key, n, defaults, report);
+		});
 		row.appendChild(field);
 		button(row, "Reset", () => property(key, void 0, defaults));
 		parent.appendChild(row);
@@ -93530,21 +94178,10 @@ function createLayoutEditor(host) {
 		};
 		const flowRow = document.createElement("label");
 		flowRow.textContent = "Monitor display";
-		const flow = document.createElement("select");
-		flow.setAttribute("aria-label", "Monitor display");
-		for (const [value, label] of [
-			["", "Follow container"],
-			["horizontal", "Horizontal"],
-			["vertical", "Vertical"]
-		]) {
-			const option = document.createElement("option");
-			option.value = value;
-			option.textContent = label;
-			flow.appendChild(option);
-		}
-		flow.value = settings.monitorFlow || "";
-		flow.onchange = () => property("monitorFlow", flow.value || void 0);
-		flowRow.appendChild(inspectorChoice(flow));
+		flowRow.appendChild(inspectorChoice({label: "Monitor display", value: settings.monitorFlow || "",
+			options: [["", "Follow container"], ["horizontal", "Horizontal"], ["vertical", "Vertical"]].map(([value,label]) => ({value,label})),
+			onChange: value => property("monitorFlow", value || void 0)
+		}));
 		body.appendChild(flowRow);
 		const heading = document.createElement("p");
 		heading.textContent = "Monitor order";
@@ -93568,20 +94205,10 @@ function createLayoutEditor(host) {
 		});
 		const paletteRow = document.createElement("label");
 		paletteRow.textContent = "Fill palette";
-		const metric = document.createElement("select");
-		metric.setAttribute("aria-label", "Monitor fill palette");
-		for (const key of order) {
-			const option = document.createElement("option");
-			option.value = key;
-			option.textContent = labels[key];
-			metric.appendChild(option);
-		}
-		metric.value = monitorPaletteKey;
-		metric.onchange = () => {
-			monitorPaletteKey = metric.value;
-			paintInspector();
-		};
-		paletteRow.appendChild(inspectorChoice(metric));
+		paletteRow.appendChild(inspectorChoice({label: "Monitor fill palette", value: monitorPaletteKey,
+			options: order.map(value => ({value, label: labels[value]})),
+			onChange: value => { monitorPaletteKey = value; paintInspector(); }
+		}));
 		colors.appendChild(paletteRow);
 		const palette = model.monitorPalette(settings, monitorPaletteKey);
 		const hint = document.createElement("p");
@@ -93628,8 +94255,7 @@ function createLayoutEditor(host) {
 	let inspectorTab = "colors";
 	let tabFrame = null;
 	function hideInspector() {
-		window.__comfierCanvasImage?.cancel?.();
-		inspector?.removeAttribute('data-canvas-image-editor');
+		dismissEditorTextSelection(inspector);
 		clearInspectorChoices();
 		clearTabFrame();
 		if (inspector) inspector.hidden = true;
@@ -93650,25 +94276,13 @@ function createLayoutEditor(host) {
 		Object.assign(tabFrame.style, {left: r.left - 4 + "px", top: r.top - 4 + "px", width: r.width + 8 + "px", height: r.height + 8 + "px"});
 	}
 
-	function paintCanvasInspector(options={}) {
-		if(!editing||!inspector)return;
-		clearTabFrame();clearInspectorChoices();
-		window.__comfierCanvasImage?.mount(inspector,{...options,close:hideInspector});
-		placeInspector();
-	}
-	async function openCanvasImage(options) {
-		if(window.__comfierCanvasPreview?.enabled)throw Error("Turn off Canvas Live Gallery before cropping a profile image.");
-		if(!editing)open();
-		if(!editing||!inspector)throw Error("UI Editor is not ready.");
-		clearSelection();window.__comfierThemeStudio?.closeAll?.();
-		return new Promise((resolve,reject)=>paintCanvasInspector({...options,
-		 commit:(frames,source)=>resolve({frames,source}),cancel:()=>reject(Error("Canvas image edit canceled."))}));
-	}
 	function paintInspector() {
 		if (!editing || !inspector || press?.moving) return;
-		if(!selectedGroups.size){paintCanvasInspector();return;}
-		window.__comfierCanvasImage?.cancel?.();
-		inspector.removeAttribute('data-canvas-image-editor');
+		// Native IME opening may resize the viewport and refresh discovery. Never
+		// replace a live text/number input while the user is typing.
+		const activeField = document.activeElement;
+		if (inspector.contains(activeField) && activeField?.matches?.('input[type="number"],input[type="text"],input:not([type]),textarea')) return;
+		if(!selectedGroups.size){hideInspector();return;}
 		const groups = groupsSelected();
 		if (!groups.length) {
 			clearSelection();
@@ -93726,11 +94340,10 @@ function createLayoutEditor(host) {
 			colorTab.setAttribute("aria-pressed", String(tab === "colors"));
 			dimensionTab.setAttribute("aria-pressed", String(tab === "dimensions"));
 			jobs.frame("editor-tab-frame", paintTabFrame);
-			jobs.frame("editor-hex-size", () => compactComfierHexFields(inspector));
 		}
 		for (const tab of [colorTab, dimensionTab]) tab.style.setProperty("outline", "none", "important");
 		showTab(inspectorTab);
-		const picker = window.__comfierThemeStudio?.createPicker?.(editorColor, (value) => editorColor = value);
+		const picker = window.__comfierThemeStudio?.createPicker?.(editorColor, (value) => editorColor = value, true);
 		if (picker) {
 			colors.appendChild(picker.element);
 			const row = document.createElement("div");
@@ -93760,6 +94373,10 @@ function createLayoutEditor(host) {
 		}
 		numberControl(dimensionPane, "Frame thickness (px)", "frame", 1, 6);
 		numberControl(dimensionPane, "Corner curve (px)", "curve", 0, 8);
+		if (!groups.every(g => g.id === "topbar")) {
+			numberControl(dimensionPane, isButton ? "Minimum width (px)" : "Minimum button width (px)", "minWidth", 1, 640, !isButton);
+			numberControl(dimensionPane, isButton ? "Minimum height (px)" : "Minimum button height (px)", "minHeight", 1, 96, !isButton);
+		}
 		if (isButton) {
 			if (picked.size === 1 && controls.get([...picked][0])?.el?.id === "comfier-owned-monitors") {
 				const chosen = resourceVisibility() || Object.fromEntries(meterCells(controls.get([...picked][0]).el).map((x) => [x.el.dataset.comfierMeter, x.visible]));
@@ -93790,14 +94407,12 @@ function createLayoutEditor(host) {
 			numberControl(dimensionPane, "Icon size (px)", "iconSize", 8, 64);
 			if (picked.size === 1) {
 				const id = [...picked][0];
-				const c = controls.get(id);
-				numberControl(dimensionPane, "Width (px)", "width", minimumWidth(c || {
-					width: 26,
-					height: 26
-				}), 640);
+				const vertical = groups[0].flow === "vertical";
+				const key = vertical ? "height" : "width";
+				numberControl(dimensionPane, vertical ? "Height (px)" : "Width (px)", key, mixed(vertical ? "minHeight" : "minWidth") ?? 1, vertical ? 96 : 640);
 			} else {
 				const hint = document.createElement("p");
-				hint.textContent = "Select one button to edit its width.";
+				hint.textContent = "Select one button to edit its width or height.";
 				dimensionPane.appendChild(hint);
 			}
 			const orderRow = document.createElement("div");
@@ -93807,25 +94422,24 @@ function createLayoutEditor(host) {
 				action.disabled = !draft[mode()].some((g) => reorderedButtons(g, delta).some((id, i) => id !== g.items[i]));
 			}
 			dimensionPane.appendChild(orderRow);
-		} else if (!groups.some((g) => g.id === "topbar")) {
+		} else {
 			const laneRow = document.createElement("label");
 			laneRow.textContent = "Lane";
-			const lane = document.createElement("select");
-			lane.setAttribute("aria-label", "Container lane");
+			const laneOptions = [];
 			for (const edge of [
 				"left",
 				"right",
 				"top",
 				"bottom"
 			]) for (let track = 1; track <= 3; track++) {
-				const option = document.createElement("option");
+				const option = {};
 				option.value = edge + ":" + track;
-				option.textContent = edge.replace(/^./, (c) => c.toUpperCase()) + " " + TRACK_NAMES[track - 1];
-				lane.appendChild(option);
+				option.label = edge.replace(/^./, (c) => c.toUpperCase()) + " " + TRACK_NAMES[track - 1];
+				laneOptions.push(option);
 			}
-			lane.value = physicalEdge(groups[0]) + ":" + (groups[0].track || 1);
-			lane.onchange = () => {
-				const [edge, track] = lane.value.split(":");
+			laneRow.appendChild(inspectorChoice({label: "Container lane", options: laneOptions, value: physicalEdge(groups[0]) + ":" + (groups[0].track || 1),
+				onChange(value) {
+				const [edge, track] = value.split(":");
 				change(() => {
 					for (const g of groups) {
 						g.edge = edge;
@@ -93835,20 +94449,9 @@ function createLayoutEditor(host) {
 					}
 				});
 				paintInspector();
-			};
-			laneRow.appendChild(inspectorChoice(lane));
+				}
+			}));
 			dimensionPane.appendChild(laneRow);
-			const name = document.createElement("input");
-			name.value = groups.length === 1 ? groups[0].name : "";
-			name.placeholder = groups.length > 1 ? "Multiple containers" : "";
-			name.maxLength = 60;
-			name.setAttribute("aria-label", "Container name");
-			name.disabled = groups.length !== 1;
-			name.onchange = () => {
-				change(() => groups[0].name = name.value.trim() || "Container");
-				paintInspector();
-			};
-			dimensionPane.appendChild(name);
 			boolControl(dimensionPane, "Connected scrollable bar", groups.every(connected), (v) => {
 				change(() => {
 					for (const g of groups) {
@@ -93892,18 +94495,18 @@ function createLayoutEditor(host) {
 				countInput.placeholder = "Auto";
 				countInput.setAttribute("aria-label", "Visible buttons");
 				countInput.value = groups.every((g) => g.visibleButtons === groups[0].visibleButtons) ? groups[0].visibleButtons ?? "" : "";
-				countInput.onchange = () => {
+				bindDimensionField(countInput, report => {
 					const raw = countInput.value;
 					const n = Number(raw);
 					if (raw !== "" && (!Number.isInteger(n) || n < 1 || n > 100)) {
-						countInput.reportValidity();
-						return;
+						if (report) countInput.reportValidity();
+						return false;
 					}
 					change(() => groups.filter(connected).forEach((g) => {
 						if (raw === "") delete g.visibleButtons;
 						else g.visibleButtons = n;
 					}));
-				};
+				});
 				countRow.appendChild(countInput);
 				button(countRow, "Auto", () => {
 					change(() => groups.filter(connected).forEach((g) => delete g.visibleButtons));
@@ -93913,10 +94516,13 @@ function createLayoutEditor(host) {
 				const countHint = document.createElement("p");
 				countHint.textContent = "Extra buttons scroll. Minimum button sizes still apply.";
 				dimensionPane.appendChild(countHint);
+
+			}
 				boolControl(dimensionPane, "Autofill lane", groups.every(fullLane), (v) => {
 					change(() => groups.forEach((g) => g.autofill = v));
 					paintInspector();
 				});
+
 				for (const [key, name] of [["length", "Bar length (px)"], ["thickness", "Bar thickness (px)"]]) {
 					const row = document.createElement("label");
 					row.textContent = name;
@@ -93924,18 +94530,25 @@ function createLayoutEditor(host) {
 					input.type = "number";
 					input.addEventListener("focus", () => input.select());
 					input.addEventListener("click", () => input.select());
-					input.min = key === "thickness" ? Math.max(...groups.map(connectedMinimum)) : 26;
+					input.min = key === "thickness" ? Math.max(...groups.map(connectedMinimum)) : groups.every(g => g.id === "topbar") ? 40 : 1;
 					input.max = 4096;
-					input.value = groups[0][key] || resolved(groups[0])[key] || (key === "length" ? groups[0].flow === "vertical" ? boxes.find((b) => b.id === groups[0].id)?.height : boxes.find((b) => b.id === groups[0].id)?.width : 48);
-					input.onchange = () => {
+					const firstBox = boxes.find(b => b.id === groups[0].id);
+					const vertical = groups[0].flow === "vertical";
+					input.value = (firstBox ? (key === "length" ? vertical ? firstBox.height : firstBox.width : vertical ? firstBox.width : firstBox.height) : null) || groups[0][key] || resolved(groups[0])[key] || 48;
+					bindDimensionField(input, report => {
 						const n = Number(input.value);
-						if (n < Number(input.min) || n > 4096) return;
-						change(() => groups.forEach((g) => g[key] = n));
-					};
+						if (input.value === "" || !Number.isFinite(n) || n < Number(input.min) || n > 4096) { if (report) input.reportValidity(); return false; }
+						change(() => groups.forEach(g => {
+							g[key] = n;
+							if (!connected(g)) {
+								const box=boxes.find(b=>b.id===g.id), width=(key==="length") === (g.flow!=="vertical");
+								if(box){const scale=width?"widthScale":"heightScale", current=width?box.width:box.height;g[scale]=clamp((g[scale]||1)*Math.max(1,n-16)/Math.max(1,current-16),1/4096,16);}
+							}
+						}));
+					});
 					row.appendChild(input);
 					dimensionPane.appendChild(row);
 				}
-			}
 		}
 		button(body, "Reset appearance to global theme", () => confirmDialog("Reset selected appearance overrides to follow the global theme? Child button overrides are preserved.", () => {
 			change(() => targets().forEach((t) => {
@@ -93973,7 +94586,7 @@ function createLayoutEditor(host) {
 		fitEditorBar();
 		let left = 4;
 		let right = innerWidth - 4;
-		let top = landscape ? 4 : (statusBar?.getBoundingClientRect().bottom || 0) + 4;
+		let top = 4; // The editor toolbar floats centrally; portrait panels respect occupied top lanes below.
 		let bottom = innerHeight - 4;
 		const rail = railRect();
 		if (rail) {
@@ -93981,13 +94594,14 @@ function createLayoutEditor(host) {
 			else right = Math.min(right, rail.left - 4);
 		}
 		const first = boxes.find((b) => selectedGroups.has(b.id));
-		const exposeEnds = !landscape || [...selectedGroups].some((id) => boxes.some((b) => b.id === id && (b.edge === "top" || b.edge === "bottom")));
+		// The inspector exposes selected containers on every lane. Unselected
+		// phone-landscape top/bottom lanes retain their existing behavior.
 		for (const b of boxes) {
-			if ((b.track || 1) !== 1 && !selectedGroups.has(b.id)) continue;
+			if (landscape && (b.track || 1) !== 1 && !selectedGroups.has(b.id)) continue;
 			if (b.edge === "left") left = Math.max(left, b.right + 4);
 			else if (b.edge === "right") right = Math.min(right, b.left - 4);
-			else if (exposeEnds && b.edge === "top") top = Math.max(top, b.bottom + 4);
-			else if (exposeEnds && b.edge === "bottom") bottom = Math.min(bottom, b.top - 4);
+			else if ((!landscape || selectedGroups.has(b.id)) && b.edge === "top") top = Math.max(top, b.bottom + 4);
+			else if ((!landscape || selectedGroups.has(b.id)) && b.edge === "bottom") bottom = Math.min(bottom, b.top - 4);
 		}
 		const width = Math.max(1, Math.min(landscape ? 660 : innerWidth, right - left));
 		return {
@@ -94016,14 +94630,19 @@ function createLayoutEditor(host) {
 		const first = boxes.find((b) => selectedGroups.has(b.id));
 		const w = Math.min(330, innerWidth - 16);
 		const left = first && first.left + first.width / 2 > innerWidth / 2 ? 8 : innerWidth - w - 8;
-		let top = 48;
+		let top = 8;
 		let bottom = innerHeight - 8;
-		if (first && first.right > left && first.left < left + w && first.height < innerHeight / 2) {
+		for (const b of boxes) {
+			if (b.edge === "top" && b.right > left && b.left < left + w) top = Math.max(top, b.bottom + 8);
+			if (b.edge === "bottom" && b.right > left && b.left < left + w) bottom = Math.min(bottom, b.top - 8);
+		}
+		if (first && !["top", "bottom"].includes(first.edge) && first.right > left && first.left < left + w && first.height < innerHeight / 2) {
 			if (first.top < innerHeight / 2) top = Math.max(top, first.bottom + 8);
 			else bottom = Math.min(bottom, first.top - 8);
 		}
-		if (bottom - top < 100) {
-			top = 48;
+		const selectedEnd = boxes.some(b => selectedGroups.has(b.id) && ["top", "bottom"].includes(b.edge) && b.right > left && b.left < left + w);
+		if (bottom - top < 100 && !selectedEnd) {
+			top = 8;
 			bottom = innerHeight - 8;
 		}
 		Object.assign(inspector.style, {
@@ -94031,7 +94650,7 @@ function createLayoutEditor(host) {
 			left: left + "px",
 			top: top + "px",
 			width: w + "px",
-			height: Math.max(100, bottom - top) + "px"
+			height: Math.max(selectedEnd ? 1 : 100, bottom - top) + "px"
 		});
 	}
 	function hitButton(x, y, group) {
@@ -94044,7 +94663,7 @@ function createLayoutEditor(host) {
 		if (!editing || e.button > 0 || e.isPrimary === false || press) return;
 		e.preventDefault();
 		e.stopImmediatePropagation();
-		const id = group === "topbar" ? null : hitButton(e.clientX, e.clientY, group);
+		const id = hitButton(e.clientX, e.clientY, group);
 		press = {
 			pointer: e.pointerId,
 			pointerType: e.pointerType,
@@ -94066,7 +94685,14 @@ function createLayoutEditor(host) {
 		else jobs.later("editor-hold", () => beginContainerMove(), 420);
 	}
 	function selectAt(group, id) {
-		if (multiContainers && selectionKind === "container" && selectedGroups.has(group)) {
+		// Commit the old field before changing the targets used by its setter.
+		dismissEditorTextSelection(inspector);
+		if (multiButtons && selectionKind === "button" && id) {
+			if (picked.has(id)) picked.delete(id);
+			else picked.add(id);
+			selectedGroups = new Set((draft[mode()] || []).filter(g => g.items.some(key => picked.has(key))).map(g => g.id));
+			if (!picked.size) { clearSelection(); return; }
+		} else if (multiContainers && selectionKind === "container" && selectedGroups.has(group)) {
 			selectedGroups.delete(group);
 			[...selectedGroups][0];
 			picked.clear();
@@ -94122,17 +94748,32 @@ function createLayoutEditor(host) {
 		};
 	}
 	function beginContainerMove() {
-		if (!press || press.group === "topbar") return;
+		if (!press) return;
 		const anchor = draft[mode()].find((g) => g.id === press.group);
 		if (!anchor) return;
 		if(selectionKind !== "container" || !selectedGroups.has(anchor.id)) selectedGroups = new Set([anchor.id]);
-		selectedGroups.delete("topbar");
-		press.anchors = groupsSelected().map(copy);
+		press.selectionOrder = [...selectedGroups];
+		press.placementBase = nextPlacement();
+		press.anchors = orderedGroups(draft[mode()]).filter(g => selectedGroups.has(g.id)).map(g => {
+			const next = {...copy(g), offset:g.offset ?? clamp(ALIGN.indexOf(g.align)/4,0,1)};
+			const box = boxes.find(b => b.id === g.id);
+			if (selectedGroups.size > 1 && box && Number.isFinite(box.left) && Number.isFinite(box.top)) {
+				const ws = workspace(), vertical = ["left","right"].includes(physicalEdge(g));
+				next.offset = clamp(((vertical ? box.top-ws.top : box.left-ws.left) / Math.max(1, (vertical ? ws.bottom-ws.top-box.height : ws.right-ws.left-box.width))),0,1);
+			}
+			if (selectedGroups.size > 1 && connected(g) && box) {
+				const vertical = ["left","right"].includes(physicalEdge(g));
+				next.length = vertical ? box.height : box.width;
+				next.thickness = vertical ? box.width : box.height;
+				next.autofill = false;
+			}
+			return next;
+		});
 		selectionKind = "container";
 		picked.clear();
 		press.kind = "container";
 		press.moving = true;
-		press.anchor = copy(anchor);
+		press.anchor = copy(press.anchors.find(g => g.id === anchor.id));
 		press.ids = [];
 		ghost = document.createElement("div");
 		ghost.className = "ufu-drag-ghost ufu-container-ghost";
@@ -94152,7 +94793,6 @@ function createLayoutEditor(host) {
 		const placed = [];
 		let result = null;
 		for (const g of orderedGroups(groups)) {
-			if (g.id === "topbar") continue;
 			const items = g.items.filter((id) => !g.hidden?.includes(id)).map((id) => controls.get(id)).filter((c) => c?.available !== false && c?.el?.isConnected);
 			if (!items.length) continue;
 			const b = position(g, dimensions(g, items, ws), ws, placed, widths);
@@ -94187,12 +94827,22 @@ function createLayoutEditor(host) {
 		ghost.setAttribute("aria-label", message);
 	}
 	function containerCandidates(p, drop) {
-		const anchors = p.anchors || [p.anchor];
-		const delta = clamp(drop.offset - p.anchor.offset,
-			-Math.min(...anchors.map(g => g.offset || 0)), 1-Math.max(...anchors.map(g => g.offset || 0)));
+		const anchors = (p.anchors || [p.anchor]).map(g => ({...g, offset:g.offset ?? clamp(ALIGN.indexOf(g.align)/4,0,1)}));
+		const anchorOffset = p.anchor.offset ?? clamp(ALIGN.indexOf(p.anchor.align)/4,0,1);
+		const delta = clamp(drop.offset - anchorOffset,
+			-Math.min(...anchors.map(g => g.offset)), 1-Math.max(...anchors.map(g => g.offset)));
 		const trackDelta = clamp(drop.track-(p.anchor.track||1),
 			1-Math.min(...anchors.map(g => g.track||1)), 3-Math.max(...anchors.map(g => g.track||1)));
-		return anchors.map(anchor => ({...anchor,...drop,offset:(anchor.offset||0)+delta,track:(anchor.track||1)+trackDelta}));
+		return anchors.map((anchor,index) => {
+			const moved = {...anchor,...drop,offset:(anchor.offset||0)+delta,track:(anchor.track||1)+trackDelta,placedAt:(p.placementBase || nextPlacement())+index};
+			if (anchor.id === "topbar" && anchor.flow !== drop.flow) {
+				const ws = workspace();
+				const available = drop.flow === "vertical" ? ws.bottom - ws.top : ws.right - ws.left;
+				moved.length = Math.max(40, Math.min(available, anchor.length || available));
+				moved.thickness = anchor.thickness || 40;
+			}
+			return moved;
+		});
 	}
 	function containerPreview(x, y) {
 		const p = press;
@@ -94235,14 +94885,17 @@ function createLayoutEditor(host) {
 		if(moved.some(next => {const box=previewBox(next,moved);return !box || box.blocked;})) {cancelMove();return;}
 		if(moved.some(next => { const old=draft[mode()].find(g => g.id===next.id); return old && (old.edge!==next.edge || old.offset!==next.offset || old.flow!==next.flow || (old.track||1)!==next.track); })) {
 			checkpoint();
-			for(const next of moved) {
+			const placementBase = p.placementBase || nextPlacement();
+			for(const [index,next] of moved.entries()) {
 				const group = draft[mode()].find(g => g.id===next.id);
 				if(!group) continue;
-				Object.assign(group,{edge:next.edge,offset:next.offset,flow:next.flow,track:next.track,placedAt:nextPlacement()});
+				Object.assign(group,{edge:next.edge,offset:next.offset,flow:next.flow,track:next.track,placedAt:placementBase+index});
+				if (group.id === "topbar" && group.flow !== anchors.find(a => a.id === group.id)?.flow) Object.assign(group,{length:next.length,thickness:next.thickness});
+				if (anchors.length > 1 && connected(next)) Object.assign(group,{length:next.length,thickness:next.thickness,autofill:next.autofill});
 				scrollOffsets.set(group.id,0);
 			}
 		}
-		selectedGroups = new Set(anchors.map(g => g.id));
+		selectedGroups = new Set(p.selectionOrder || anchors.map(g => g.id));
 		selectionKind = "container";
 		picked.clear();
 		cancelMove();
@@ -94250,9 +94903,11 @@ function createLayoutEditor(host) {
 	function beginMove() {
 		if (!press || !press.id || !picked.has(press.id)) return;
 		const anchor = draft[mode()].find((g) => g.items.includes(press.id));
+		// Topbar's native buttons can be styled, not individually reparented.
+		if (controls.get(press.id)?.topbarChild) return;
 		press.moving = true;
 		press.anchor = copy(anchor);
-		press.ids = model.order([...picked].map((id) => slotRects.get(id) || {
+		press.ids = model.order([...picked].filter(id => !controls.get(id)?.topbarChild).map((id) => slotRects.get(id) || {
 			id,
 			left: 0,
 			top: 0
@@ -94501,10 +95156,10 @@ function createLayoutEditor(host) {
 		passive: false
 	});
 	jobs.listen(document, "pointerdown", (e) => {
-		if (editing && toolbarMenu && !e.target?.closest?.(".ufu-editor-status")) closeToolbarMenu();
+		if (editing && toolbarMenu && !e.target?.closest?.(".ufu-editor-status,.ufu-toolbar-menu")) closeToolbarMenu();
 	}, { capture: true });
 	jobs.listen(document, "click", (e) => {
-		if (editing && !e.target?.closest?.(".ufu-inspector,.ufu-editor-status,dialog.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles")) {
+		if (editing && !e.target?.closest?.(".ufu-inspector,.ufu-editor-status,.ufu-toolbar-menu,dialog.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles")) {
 			e.preventDefault();
 			e.stopImmediatePropagation();
 		}
@@ -94654,8 +95309,6 @@ function createLayoutEditor(host) {
 		capture: true,
 		passive: false
 	});
-	const editorPageBack = window.__comfierBack?.register("ui-editor-page", 101, editorBack);
-	jobs.own(() => editorPageBack?.());
 	const style = document.createElement("style");
 	style.id = "ufu-style";
 	style.textContent = `
@@ -94682,40 +95335,38 @@ function createLayoutEditor(host) {
 html:root body .ufu-inspector .ufu-topbar-color-actions{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;width:100%}.ufu-inspector .ufu-topbar-color-actions>button{width:100%!important;min-width:0;box-sizing:border-box}
 .ufu-inspector header,.ufu-inspector footer,.ufu-buttons,.ufu-options{display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between}.ufu-inspector header{align-items:center;flex-shrink:0;flex-wrap:wrap}.ufu-inspector footer{flex-shrink:0;flex-wrap:wrap}.ufu-inspector strong{font-size:13px}.ufu-inspector-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;display:flex;flex-direction:column;gap:10px}.ufu-inspector-body>*{flex-shrink:0}.ufu-inspector [data-inspector-tab]:not([hidden]){display:flex;flex-direction:column;gap:10px}.ufu-inspector label{display:flex;align-items:center;justify-content:space-between;gap:6px}.ufu-options{flex-wrap:wrap}.ufu-options label{flex-direction:column}
 .ufu-inspector button,.ufu-inspector select,.ufu-inspector input,.ufu-confirm button{background:#fff!important;color:#000!important;-webkit-text-fill-color:#000!important;font:inherit;border:1px solid white;border-radius:5px;padding:6px;min-width:0;max-width:100%}.ufu-inspector button{cursor:pointer}.ufu-items{height:clamp(224px,36dvh,360px);min-height:224px;max-height:360px;flex:0 0 auto;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;border:1px solid #666;padding:6px;box-sizing:border-box}.ufu-appearance{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 6px;padding:8px;border:1px solid #666;min-width:0}.ufu-appearance label{flex-direction:column;align-items:stretch;justify-content:flex-start;font-size:12px}.ufu-appearance select{width:100%}.ufu-items label{justify-content:flex-start;padding:6px 4px;min-height:40px;box-sizing:border-box}.ufu-items span{overflow-wrap:anywhere}.ufu-items input{width:20px;height:20px;flex-shrink:0;accent-color:#fff}.ufu-report{font-size:12px;margin:0;flex-shrink:0}.ufu-hidden-list{width:min(360px,calc(100vw - 24px));max-height:75dvh}.ufu-hidden-items{max-height:50dvh;overflow:auto;overscroll-behavior:contain;margin:10px 0}.ufu-hidden-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 0}.ufu-hidden-row span{overflow-wrap:anywhere}.ufu-hidden-row button{flex-shrink:0}.ufu-confirm::backdrop{background:#0009}.ufu-confirm button{margin:4px}
+html:root body .ufu-editor-exit[open]{display:grid!important;grid-template-columns:100px;grid-template-rows:repeat(3,40px);gap:4px!important;padding:4px!important;width:110px!important;box-sizing:border-box}
+html:root body .ufu-editor-exit>button{width:100px!important;min-width:100px!important;max-width:100px!important;height:40px!important;min-height:40px!important;max-height:40px!important;box-sizing:border-box;padding:4px!important;margin:0!important;font:500 14px/1 system-ui,sans-serif!important;white-space:normal}
 
 .ufu-editor-blocker{position:fixed;inset:0;z-index:8990;touch-action:none;background:transparent;pointer-events:auto}
- .ufu-editor-status{position:fixed;left:0;right:0;top:0;height:50px;z-index:9501;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);align-items:stretch;gap:6px;padding:4px 8px;border:0;border-bottom:2px solid #fff;border-radius:0;background:#111;color:#fff;font:12px system-ui;box-sizing:border-box}
-.ufu-editor-status>button{flex:1 1 0;min-width:0;width:auto!important;height:auto!important;white-space:nowrap;padding:4px;border-radius:4px;font:inherit}
-.ufu-editor-status>button[data-global-appearance]{flex:2 1 0}
-.ufu-toolbar-menu{position:absolute;right:0;top:calc(100% + 4px);display:flex;flex-direction:column;gap:6px;width:min(220px,calc(100vw - 16px));max-height:calc(100dvh - 52px);overflow:auto;padding:8px;border:1px solid #fff;border-radius:6px;background:#111;box-sizing:border-box;box-shadow:0 4px 12px #0009}
-.ufu-copy-options{display:flex;flex-direction:column;gap:6px;padding-left:10px}.ufu-copy-options[hidden]{display:none!important}.ufu-toolbar-menu[hidden]{display:none!important}.ufu-toolbar-menu :is(button,select){display:block;width:100%;min-height:36px;padding:6px;font:14px system-ui;border:1px solid #fff;border-radius:4px}
+.ufu-editor-status{--comfier-fixed-background:#000;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:8994;max-height:calc(100dvh - 8px)}
+.ufu-toolbar-menu{--comfier-fixed-background:#000;display:flex;flex-direction:column;gap:4px;width:110px;max-width:calc(100vw - 8px);max-height:calc(100dvh - 8px);overflow:auto;padding:4px;border:1px solid #fff;border-radius:6px;background:#000;box-sizing:border-box}
+.ufu-copy-options{display:flex;flex-direction:column;gap:4px;padding-left:0}.ufu-copy-options[hidden]{display:none!important}.ufu-toolbar-menu[hidden]{display:none!important}.ufu-toolbar-menu :is(button,select){display:block;width:100%;min-height:40px;flex-shrink:0;padding:4px;font:14px system-ui;border:1px solid #fff;border-radius:4px}
 .ufu-unified-inspector{z-index:9500;display:flex;flex-direction:column;gap:8px;overflow:hidden;box-shadow:0 4px 24px #0009}.ufu-unified-inspector[hidden]{display:none!important}.ufu-unified-inspector footer{margin-top:auto}.ufu-unified-inspector footer button{flex:1}.ufu-unified-inspector input[type=number]{width:7ch}.ufu-unified-inspector .ufu-inspector-body{gap:10px}.ufu-unified-inspector fieldset{min-width:0;border:1px solid #666;display:flex;flex-direction:column;gap:8px}
 .ufu-unified-inspector .ufu-button-order{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.ufu-unified-inspector .ufu-monitor-order{display:grid;grid-template-columns:minmax(0,1fr) 40px 40px;gap:12px;align-items:center}.ufu-unified-inspector .ufu-monitor-order button{width:40px!important;min-height:40px}.ufu-unified-inspector .ufu-monitor-order span{min-width:0}
 .ufu-tab-frame-layer{position:fixed;z-index:9501;pointer-events:none;border:2px solid #20DFF3;border-radius:9px;box-sizing:border-box}.ufu-editor-help{width:min(540px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto}.ufu-editor-help h2{font:600 18px system-ui}.ufu-editor-help h3{font:600 14px system-ui}.ufu-editor-help p{line-height:1.5}
 .ufu-drop-target{outline:3px solid var(--comfier-active-color,#fff)!important}.ufu-drag-ghost{position:fixed;z-index:10001;pointer-events:none;padding:10px;background:#111e;border:2px solid var(--comfier-active-color,#fff);border-radius:6px;color:#fff;font:14px system-ui;max-width:240px}.ufu-container-ghost{box-sizing:border-box;border:3px solid #D40000;background:#D4000018;max-width:none;overflow:hidden}.ufu-container-ghost.ufu-invalid-drop{border-style:dashed}.ufu-dragging [data-ufu-control]{transition:transform 100ms ease}
 .ufu-editor-active [data-ufu-control]{pointer-events:none!important}.ufu-editor-active .ufu-shell{z-index:8995!important}
-.comfier-canvas-crop-preview{max-width:100%;min-height:0;max-height:200px;background-color:#222!important;background-repeat:no-repeat;border:1px solid #fff;touch-action:none;cursor:grab;flex:0 0 auto}
-.ufu-unified-inspector[data-canvas-image-editor] label:has(input[type=range]){flex-wrap:wrap}
-.ufu-unified-inspector[data-canvas-image-editor] input[type=range]{flex:1;min-width:100px}
 html:root body .ufu-unified-inspector :is(label,p,strong,legend,output){color:#fff!important;-webkit-text-fill-color:#fff!important}
 html:root body .ufu-unified-inspector button{width:auto!important;height:auto!important;min-height:32px;white-space:normal}.ufu-unified-inspector .ufu-buttons span{display:flex;gap:3px}
 html:root body .ufu-unified-inspector :is(button,input,select){background:#fff!important;color:#000!important;-webkit-text-fill-color:#000!important}
 [data-ufu-control] :is(i,svg){color:var(--comfier-icon-color)!important}
 html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles){--comfier-ui-font:#fff!important;--comfier-button-bg:#fff!important;--comfier-icon-color:#000!important;--comfier-control-background:#fff!important;--comfier-active-color:#fff!important;--comfier-accent:#fff!important;--comfier-accent-text:#000!important;color:#fff!important;-webkit-text-fill-color:#fff!important;background:#111!important;font:14px system-ui;border-color:#fff!important;opacity:1!important}
-html:root body .ufu-editor-status{font:12px system-ui}
 html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles) :is(label,p,strong,legend,output,h3,span,div):not(:where(button *,input *,select *)){color:#fff!important;-webkit-text-fill-color:#fff!important}
-html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles) :is(button:not(.theme-recent),input:not([type=range]):not([type=checkbox]),select,option){--comfier-ui-font:#000!important;--comfier-icon-color:#000!important;--comfier-control-background:#fff!important;color:#000!important;-webkit-text-fill-color:#000!important;background:#fff!important;border-color:#fff!important;opacity:1!important}
+html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles) :is(button:not(.theme-color-swatch),input:not([type=range]):not([type=checkbox]),select,option){--comfier-ui-font:#000!important;--comfier-icon-color:#000!important;--comfier-control-background:#fff!important;color:#000!important;-webkit-text-fill-color:#000!important;background:#fff!important;border-color:#fff!important;opacity:1!important}
 html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles) button :is(span,i,svg,strong,div){color:#000!important;-webkit-text-fill-color:#000!important}
 html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles) :is(button,input,select):disabled{color:#555!important;-webkit-text-fill-color:#555!important;opacity:1!important}
 html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles) :is(input,textarea)::placeholder{color:#555!important;-webkit-text-fill-color:#555!important;opacity:1!important}
 html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme-editor,.comfier-theme-profiles) :is(input[type=range],input[type=checkbox]){accent-color:#fff!important;color-scheme:dark}
 `;
 	document.head.appendChild(style);
+	jobs.listen(document, "focusout", (event) => {
+		if (event.target?.matches?.("input,textarea,[contenteditable=true]") && event.target.closest?.(".ufu-inspector,.comfier-theme-studio,.comfier-theme-editor")) window.ComfyRemoteKeyboard?.dismissTextSelection?.();
+	}, true);
 	const back = window.__comfierBack?.register("layout-editor", 12, editorBack);
 	window.__comfierLayoutEditor = {
 		invalidateDiscovery,
 		changeGlobal,
-		openCanvasImage,
 		resourceVisibility,
 		resourceAppearance,
 		open,
@@ -94725,6 +95376,7 @@ html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme
 		hasControl,
 		owns,
 		refresh,
+		refreshWorkspace,
 		mode,
 		panelSpace,
 		physicalSpace,
@@ -94778,14 +95430,7 @@ html:root body :is(.ufu-editor-status,.ufu-inspector,.ufu-confirm,.comfier-theme
 	lastMode = appliedMode = detectMode();
 	lastSide = window.__comfierLayoutSide?.side();
 	jobs.listen(window, "comfier-native-view-mode", viewportRefresh);
-	jobs.burst("startup", invalidateDiscovery, [
-		0,
-		100,
-		400,
-		1e3,
-		1800,
-		3e3
-	]);
+	render();
 	return window.__comfierLayoutEditor;
 }
 //#endregion
@@ -95824,6 +96469,7 @@ function startNativeEditor(host) {
 	const controller = createLayoutEditor(host);
 	const changed = () => host.changed(controller.snapshot());
 	window.addEventListener("comfier-layout-editor-change", changed);
+	changed();
 	cleanup.push(() => window.removeEventListener("comfier-layout-editor-change", changed));
 	return {
 		...controller,
@@ -95852,19 +96498,31 @@ var useComfierLayoutStore = defineStore("comfierLayout", () => {
 	const snapshot = shallowRef(null);
 	const ready = ref(false);
 	let editor;
+	function controlLabel(id, el) {
+		if (id === "topbar:new-workflow") return "New workflow";
+		if (id === "topbar:account") return "User panel";
+		if (id === "topbar:agents") return "Agents";
+		if (id.startsWith("topbar:workflow-tab-")) return el.getAttribute("aria-label") || el.textContent?.trim()?.slice(0, 60) || "Workflow tab";
+		return el.getAttribute("aria-label") ?? el.textContent.trim();
+	}
 	function register(id, el) {
+		if (!id) return;
 		if (controls.get(id)?.el !== el) {
 			const rect = el.getBoundingClientRect();
 			controls.set(id, {
 				id,
 				el,
 				origin: id.split(":")[0],
-				label: el.getAttribute("aria-label") ?? el.textContent.trim(),
+				topbarChild: id.startsWith("topbar:") && id !== "topbar:workspace",
+				label: controlLabel(id, el),
 				width: Math.max(26, rect.width),
 				height: Math.max(26, rect.height),
 				widget: id === "action:host-resources"
 			});
 			editor?.invalidateDiscovery();
+		} else {
+			const label = controlLabel(id, el);
+			if (controls.get(id).label !== label) { controls.get(id).label = label; editor?.invalidateDiscovery(); }
 		}
 	}
 	function unregister(id, el) {
@@ -95921,4 +96579,5 @@ var useComfierLayoutStore = defineStore("comfierLayout", () => {
 	};
 });
 //#endregion
+export { nativeGraphTheme, graphDecorationsEnabled, graphPerformance };
 export { AuthStoreError as $, BuilderDialog_default as $a, promotedInputSource as $c, searchInputVariants as $i, clearAllWorkspaceStorage as $l, resolveEntrySource as $n, getNodeSource as $o, KeybindingImpl as $r, zeroUuid as $s, getExtraOptionsForWidget as $t, runMissingMediaPipeline as A, useSubgraphStore as Aa, executionIdFromState as Ac, useAssetDownloadStore as Ai, getMissingMediaReferences as Al, useSubscriptionOperationView as An, isDOMWidget as Ao, toTierKey as Ar, CanvasPointer as As, useWorkflowBookmarkStore as At, useWorkflowTemplatesStore as B, TemplateIncludeOnDistributionEnum as Ba, getNodeByState as Bc, menuItemClass as Bi, restoreSurveyReplayRequest as Bl, useSubscription as Bn, calculateMinimapScale as Bo, useQueueUIStore as Br, getCnrIdFromNode as Bs, useSubgraphNavigationStore as Bt, migrateLegacyRerouteNodes as C, tryToggleWidgetPromotion as Ca, containsRect as Cc, tagVariants as Ci, LinkDirection as Cl, emptyCompositorWidgetValue as Cn, $el as Co, getTierFeatures as Cr, findFirstNode as Cs, isVideoOutput as Ct, lcm as D, appendCloudResParam as Da, resolvePromotedWidgetSource as Dc, TransitionCollapse_default as Di, TitleMode as Dl, useModelUpload as Dn, DOMWidgetImpl as Do, isSalesManagedTier as Dr, clearRevealedLinks as Ds, useCanvasStore as Dt, denormalize as E, parseImageWidgetValue as Ea, ContextMenu as Ec, PropertiesAccordionItem_default as Ei, RenderShape as El, formatCategoryLabel as En, ComponentWidgetImpl as Eo, isEnterprisePlanSlug as Er, LGraphBadge as Es, useNodeZIndex as Et, scanNodeMediaCandidates as F, useNodeFrequencyStore as Fa, getExecutionIdByNode as Fc, MenuRadioGroup_default as Fi, consumeFirstRunReplayRequest as Fl, savePendingSubscriptionCheckout as Fn, startWidgetIntegrations as Fo, filterItemByOwnership as Fr, getGraphSlotLayout as Fs, WORKFLOW_STATUS_I18N_KEYS as Ft, useKeybindingService as G, flattenTree as Ga, mapAllNodes as Gc, useAssetFilterOptions as Gi, workspaceApi as Gl, platformLink as Gn, inputSpecTree as Go, getJobWorkflow as Gr, outputLinks as Gs, nodeTypeValidForApp as Gt, getProviderBorderStyle as H, buildTree as Ha, isExecutionPathActive as Hc, laneBounds as Hi, useCloudWebSessionStore as Hl, runReportedCheckoutAttempt as Hn, useWorkflowDraftStoreV2 as Ho, getJobApiPrompt as Hr, inputLink as Hs, useWorkspaceStore as Ht, verifyMediaCandidates as I, ESSENTIAL_SECTIONS as Ia, getExecutionIdForNodeInGraph as Ic, MenuItemContent_default as Ii, consumeSurveyReplayRequest as Il, useBillingOperationStore as In, widgetHasOwnSurface as Io, ModelInfoField_default as Ir, AutoPanController as Is, useExecutionStore as It, partnerRunGateBlocksAutoQueue as J, useSelectedLiteGraphItems as Ja, isAbortError as Jc, NavItem_default as Ji, WorkspaceApiError as Jl, SettledOperationError as Jn, transformNodeDefV1ToV2 as Jo, useExtensionService as Jr, useLinkStore as Js, openModelLibraryBrowser as Jt, useCanvasPositionConversion as K, sortedTree as Ka, resolveInputSourceNode as Kc, LeftSidePanel_default as Ki, MEMBERSHIP_MANAGED_BY_DIRECTORY as Kl, readWorkspaceLink as Kn, ownSlotTypes as Ko, getOutputsForTask as Kr, LLink as Ks, useAppModeStore as Kt, parseJsonWithNonFinite as L, NODE_TO_ESSENTIALS_CATEGORY as La, getExecutionIdsForSelectedNodes as Lc, whileMouseDown as Li, isFirstRunReplayRequested as Ll, toBillingCycle as Ln, useColorPaletteStore as Lo, useAssetsStore as Lr, isMiddleButtonEvent as Ls, createRafBatch as Lt, isMissingMediaCandidateActive as M, buildNodeDefTree as Ma, forEachNode as Mc, taskService as Mi, useSettingsDialog as Ml, openHostedBillingTab as Mn, useChainCallback as Mo, mapApiTeamCreditStops as Mr, reduceGesture as Ms, useWorkflowThumbnail as Mt, isMissingMediaCandidateScopeActive as N, createDummyFolderNodeDef as Na, getActiveGraphNodeIds as Nc, Menu_default as Ni, useComfierPanelStore as Nl, useSubscriptionDialog as Nn, mountWidgetIntegration as No, sortAssets as Nr, captureGesture as Ns, renderMinimapToCanvas as Nt, normalize as O, useCanvasInteractions as Oa, resolveConcretePromotedWidget as Oc, EditableText_default as Oi, flattenWorkflowNodes as Ol, useBillingContext as On, addWidget as Oo, isUnknownTier as Or, isLinkRevealed as Os, useTitleEditorStore as Ot, scanAllMediaCandidates as P, useNodeDefStore as Pa, getAllNonIoNodesInSubgraph as Pc, MenuItems_default as Pi, clearOnboardingReplay as Pl, clearPendingSubscriptionCheckoutIfTerminal as Pn, refreshDeviceWidgets as Po, filterItemByBaseModels as Pr, useLayoutMutations as Ps, MinimapDataSource as Pt, useApiKeyAuthStore as Q, useComfierAppModeStore as Qa, inputForWidget as Qc, searchInputSizeConfig as Qi, clearActivePath as Ql, resolveCheckoutJourney as Qn, NodeSourceType as Qo, useKeybindingStore as Qr, createUuidv4 as Qs, GET_CONFIG as Qt, useNodeReplacementStore as R, BLUEPRINT_TYPE_PREFIX as Ra, getNodeByExecutionId as Rc, menuButtonClass as Ri, isSurveyReplayRequested as Rl, toCurrentTier as Rn, DEFAULT_DARK_COLOR_PALETTE as Ro, useQueuePendingTaskCountStore as Rr, isMiddleButtonHeld as Rs, useExecutionErrorStore as Rt, deserialiseAndCreate as S, reorderSubgraphInputsByWidgetOrder as Sa, containsCentre as Sc, TagsInputItem_default as Si, LGraphEventMode as Sl, MediaAssetKey as Sn, uploadFile$1 as So, getTierCredits as Sr, isOverNodeOutput as Ss, isSelectOnly as St, computeUnionBounds as T, getGridThumbnailUrl as Ta, snapPoint as Tc, TagsInput_default as Ti, NodeSlotType as Tl, createAssetWidget as Tn, applyTextReplacements$1 as To, hasActivePaidPlan as Tr, getSlotColor as Ts, resolveNode as Tt, getProviderIcon as U, combineTrees as Ua, isMissingCandidateActive as Uc, IconGroup_default as Ui, webSessionFailureMessage as Ul, persistPendingSubscriptionCheckoutAttempt as Un, dynamicComboOptionKeys as Uo, getJobAssets as Ur, inputLinkId as Us, useColorPaletteService as Ut, zTemplateInput as V, ComfyWorkflow as Va, getRootParentNode as Vc, selectedMenuButtonClass as Vi, readsSignedInWebSession as Vl, performSubscriptionCheckout as Vn, enforceMinimumBounds as Vo, findActiveIndex as Vr, clearNodeOwnedStoreState as Vs, useWorkflowService as Vt, getProviderName as W, findNodeByKey as Wa, locatorIdFromState as Wc, VirtualGrid_default as Wi, useTeamWorkspaceStore as Wl, withPendingCheckoutAttemptId as Wn, dynamicComboOptionTypes as Wo, getJobDetail as Wr, outputHasLinks as Ws, useMissingNodesErrorStore as Wt, usePartnerNodesInGraph as X, useAgentPanelStore as Xa, isSlotObject as Xc, BaseModalLayout_default as Xi, useWorkspaceAuthStore as Xl, getActiveCheckoutJourney as Xn, CORE_NODE_MODULES as Xo, useMenuItemStore as Xr, canTransferReplacementOwnership as Xs, useNodeDragToCanvas as Xt, usePartnerNodesRunGate as Y, visibleCanvasViewport as Ya, isResultItemType as Yc, StatusBadge_default as Yi, UNIFIED_IDENTITY_SETTLE_TIMEOUT_MS as Yl, bindOperationToCheckoutJourney as Yn, BLUEPRINT_CATEGORY as Yo, useBottomPanelStore as Yr, arrangeForLegacyRender as Ys, startModelLoaderDrag as Yt, useCurrentUser as Z, withNodeAddSource as Za, isSubgraph as Zc, SearchInput_default as Zi, WorkspaceAuthError as Zl, resolveCheckoutAssignment as Zn, NodeBadgeMode as Zo, useCommandStore as Zr, transferReplacementOwnership as Zs, CONFIG as Zt, SUPPORTED_HDRI_EXTENSIONS as _, isRecommendedWidget as _a, slotTypeKey as _c, TagsInputItemText_default as _i, getParentExecutionIds as _l, isExtensionlessVideo as _n, createSharedObjectUrl as _o, evaluateNodeDefPricing as _r, getCanvasContextMenuTarget as _s, getLinkTypeColor as _t, readSsoHint as _u, ComfyApp as a, IS_CONTROL_WIDGET as aa, layoutStore as ac, usePreemptableQueue as ai, deriveWidgetVisibility as al, getEffectiveHardness as an, isInstantRunningMode as ao, registerRefreshOnReturn as ar, isFloatInputSpec$1 as as, useCheckoutJourneyExit as at, writeActivePath as au, getWorkflowDataFromFile as b, pruneDisconnected as ba, setAssertReporter as bc, TOOLTIP_ARROW_PT as bi, parseNodeId as bl, useNodeDragAndDrop as bn, createAnnotatedPath as bo, TIER_PRICING as br, createWidgetRestorationState as bs, isLGraphNode as bt, usePaste as c, resolveNodeDisplayName as ca, LayoutSource as cc, resultItemUrl as ci, parseWidgetId as cl, setNodeWidgetValue as cn, LayerEditorDialogContent as co, PaymentPopupBlockedError as cr, LiteGraph as cs, generateErrorReport as ct, PRESERVED_QUERY_NAMESPACES as cu, shouldIgnoreCopyPaste as d, createPromotedHostWidgetIdLookup as da, usePreviewExposureStore as dc, isAudioResult as di, getSelectedModelsMetadata as dl, filterUnavailableCoreMediaMenuActions as dn, useMissingMediaStore as do, supportsInAppCancellation as dr, LGraphCanvas as ds, resolveMissingMediaItemLabel as dt, getPreservedQueryParam as du, assetService as ea, useNodeDataStore as ec, KeyComboImpl as ei, promotedInputWidget as el, useLitegraphService as en, useWorkflowTemplateSelectorDialog as eo, paymentIntentSourceForAddCreditsClick as er, isCustomNode as es, NO_PERSONAL_WORKSPACE as et, completeWorkflowLogoutTransition as eu, Load3dUtils as f, demoteWidget as fa, nextUniqueName as fc, isImageResult as fi, isNodeAndAncestorsActive as fl, useWidgetStore as fn, useTemplateInputDownloadStore as fo, useFreeTierQuota as fr, alignNodes as fs, countMissingModels as ft, hydratePreservedQuery as fu, SUPPORTED_EXTENSIONS_ACCEPT as g, isPreviewPseudoWidget as ga, isNodeBindable as gc, getOutputAssetMetadata as gi, createNodeLocatorId as gl, updateControlWidgetLabel as gn, useNodeOutputStore as go, useNodePricing as gr, parseProxyWidgets as gs, getItemsColorOption as gt, markSsoReentry as gu, SUPPORTED_EXTENSIONS as h, hasUnpromotedWidgets as ha, isColorable as hc, resultItemHtmlVideoType as hi, createNodeExecutionId as hl, isValidWidgetType as hn, useJobPreviewStore as ho, nodeBadges as hr, parseProxyWidgetErrorQuarantine as hs, verifyAssetSupportedCandidates as ht, hasRecentSsoReentry as hu, useSettingStore as i, getControlWidget as ia, resizeNodeLayout as ic, WrappedList as ii, useWidgetValueStore as il, getEffectiveBrushSize as in, isInstantMode as io, createBillingPortalReporter as ir, isComboInputSpec$1 as is, trackCheckoutJourneyPhase as it, registerWorkflowPersistenceFlush as iu, groupCandidatesByMediaType as j, ComfyNodeDefImpl as ja, executionIdToNodeLocatorId as jc, TaskNotFoundError as ji, NoResultsPlaceholder_default as jl, useSubscriptionRail as jn, useDomWidgetStore as jo, getStopDiscountedMonthlyUsd as jr, idleGesture as js, useWorkflowStore as jt, wrapIndex as k, useSubgraphOperations as ka, collectAllNodes as kc, isDownloadCancelled as ki, countMissingMediaReferences as kl, CancellationScopeChangedError as kn, isComponentWidget as ko, isWithinEnterpriseEndingNotice as kr, setRevealedLinks as ks, useAppMode as kt, collapseOutsideSelectionOnPrimaryPointerDown as l, usePromptEditorStore as la, removeNodeTitleHeight as lc, resultItemVhsAdvancedPreviewUrl as li, widgetId as ll, useCanvasTransform as ln, LayerEditorDialogHeader as lo, categorizeBillingApiError as lr, LGraph as ls, resolveRunErrorMessage as lt, capturePreservedQuery as lu, LOAD3D_NONE_MODEL as m, getPromotableWidgets as ma, BaseWidget as mc, isVideoResult as mi, compareExecutionId as ml, addValueControlWidgets as mn, isIssuesTabEnabled as mo, installNodeBadges as mr, SubgraphNode as ms, scanNodeModelCandidates as mt, WORKSPACE_STORAGE_KEYS as mu, viewportMode as n, MultiSelect_default as na, toOwningGraphId as nc, legacyMenuCompat as ni, resolveSubgraphInputTarget as nl, LoadingOverlay_default as nn, removePendingMissingNodeTypesByType as no, resolveStripePublishableKey as nr, getComboSpecComboOptions as ns, useDialogService as nt, readActivePath as nu, app as o, useRightSidePanelStore as oa, isSizeEqual as oc, getAssetType as oi, isWidgetVisibleOnSurface as ol, extractWidgetStringValue as on, useQueueSettingsStore as oo, useAuthActions as or, isIntInputSpec$1 as os, NumberFieldIncrement_default as ot, writeOpenPaths as ou, DIRECT_EXPORT_FORMATS as p, findHostInputForPromotion as pa, isComboWidget$2 as pc, isTextResult as pi, appendNodeExecutionId as pl, ComfyWidgets as pn, useMissingModelStore as po, graphCreditsBadges as pr, distributeNodes as ps, groupMissingModelCandidates as pt, mergePreservedQueryIntoQuery as pu, useSharedCanvasPositionConversion as q, unwrapTreeRoot as qa, subgraphIdFromState as qc, NavTitle_default as qi, NoWorkspaceAccessError as ql, useBillingReadRail as qn, transformInputSpecV1ToV2 as qo, getPreviewableOutputsFromJobDetail as qr, slotFloatingLinks as qs, useSidebarTabStore as qt, getSettingInfo as r, isComboInputSpec as ra, toRootGraphId as rc, parseNodeOutput as ri, stripGraphPrefix as rl, StrokeProcessor as rn, updatePendingWarnings as ro, readOnRail as rr, getInputSpecType as rs, handOffCheckoutJourney as rt, readOpenPaths as ru, sanitizeNodeName as s, useFavoritedWidgetsStore as sa, toPoint as sc, resultItemPreviewUrl as si, isWidgetId as sl, getNodeWidgetValue as sn, LAYER_EDITOR_DIALOG_KEY as so, usePendingTopup as sr, isMediaUploadComboInput as ss, NumberFieldDecrement_default as st, getWorkspaceId as su, useComfierLayoutStore as t, useModelToNodeStore as ta, graphScopeOf as tc, bootstrapTracer as ti, promotedInputWidgets as tl, useMaskEditor as tn, useNewUserService as to, useBillingCapabilities as tr, isEssentialNode as ts, useAuthStore as tt, prepareWorkflowLogoutTransition as tu, hasTextSelection as u, autoExposeKnownPreviewNodes as ua, getPreviewExposureHostLocator as uc, is3DResult as ui, getModelFileKey as ul, useMaskEditorStore as un, layerEditorDialogProps as uo, useBillingRouting as ur, Subgraph as us, resolveMissingErrorMessage as ut, clearPreservedQuery as uu, SUPPORTED_HDRI_EXTENSIONS_ACCEPT as v, isWidgetPromotedOnSubgraphNode as va, SUBGRAPH_INPUT_ID as vc, TagsInputItemDelete_default as vi, tryNormalizeNodeExecutionId as vl, useNodePaste as vn, releaseSharedObjectUrl as vo, DEFAULT_TIER_KEY as vr, LGraphGroup as vs, isImageNode as vt, useErrorHandling as vu, clipRectToBounds as w, describeImageLoadFailure as wa, createBounds as wc, TagsInputInput_default as wi, LinkMarkerShape as wl, isCompositorWidgetValue as wn, ComfyDialog as wo, getTierPrice as wr, NodeSlot as ws, mapLiveWidgetsById as wt, DraggableList as x, refreshPromotedWidgetRendering as xa, DragAndScale as xc, buildTooltipConfig as xi, toNodeId as xl, MIME_ASSET_INFO as xn, parseAnnotatedPath as xo, amountForBillingCycle as xr, isOverNodeInput as xs, isLoad3dNode as xt, getExportFormatOptions as y, promoteWidget as ya, useLinkPresentationStore as yc, TagRemoveButton_default as yi, UNASSIGNED_NODE_ID as yl, useNodeFileInput as yn, isInputPreviewOutput as yo, ENTERPRISE_URL as yr, LGraphNode as ys, isLGraphGroup as yt, CANVAS_NAVIGATION_PRESETS as yu, getExecutionContext as z, collectSearchableOutputTypes as za, getNodeByLocatorId as zc, menuContentClass as zi, requestOnboardingReplay as zl, useWorkspaceUI as zn, DEFAULT_LIGHT_COLOR_PALETTE as zo, useQueueStore as zr, isMiddlePointerInput as zs, ChangeTracker as zt };

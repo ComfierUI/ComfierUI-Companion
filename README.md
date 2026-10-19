@@ -1,6 +1,12 @@
-# ComfierUI Companion 0.14.0
+# ComfierUI Companion 0.100.1
 
-Paired with ComfierUI 0.98.0-Dev. Canvas framing accepted across all four views. Includes PNG themes, Canvas Live Gallery and UI Editor container merging/group movement. Install over the existing extension, preserve settings/themes and restart ComfyUI.
+Paired with ComfierUI 0.98.9-Dev / Companion 0.14.9; Android versionCode 936; builtin core/frontend 92. Surgical changes: MULTI label/indicator 1px spacing; responsive centered resource fill meters and value labels; remove container-name input from Dimensions; align Companion Port and Apply heights; Templates sidebar second tap closes its panel via its existing owner. Existing settings, layout and templates data unchanged. No new observers, polling or timers. Device validation pending.
+
+# ComfierUI Companion 0.14.8
+
+Paired with 0.98.8-Dev; builtin core/frontend91. Exact finalized settings order, inline dropdowns and desktop Silent launch; all-container Autofill Lane, wider Canvas warning OK and actual Extensions launcher toggle. Install over the existing extension and restart ComfyUI. Desktop close buttons, broader Escape parity and mixed-side movement default deferred to next thread.
+
+Desktop Settings → Help now uses the updated desktop guide. Android-only Tap to Link and Node Handles and Canvas Locking topics are excluded from the desktop guide. Hosted Android Help retains its existing content. Builtin core/frontend149 keep full-install version precedence; preserve user configuration and restart ComfyUI after replacing the extension files.
 
 ## Installation
 
@@ -21,7 +27,7 @@ python_embeded\python.exe -s -m pip install -r ComfyUI\custom_nodes\ComfierUI-Co
 
 Requirements include psutil and nvidia-ml-py for CPU/RAM and NVIDIA telemetry. Restart ComfyUI after installation. Use one installation method; do not create a duplicate extension installation.
 
-For this full ZIP, extract into the existing ComfierUI Companion custom_nodes directory. Preserve user themes/settings, diagnostics/scripts/backups, gateway_port.json and browser_start.json, then restart ComfyUI. Builtin core/frontend83 supersede earlier installed modules while retaining user configuration. The app upgrade catalog remains empty because this full package supplies the hosted update.
+For this full ZIP, extract into the existing ComfierUI Companion custom_nodes directory. Preserve user themes/settings, diagnostics/scripts/backups, gateway_port.json and browser_start.json, then restart ComfyUI. Builtin core/frontend91 supersede earlier installed modules while retaining user configuration. The app upgrade catalog remains empty because this full package supplies the hosted update.
 
 ## UI Editor
 
@@ -88,3 +94,9 @@ On the host, open http://127.0.0.1:8147/ for the desktop frontend, using the con
 **Never forward port 8188 or the ComfierUI Companion gateway port through your router or expose them directly to the public internet. Use a private VPN such as Tailscale for access away from home.**
 
 See LICENSE.md for original ComfierUI Companion MIT terms, modified ComfyUI frontend GPLv3 terms, attribution and corresponding-source requirements. Retain those notices when redistributing.
+
+
+## 0.98.10 — Port height and version alignment
+The Companion Port input now matches the established 40px Apply button height by correcting the source-owned, high-priority CSS rule; measured width, validation, and other settings are unchanged. App and Companion versions are now synchronized at 0.98.10.
+
+**One-time version alignment (0.98.10):** Companion advances from 0.14.9 to 0.98.10 to align with ComfierUI 0.98.10-Dev. From this release forward, both products share matching version numbers: small/staged changes increment the final component, completed phases increment the middle component and reset the final to zero, and 1.0.0 requires an explicit release-readiness decision.

@@ -2774,7 +2774,8 @@ var ComfyApi = class extends EventTarget {
 	* @throws {PromptExecutionError} If the prompt fails to execute
 	*/
 	async queuePrompt(number, data, options) {
-		const { output: prompt, workflow } = data;
+		const { output: prompt, workflow: sourceWorkflow } = data;
+		const workflow = window.__comfierThemeStudio?.withWorkflowTheme?.(sourceWorkflow) || sourceWorkflow;
 		const body = {
 			client_id: this.clientId ?? "",
 			prompt,
