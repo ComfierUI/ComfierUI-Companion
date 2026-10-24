@@ -1,5 +1,54 @@
 # Project instructions
 
+## Unrestricted development and testing — Dan, 2026-10-19 (mandatory)
+
+Do not impose arbitrary experimental/test-only restrictions in the app, backend,
+model importer, tokenizer, exporter or conversion toolkit. Do not add pre-run
+lockouts, prompt/token caps, hardcoded single-job limits, disabled controls or
+narrow feature allowlists merely because a path is experimental or untested.
+This requirement supersedes older instructions that impose such test-only limits.
+
+Dan's explicit exceptions, 2026-10-19 16:20: retain the existing seed ranges/clamping
+and actual compiled-resolution checks. These are the only authorized policy
+exceptions. Do not remove those checks during an unrestricted-development audit.
+Component origin, exporter name, SDK release, chipset allowlist, test status,
+fixed single-chain/batch-one rules and arbitrary strength ranges must not block
+attempted execution. Bind selected components through their actual interfaces;
+never silently omit a requested adapter/conditioning input or replace a selected
+component with the diffusion package's default. A real missing file, invalid
+buffer, corrupt archive or unrepresentable compiled tensor is an execution error,
+not a reason to reinstate a family/test allowlist.
+
+
+Preserve the full user input. Never silently truncate prompts, discard overflow
+chunks, clamp user choices or remap requested behavior to make an artificial
+validation gate pass. Standard CLIP chunk width is an encoder execution detail,
+not permission to reject or discard the rest of a prompt. Implement the actual
+end-to-end execution path for the requested input and feature.
+
+Audit the full export-to-runtime contract BEFORE starting or recommending an
+expensive conversion: input/output shapes, conditioning lengths, tokenizer and
+encoder behavior, chunk handling, adapter support and runtime consumption.
+Disclose genuine compiled-graph/hardware limitations and their consequences
+before the user commits hours or days. Do not label fixed-shape exports
+unrestricted, claim capabilities not implemented, or promise that deleting a
+validator changes the compiled graph.
+
+Do not silently substitute prediction averaging, embedding compression or other
+changed conditioning semantics for standard concatenated long-prompt attention.
+Explain a proposed alternative and its performance/quality differences; never
+represent an approximation as equivalent. Tests with mocks are not evidence of
+on-device model execution or image quality.
+
+Remove existing artificial gates at their defining owners and verify the real
+execution path with inputs beyond the former boundary, including both positive
+and negative prompts, cancellation and resource cleanup. A warning must not
+become another blocking test gate. Retain data-integrity and memory-correctness
+checks needed to execute real formats; report genuine incompatibility accurately
+instead of inventing unsupported features or disabling potentially valid tests.
+
+
+
 ## Source ownership and exact scope — mandatory
 
 ComfierUI is the frontend implementation. Trace each requested change through its current source, state, event/lifecycle and render path before editing. Identify the existing owner and all existing writers. Make the change at that owner and remove any superseded correction for that same behavior. Never add a downstream DOM repair, stylesheet override, prototype wrapper, delayed retry/burst, observer or polling workaround to counteract behavior we control at its source. Do not infer a current owner from an obsolete path or an older release. Establish it from the current code and evidence.
@@ -54,3 +103,15 @@ The UI Editor inspector is an explicit exception to normal phone-landscape full-
 
 ## 0.98.17 portrait and landscape top bar correction
 Vertical lanes rotate the intact stock horizontal workflow bar (right +90°, left +270°), preserving native horizontal workflow scrolling and tab sizing. Phone landscape editor bounds derive from the canvas region, never from a movable top bar; phone-landscape normal floating panels and their geometry are untouched. Do not add observers, polling, or recurring timers.
+
+# Current Hub package path — 0.100.8-Dev / Companion0.100.8
+
+Android versionCode1002; Companion modules156. The generic tensor program executes package-described dynamic ONNX CPU graphs and exact-input-shape QNN EPContext variants through LocalTensorOrt. Native MNN binaries/pins are unchanged. QNN initialization failures are logged and use the full ONNX CPU graph; no prompt truncation, averaging, model-family gate or unsupported QNN dynamic-shape promise. Host developer facilities stay Companion-only. Toolkit1.3.9 records actual complete CUDA runs, submits resumable Hub W4A8 jobs and publishes a model ZIP only after real compiled inference/profile and closed-loop image comparison. Synthetic host checks do not establish full-size cloud or physical-phone acceptance.
+
+# Latest0.100.8 component/tiling status
+
+Model Pipeline supports VAE encode/decode tiling via LocalTensorTiling, with enable/tile size/overlap controls. Preserve complete overlap coverage, spatial scale alignment, normalized feathering, cancellation and cleanup. Old tensor-program vae.encode/vae.decode roles are compatibility contracts; no model-name allowlist. Tiled VAE attention may change output. Toolkit1.3.9 now additionally exports three independent source ONNX component groups from the baked main model without a separate LoRA. That new components.json layout still needs grouped cloud and independent app-loader integration. Do not mistake earlier staged Hub support for completion of that newer layout.
+
+# Current0.100.9 — conditioning and retained input/history owners
+
+Continue the current build, not old handoff baselines. Preserve real ConditioningZeroOut source shape/encoder identity and zero before learned fusion. Shared browser history/chrome is owned by ModelRepositoryBrowser, not frontend DOM repairs. Prompt tap qualification and source canvas gesture routing share existing lifecycle/events; no added observers/timers or second handle/gesture system. Preserve deliberate Android/host differences: never copy the whole Companion GraphView over Android. Keep full-input source capture/overrides owned and cancellable. Qwen5%-stage memory and group canvas-lock work remain unimplemented; no earlier physical acceptance is inferred for this build.

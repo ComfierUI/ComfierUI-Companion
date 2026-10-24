@@ -10721,7 +10721,7 @@ var ComboWidget = class extends BaseSteppedWidget {
 		if (getOptionLabel) {
 			const stringValue = typeof this.value === "number" ? String(this.value) : this.value;
 			try {
-				return getOptionLabel(stringValue || null);
+				return String(getOptionLabel(stringValue || null) ?? "");
 			} catch (e) {
 				console.error("Failed to map value:", e);
 				return extensionValue(stringValue) ?? "";
@@ -10730,9 +10730,9 @@ var ComboWidget = class extends BaseSteppedWidget {
 		const rawValues = extensionValue(this.options.values);
 		if (rawValues) {
 			const values = extensionValue(typeof rawValues === "function" ? rawValues() : rawValues);
-			if (values && !Array.isArray(values)) return values[this.value];
+			if (values && !Array.isArray(values)) return String(values[this.value] ?? "");
 		}
-		return typeof this.value === "number" ? String(this.value) : this.value;
+		return String(this.value ?? "");
 	}
 	getValues(node) {
 		const values = extensionValue(this.options.values);
@@ -10772,6 +10772,7 @@ var ComboWidget = class extends BaseSteppedWidget {
 	tryChangeValue(delta, options) {
 		const values = this.getValues(options.node);
 		const indexedValues = toArray(values);
+		if (!indexedValues.length) return;
 		options.canvas.last_mouseclick = 0;
 		const foundIndex = (Array.isArray(values) ? findComboValueIndex(indexedValues, this.value) : indexedValues.indexOf(String(this.value))) + delta;
 		const index = clamp(foundIndex, 0, indexedValues.length - 1);
@@ -10794,6 +10795,7 @@ var ComboWidget = class extends BaseSteppedWidget {
 		});
 		const values = this.getValues(node);
 		const values_list = toArray(values);
+		if (!values_list.length) return;
 		if (this.options.getOptionLabel) {
 			const menuOptions = {
 				scale: Math.max(1, canvas.ds.scale),
@@ -27912,7 +27914,7 @@ var LGraphCanvas = class LGraphCanvas {
 		const { pointer, graph, linkConnector } = this;
 		if (!graph) throw new NullGraphError();
 		const ctrlOrMeta = e.ctrlKey || e.metaKey || Boolean(window.__comfierDeviceInput?.selectionModifier(e));
-		if (ctrlOrMeta && !e.altKey && LiteGraph.leftMouseClickBehavior === "panning") {
+		if (ctrlOrMeta && !e.altKey && LiteGraph.leftMouseClickBehavior === "panning" && !window.__comfierTapLink?.ownsPointer(this, e)) {
 			this._setupNodeSelectionDrag(e, pointer, node ?? resolveSelectableTarget(this, graph, e.canvasX, e.canvasY));
 			return;
 		}
@@ -28024,11 +28026,13 @@ var LGraphCanvas = class LGraphCanvas {
 			case "groupTitle": {
 				const { group } = target;
 				pointer.onClick = () => this.processSelect(group, e);
-				pointer.onDragStart = (pointer) => {
-					group.recomputeInsideNodes();
-					this._startDraggingItems(group, pointer, true);
-				};
-				pointer.onDragEnd = (e) => this._processDraggedItems(e);
+				if (!window.__comfierDeviceInput || window.__comfierDeviceInput.allowBodyDrag()) {
+					pointer.onDragStart = (pointer) => {
+						group.recomputeInsideNodes();
+						this._startDraggingItems(group, pointer, true);
+					};
+					pointer.onDragEnd = (e) => this._processDraggedItems(e);
+				}
 				pressGroup(target.group);
 				break;
 			}
@@ -46406,21 +46410,32 @@ function bindMultilineTextareaWidget(widget, element) {
 	const { signal } = controller;
 	const editor = usePromptEditorStore();
 	const read = () => element.value;
-	element.addEventListener("pointerdown", (event) => {
-		if (!editor || event.button !== 0 || element.disabled || element.readOnly) return;
-		event.preventDefault();
-		event.stopPropagation();
-		editor.open({
-			element,
-			finish: () => element.dispatchEvent(new Event("change", { bubbles: true })),
-			title: widget.name,
-			read,
-			write: (value) => {
-				element.value = value;
-				element.dispatchEvent(new Event("input", { bubbles: true }));
-			}
-		});
-	}, { signal });
+    let pendingTap=null;
+    const openEditor=()=>editor.open({element,finish:()=>element.dispatchEvent(new Event("change",{bubbles:true})),title:widget.name,read,
+        write:value=>{element.value=value;element.dispatchEvent(new Event("input",{bubbles:true}));}});
+    const cancelTap=()=>{pendingTap?.events.abort();pendingTap=null;};
+    element.addEventListener("pointerdown",event=>{
+        if(!editor||event.button!==0||element.disabled||element.readOnly)return;
+        if(event.pointerType!=="touch"){event.preventDefault();event.stopPropagation();cancelTap();openEditor();return;}
+        // Prevent native focus/keyboard now; navigation keeps the event.
+        event.preventDefault();cancelTap();
+        if(!event.isPrimary)return;
+        const events=new AbortController();pendingTap={id:event.pointerId,x:event.clientX,y:event.clientY,time:event.timeStamp,events};
+        const options={capture:true,signal:events.signal};
+        window.addEventListener("pointerdown",next=>{if(next.pointerType==="touch"&&next.pointerId!==pendingTap?.id)cancelTap();},options);
+        window.addEventListener("pointermove",move=>{const tap=pendingTap;if(tap&&move.pointerId===tap.id&&Math.hypot(move.clientX-tap.x,move.clientY-tap.y)>12)cancelTap();},options);
+        window.addEventListener("pointercancel",cancelTap,options);
+        element.addEventListener("contextmenu",cancelTap,options);
+        window.addEventListener("blur",cancelTap,options);
+        document.addEventListener("visibilitychange",()=>{if(document.hidden)cancelTap();},options);
+        window.addEventListener("pointerup",up=>{const tap=pendingTap;if(!tap||up.pointerId!==tap.id)return;
+            const elapsed=up.timeStamp-tap.time;
+            const releasedInside=document.elementFromPoint(up.clientX,up.clientY)===element;
+            const qualified=releasedInside&&elapsed>=0&&elapsed<550&&Math.hypot(up.clientX-tap.x,up.clientY-tap.y)<=12&&!element.disabled&&!element.readOnly&&element.isConnected;
+            cancelTap();if(qualified){up.preventDefault();openEditor();}
+        },options);
+    },{signal});
+    element.addEventListener("click",event=>{if(editor&&(event.pointerType==="touch"||event.sourceCapabilities?.firesTouchEvents))event.preventDefault();},{signal});
 	element.addEventListener("keydown", (event) => {
 		if (!editor || event.key !== "Enter" || element.disabled || element.readOnly) return;
 		event.preventDefault();
@@ -46473,6 +46488,7 @@ function bindMultilineTextareaWidget(widget, element) {
 		app.canvas.processMouseWheel(event);
 	}, { signal });
 	widget.onRemove = useChainCallback(widget.onRemove, () => {
+		cancelTap();
 		editor?.release(read);
 		controller.abort();
 	});
@@ -65922,6 +65938,7 @@ var getDefaultValue = (inputSpec) => {
 	if (inputSpec.default) return inputSpec.default;
 	if (inputSpec.options?.length) return inputSpec.options[0];
 	if (inputSpec.remote) return "Loading...";
+	return "";
 };
 var bindDynamicValuesOption = (widget, getValues) => {
 	const options = widget.options;
@@ -91928,6 +91945,7 @@ function createLayoutEditor(host) {
 		return lastMode || detectMode();
 	}
 	function layouts() {
+		if (editing && press?.kind === "container" && press.previewGroups) return {...draft, [mode()]: press.previewGroups};
 		return editing ? draft : {
 			...bundled,
 			...saved
@@ -94716,7 +94734,7 @@ function createLayoutEditor(host) {
 		}
 		paintInspector();
 	}
-	function laneSnap(x, y) {
+	function laneSnap(x, y, drag = null) {
 		const ws = workspace();
 		if (!model.boundary(ws, x, y)) return null;
 		const distances = {
@@ -94725,10 +94743,16 @@ function createLayoutEditor(host) {
 			left: Math.abs(x - ws.left),
 			right: Math.abs(x - ws.right)
 		};
-		const edge = Object.keys(distances).sort((a, b) => distances[a] - distances[b])[0];
-		const bands = laneWidths[edge];
+		const widths = drag?.laneWidths || laneWidths;
+		const edges = Object.keys(distances).filter(edge => distances[edge] <= widths[edge].reduce((sum, n) => sum + n, 0) + 8);
+		if (!edges.length) return null;
+		const flowOf = edge => ["left", "right"].includes(edge) ? "vertical" : "horizontal";
+		const preferred = drag?.laneFlow || (drag?.anchor ? flowOf(physicalEdge(drag.anchor)) : null);
+		const matching = preferred ? edges.filter(edge => flowOf(edge) === preferred) : [];
+		const edge = (matching.length ? matching : edges).sort((a, b) => distances[a] - distances[b])[0];
+		if (drag) drag.laneFlow = flowOf(edge);
+		const bands = widths[edge];
 		const depth = distances[edge];
-		if (depth > bands.reduce((sum, n) => sum + n, 0) + 8) return null;
 		let track = 1;
 		let limit = bands[0] + 2;
 		while (track < 3 && depth > limit) {
@@ -94772,6 +94796,8 @@ function createLayoutEditor(host) {
 		selectionKind = "container";
 		picked.clear();
 		press.kind = "container";
+		press.laneWidths = copy(laneWidths);
+		press.baseBoxes = boxes.map(box => ({...box}));
 		press.moving = true;
 		press.anchor = copy(press.anchors.find(g => g.id === anchor.id));
 		press.ids = [];
@@ -94785,7 +94811,7 @@ function createLayoutEditor(host) {
 		document.documentElement.classList.add("ufu-dragging");
 		containerPreview(press.lastX, press.lastY);
 	}
-	function previewBox(candidate, candidates = [candidate]) {
+	function previewBox(candidate, candidates = [candidate], ignoreLanePeers = false) {
 		const groups = (draft[mode()] || []).map((g) => candidates.find(next => next.id === g.id) || g);
 		if (!groups.some((g) => g.id === candidate.id)) groups.push(candidate);
 		const ws = workspace();
@@ -94793,6 +94819,7 @@ function createLayoutEditor(host) {
 		const placed = [];
 		let result = null;
 		for (const g of orderedGroups(groups)) {
+			if (ignoreLanePeers && g.id !== candidate.id && physicalEdge(g) === physicalEdge(candidate) && (g.track || 1) === (candidate.track || 1)) continue;
 			const items = g.items.filter((id) => !g.hidden?.includes(id)).map((id) => controls.get(id)).filter((c) => c?.available !== false && c?.el?.isConnected);
 			if (!items.length) continue;
 			const b = position(g, dimensions(g, items, ws), ws, placed, widths);
@@ -94844,11 +94871,48 @@ function createLayoutEditor(host) {
 			return moved;
 		});
 	}
+	function containerPlan(p, drop) {
+		const moving = containerCandidates(p, drop), ids = new Set(moving.map(g => g.id));
+		const originals = draft[mode()] || [], overrides = new Map(moving.map(g => [g.id, g]));
+		const pending = moving.map(g => g.id);
+		for (let index = 0; index < pending.length; index++) {
+			const current = overrides.get(pending[index]);
+			const box = previewBox(current, [...overrides.values()], true);
+			if (!box || box.blocked) return null;
+			for (const original of originals) {
+				if (original.id === current.id || ids.has(original.id)) continue;
+				const other = overrides.get(original.id) || original;
+				if (physicalEdge(other) !== physicalEdge(current) || (other.track || 1) !== (current.track || 1)) continue;
+				let hit = previewBox(other, [...overrides.values()], true);
+				const originalBox = p.baseBoxes?.find(b => b.id === other.id);
+				if (hit && originalBox && !overrides.has(other.id)) {
+					const vertical = ["left", "right"].includes(physicalEdge(other));
+					hit = vertical ? {...hit, top: originalBox.top, height: originalBox.height} : {...hit, left: originalBox.left, width: originalBox.width};
+				}
+				if (!hit || box.left >= hit.left + hit.width + 4 || box.left + box.width + 4 <= hit.left || box.top >= hit.top + hit.height + 4 || box.top + box.height + 4 <= hit.top) continue;
+				if ((other.track || 1) >= 3) return null;
+				const pushed = {...other, track: (other.track || 1) + 1};
+				overrides.set(other.id, pushed);
+				pending.push(other.id);
+			}
+		}
+		const candidates = [...overrides.values()];
+		if (candidates.some(g => {const box = previewBox(g, candidates); return !box || box.blocked;})) return null;
+		return {moving, candidates, groups: originals.map(g => overrides.get(g.id) || g)};
+	}
+	function setContainerPreview(p, groups) {
+		const key = JSON.stringify(groups);
+		if (key === p.previewKey) return;
+		p.previewKey = key;
+		p.previewGroups = groups;
+		refresh();
+	}
 	function containerPreview(x, y) {
 		const p = press;
 		if (!p?.moving || p.kind !== "container") return;
-		p.drop = laneSnap(x, y);
+		p.drop = laneSnap(x, y, p);
 		if (!p.drop) {
+			setContainerPreview(p, null);
 			showInvalidPreview("Drop in a lane");
 			return;
 		}
@@ -94858,9 +94922,11 @@ function createLayoutEditor(host) {
 			...p.drop,
 			placedAt: changed ? nextPlacement() : p.anchor.placedAt
 		};
-		const candidates = containerCandidates(p,p.drop);
-		const boxes = candidates.map(next => previewBox(next,candidates));
-		p.validDrop = boxes.every(box => box && !box.blocked);
+		const plan = containerPlan(p, p.drop);
+		setContainerPreview(p, plan?.groups || null);
+		const candidates = plan?.moving || [];
+		const boxes = candidates.map(next => previewBox(next, plan.candidates));
+		p.validDrop = !!plan;
 		const box = p.validDrop ? {left:Math.min(...boxes.map(b=>b.left)),top:Math.min(...boxes.map(b=>b.top)),width:0,height:0} : null;
 		if(box) {box.width=Math.max(...boxes.map(b=>b.left+b.width))-box.left;box.height=Math.max(...boxes.map(b=>b.top+b.height))-box.top;}
 		showDropBox(box, "Move " + (candidates.length > 1 ? candidates.length + " containers" : g.name) + " to " + p.drop.edge + ", " + TRACK_NAMES[p.drop.track - 1] + " lane, position " + (p.drop.zone + 1) + " of 11");
@@ -94870,7 +94936,7 @@ function createLayoutEditor(host) {
 	}
 	function commitContainerMove(x, y) {
 		const p = press;
-		const drop = laneSnap(x, y);
+		const drop = laneSnap(x, y, p);
 		if (!p || !drop) {
 			cancelMove();
 			return;
@@ -94881,8 +94947,9 @@ function createLayoutEditor(host) {
 			return;
 		}
 		const anchors = p.anchors || [p.anchor];
-		const moved = containerCandidates(p,drop);
-		if(moved.some(next => {const box=previewBox(next,moved);return !box || box.blocked;})) {cancelMove();return;}
+		const plan = containerPlan(p, drop);
+		if (!plan) {cancelMove();return;}
+		const moved = plan.candidates;
 		if(moved.some(next => { const old=draft[mode()].find(g => g.id===next.id); return old && (old.edge!==next.edge || old.offset!==next.offset || old.flow!==next.flow || (old.track||1)!==next.track); })) {
 			checkpoint();
 			const placementBase = p.placementBase || nextPlacement();

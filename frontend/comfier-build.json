@@ -1,10 +1,10 @@
 {
   "frontendVersion": "1.57.0",
-  "testVersion": "0.100.1-Dev",
-  "appVersion": "0.100.1-Dev",
-  "companionVersion": "0.100.1",
-  "buildId": "6145eeaa8e2a8552a9279bfcc455ed3a3a2d71793d0475a8a4106613538cd2ad",
-  "sourceArchiveSha256": "368b3a66c0e50f2992ca0dbcb147ef5d1146bb356d05dcd12837928172c20999",
+  "testVersion": "0.100.15-Dev",
+  "appVersion": "0.100.15-Dev",
+  "companionVersion": "0.100.15",
+  "buildId": "238d1599348d9cbe0f01df2ab5cacc221f6cd4cf2fb67ca7553034f3e723eb4b",
+  "sourceArchiveSha256": "029d25d3903dff77f12af79c228fb90dec6bb539a4aeb0cbb53a1ef6cb72cf16",
   "files": {
     "assets/3d-decomp-RjA0gFmA.js": "c30d491ffd3b8ef1bb380cd36f55042a7ef0aa0f6c283d8dd864260152bb9027",
     "assets/3d-decomp-RjA0gFmA.js.map": "89fca1a0bcf2968f60e84153131a2f2aa08362291d515ad1bb920ff21f645bf0",
@@ -102,7 +102,7 @@
     "assets/GlobalToast-Dbc5NM-L.js": "c261bf0306c45d292335b28ea5917c2bcb87f651bfc6c50e648c2af70efae9d1",
     "assets/GlobalToast-Dbc5NM-L.js.map": "849ce25137c179eeaa50f3261c8eacb689bde16ea0d965e03a3c32561c6379ff",
     "assets/GraphView-BNQBQZli.css": "1a10ebfb7d792de739576fd6c5606e72efb0f17eb745afbc6cc184bf755e9bad",
-    "assets/GraphView-CjQc_8ZL.js": "45e050d249a648660f71103a01b8c6d38c5dca14cb41d11dc7edf797c7850512",
+    "assets/GraphView-CjQc_8ZL.js": "98d42208c62c68b0d20ef7292b15a7ca6798a0038e65c0476e2cd32fba5afc73",
     "assets/HdrViewerContent-04HfRZ96.js": "3833e4fb9580db93618be244a8848e044c5538004f415b772a699140458a47a6",
     "assets/HdrViewerContent-04HfRZ96.js.map": "c21de7b79b6d73e6d8efd02d6ab73d30d7b770eef9d68c93242633e13a7df3e4",
     "assets/ImperativePopover-CdNFQ3n2.js": "ba6abcbf41d742b97a91c89f64710d5bab8fe6e85259f53f887124629a2b0853",
@@ -588,7 +588,7 @@
     "assets/launchCancellationFlow-PTLnBbhW.js.map": "4155026a8186c8bb028ea021e387d6920feced0a22de67550dc86b1934a0e09d",
     "assets/layout-BZWBHixI.js": "689fdfa0c43651306ac966374851ab42188e96a41222bf2045f21890302e8b8e",
     "assets/layout-BZWBHixI.js.map": "3eeaff57e758c74b956377925cf3d886c158e55477db65f67c4494a4b6bb9c23",
-    "assets/layoutStore-CZsuzg91.js": "6d87e6bc1af099ae0e1a8c6c4698331836b3ff28d1d935aac18cac209ea89273",
+    "assets/layoutStore-CZsuzg91.js": "24c350e5c4414c6c2eaea10a963ade977f148c86def9697cf3ae06a099d12db5",
     "assets/layoutStore-Nbgrgm8u.css": "f732b6430e1570db1746784f37ad8287f66b00c015cac36f7145fcdef14f027c",
     "assets/load-3d-ChaXqnVx.js": "fd3d961328b5841b2d0321d72932a9a9c5c592cc38783936855548e6d93f0993",
     "assets/load-3d-ChaXqnVx.js.map": "1a6ca0848b1a7f0646f1ac0ec20d8ce926d87c6bce2d1c8186ab098e5b07166d",
@@ -1118,7 +1118,6 @@
     "scripts/metadata/svg.js": "2b90fb48d023aa2b18d0084f49e545fe13020e5e4050abe079fcebb8f56909c4",
     "scripts/pnginfo.js": "77e4326259462eaebc49ae5b6cd1f1aafb8426cb44451787accb702bf4619d5d",
     "scripts/promotedWidgetControl.js": "7f0bce75d429764c201d1d7c5ba5da18358f5d2e97490ee4cf3d605175a1b961",
-    "scripts/ui.js": "1d346abd4a2253eed34a7aab1b1eb737cf35e63a53806934fc851676f03590b6",
     "scripts/ui/components/asyncDialog.js": "8faf4862353bfb0e9f56f7ab0831d0ad0b0f1ab824eec8af007f5468cd1cdfa2",
     "scripts/ui/components/button.js": "37251fd366a465c67d0ba193022740630b380e8abdc525064d51ca6b967f17e5",
     "scripts/ui/components/buttonGroup.js": "e995660ff3d8b88c942ae15a25f3d8b934b51cc12199b7f216772e7c3055c447",
@@ -1130,9 +1129,10 @@
     "scripts/ui/menu/index.js": "05c875628be6d4486c32243b9e5a5e853aa50610a7e94394c8c46dd7136d8301",
     "scripts/ui/settings.js": "3913053f020acee56cd994e61a61f7ed372e9baabaa185274478d7864577aa3f",
     "scripts/ui/utils.js": "1528deffe8a0d3e6f06216a9c2e16ada7229eef2cc4d434d66430691c63dd568",
+    "scripts/ui.js": "1d346abd4a2253eed34a7aab1b1eb737cf35e63a53806934fc851676f03590b6",
     "scripts/utils.js": "2653b39109f80273decc3d95912be864c2cc25b6b5fe951d482bbd4bfad0bf09",
     "scripts/valueControl.js": "8432ec4af7f5e965cb8fbfb85fc693d072b180897531837d41f851ddd2d57866",
     "scripts/widgets.js": "e41e3ade032c3f4ee786df114402ab39f2e2f9a353f66196c6ba95ca693bf5da"
   },
-  "baseAppArchiveSha256": "ecb78d6ddebdf2e00e199a9ed5c6413a9cb1fa5d1c4ea376ffdc38571f584439"
+  "baseAppArchiveSha256": "a9ea752f7092ae327ff32ce4a25d9fb7f344a1624c3ab055fb0b9f05bb010cfd"
 }

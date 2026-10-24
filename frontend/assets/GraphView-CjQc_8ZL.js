@@ -20250,11 +20250,12 @@ function bindCanvasTouchGestures(canvas) {
 		event.stopPropagation();
 	}
 	target.addEventListener("pointerdown", (event) => {
-		if (event.pointerType !== "touch" || event.target !== canvas.canvas) return;
+		const promptTarget=!!window.__comfierDevice?.prompt&&event.target?.matches?.("textarea.comfy-multiline-input");
+        if(event.pointerType!=="touch"||(event.target!==canvas.canvas&&!promptTarget))return;
 		clearHold();
 		points.set(event.pointerId, {
 			x: event.clientX,
-			y: event.clientY
+            y:event.clientY, prompt:promptTarget, startX:event.clientX,startY:event.clientY
 		});
 		if (points.size >= 2) {
 			const [first, second] = [...points.values()];
@@ -20271,6 +20272,7 @@ function bindCanvasTouchGestures(canvas) {
 			block(event);
 			return;
 		}
+		if(promptTarget){event.preventDefault();return;}
 		if (!event.isPrimary) return;
 		pending = event;
 		timer = setTimeout(() => {
@@ -20286,10 +20288,13 @@ function bindCanvasTouchGestures(canvas) {
 	}, options);
 	target.addEventListener("pointermove", (event) => {
 		if (!points.has(event.pointerId)) return;
-		points.set(event.pointerId, {
-			x: event.clientX,
-			y: event.clientY
-		});
+        const previous=points.get(event.pointerId);
+        points.set(event.pointerId,{...previous,x:event.clientX,y:event.clientY});
+        if(!pinch&&previous.prompt&&Math.hypot(event.clientX-previous.startX,event.clientY-previous.startY)>12){
+            canvas.pointer.reset();canvas.pointer.isDown=false;
+            canvas.ds.offset[0]+=(event.clientX-previous.x)/canvas.ds.scale;canvas.ds.offset[1]+=(event.clientY-previous.y)/canvas.ds.scale;
+            canvas.setDirty(true,true);block(event);return;
+        }
 		if (pinch) {
 			if (points.size >= 2) {
 				const [first, second] = [...points.values()];
@@ -23143,7 +23148,7 @@ function createDownloads(host, managerStore) {
 		style.id = STYLE_ID;
 		style.textContent = `
 #comfier-download-url-panel{border:1px solid var(--comfier-panel-frame,#666);border-radius:10px;background:var(--comfy-menu-bg,#171717);overflow:auto;color:var(--comfier-ui-font,#fff);box-sizing:border-box}
-#comfier-download-url-panel[hidden]{display:none!important}
+#comfier-download-url-panel[hidden],.comfier-download-url-options button[hidden]{display:none!important}
 .comfier-download-url-body{padding:14px;box-sizing:border-box;font:14px/1.3 system-ui,sans-serif}
 .comfier-download-url-body h2{margin:0 0 14px;text-align:center;font:600 18px/1.3 system-ui,sans-serif}
 .comfier-download-url-body :is(input,select,button){box-sizing:border-box;min-height:40px;border:1px solid var(--comfier-button-frame,#aaa);border-radius:6px;background:var(--comfier-control-background,var(--comfier-button-bg,#242427));color:var(--comfier-ui-font,#fff);-webkit-text-fill-color:currentColor;font:500 14px/1.3 system-ui,sans-serif;padding:8px}
@@ -23225,6 +23230,8 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		host.closeForm();
 		return true;
 	}
+	let browserResumeButton;
+	function browserRetainedChanged(retained){if(browserResumeButton)browserResumeButton.hidden=!retained;}
 	function ensureUrlPanel() {
 		if (urlPanel) return;
 		urlPanel = document.createElement("section");
@@ -23251,6 +23258,10 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			button.addEventListener("click", () => browseRepository(site));
 			repos.append(button);
 		}
+        const resumeBrowser=document.createElement("button");resumeBrowser.type="button";resumeBrowser.textContent="Resume Browsing";resumeBrowser.style.flex="1";
+        resumeBrowser.hidden=!window.ComfierApp?.hasModelRepositorySession?.();
+        resumeBrowser.addEventListener("click",()=>window.ComfierApp?.resumeModelRepository?.());repos.append(resumeBrowser);
+        browserResumeButton=resumeBrowser;
 		urlBody.append(repos);
 		const form = document.createElement("form");
 		urlBody.append(form);
@@ -23566,6 +23577,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		}
 	}
 	async function openDownloads(trigger) {
+        browserRetainedChanged(!!window.ComfierApp?.hasModelRepositorySession?.());
 		const generation = ++openGeneration;
 		await openUrlPanel(trigger);
 		if (stopped || generation !== openGeneration) return;
@@ -23602,6 +23614,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		urlMessage("Browse in the repository window, then paste the model download link here. Authenticated session handoff requires the Android app.");
 	}
 	function browseRepository(site) {
+        if(window.ComfierApp?.hasModelRepositorySession?.()){window.ComfierApp.resumeModelRepository();return;}
 		if (site === "hf" || site === "github") return openRepository(site);
 		const preferred = repositoryPreference();
 		if (preferred !== "ask") return openRepository(preferred);
@@ -23658,6 +23671,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			session = JSON.parse(window.ComfierApp?.takeModelDownloadSession?.(data.sessionId) || "{}");
 		} catch (_) {}
 		await openUrlPanel();
+        browserRetainedChanged(!!window.ComfierApp?.hasModelRepositorySession?.());
 		if (stopped) return;
 		urlInput.value = data.url;
 		if (data.kind === "custom_nodes") {
@@ -24199,6 +24213,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 	syncManager();
 	window.__comfierDownloads = {
 		browseRepository,
+        browserRetainedChanged,
 		fromBrowser,
 		openDownloads,
 		openUrlPanel,

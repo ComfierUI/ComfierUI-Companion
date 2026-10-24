@@ -1,4 +1,66 @@
-# ComfierUI Companion 0.100.1
+# Current 0.100.15
+
+UI Editor corner overlaps retain drag orientation across all three tracks and inherit a new orientation outside overlaps. Container hover pushes neighbors live into the next track. Successful group-lock, tap-to-link and Gradle fixes retained. See the separate build notes for changes and validation. Previous documentation follows.
+
+# Current 0.100.14
+
+Group boxes respect canvas body lock and retain move-handle movement. Successful tap-to-link and Gradle configuration-cache fixes retained. See the separate build notes for changes and validation. Previous documentation follows.
+
+# Current 0.100.13
+
+Tap-to-link occupied-input source replacement and multi-select routing fixes. See the separate build notes for changes and validation. Previous documentation follows.
+
+# Current 0.100.12
+
+Import all three FLUX 3 component ZIPs created automatically by toolkit1.3.26. Select the imported diffusion, CLIP and VAE in the supplied stock workflow. EmptyFlux2LatentImage uses 128 channels and multiples16; ReferenceMultiLatent retains image references/ZeroOut. QNN uses recorded shapes with complete dynamic ONNX CPU fallback. See HANDOFF.md for current runtime contracts and unverified hardware boundaries.
+
+# Current 0.100.11
+
+Create a new Model Pipeline · Generate / Edit node for the revised widgets.
+Connect Load Diffusion Model MODEL → model, Load CLIP CLIP → clip, Load VAE VAE → vae, and its IMAGE output → Save Image.
+Connect the subject image to image; use image_a for the optional scene/outfit/object. Each has an enabled toggle and weight0–10 in0.1 steps (default10, preserving the prior attention boost). Both toggles off gives text-to-image. Weights follow the exported attention log-weight semantics rather than a linear image blend. Enter the normal prompt and optional plain-text system prompt. Standard negative conditioning nodes remain elsewhere; this edit interface has no negative field.
+
+After Hub finishes, toolkit1.3.11 Package-Components.ps1 packages the original source components and completed cloud artifacts into three independently reusable ZIPs. It performs no export/calibration/quantization and does not restart the running conversion. Default source ONNX fallback permits other complete input shapes on CPU, with large storage/memory costs. Explicit -CompiledOnly produces smaller packages; unmatched compiled shapes/controls then have no CPU fallback. Import the ZIPs in the existing manager. Separate component packages appear in Diffusion Models, CLIP and VAE and retain the existing deletion confirmation/dependency protection.
+
+Local Lab has its own connection section beneath Comfy Cloud. Android0.100.11-Dev and Companion0.100.11 stay paired; modules159. The Android native binaries and shared layout/gesture owners are unchanged. Host fixture/source checks are separate from phone/QNN/full-model image acceptance. Arbitrary Python custom-node execution remains unavailable in Local Lab.
+
+Historical documentation follows. Current instructions above supersede older pipeline wiring.
+
+0.100.10: prompt editing now requires release physically inside the same multiline field before the long-hold threshold. Search for Conditioning (Zero Out), zero out or ConditioningZeroOut. Native model management has diffusion/checkpoint/LoRA/CLIP/VAE/extension sections. Extension ZIP files are importable into custom_nodes, but Python execution and dependency installation remain unavailable in Local Lab; imported sources explicitly report this and are not marked installed. This release does not make comfyui-krea2edit Python nodes executable. Complete generation packages remain under Checkpoints. The conversion toolkit is unchanged.
+
+# ComfierUI Companion 0.100.10
+
+Qwen Image 2.1 MNN testing support is included in the Android local backend. The specialized ARM64 MNN/OpenCL runtime is bundled. Import an upstream model ZIP, open model Help → Open Qwen Image Edit Workflow, select/upload a reference, and run. Disconnect references for text-to-image. Additional reference inputs can be chained with Qwen Reference Images. FaceID-specific nodes, analysis and setup UI are removed for this round. Existing model files are not automatically deleted.
+
+INT4 Turbo + Tiny VAE is the initial setup. Steps, CPU/OpenCL stage backends, reference scale, batch size and dimensions are user controlled. No RAM-estimate refusal, 100-step cap, forced six steps or prompt truncation. At six steps Turbo retains the published schedule; other requested counts explicitly resample that curve and are experimental. The model needs actual multiples of32 and uint32 seeds; these two checks remain.
+
+This is native Android execution; no ComfyUI Python extension is required. The model ZIP importer handles graph/weight/config dependencies in their upstream paths. This does not add a Python/PyTorch custom-node runtime.
+
+Paired with Android0.100.10-Dev; builtin modules154. The Qwen engine is Android-native; Companion remains the host connection/frontend package.
+
+Earlier release documentation follows.
+# ComfierUI Companion 0.100.5
+
+FaceID component loaders enumerate installed assets and executable graphs. Vision/projection resolve independently of the selected diffusion package, fixing JSONException: No value for vision. Matching graphs in an installed FaceID package can be reused with another selected diffusion model. Actual backend tensor/input failures remain visible; raw weights are not silently treated as compiled graphs.
+
+Seed clamping and actual compiled resolution checks remain. Paired app/Companion0.100.5; Android versionCode999, builtin modules153.
+
+Earlier release documentation follows.
+# ComfierUI Companion 0.100.4
+
+Local component testing update: selected raw-QNN VAEs can decode ORT-denoised latents through the new metadata-driven JNI loader. Independent MNN CLIP loading is available for mixed component jobs. The importer no longer gates on pinned model/SDK/chipset release identities. Batch jobs and multiple sampling/output chains execute in sequence without a batch-one or single-chain policy cap. LoRA strength widgets accept finite negative and above-one values. Unknown compiled adapter/conditioning inputs fail at the actual component interface rather than being silently ignored.
+
+Dan's accepted exceptions are retained: existing seed ranges/clamping and actual compiled diffusion resolution checks. File integrity, path isolation, real tensor extents/types and resource cleanup remain enforced. This does not make an already compiled graph contain additional adapters or change its tensor contract. Raw safetensors assets can be stored, but require a matching compiled execution graph when used.
+
+ARM64 JNI has been rebuilt with NDK r28c, with MNN 3.6.1 CPU and libc++ shared dependencies included and hash-pinned. Full Android APK compilation, physical-device execution and image quality are not claimed by the host tests. No model recompilation is required to try the VAE swap.
+
+Paired with ComfierUI 0.100.4-Dev; builtin modules 152. Existing host behavior and saved settings are preserved.
+
+Earlier release documentation follows.
+
+Paired with ComfierUI 0.100.3-Dev. This Companion package updates release/module metadata and the unrestricted-development instructions. Prompt execution changes are in the Android Local Lab runners. Existing host behavior and saved settings are preserved.
+
+Earlier release documentation follows.
 
 Paired with ComfierUI 0.98.9-Dev / Companion 0.14.9; Android versionCode 936; builtin core/frontend 92. Surgical changes: MULTI label/indicator 1px spacing; responsive centered resource fill meters and value labels; remove container-name input from Dimensions; align Companion Port and Apply heights; Templates sidebar second tap closes its panel via its existing owner. Existing settings, layout and templates data unchanged. No new observers, polling or timers. Device validation pending.
 
