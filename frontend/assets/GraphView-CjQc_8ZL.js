@@ -23071,6 +23071,19 @@ function createDownloads(host, managerStore) {
 	const jobs = window.__comfierRuntime.scope("downloads");
 	const requests = window.__comfierDocument.requests();
 	const pollRequests = window.__comfierDocument.requests();
+    const deviceModels = () => typeof window.ComfierLocalLab?.deviceDownloadRequest === "function";
+    const deviceReplies = new Map();
+    function deviceReply(id,result) { const pending=deviceReplies.get(id);if(!pending)return;deviceReplies.delete(id);pending.resolve(new Response(typeof result.body==="string"?result.body:JSON.stringify(result.body),{status:result.status,headers:{"Content-Type":"application/json"}})); }
+    function deviceRequest(path,options={}) {
+        return new Promise((resolve,reject)=>{const id=globalThis.crypto?.randomUUID?.() || Date.now()+"-"+Math.random().toString(36).slice(2);deviceReplies.set(id,{resolve,reject});
+            try { window.ComfierLocalLab.deviceDownloadRequest(JSON.stringify({path,method:options.method||"GET",body:options.body?JSON.parse(options.body):{}}),id); }
+            catch(error){deviceReplies.delete(id);reject(error);}
+        });
+    }
+    async function downloadModelOnDevice(url,name,directory="auto") {
+        const response=await deviceRequest("/comfierui/model-download",{method:"POST",body:JSON.stringify({url,name,directory})});
+        if(!response.ok)throw Error(await response.text());const result=await response.json();wake();return result;
+    }
 	let browserContext = null;
 	let repositoryChoice = null;
 	let workflowChoice = null;
@@ -23114,6 +23127,7 @@ function createDownloads(host, managerStore) {
 	const refreshedModelTasks = new Set();
 	let modelRefreshChain = Promise.resolve();
 	function refreshCompletedModels(next) {
+        if(deviceModels() && !window.__COMFIER_LOCAL_LAB)return;
 		for (const item of next) {
 			if (item.status !== "completed" || ["custom_nodes", "workflows"].includes(item.kind) || !item.task_id || refreshedModelTasks.has(item.task_id)) continue;
 			refreshedModelTasks.add(item.task_id);
@@ -23325,7 +23339,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 				if (value === "workflows") loadWorkflowFolders().catch(error => urlMessage(error.message));
 			}
 		});
-		urlFolders = window.__comfierInlineSettingsChoice({label: "Host model folder", options: [],
+		urlFolders = window.__comfierInlineSettingsChoice({label: deviceModels() ? "Device model folder" : "Host model folder", options: [],
 			onChange(value) {
 				if (urlTarget.value === "models") modelFolderValue = value;
 				else if (urlTarget.value === "workflows") workflowFolderValue = value;
@@ -23384,7 +23398,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 				if (!response.ok) throw Error(await response.text() || "Download failed");
 				const accepted = await response.json();
 				if (stopped) return;
-				if (!accepted.accepted || !accepted.task_id) throw Error("Host did not accept the download");
+				if (!accepted.accepted || !accepted.task_id) throw Error(deviceModels() ? "Device did not accept the download" : "Host did not accept the download");
 				render([...items.filter((item) => item.task_id !== accepted.task_id), accepted]);
 				urlInput.value = "";
 				urlName.value = "";
@@ -23493,7 +23507,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		}
 		urlName.placeholder = custom ? "Repository folder name" : workflow ? "Workflow filename (.json or .zip)" : "Model filename including extension";
 		urlInput.placeholder = custom ? "Git repository URL" : workflow ? "Workflow JSON or ZIP URL" : "Model file URL";
-		urlFolders.update({label: custom ? "Host custom nodes folder" : workflow ? "Host workflow folder" : "Host model folder"});
+		urlFolders.update({label: custom ? "Host custom nodes folder" : workflow ? "Host workflow folder" : deviceModels() ? "Device model folder" : "Host model folder"});
 		if (custom) {
 			urlFolders.update({options: [{value: JSON.stringify({directory: "custom_nodes"}), label: "custom_nodes"}]});
 			urlNameRow.firstChild.textContent = "Folder name";
@@ -23509,7 +23523,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		ensureUrlPanel();
 		host.openForm(trigger);
 		browserSessionSupported = false;
-		urlMessage("Loading host folders…");
+		urlMessage(deviceModels() ? "Loading device folders…" : "Loading host folders…");
 		try {
 			const response = await fetchOwned("/comfierui/model-folders", {
 				credentials: "same-origin",
@@ -23527,7 +23541,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			modelFolderValue = urlFolders.value;
 			if (urlTarget.value !== "models") selectTarget(false, false);
 			if (urlTarget.value === "workflows") await loadWorkflowFolders();
-			urlMessage(urlFolders.options.length ? payload.truncated ? "Showing the first 4,000 model folders." : "" : "No host model folders are available.");
+			urlMessage(urlFolders.options.length ? payload.truncated ? "Showing the first 4,000 model folders." : "" : deviceModels() ? "No device model folders are available." : "No host model folders are available.");
 		} catch (error) {
 			if (!stopped) urlMessage(error.message);
 		}
@@ -23549,6 +23563,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			if (!response.ok) {
 				const status = response.status;
 				const detail = await response.text();
+                if(deviceModels() && urlTarget.value === "models")throw Error(detail || "Device filename lookup failed");
 				const provider = detail.match(/Provider returned HTTP (\d{3})/);
 				if ([
 					"Missing model URL",
@@ -23683,14 +23698,14 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			urlInput.focus();
 			return;
 		}
-		urlTarget.update({value: data.kind === "workflows" || /\.(json|zip)$/i.test(data.name || data.url) ? "workflows" : "models"});
+		urlTarget.update({value: data.kind === "workflows" || /\.json$/i.test(data.name || data.url) ? "workflows" : "models"});
 		selectTarget(true, false);
 		if (urlTarget.value === "workflows") await loadWorkflowFolders();
 		urlName.value = data.name || "";
 		filenameEdited = false;
 		if (!browserSessionSupported) {
 			browserContext = null;
-			urlMessage("Update Companion to 0.6.0 for authenticated browser downloads.");
+			urlMessage("Authenticated browser downloads are unavailable in this frontend.");
 			return;
 		}
 		browserContext = {
@@ -23698,7 +23713,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			name: data.name,
 			session
 		};
-		urlMessage("Edit the filename if needed, choose the host folder, then press Download.");
+		urlMessage(deviceModels() ? "Edit the filename if needed, choose the device folder, then press Download." : "Edit the filename if needed, choose the host folder, then press Download.");
 		if (!data.name) resolveFilename();
 		urlInput.focus();
 	}
@@ -23890,8 +23905,9 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 			...options,
 			headers: userHeaders(options.headers)
 		};
-		if (stopped) throw Error("Downloads removed");
-		return requests.request(path, options, [
+        if (stopped) throw Error("Downloads removed");
+        if (deviceModels() && (path === "/comfierui/model-folders" || path === "/comfierui/model-download" || path === "/comfierui/model-download-info" || path.startsWith("/comfierui/model-downloads"))) return deviceRequest(path,options);
+        return requests.request(path, options, [
 			"/comfierui/model-download-info",
 			"/comfierui/extension-info",
 			"/comfierui/workflow-download-info"
@@ -24107,11 +24123,11 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		const generation = pollGeneration;
 		let received = false;
 		try {
-			const response = await pollRequests.request("/comfierui/model-downloads", {
+			const response = await (deviceModels() ? deviceRequest("/comfierui/model-downloads") : pollRequests.request("/comfierui/model-downloads", {
 				cache: "no-store",
 				credentials: "same-origin",
 				headers: userHeaders()
-			});
+			}));
 			const payload = await response.text();
 			if (stopped || generation !== pollGeneration) return;
 			received = true;
@@ -24176,6 +24192,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 		workflowChoice = null;
 		if (stopped) return;
 		stopped = true;
+        for(const pending of deviceReplies.values())pending.reject(Error("Downloads removed"));deviceReplies.clear();
 		restartGeneration++;
 		jobs.dispose();
 		restartCancel?.();
@@ -24212,6 +24229,7 @@ html:root body .comfier-download-url-body .comfier-download-url-submit{display:b
 	jobs.listen(window, "comfierui-download-accepted", wake);
 	syncManager();
 	window.__comfierDownloads = {
+        deviceReply, downloadModelOnDevice,
 		browseRepository,
         browserRetainedChanged,
 		fromBrowser,
@@ -24257,7 +24275,7 @@ var useDownloadsStore = defineStore("comfierDownloads", () => {
 	let controller;
 	let unwatch;
 	function start() {
-		if (controller || window.__COMFIER_CLOUD_MODE) return;
+		if (controller || (window.__COMFIER_CLOUD_MODE && typeof window.ComfierLocalLab?.deviceDownloadRequest !== "function")) return;
 		controller = createDownloads({
 			formCreated: (element) => {
 				form.value = element;

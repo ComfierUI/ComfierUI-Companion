@@ -67,9 +67,7 @@ Ship app and Companion ZIPs with project CONTENTS at archive root, never inside 
 
 For every app release, include the exact copyable launch command using that release’s extracted folder, in this form:
 
-```sh
-cd /storage/emulated/0/Download/ComfierUI_<VERSION>-Dev && studio run
-```
+Select the source ZIP in the on-device auto builder to build and install it.
 
 Substitute the actual version before delivery; never send a stale folder or a command requiring the user to assemble it. Do not claim APK compilation or device acceptance unless performed.
 
@@ -104,14 +102,9 @@ The UI Editor inspector is an explicit exception to normal phone-landscape full-
 ## 0.98.17 portrait and landscape top bar correction
 Vertical lanes rotate the intact stock horizontal workflow bar (right +90°, left +270°), preserving native horizontal workflow scrolling and tab sizing. Phone landscape editor bounds derive from the canvas region, never from a movable top bar; phone-landscape normal floating panels and their geometry are untouched. Do not add observers, polling, or recurring timers.
 
-# Current Hub package path — 0.100.8-Dev / Companion0.100.8
+# Current package
 
-Android versionCode1002; Companion modules156. The generic tensor program executes package-described dynamic ONNX CPU graphs and exact-input-shape QNN EPContext variants through LocalTensorOrt. Native MNN binaries/pins are unchanged. QNN initialization failures are logged and use the full ONNX CPU graph; no prompt truncation, averaging, model-family gate or unsupported QNN dynamic-shape promise. Host developer facilities stay Companion-only. Toolkit1.3.9 records actual complete CUDA runs, submits resumable Hub W4A8 jobs and publishes a model ZIP only after real compiled inference/profile and closed-loop image comparison. Synthetic host checks do not establish full-size cloud or physical-phone acceptance.
-
-# Latest0.100.8 component/tiling status
-
-Model Pipeline supports VAE encode/decode tiling via LocalTensorTiling, with enable/tile size/overlap controls. Preserve complete overlap coverage, spatial scale alignment, normalized feathering, cancellation and cleanup. Old tensor-program vae.encode/vae.decode roles are compatibility contracts; no model-name allowlist. Tiled VAE attention may change output. Toolkit1.3.9 now additionally exports three independent source ONNX component groups from the baked main model without a separate LoRA. That new components.json layout still needs grouped cloud and independent app-loader integration. Do not mistake earlier staged Hub support for completion of that newer layout.
-
-# Current0.100.9 — conditioning and retained input/history owners
-
-Continue the current build, not old handoff baselines. Preserve real ConditioningZeroOut source shape/encoder identity and zero before learned fusion. Shared browser history/chrome is owned by ModelRepositoryBrowser, not frontend DOM repairs. Prompt tap qualification and source canvas gesture routing share existing lifecycle/events; no added observers/timers or second handle/gesture system. Preserve deliberate Android/host differences: never copy the whole Companion GraphView over Android. Keep full-input source capture/overrides owned and cancellable. Qwen5%-stage memory and group canvas-lock work remain unimplemented; no earlier physical acceptance is inferred for this build.
+ComfierUI Companion 0.103.58, paired with Android 0.103.58-Dev.
+Shared UI Editor/theme owners match the app. Preserve intentional host/Android
+canvas, resource monitor, workflow and download differences. Upgrade catalog
+remains empty. Historical notes and validation live in the separate notes ZIP.

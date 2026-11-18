@@ -732,3 +732,8 @@ the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.
 ```
+
+
+## Paired Android embedded Python integration (0.100.16)
+
+The paired Android app adds Chaquopy (MIT), CPython (PSF license and historical notices) and pip (MIT with separately licensed vendored dependencies). Those runtimes are not bundled in this Companion server package. See the Android source LICENSE.md and third_party/Python notices. All existing Companion and frontend licenses above remain unchanged.

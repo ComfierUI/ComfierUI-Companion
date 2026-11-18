@@ -54,6 +54,7 @@ def list_profiles(include_ids=False):
             profile = {'schemaVersion': 1, 'name': name[:80], 'colors': colors, 'transparency': alpha}
             preserve_font_roles(profile, data)
             preserve_node_frame(profile, data)
+            preserve_layout_scopes(profile, data)
             if isinstance(data.get('layout'), dict):
                 profile['layout'] = data['layout']
             if 'canvasImage' in data:
@@ -207,6 +208,19 @@ def preserve_font_roles(profile, data):
         profile['fontRolesVersion'] = version
 
 
+def preserve_layout_scopes(profile, data):
+    modes = {'hosted', 'cloud', 'local-lab'}
+    if 'layoutMode' in data:
+        if data['layoutMode'] not in modes:
+            raise ValueError('Invalid theme layout mode')
+        profile['layoutMode'] = data['layoutMode']
+    if 'layoutsByMode' in data:
+        layouts = data['layoutsByMode']
+        if not isinstance(layouts, dict) or any(mode not in modes or not isinstance(layout, dict) for mode, layout in layouts.items()):
+            raise ValueError('Invalid theme mode layouts')
+        profile['layoutsByMode'] = layouts
+
+
 def validate_profile(data):
     if not isinstance(data, dict) or type(data.get('schemaVersion')) is not int or data['schemaVersion'] != 1:
         raise ValueError('Unsupported theme schema')
@@ -222,6 +236,7 @@ def validate_profile(data):
     profile = {'schemaVersion': 1, 'name': data['name'].strip(), 'colors': colors, 'transparency': alpha}
     preserve_font_roles(profile, data)
     preserve_node_frame(profile, data)
+    preserve_layout_scopes(profile, data)
     if 'canvasImage' in data:
         profile['canvasImage'] = validate_canvas_image(data['canvasImage'])
     if 'canvasFrames' in data:

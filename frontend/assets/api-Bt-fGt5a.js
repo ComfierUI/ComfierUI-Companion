@@ -2211,6 +2211,47 @@ var PromptExecutionError = class extends Error {
 		return message;
 	}
 };
+// Saved workflow content has one app-owned source; backend settings and drafts do not.
+const sharedWorkflowPath = (path) => typeof path === "string" && path.startsWith("workflows/");
+const sharedWorkflowBridge = () => window.ComfierApp?.sharedWorkflowRequest;
+function sharedWorkflowCall(request) {
+    const result = JSON.parse(window.ComfierApp.sharedWorkflowRequest(JSON.stringify(request)));
+    if (typeof result.status !== "number") throw Error("Invalid shared workflow response");
+    return result;
+}
+function sharedWorkflowResponse(result) {
+    return new Response(result.status === 204 ? null : typeof result.body === "string" ? result.body : JSON.stringify(result.body), {
+        status: result.status, headers: { "Content-Type": "application/json; charset=utf-8" }
+    });
+}
+let workflowMigration;
+async function migrateBackendWorkflows(api) {
+    if (workflowMigration) return workflowMigration;
+    workflowMigration = (async () => {
+        const mode = window.ComfierApp.getWorkspaceMode?.() || "hosted";
+        const scope = mode + ":" + location.origin;
+        if (sharedWorkflowCall({ action: "migration", scope }).body === true) return;
+        const response = await api.fetchApi("/userdata?dir=workflows&recurse=true&split=false&full_info=true");
+        if (response.status !== 200 && response.status !== 404) throw Error("Backend workflow listing failed: " + response.status);
+        const files = response.status === 404 ? [] : await response.json();
+        if (!Array.isArray(files)) throw Error("Invalid backend workflow list");
+        const paths = files.map(file => typeof file === "string" ? file : file.path).sort((a,b) => Number(a === ".index.json") - Number(b === ".index.json"));
+        for (const relative of paths) {
+            if (typeof relative !== "string") throw Error("Invalid backend workflow path");
+            const path = "workflows/" + relative;
+            const data = await api.fetchApi(`/userdata/${encodeURIComponent(path)}`);
+            if (!data.ok) throw Error("Backend workflow could not load: " + relative);
+            const result = sharedWorkflowCall({ action: "import", scope, label: mode === "local-lab" ? "Local Lab" : mode === "cloud" ? "Cloud" : "Hosted", path, content: await data.text() });
+            if (result.status !== 200) throw Error(String(result.body));
+        }
+        const result = sharedWorkflowCall({ action: "finishMigration", scope });
+        if (result.status !== 200) throw Error(String(result.body));
+    })().catch(error => {
+        workflowMigration = undefined;
+        console.warn("Backend workflow migration incomplete; originals and shared workflows retained. Refresh to retry.", error);
+    });
+    return workflowMigration;
+}
 var ComfyApi = class extends EventTarget {
 	_registered = /* @__PURE__ */ new Set();
 	/**
@@ -3066,6 +3107,7 @@ var ComfyApi = class extends EventTarget {
 	* Gets a user data file for the current user
 	*/
 	async getUserData(file, options) {
+		if (sharedWorkflowBridge() && sharedWorkflowPath(file)) { await migrateBackendWorkflows(this); return sharedWorkflowResponse(sharedWorkflowCall({ action: "read", path: file })); }
 		return this.fetchApi(`/userdata/${encodeURIComponent(file)}`, options);
 	}
 	/**
@@ -3081,6 +3123,12 @@ var ComfyApi = class extends EventTarget {
 		throwOnError: true,
 		full_info: false
 	}) {
+        if (sharedWorkflowBridge() && sharedWorkflowPath(file)) {
+            await migrateBackendWorkflows(this);
+            const result = sharedWorkflowCall({ action: "write", path: file, content: options.stringify ? JSON.stringify(data) : typeof data === "string" ? data : JSON.stringify(data), overwrite: options.overwrite !== false });
+            if (result.status !== 200 && options.throwOnError !== false) throw Error("Error saving shared workflow: " + result.body);
+            return sharedWorkflowResponse(result);
+        }
 		const resp = await this.fetchApi(`/userdata/${encodeURIComponent(file)}?overwrite=${options.overwrite}&full_info=${options.full_info}`, {
 			method: "POST",
 			body: options.stringify ? JSON.stringify(data) : data,
@@ -3094,6 +3142,7 @@ var ComfyApi = class extends EventTarget {
 	* @param { string } file The name of the userdata file to delete
 	*/
 	async deleteUserData(file) {
+		if (sharedWorkflowBridge() && sharedWorkflowPath(file)) { await migrateBackendWorkflows(this); return sharedWorkflowResponse(sharedWorkflowCall({ action: "delete", path: file })); }
 		return await this.fetchApi(`/userdata/${encodeURIComponent(file)}`, { method: "DELETE" });
 	}
 	/**
@@ -3102,10 +3151,17 @@ var ComfyApi = class extends EventTarget {
 	* @param { string } dest The destination for the file
 	*/
 	async moveUserData(source, dest, options = { overwrite: false }) {
+		if (sharedWorkflowBridge() && sharedWorkflowPath(source) && sharedWorkflowPath(dest)) { await migrateBackendWorkflows(this); return sharedWorkflowResponse(sharedWorkflowCall({ action: "move", path: source, target: dest, overwrite: options.overwrite === true })); }
 		return await this.fetchApi(`/userdata/${encodeURIComponent(source)}/move/${encodeURIComponent(dest)}?overwrite=${options.overwrite}`, { method: "POST" });
 	}
 	async listUserDataFullInfo(dir) {
 		const trimmedDir = trimEnd(dir, "/");
+        if (sharedWorkflowBridge() && (trimmedDir === "workflows" || sharedWorkflowPath(trimmedDir))) {
+            await migrateBackendWorkflows(this);
+            const result = sharedWorkflowCall({ action: "list", dir: trimmedDir });
+            if (result.status !== 200) throw Error("Error listing shared workflows: " + result.body);
+            return result.body;
+        }
 		const resp = await this.fetchApi(`/userdata?dir=${encodeURIComponent(trimmedDir)}&recurse=true&split=false&full_info=true`);
 		if (resp.status === 404) return [];
 		if (resp.status !== 200) throw new Error(`Error getting user data list '${trimmedDir}': ${resp.status} ${resp.statusText}`);

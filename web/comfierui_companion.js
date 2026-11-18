@@ -31,6 +31,6 @@ async function downloadModelOnHost(url, name, directory) {
 app.registerExtension({
   name: "ComfierUI.CustomFrontend.Services",
   setup() {
-    window.ComfierUICompanion = Object.freeze({version:"0.1.13-FrontendTest",displayMode:true,listThemes,downloadModelOnHost});
+    window.ComfierUICompanion = Object.freeze({version:"0.103.58",displayMode:true,listThemes,downloadModelOnHost});
   }
 });

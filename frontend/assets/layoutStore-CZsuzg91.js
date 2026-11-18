@@ -1,3 +1,4 @@
+import { createKeyboardThemeBridge } from "./comfierKeyboardTheme.js";
 import { notifyCanvasMenuOpened } from "./comfierCanvasMenuGuard.js";
 import { createGenerationPreview } from "./comfierGenerationPreview.js";
 import { createCloudTemplateFilter } from "./comfierCloudTemplates.js";
@@ -65998,10 +65999,31 @@ var addComboWidget = (node, inputSpec) => {
 	}
 	return widget;
 };
+// Local native selectors keep canonical values; only their visible labels change.
+function formatLocalNativeWeightLabel(value, values = []) {
+    if (value == null || value === "") return "None";
+    const path = String(value).split("/");
+    const filename = path.pop();
+    const identities = new Set(values.flatMap(item => String(item).split("/").map(part => part.match(/^local-(?:native|graph)-([a-f0-9]{64})$/)?.[1]).filter(Boolean)));
+    const folders = path.filter((part, index) => part && !(index === 0 && part === "models")).map(part => {
+        const match = part.match(/^local-(native|graph)-([a-f0-9]{64})$/);
+        if (!match) return part;
+        const [, kind, id] = match;
+        let length = 8;
+        while (length < id.length && [...identities].some(other => other !== id && other.startsWith(id.slice(0, length)))) length++;
+        return `${kind} ${id.slice(0, length)}`;
+    });
+    return folders.length ? `${filename} — ${folders.join("/")}` : filename;
+}
 var useComboWidget = () => {
 	const widgetConstructor = (node, inputSpec) => {
 		if (!isComboInputSpec(inputSpec)) throw new Error(`Invalid input data: ${inputSpec}`);
-		return inputSpec.multi_select ? addMultiSelectWidget(node, inputSpec) : addComboWidget(node, inputSpec);
+        const widget = inputSpec.multi_select ? addMultiSelectWidget(node, inputSpec) : addComboWidget(node, inputSpec);
+        const type = node.comfyClass ?? node.constructor?.comfyClass ?? node.type;
+        if (type === "LocalNativeModelPipeline" && ["model", "diffusion", "llm", "clip_l", "clip_g", "t5", "vae"].includes(inputSpec.name)) {
+            widget.options.getOptionLabel = value => formatLocalNativeWeightLabel(value, Array.isArray(widget.options.values) ? widget.options.values : []);
+        }
+        return widget;
 	};
 	return widgetConstructor;
 };
@@ -89181,6 +89203,7 @@ function installThemeManifest() {
 		".side-tool-bar-container .sidebar-item-group",
 		".side-tool-bar-container .floating-panel"
 	], "container", "var(--color-interface-panel-surface,var(--comfy-menu-bg,#171717))", "src/components/sidebar/SideToolbar.vue; comfier_unified_sidebar.js");
+	surface("container-topbar", ["#topbar-workflow-tabs"], "container", "var(--comfy-menu-bg,#171717)", "Comfier top bar");
 	surface("container-workflow-tabs", ["[data-testid=\"workflow-tab\"] [role=\"tab\"]"], "container", "var(--color-interface-panel-surface,var(--comfy-menu-bg,#171717))", "src/components/topbar/WorkflowTab.vue");
 	for (const b of groups.at(-1).bindings) if (b.role === "containerFrame") {
 		b.role = "buttonFrame";
@@ -89801,6 +89824,7 @@ function validatedNodeFrameWidth(value) {
         const removeProperty=key=>{if(style.getPropertyValue(key))style.removeProperty(key);};
         setProperty('--comfier-icons-global',colorPaint('icons'));
         assignedPaints = Object.fromEntries(roles.filter(r=>assigned.has(r.id)).map(({id})=>[id,colorPaint(id)]));
+        window.__comfierKeyboardTheme?.changed();
         roles.forEach(({ id, variable }) => {
             if (!variable) return;
 			setProperty("--comfier-" + id + "-opacity", String(1 - transparency[id] / 100));
@@ -90201,6 +90225,43 @@ window.__comfierCanvasPreview = (() => {
  const KEY='comfier.canvas-preview.v1';
  let enabled=localStorage.getItem(KEY)==='true', generation=0, sequence=0, latestImage=0;
  const pending=new Map(), completed=new Set();
+ const local=window.__COMFIER_LOCAL_MODE===true;
+ async function galleryRequest(body){
+  const response=await fetch('/comfierui/local/live-gallery',body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{});
+  const value=await response.json();if(!response.ok)throw Error(value.error||'Live gallery storage failed');return value;
+ }
+ async function preserve(url,valid=()=>true){
+  if(!local)return url;
+  const query=new URL(url,location.href);
+  if(query.origin!==location.origin || !/\/(?:api\/)?view$/.test(query.pathname))throw Error('Live gallery requires a local generated image');
+  const type=query.searchParams.get('type')||'output';
+  const prepared=await galleryRequest({action:'prepare',type,filename:query.searchParams.get('filename'),subfolder:query.searchParams.get('subfolder')||''});
+  const previous=themePng.url();let applied=false;
+  try{
+   if(!valid()){await galleryRequest({action:'cancel',path:prepared.path});return null;}
+   const target=new URL(prepared.url,location.href).href;
+   await new Promise((resolve,reject)=>{const image=new Image();image.onload=resolve;image.onerror=()=>reject(Error('Preserved canvas image unavailable'));image.src=target;});
+   if(!valid()){await galleryRequest({action:'cancel',path:prepared.path});return null;}
+   await themePng.apply(null,target);applied=true;
+   await galleryRequest({action:'commit',path:prepared.path});return target;
+  }catch(error){
+   if(applied)await themePng.apply(null,previous).catch(()=>{});
+   await galleryRequest({action:'cancel',path:prepared.path}).catch(()=>{});throw error;
+  }
+ }
+ // Migrate existing generated backgrounds, even with the gallery toggle off.
+ // Manual uploaded/input backgrounds are not replaced during restoration.
+ if(local)Promise.resolve().then(async()=>{
+  const active=await galleryRequest();const current=themePng.url();
+  if(active.url){
+   const committed=new URL(active.url,location.href).href;
+   const existing=current?new URL(current,location.href):null;
+   if(!current || existing.origin===location.origin && (existing.searchParams.get('filename')||'').startsWith('live-gallery-') && existing.href!==committed)await themePng.apply(null,committed);
+   return;
+  }
+  if(!current)return;const url=new URL(current,location.href);
+  if(url.origin===location.origin && /\/(?:api\/)?view$/.test(url.pathname) && ['output','temp'].includes(url.searchParams.get('type')||'output'))await preserve(current,()=>themePng.url()===current);
+ }).catch(error=>console.warn('Live gallery image could not migrate',error));
  function setEnabled(value){enabled=!!value;generation++;pending.clear();if(enabled)window.__comfierCanvasImage?.cancel?.();localStorage.setItem(KEY,String(enabled));}
  function capture(detail){
   if(!enabled || !detail?.prompt_id || !detail.output)return;
@@ -90217,7 +90278,7 @@ window.__comfierCanvasPreview = (() => {
   try{
    const outputs=await readOutputs();
    if(!enabled || epoch!==generation)return;
-   const images=outputs.filter(item=>item.filename && (!item.type || item.type==='output') &&
+   const images=outputs.filter(item=>item.filename && (!item.type || item.type==='output' || local&&item.type==='temp') &&
     ['images','image'].includes(item.mediaType) && !/\.(mp4|webm|mov|mkv|mp3|wav|ogg|flac)(?:$|\?)/i.test(item.filename));
    const latest=images.at(-1);if(!latest?.downloadUrl)return;
    const url=new URL(latest.downloadUrl,location.href);
@@ -90226,13 +90287,27 @@ window.__comfierCanvasPreview = (() => {
    // Keep the current background until the next completed image has loaded.
    await new Promise((resolve,reject)=>{const image=new Image();image.onload=resolve;image.onerror=()=>reject(Error('Canvas preview image unavailable.'));image.src=url.href;});
    if(!enabled || epoch!==generation || request!==latestImage)return;
-   await themePng.apply(null,url.href);
+   if(local)await preserve(url.href,()=>enabled && epoch===generation && request===latestImage);
+   else await themePng.apply(null,url.href);
   }catch(error){completed.delete(id);console.warn('Canvas preview could not update',error);}
  }
  return {get enabled(){return enabled},setEnabled,capture,take,complete};
 })();
 
 
+    // Theme content is shared; each saved layout belongs to a connection mode.
+    const themeWorkspaceMode = () => window.ComfierApp?.getWorkspaceMode?.() || (window.__COMFIER_LOCAL_LAB ? "local-lab" : location.hostname === "cloud.comfy.org" ? "cloud" : "hosted");
+    function scopeThemeProfile(profile) {
+        const mode = profile.layoutMode || themeWorkspaceMode();
+        const layoutsByMode = { ...(profile.layoutsByMode || {}) };
+        if (profile.layout && !layoutsByMode[mode]) layoutsByMode[mode] = profile.layout;
+        return { ...profile, layoutMode: mode, layoutsByMode };
+    }
+    const profileLayout = profile => profile.layoutsByMode?.[themeWorkspaceMode()] || (!profile.layoutMode || profile.layoutMode === themeWorkspaceMode() ? profile.layout : undefined);
+    function profileAppearance(profile) {
+        const {id,savedAt,layout,layoutsByMode,layoutMode,...rest} = profile;
+        return JSON.stringify(canonical(rest));
+    }
 	const PROFILE_STORE = "comfier.theme.profiles.v1";
 	let profileDialog = null;
 	let profileSelection = null;
@@ -90275,7 +90350,7 @@ window.__comfierCanvasPreview = (() => {
 			profileColors(p);
 			if (typeof p.name !== "string" || !p.name.trim()) throw Error("Invalid theme name.");
 			return {
-				...p,
+				...scopeThemeProfile(p),
 				id: typeof p.id === "string" ? p.id : identity()
 			};
 		});
@@ -90345,10 +90420,11 @@ window.__comfierCanvasPreview = (() => {
 			persistedLibrary = JSON.stringify(library);
 			library.profiles = validProfiles(library.profiles);
 		}
-		const migration = "migrated:" + location.origin;
+		const migration = "migrated-shared:" + themeWorkspaceMode() + ":" + location.origin;
 		if (nativeLibrary && !library.sync[migration]) {
 			for (const p of validProfiles(previous)) {
-				if (library.profiles.some((x) => content(x) === content(p))) continue;
+                const same = library.profiles.find(x => profileAppearance(x) === profileAppearance(p));
+                if (same) { same.layoutsByMode = { ...p.layoutsByMode, ...same.layoutsByMode }; continue; }
 				const copy = {
 					...p,
 					id: library.profiles.some((x) => x.id === p.id) ? identity() : p.id
@@ -90368,14 +90444,14 @@ window.__comfierCanvasPreview = (() => {
 	function writeProfiles(list, artifact = null) {
 		if (syncing) throw Error("Themes are syncing. Please try again when refresh finishes.");
 		const previous = library.profiles;
-		library.profiles = validProfiles(list);
+		library.profiles = validProfiles(list).map(p => ({ ...p, layoutsByMode: { ...previous.find(old => old.id === p.id)?.layoutsByMode, ...p.layoutsByMode } }));
 		try {
 			persistLibrary(artifact);
 		} catch (e) {
 			library.profiles = previous;
 			throw e;
 		}
-		if (!isCloud()) setTimeout(() => syncProfiles().catch(reportSync), 0);
+		if (!isCloud() && !window.__COMFIER_LOCAL_LAB) setTimeout(() => syncProfiles().catch(reportSync), 0);
 	}
 	function isCloud() {
 		return location.hostname === "cloud.comfy.org" || !!window.__comfierCloudMode;
@@ -90397,7 +90473,7 @@ window.__comfierCanvasPreview = (() => {
 		return response.json();
 	}
 	function syncProfiles() {
-		if (isCloud()) {
+		if (isCloud() || window.__COMFIER_LOCAL_LAB) {
 			syncMessage = "";
 			return Promise.resolve(localProfiles());
 		}
@@ -90563,6 +90639,8 @@ window.__comfierCanvasPreview = (() => {
 			transparency: Object.fromEntries([...assigned].map((id) => [id, transparency[id]])),
 			...window.__comfierLayoutEditor ? {
 				layout: window.__comfierLayoutEditor.exportLayout(),
+                layoutMode: themeWorkspaceMode(),
+                layoutsByMode: { [themeWorkspaceMode()]: window.__comfierLayoutEditor.exportLayout() },
 				appearance: window.__comfierLayoutEditor.exportAppearance?.()
 			} : {},
 			...window.__comfierUiEditorModel ? { dimensions: window.__comfierUiEditorModel.getGlobal() } : {}
@@ -90606,10 +90684,11 @@ window.__comfierCanvasPreview = (() => {
         const [withColors,withLayout,withCanvas]=parts;
         const colors=profileColors(profile);
         if(withCanvas)themePng.validate(profile.canvasImage);
-        if(withLayout && profile.layout)window.__comfierLayoutEditor?.validate(profile.layout);
+        const selectedLayout = profileLayout(profile);
+        if(withLayout && selectedLayout)window.__comfierLayoutEditor?.validate(selectedLayout);
         if(withColors && profile.appearance)window.__comfierLayoutEditor?.validateAppearance(profile.appearance);
         if(withColors && profile.dimensions)window.__comfierUiEditorModel?.dimensions(profile.dimensions);
-        if(withLayout && profile.layout)window.__comfierLayoutEditor?.importLayout(profile.layout);
+        if(withLayout && selectedLayout)window.__comfierLayoutEditor?.importLayout(selectedLayout);
         if(withColors) {
             writeNodeFrameWidth(validatedNodeFrameWidth(profile.nodeFrameWidth));
 			if (profile.appearance) window.__comfierLayoutEditor?.importAppearance(profile.appearance);
@@ -90745,6 +90824,8 @@ window.__comfierCanvasPreview = (() => {
 		if (value.layout && window.__comfierLayoutEditor) {
 			window.__comfierLayoutEditor.validate(value.layout);
 			profile.layout = value.layout;
+            profile.layoutMode = value.layoutMode || themeWorkspaceMode();
+            profile.layoutsByMode = { ...(value.layoutsByMode || {}), [profile.layoutMode]: value.layout };
 		}
 		const workflow = profileWorkflow(value.workflow);
 		if (workflow) profile.workflow = JSON.parse(JSON.stringify(workflow));
@@ -90756,7 +90837,7 @@ window.__comfierCanvasPreview = (() => {
         const d=profileShell("Apply Theme", true);
         d.querySelector(".theme-profile-body").textContent="Select parts to load.";
         const footer=d.querySelector("footer");footer.classList.add("theme-profile-parts");
-        const available=[true,!!profile.layout,!!profile.canvasImage,!!profileWorkflow(profile.workflow)];
+        const available=[true,!!profileLayout(profile),!!profile.canvasImage,!!profileWorkflow(profile.workflow)];
         const selected=available.map((enabled,i)=>enabled && i===0);
         const choices=[];let busy=false;
         function update(){
@@ -91809,8 +91890,10 @@ html:root body #comfier-ui-zoom-test .ui-zoom-panel :is(input[type="range"],inpu
 		isAssigned: (key) => assigned.has(key),
 		setSelected
 	};
+	window.__comfierKeyboardTheme ||= createKeyboardThemeBridge(window.__comfierThemeStudio);
 	refresh();
-	if (!isCloud()) setTimeout(() => syncProfiles().catch(reportSync), 0);
+	window.__comfierKeyboardTheme?.changed();
+	if (!isCloud() && !window.__COMFIER_LOCAL_LAB) setTimeout(() => syncProfiles().catch(reportSync), 0);
 }
 //#endregion
 //#region src/comfier/layoutEditor.js
@@ -92634,6 +92717,12 @@ function createLayoutEditor(host) {
 		else s.bottom -= offset;
 		return s;
 	}
+	function laneLength(g, d, vertical, span) {
+		const natural = vertical ? d.h : d.w;
+		if (fullLane(g)) return span;
+		if (g.id === "topbar" || !connected(g)) return natural;
+		return g.length || resolved(g).length || natural;
+	}
 	function position(g, d, space, placed, widths = laneWidths) {
 		const edge = physicalEdge(g);
 		const vertical = ["left", "right"].includes(edge);
@@ -92654,7 +92743,7 @@ function createLayoutEditor(host) {
 			spans = spans.flatMap(([a, b]) => cutHi <= a || cutLo >= b ? [[a, b]] : [...cutLo > a ? [[a, Math.min(b, cutLo)]] : [], ...cutHi < b ? [[Math.max(a, cutHi), b]] : []]);
 		}
 		const ratio = g.offset ?? ALIGN.indexOf(g.align) / 4;
-		const requested = fullLane(g) ? hi - lo : g.id === "topbar" ? (vertical ? d.h : d.w) : connected(g) ? g.length || resolved(g).length || (vertical ? d.h : d.w) : vertical ? d.h : d.w;
+		const requested = laneLength(g, d, vertical, hi - lo);
 		const target = lo + Math.max(0, hi - lo - requested) * ratio;
 		const full = fullLane(g);
 		if (!spans.length) spans = [[lo, lo]];
@@ -93079,9 +93168,9 @@ function createLayoutEditor(host) {
 			position: "fixed", left: b.left + "px", top: b.top + "px",
 			right: "auto", bottom: "auto", width: b.width + "px", height: b.height + "px",
 			"min-width": "0", "max-width": "none", "min-height": "0", "max-height": "none",
-			"box-sizing": "border-box", "background": a.background || "var(--comfier-container-paint,var(--comfier-container-bg,var(--comfy-menu-bg,#171717)))",
+			"box-sizing": "border-box", "background": a.background || "var(--comfier-container-topbar-paint,var(--comfy-menu-bg,#171717))",
 			"border-color": a.frameColor || "var(--comfier-container-frame,var(--interface-stroke,#666))",
-			"border-width": a.frame + "px", "border-radius": a.curve + "px"
+			"border-style": "solid", "border-width": a.frame + "px", "border-radius": a.curve + "px"
 		})) put(c.el, key, value);
 		// Preserve the exact stock horizontal Vue layout. Rotate the WHOLE bar, not
 		// its tabs, scroll owner, or action groups independently. The positioned box
@@ -93783,6 +93872,7 @@ function createLayoutEditor(host) {
 		toolbarMenu.hidden = false;
 		toolbarMenu.setAttribute("aria-label", "Editor actions");
 		button(toolbarMenu, "Global Dimensions", () => window.__comfierThemeStudio?.openDimensions());
+        window.__comfierKeyboardTheme?.installControl(toolbarMenu);
 		const copyOptions = document.createElement("div");
 		copyOptions.className = "ufu-copy-options";
 		copyOptions.hidden = true;
@@ -94760,16 +94850,39 @@ function createLayoutEditor(host) {
 			track++;
 		}
 		const vertical = ["left", "right"].includes(edge);
-		const span = vertical ? ws.bottom - ws.top : ws.right - ws.left;
-		const ratio = clamp((vertical ? y - ws.top : x - ws.left) / Math.max(1, span), 0, 1);
-		const zone = Math.round(ratio * 10);
-		return {
-			edge,
-			track,
-			zone,
-			offset: zone / 10,
-			flow: vertical ? "vertical" : "horizontal"
-		};
+		const flow = flowOf(edge);
+        // Individual buttons retain their point-based new-container destination.
+        // Container drags use the actual group length and retained grab offset.
+        if (!drag) {
+            const lo = vertical ? ws.top : ws.left, hi = vertical ? ws.bottom : ws.right;
+            const offset = Math.round(clamp(((vertical ? y : x) - lo) / Math.max(1, hi - lo), 0, 1) * 10) / 10;
+            return {edge, track, offset, flow};
+        }
+		const candidate = {...drag.anchor, edge, track, flow};
+		if (candidate.id === "topbar" && drag.anchor.flow !== flow) sizeRotatedTopbar(candidate, drag.anchor, ws);
+		const items = candidate.items.filter(id => !candidate.hidden?.includes(id))
+			.map(id => controls.get(id)).filter(c => c?.available !== false && c?.el?.isConnected);
+		if (!items.length) return null;
+		const lo = vertical ? ws.top : ws.left;
+		const hi = vertical ? ws.bottom : ws.right;
+		const length = Math.min(hi - lo, laneLength(candidate, dimensions(candidate, items, ws), vertical, hi - lo));
+		const leading = (vertical ? y : x) - length * (vertical ? drag.grabY : drag.grabX);
+		const trailing = leading + length;
+		const center = (lo + hi) / 2;
+		// The corner zones extend 50 CSS pixels inward; the center zone spans 50.
+		const zones = [
+			{offset: 0, distance: Math.abs(leading - lo), range: 50},
+			{offset: 0.5, distance: Math.min(Math.abs(leading - center), Math.abs(trailing - center)), range: 25},
+			{offset: 1, distance: Math.abs(trailing - hi), range: 50}
+		];
+		const snap = zones.filter(zone => zone.distance <= zone.range).sort((a, b) => a.distance - b.distance)[0];
+		const freeOffset = clamp((leading - lo) / Math.max(1, hi - lo - length), 0, 1);
+		return {edge, track, offset: snap?.offset ?? freeOffset, flow, freeOffset};
+	}
+	function sizeRotatedTopbar(moved, anchor, ws) {
+		const available = moved.flow === "vertical" ? ws.bottom - ws.top : ws.right - ws.left;
+		moved.length = Math.max(40, Math.min(available, anchor.length || available));
+		moved.thickness = anchor.thickness || 40;
 	}
 	function beginContainerMove() {
 		if (!press) return;
@@ -94800,13 +94913,13 @@ function createLayoutEditor(host) {
 		press.baseBoxes = boxes.map(box => ({...box}));
 		press.moving = true;
 		press.anchor = copy(press.anchors.find(g => g.id === anchor.id));
+		const anchorBox = press.baseBoxes.find(box => box.id === anchor.id);
+		press.grabX = anchorBox ? clamp((press.x - anchorBox.left) / Math.max(1, anchorBox.width), 0, 1) : 0.5;
+		press.grabY = anchorBox ? clamp((press.y - anchorBox.top) / Math.max(1, anchorBox.height), 0, 1) : 0.5;
 		press.ids = [];
 		ghost = document.createElement("div");
 		ghost.className = "ufu-drag-ghost ufu-container-ghost";
 		document.body.appendChild(ghost);
-		press.indicator = document.createElement("div");
-		Object.assign(press.indicator.style, {position: "fixed", pointerEvents: "none", zIndex: "10002", background: "#20DFF3", borderRadius: "2px"});
-		document.body.appendChild(press.indicator);
 		hideInspector();
 		document.documentElement.classList.add("ufu-dragging");
 		containerPreview(press.lastX, press.lastY);
@@ -94854,42 +94967,48 @@ function createLayoutEditor(host) {
 		ghost.setAttribute("aria-label", message);
 	}
 	function containerCandidates(p, drop) {
+		const {edge, track, offset, flow} = drop;
 		const anchors = (p.anchors || [p.anchor]).map(g => ({...g, offset:g.offset ?? clamp(ALIGN.indexOf(g.align)/4,0,1)}));
 		const anchorOffset = p.anchor.offset ?? clamp(ALIGN.indexOf(p.anchor.align)/4,0,1);
-		const delta = clamp(drop.offset - anchorOffset,
+		const delta = clamp(offset - anchorOffset,
 			-Math.min(...anchors.map(g => g.offset)), 1-Math.max(...anchors.map(g => g.offset)));
-		const trackDelta = clamp(drop.track-(p.anchor.track||1),
+		const trackDelta = clamp(track-(p.anchor.track||1),
 			1-Math.min(...anchors.map(g => g.track||1)), 3-Math.max(...anchors.map(g => g.track||1)));
 		return anchors.map((anchor,index) => {
-			const moved = {...anchor,...drop,offset:(anchor.offset||0)+delta,track:(anchor.track||1)+trackDelta,placedAt:(p.placementBase || nextPlacement())+index};
-			if (anchor.id === "topbar" && anchor.flow !== drop.flow) {
-				const ws = workspace();
-				const available = drop.flow === "vertical" ? ws.bottom - ws.top : ws.right - ws.left;
-				moved.length = Math.max(40, Math.min(available, anchor.length || available));
-				moved.thickness = anchor.thickness || 40;
-			}
+			const moved = {...anchor,edge,flow,offset:(anchor.offset||0)+delta,track:(anchor.track||1)+trackDelta,placedAt:(p.placementBase || nextPlacement())+index};
+			if (anchor.id === "topbar" && anchor.flow !== drop.flow) sizeRotatedTopbar(moved, anchor, workspace());
 			return moved;
 		});
 	}
 	function containerPlan(p, drop) {
 		const moving = containerCandidates(p, drop), ids = new Set(moving.map(g => g.id));
 		const originals = draft[mode()] || [], overrides = new Map(moving.map(g => [g.id, g]));
+		const free = drop.freeOffset !== drop.offset
+			? containerCandidates(p, {...drop, offset: drop.freeOffset})
+			: moving;
 		const pending = moving.map(g => g.id);
 		for (let index = 0; index < pending.length; index++) {
 			const current = overrides.get(pending[index]);
 			const box = previewBox(current, [...overrides.values()], true);
 			if (!box || box.blocked) return null;
+			const unsnapped = free !== moving && free.find(g => g.id === current.id);
+			const dragBox = unsnapped ? previewBox(unsnapped, free, true) : box;
+			if (!dragBox) return null;
 			for (const original of originals) {
 				if (original.id === current.id || ids.has(original.id)) continue;
 				const other = overrides.get(original.id) || original;
 				if (physicalEdge(other) !== physicalEdge(current) || (other.track || 1) !== (current.track || 1)) continue;
-				let hit = previewBox(other, [...overrides.values()], true);
-				const originalBox = p.baseBoxes?.find(b => b.id === other.id);
-				if (hit && originalBox && !overrides.has(other.id)) {
-					const vertical = ["left", "right"].includes(physicalEdge(other));
-					hit = vertical ? {...hit, top: originalBox.top, height: originalBox.height} : {...hit, left: originalBox.left, width: originalBox.width};
-				}
-				if (!hit || box.left >= hit.left + hit.width + 4 || box.left + box.width + 4 <= hit.left || box.top >= hit.top + hit.height + 4 || box.top + box.height + 4 <= hit.top) continue;
+				const hit = (!overrides.has(other.id) && p.baseBoxes?.find(b => b.id === other.id))
+					|| previewBox(other, [...overrides.values()], true);
+				if (!hit) continue;
+				const vertical = current.flow === "vertical";
+				const center = vertical ? hit.top + hit.height / 2 : hit.left + hit.width / 2;
+				const start = vertical ? Math.max(box.top, dragBox.top) : Math.max(box.left, dragBox.left);
+				const end = vertical ? Math.min(box.bottom, dragBox.bottom) : Math.min(box.right, dragBox.right);
+				const crossesLane = vertical
+					? box.left < hit.right && box.right > hit.left
+					: box.top < hit.bottom && box.bottom > hit.top;
+				if (!crossesLane || center <= start || center >= end) continue;
 				if ((other.track || 1) >= 3) return null;
 				const pushed = {...other, track: (other.track || 1) + 1};
 				overrides.set(other.id, pushed);
@@ -94916,12 +95035,6 @@ function createLayoutEditor(host) {
 			showInvalidPreview("Drop in a lane");
 			return;
 		}
-		const changed = p.anchor.edge !== p.drop.edge || p.anchor.offset !== p.drop.offset || p.anchor.flow !== p.drop.flow || (p.anchor.track || 1) !== p.drop.track;
-		const g = {
-			...p.anchor,
-			...p.drop,
-			placedAt: changed ? nextPlacement() : p.anchor.placedAt
-		};
 		const plan = containerPlan(p, p.drop);
 		setContainerPreview(p, plan?.groups || null);
 		const candidates = plan?.moving || [];
@@ -94929,15 +95042,14 @@ function createLayoutEditor(host) {
 		p.validDrop = !!plan;
 		const box = p.validDrop ? {left:Math.min(...boxes.map(b=>b.left)),top:Math.min(...boxes.map(b=>b.top)),width:0,height:0} : null;
 		if(box) {box.width=Math.max(...boxes.map(b=>b.left+b.width))-box.left;box.height=Math.max(...boxes.map(b=>b.top+b.height))-box.top;}
-		showDropBox(box, "Move " + (candidates.length > 1 ? candidates.length + " containers" : g.name) + " to " + p.drop.edge + ", " + TRACK_NAMES[p.drop.track - 1] + " lane, position " + (p.drop.zone + 1) + " of 11");
+		showDropBox(box, "Move " + (candidates.length > 1 ? candidates.length + " containers" : p.anchor.name) + " to " + p.drop.edge + ", " + TRACK_NAMES[p.drop.track - 1] + " lane");
 		ghost.dataset.edge = p.drop.edge;
-		ghost.dataset.zone = String(p.drop.zone);
 		ghost.dataset.track = String(p.drop.track);
 	}
 	function commitContainerMove(x, y) {
 		const p = press;
-		const drop = laneSnap(x, y, p);
-		if (!p || !drop) {
+		const drop = p && laneSnap(x, y, p);
+		if (!drop) {
 			cancelMove();
 			return;
 		}

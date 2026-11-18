@@ -35,10 +35,10 @@ var BatchCountEdit_default = /* @__PURE__ */ defineComponent({
 			batchCountInput.value = String(batchCount.value);
 		};
 		const incrementBatchCount = () => {
-			setBatchCount(batchCount.value + 1);
+			setBatchCount(batchCount.value * 2);
 		};
 		const decrementBatchCount = () => {
-			setBatchCount(batchCount.value - 1);
+			setBatchCount(Math.floor(batchCount.value / 2));
 		};
 		const onInputFocus = () => {
 			isEditing.value = true;

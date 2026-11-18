@@ -110,6 +110,9 @@ function isModelDownloadable(model) {
 	return true;
 }
 function modelDownloadRoute() {
+    if (window.ComfierLocalLab?.deviceDownloadRequest && window.__comfierDownloads?.downloadModelOnDevice) return {
+        host: "companion", download: window.__comfierDownloads.downloadModelOnDevice
+    };
 	const companion = window.ComfierUICompanion;
 	if (companion?.downloadModelOnHost && !location.pathname.startsWith("/__comfier_cloud__/")) return {
 		host: "companion",
